@@ -112,8 +112,14 @@ namespace CStoFlash.AS3Writer {
 				case TokenID.NotEqual:
 					return "!=";
 
+				case TokenID.Less:
+					return "<";
+
 				case TokenID.LessEqual:
 					return "<=";
+
+				case TokenID.Greater:
+					return ">";
 
 				case TokenID.GreaterEqual:
 					return ">=";
@@ -153,7 +159,6 @@ namespace CStoFlash.AS3Writer {
 
 				case TokenID.ShiftRightEqual:
 					return ">>=";
-
 
 				default:
 					return id.ToString();

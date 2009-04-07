@@ -1,98 +1,153 @@
 ﻿using System;
 
 namespace CStoFlash.AS3Writer {
+	using System.Collections.Generic;
 	using System.Text;
 	using DDW;
+	using DDW.Collections;
+
 	using CodeBuilder= Utils.CodeBuilder;
 
-	internal static class BlockParser {
+	public static class BlockParser {
 		private static int _enumCount;
+		private static readonly char[] _trimEnd = new[] {',', ' ',';'};
 
-		internal static void ParseStatementBlock(BlockStatement blockStatement, CodeBuilder sb) {
+		public static void ParseStatementBlock(BlockStatement blockStatement, CodeBuilder sb) {
 			sb.Indent();
 			foreach (StatementNode statement in blockStatement.Statements) {
-
-				if (statement is LocalDeclarationStatement) {//local variable
-					LocalDeclarationStatement lds = (LocalDeclarationStatement) statement;
-					string kind = lds.IsConstant ? "const" : "var";
-					foreach (Declarator declarator in lds.Declarators) {
-
-						string initializer;
-						if (declarator.Initializer == null) {
-							initializer = ";";
-						} else {
-							initializer = " = " + parseExpressionNode(declarator.Initializer) + ";";
-						}
-
-						sb.AppendFormat("{0} {1}:{2}{3}", 
-							kind, 
-							declarator.Identifier.Identifier, 
-							Helpers.ConvertType(lds.Type), 
-							initializer);
-						sb.AppendLine();
-					}
-
-				} else if (statement is IfStatement) {
-					IfStatement ifs = (IfStatement) statement;
-
-					sb.AppendFormat("if ({0}){{", parseExpressionNode(ifs.Test));
-					sb.AppendLine();
-
-					ParseStatementBlock(ifs.Statements, sb);
-					sb.AppendLine();
-
-					if (ifs.ElseStatements.Statements.Count != 0) {
-						sb.AppendLine();
-						sb.AppendLine("} else {");
-						ParseStatementBlock(ifs.ElseStatements, sb);	
-					}
-				
-					sb.AppendLine("}");
-					sb.AppendLine();
-					 
-				} else if (statement is ExpressionStatement) {
-					sb.AppendLine(parseExpressionNode(((ExpressionStatement)statement).Expression)+";");
-					
-				} else if (statement is ForEachStatement) {
-					ForEachStatement fes = (ForEachStatement) statement;
-					_enumCount++;
-					string enumName = String.Format("ie{0}", _enumCount);
-					sb.AppendLine();
-					sb.AppendFormat("var {0}:IEnumerator = {1}.getEnumerator();",
-						enumName, parseExpressionNode(fes.Collection));
-					sb.AppendLine();
-
-					sb.AppendFormat("while ({0}.moveNext()){{", enumName);
-					sb.AppendLine();
-					sb.AppendFormat("\tvar {1}:{2} = {0}.current as {2};", 
-						enumName,
-						fes.Iterator.Name,
-						Helpers.ConvertType(fes.Iterator.Type)
-					);
-
-					sb.AppendLine();
-
-					ParseStatementBlock(fes.Statements, sb);
-
-					sb.AppendLine("}");
-					sb.AppendLine();
-					
-				} else if (statement is ForStatement) {
-
-
-				} else if (statement is SwitchStatement) {
-
-
-				} else if (statement is ReturnStatement) {
-					ReturnStatement rs = (ReturnStatement)statement;
-					sb.AppendFormat("return{0};", rs.ReturnValue == null ? "" : parseExpressionNode(rs.ReturnValue));
-
-				} else {
-					throw new Exception("Unhandled Statement:"+ statement);
-				}
+				parseStatementNode(statement, sb);
+				sb.AppendLine();
 			}
 
 			sb.Unindent();
+		}
+
+		private static void parseStatementNode(StatementNode pNode, CodeBuilder sb) {
+			if (pNode is LocalDeclarationStatement) {//local variable
+				LocalDeclarationStatement lds = (LocalDeclarationStatement)pNode;
+				string kind = lds.IsConstant ? "const" : "var";
+				foreach (Declarator declarator in lds.Declarators) {
+
+					string initializer;
+					if (declarator.Initializer == null) {
+						initializer = ";";
+					} else {
+						initializer = " = " + parseExpressionNode(declarator.Initializer) + ";";
+					}
+
+					sb.AppendFormat("{0} {1}:{2}{3}",
+						kind,
+						declarator.Identifier.Identifier,
+						Helpers.ConvertType(lds.Type),
+						initializer);
+				}
+
+			} else if (pNode is IfStatement) {
+				IfStatement ifs = (IfStatement)pNode;
+
+				sb.AppendFormat("if ({0}){{", parseExpressionNode(ifs.Test));
+				sb.AppendLine();
+
+				ParseStatementBlock(ifs.Statements, sb);
+				sb.AppendLine();
+
+				if (ifs.ElseStatements.Statements.Count != 0) {
+					sb.AppendLine();
+					sb.AppendLine("} else {");
+					ParseStatementBlock(ifs.ElseStatements, sb);
+				}
+
+				sb.AppendLine("}");
+
+			} else if (pNode is ExpressionStatement) {
+				sb.AppendLine(parseExpressionNode(((ExpressionStatement)pNode).Expression) + ";");
+
+			} else if (pNode is ForEachStatement) {
+				ForEachStatement fes = (ForEachStatement)pNode;
+				_enumCount++;
+				string enumName = String.Format("ie{0}", _enumCount);
+				sb.AppendLine();
+				sb.AppendFormat("var {0}:IEnumerator = {1}.getEnumerator();",
+					enumName, parseExpressionNode(fes.Collection));
+				sb.AppendLine();
+
+				sb.AppendFormat("while ({0}.moveNext()){{", enumName);
+				sb.AppendLine();
+				sb.AppendFormat("\tvar {1}:{2} = {0}.current as {2};",
+					enumName,
+					fes.Iterator.Name,
+					Helpers.ConvertType(fes.Iterator.Type)
+				);
+
+				sb.AppendLine();
+
+				ParseStatementBlock(fes.Statements, sb);
+
+				sb.AppendLine("}");
+
+			} else if (pNode is ForStatement) {
+				ForStatement fs = (ForStatement)pNode;
+
+				sb.AppendFormat("for ({0}; {1}; {2}){{",
+					getExpressions(fs.Init), parseExpressionNode(fs.Test), getExpressions(fs.Inc));
+
+				sb.AppendLine();
+
+				ParseStatementBlock(fs.Statements, sb);
+
+				sb.AppendLine("}");
+
+			} else if (pNode is SwitchStatement) {
+				SwitchStatement ss = (SwitchStatement)pNode;
+
+				sb.AppendFormat("switch ({0}){{", parseExpressionNode(ss.Test));
+				sb.AppendLine();
+				sb.Indent();
+
+				foreach (CaseNode caseNode in ss.Cases) {
+					string txt;
+					if (caseNode.IsDefaultCase) {
+						txt = "default";
+
+					} else {
+						//TODO: Ranges??
+						if (caseNode.Ranges.Count != 1)
+							throw new Exception();
+
+						txt = parseExpressionNode(caseNode.Ranges[0]);
+					}
+
+					sb.AppendFormat("case {0}:", txt);
+					sb.AppendLine();
+
+					foreach (StatementNode statementNode in caseNode.Statements) {
+						parseStatementNode(statementNode, sb);
+					}
+				}
+
+				sb.Unindent();
+				sb.AppendLine("}");
+
+			} else if (pNode is ReturnStatement) {
+				ReturnStatement rs = (ReturnStatement)pNode;
+				sb.AppendFormat("return{0};", rs.ReturnValue == null ? "" : parseExpressionNode(rs.ReturnValue));
+
+			} else if (pNode is BreakStatement) {
+				sb.AppendLine("break;");
+
+			} else {
+				throw new Exception("Unhandled Statement:" + pNode);
+			}
+		}
+
+		private static string getExpressions(IEnumerable<ExpressionNode> pNodes) {
+			string init = String.Empty;
+
+			foreach (ExpressionNode expressionNode in pNodes) {
+				init += parseExpressionNode(expressionNode) + ", ";
+			}
+
+			return init.TrimEnd(_trimEnd);
 		}
 
 		private static string parseExpressionNode(ExpressionNode pNode) {
@@ -146,6 +201,41 @@ namespace CStoFlash.AS3Writer {
 				UnaryExpression ue = ((UnaryExpression)pNode);
 
 				return Helpers.ConvertTokenId(ue.Op) + parseExpressionNode(ue.Child);
+			}
+
+			if (pNode is LocalDeclaration) {
+				LocalDeclaration ue = ((LocalDeclaration)pNode);
+
+				string kind = ue.IsConstant ? "const" : "var";
+				StringBuilder sb = new StringBuilder();
+
+				foreach (Declarator declarator in ue.Declarators) {
+
+					string initializer;
+					if (declarator.Initializer == null) {
+						initializer = ";";
+					} else {
+						initializer = " = " + parseExpressionNode(declarator.Initializer) + ";";
+					}
+
+					sb.AppendFormat("{0} {1}:{2}{3}",
+						kind,
+						declarator.Identifier.Identifier,
+						Helpers.ConvertType(ue.Type),
+						initializer);
+				}
+
+				return sb.ToString();
+			}
+
+			if (pNode is PostIncrementExpression) {
+				PostIncrementExpression pie = ((PostIncrementExpression)pNode);
+				return parseExpressionNode(pie.Expression)+"++";
+			}
+
+			if (pNode is ConditionalExpression) {
+				ConditionalExpression ce = ((ConditionalExpression)pNode);
+				return "(" + parseExpressionNode(ce.Test) + ") ? " + parseExpressionNode(ce.Left) + " : " + parseExpressionNode(ce.Right);
 			}
 
 			throw new Exception("Expression node not implemented:" + pNode);

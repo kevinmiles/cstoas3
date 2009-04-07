@@ -2,19 +2,16 @@
 	using System.Collections.Generic;
 	using System.IO;
 
-	using AS3Writer;
-
 	using DDW;
 	using DDW.Collections;
 
-	internal sealed class CsParser {
+	public sealed class CsParser {
 		private readonly string _output;
-		
-		//private readonly AS3Visitor _visitor;
+		private readonly INamespaceParser _parser;
 
-		public CsParser(string pOutDir) {
+		public CsParser(string pOutDir, INamespaceParser pParser) {
+			_parser = pParser;
 			_output = pOutDir.TrimEnd(Path.DirectorySeparatorChar) + Path.DirectorySeparatorChar;
-			//_visitor = new AS3Visitor(_output);
 		}
 
 		public List<Parser.Error> Parse(string[] files) {
@@ -35,13 +32,10 @@
 			Parser p = new Parser(fileName);
 			CompilationUnitNode cu = p.Parse(toks, l.StringLiterals);
 
-
 			foreach (NamespaceNode ns in cu.Namespaces) {
-				NamespaceParser.AddNamespace(ns, _output);
+				_parser.Parse(ns, _output);
 			}
 		
-			//cu.AcceptVisitor(_visitor, null);
-
 			errors.AddRange(p.Errors);
 		}
 	}
