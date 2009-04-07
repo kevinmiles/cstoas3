@@ -3,10 +3,8 @@
 
 namespace CStoFlash.AS3Writer {
 	using System.Collections.Generic;
-
 	using DDW;
-
-	using CodeBuilder=Utils.CodeBuilder;
+	using Utils;
 
 	internal static class MethodParser {
 		private static readonly char[] _paramTrim = new[] { ',', ' ' };

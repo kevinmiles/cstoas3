@@ -5,6 +5,8 @@ using CStoFlash.Utils;
 using DDW;
 
 namespace CStoFlash {
+	using AS3Writer;
+
 	sealed class CsToAS3 {
 		static CsParser _parser;
 
@@ -21,7 +23,10 @@ namespace CStoFlash {
 				return;
 			}
 
-			_parser = new CsParser(commandLine["output"]);
+			AS3NamespaceParser parser = new AS3NamespaceParser();
+
+			_parser = new CsParser(commandLine["output"], parser);
+
 			List<Parser.Error> errors = _parser.Parse(Directory.GetFiles(commandLine["source"], "*.cs", SearchOption.AllDirectories));
 
 			foreach (Parser.Error error in errors) {

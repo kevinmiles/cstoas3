@@ -6,8 +6,10 @@
 
 	using Utils;
 
-	internal static class NamespaceParser {
-		public static void AddNamespace(NamespaceNode nn, string outputFolder) {
+	public class AS3NamespaceParser : INamespaceParser {
+		#region INamespaceParser Members
+
+		public void Parse(NamespaceNode nn, string outputFolder) {
 			if (nn == null) {
 				return;
 			}
@@ -20,7 +22,7 @@
 			Directory.CreateDirectory(packDir);
 
 			foreach (NamespaceNode nn2 in nn.Namespaces) {
-				AddNamespace(nn2, outputFolder);
+				Parse(nn2, outputFolder);
 			}
 
 			foreach (ClassNode cn in nn.Classes) {
@@ -59,11 +61,11 @@
 				builder.AppendLineAndIndent();
 
 				foreach (ConstantNode constant in cn.Constants) {
-					
+
 				}
 
 				foreach (FieldNode field in cn.Fields) {
-					
+
 				}
 
 				foreach (ConstructorNode c in cn.Constructors) {
@@ -71,7 +73,7 @@
 				}
 
 				foreach (PropertyNode property in cn.Properties) {
-					
+
 				}
 
 				foreach (IndexerNode indexer in cn.Indexers) {
@@ -85,11 +87,13 @@
 				builder.AppendLineAndUnindent("}");
 				builder.AppendLineAndUnindent("}");
 
-				File.WriteAllText(packDir + "\\" + cn.Name.Identifier+".as", builder.ToString());
+				File.WriteAllText(packDir + "\\" + cn.Name.Identifier + ".as", builder.ToString());
 			}
 
 			foreach (StructNode sn in nn.Structs) {
 			}
 		}
+
+		#endregion
 	}
 }
