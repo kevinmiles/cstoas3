@@ -1,0 +1,8 @@
+D:\WorkSpace\CStoFlash\CStoFlash\obj\Debug\ResolveAssemblyReference.cache
+D:\WorkSpace\CStoFlash\CStoFlash\bin\Debug\CStoFlash.exe.config
+D:\WorkSpace\CStoFlash\CStoFlash\bin\Debug\CStoFlash.exe
+D:\WorkSpace\CStoFlash\CStoFlash\bin\Debug\CStoFlash.pdb
+D:\WorkSpace\CStoFlash\CStoFlash\bin\Debug\CMicroParser.dll
+D:\WorkSpace\CStoFlash\CStoFlash\bin\Debug\CMicroParser.pdb
+D:\WorkSpace\CStoFlash\CStoFlash\obj\Debug\CStoFlash.exe
+D:\WorkSpace\CStoFlash\CStoFlash\obj\Debug\CStoFlash.pdb
