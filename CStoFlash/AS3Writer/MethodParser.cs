@@ -1,50 +1,37 @@
-﻿using System.Text;
-
-
-namespace CStoFlash.AS3Writer {
-	using System.Collections.Generic;
+﻿namespace CStoFlash.AS3Writer {
 	using DDW;
 	using Utils;
 
-	internal static class MethodParser {
-		private static readonly char[] _paramTrim = new[] { ',', ' ' };
-
-		internal static void ParseMethod(MethodNode node, CodeBuilder sb) {
-			sb.AppendFormat("{0}function {1}({2}):{3} {{", 
-				Helpers.GetModifiers(node.Modifiers), 
-				node.Names[0].GenericIndependentIdentifier,
-				getParams(node.Params),
-			    Helpers.ConvertType(node.Type)
+	public static class MethodParser {
+		public static void Parse(NamespaceNode pNn, ClassNode pCn, MethodNode pNode, CodeBuilder pSb, ScopeBlock pScope) {
+			pSb.AppendFormat("{0}function {1}({2}):{3} {{", 
+				Helpers.GetModifiers(pNode.Modifiers), 
+				pNode.Names[0].GenericIndependentIdentifier,
+				Helpers.GetParams(pNode.Params),
+			    Helpers.ConvertType(pNode.Type)
 			);
 
-			sb.AppendLine();
-			BlockParser.ParseStatementBlock(node.StatementBlock, sb);
-			sb.AppendLine();
-			sb.AppendLine("}");
-			sb.AppendLine();
+			pSb.AppendLine();
+			BlockParser.ParseStatementBlock(pNn, pCn, pNode.StatementBlock, pSb, pScope);
+			pSb.AppendLine();
+			pSb.AppendLine("}");
+			pSb.AppendLine();
 		}
 
-		internal static void ParseMethod(ConstructorNode node, CodeBuilder sb) {
-			sb.AppendFormat("{0}function {1}({2}) {{",
-				Helpers.GetModifiers(node.Modifiers),
-				node.Names[0].GenericIndependentIdentifier,
-				getParams(node.Params)
+		public static void ParseConstructor(NamespaceNode pNn, ClassNode pCn, ConstructorNode pNode, CodeBuilder pSb, ScopeBlock pScope) {
+			pSb.AppendFormat("{0}function {1}({2}) {{",
+				Helpers.GetModifiers(pNode.Modifiers),
+				pNode.Names[0].GenericIndependentIdentifier,
+				Helpers.GetParams(pNode.Params)
 			);
 
-			sb.AppendLine();
-			BlockParser.ParseStatementBlock(node.StatementBlock, sb);
-			sb.AppendLine();
-			sb.AppendLine("}");
-			sb.AppendLine();
+			pSb.AppendLine();
+			BlockParser.ParseStatementBlock(pNn, pCn, pNode.StatementBlock, pSb, pScope);
+			pSb.AppendLine();
+			pSb.AppendLine("}");
+			pSb.AppendLine();
 		}
 
-		private static string getParams(IEnumerable<ParamDeclNode> parm) {
-			StringBuilder prms = new StringBuilder();
-			foreach (ParamDeclNode param in parm) {
-				prms.AppendFormat("{0}:{1}, ", param.Name, Helpers.ConvertType(param.Type));
-			}
-
-			return prms.ToString().TrimEnd(_paramTrim);
-		}
+		
 	}
 }
