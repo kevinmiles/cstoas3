@@ -1,4 +1,6 @@
 ﻿namespace CStoFlash.Utils {
+	using System.Collections.Generic;
+
 	public class AS3Builder : CodeBuilder {
 		public AS3Builder(string indentString) : base(indentString) {}
 
@@ -10,7 +12,6 @@
 			AppendLine("{").Indent();
 			return this;
 		}
-
 		/// <summary>
 		/// Ends the scope.
 		/// </summary>

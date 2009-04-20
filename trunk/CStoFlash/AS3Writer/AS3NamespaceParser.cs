@@ -6,37 +6,34 @@
 
 	using Utils;
 
-	public class AS3NamespaceParser : INamespaceParser {
-		#region INamespaceParser Members
-
-		public void Parse(NamespaceNode nn, string outputFolder) {
-			if (nn == null) {
+	public class As3NamespaceParser : INamespaceParser {
+		public void Parse(NamespaceNode pNn, string pOutputFolder) {
+			if (pNn == null) {
 				return;
 			}
 
-			if (nn.Structs.Count + nn.Classes.Count == 0) {
+			if (pNn.Structs.Count + pNn.Classes.Count == 0) {
 				return;
 			}
 
-			string packDir = outputFolder + nn.Name.QualifiedIdentifier.Replace('.', '\\');
+			string packDir = pOutputFolder + pNn.Name.QualifiedIdentifier.Replace('.', '\\');
 			Directory.CreateDirectory(packDir);
 
-			foreach (NamespaceNode nn2 in nn.Namespaces) {
-				Parse(nn2, outputFolder);
+			foreach (NamespaceNode nn2 in pNn.Namespaces) {
+				Parse(nn2, pOutputFolder);
 			}
 
-			foreach (ClassNode cn in nn.Classes) {
+			foreach (ClassNode cn in pNn.Classes) {
 				AS3Builder builder = new AS3Builder("\t");
-
-
-				foreach (UsingDirectiveNode directive in nn.UsingDirectives) {
-					builder.Append(directive.Target);
-				}
 
 				builder.Append("package ");
 
-				builder.Append(nn.Name.QualifiedIdentifier);
+				builder.Append(pNn.Name.QualifiedIdentifier);
 				builder.AppendLineAndIndent(" {");
+
+				foreach (UsingDirectiveNode directive in pNn.UsingDirectives) {
+					//builder.AddImport(directive.Target);
+				}
 
 				StringBuilder sb = new StringBuilder();
 
@@ -60,28 +57,30 @@
 				builder.Append(sb.ToString());
 				builder.AppendLineAndIndent();
 
-				foreach (ConstantNode constant in cn.Constants) {
+				ScopeBlock scope = new ScopeBlock();
 
+				foreach (ConstantNode constant in cn.Constants) {
+					ConstantParser.Parse(pNn, cn, constant, builder, scope);
 				}
 
 				foreach (FieldNode field in cn.Fields) {
-
-				}
-
-				foreach (ConstructorNode c in cn.Constructors) {
-					MethodParser.ParseMethod(c, builder);
+					FieldParser.Parse(pNn, cn, field, builder, scope);
 				}
 
 				foreach (PropertyNode property in cn.Properties) {
-
+					PropertyParser.Parse(pNn, cn, property, builder, scope);
 				}
 
 				foreach (IndexerNode indexer in cn.Indexers) {
-					//get set
+					IndexerParser.Parse(pNn, cn, indexer, builder, scope);
+				}
+
+				foreach (ConstructorNode c in cn.Constructors) {
+					MethodParser.ParseConstructor(pNn, cn, c, builder, scope);
 				}
 
 				foreach (MethodNode node in cn.Methods) {
-					MethodParser.ParseMethod(node, builder);
+					MethodParser.Parse(pNn, cn, node, builder, scope);
 				}
 
 				builder.AppendLineAndUnindent("}");
@@ -90,10 +89,8 @@
 				File.WriteAllText(packDir + "\\" + cn.Name.Identifier + ".as", builder.ToString());
 			}
 
-			foreach (StructNode sn in nn.Structs) {
+			foreach (StructNode sn in pNn.Structs) {
 			}
 		}
-
-		#endregion
 	}
 }

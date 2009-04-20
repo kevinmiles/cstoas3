@@ -3,52 +3,69 @@
 
 namespace CStoFlash.AS3Writer {
 	using System;
+	using System.Collections.Generic;
 
 	using DDW;
 
-	internal static class Helpers {
-		internal static string GetModifiers(Modifier modifier) {
+	public static class Helpers {
+		private static readonly char[] _paramTrim = new[] { ',', ' ' };
+
+		public static string GetParams(IEnumerable<ParamDeclNode> pParamDeclNodes) {
+			StringBuilder prms = new StringBuilder();
+			foreach (ParamDeclNode param in pParamDeclNodes) {
+				prms.AppendFormat("{0}:{1}, ", param.Name, ConvertType(param.Type));
+			}
+
+			return prms.ToString().TrimEnd(_paramTrim);
+		}
+
+
+		public static string GetModifiers(Modifier pModifier) {
 			StringBuilder sb = new StringBuilder();
 
-			if ((modifier & Modifier.Sealed) != 0) {
+			if ((pModifier & Modifier.New) != 0) {
+				sb.Append("new ");
+			}
+
+			if ((pModifier & Modifier.Sealed) != 0) {
 				sb.Append("final ");
 			}
 
-			if ((modifier & Modifier.Public) != 0) {
+			if ((pModifier & Modifier.Public) != 0) {
 				sb.Append("public ");
 			}
 
-			if ((modifier & Modifier.Internal) != 0) {
+			if ((pModifier & Modifier.Internal) != 0) {
 				sb.Append("internal ");
 			}
 
-			if ((modifier & Modifier.Private) != 0) {
+			if ((pModifier & Modifier.Private) != 0) {
 				sb.Append("private ");
 			}
 
-			if ((modifier & Modifier.Protected) != 0) {
+			if ((pModifier & Modifier.Protected) != 0) {
 				sb.Append("protected ");
 			}
 
 			return sb.ToString();
 		}
 
-		public static string ConvertType(IType type) {
-			if (type is TypeNode) {
-				TypeNode tn = type as TypeNode;
+		public static string ConvertType(IType pType) {
+			if (pType is TypeNode) {
+				TypeNode tn = pType as TypeNode;
 				return convert(tn.GenericIndependentIdentifier);
 			}
 
-			if (type is PredefinedTypeNode) {
-				PredefinedTypeNode tn = type as PredefinedTypeNode;
+			if (pType is PredefinedTypeNode) {
+				PredefinedTypeNode tn = pType as PredefinedTypeNode;
 				return convert(tn.GenericIndependentIdentifier);
 			}
 
-			return convert(type.ToString());
+			return convert(pType.ToString());
 		}
 
-		public static string ConvertTokenId(TokenID id) {
-			switch (id) {
+		public static string ConvertTokenId(TokenID pId) {
+			switch (pId) {
 				case TokenID.As:
 					return "as";
 
@@ -161,38 +178,38 @@ namespace CStoFlash.AS3Writer {
 					return ">>=";
 
 				default:
-					return id.ToString();
+					return pId.ToString();
 			}
 		}
 
-		private static string convert(string type) {
-			if (type.IndexOf('<') != -1) {
-				type = type.Substring(0, type.IndexOf('<'));
+		private static string convert(string pType) {
+			if (pType.IndexOf('<') != -1) {
+				pType = pType.Substring(0, pType.IndexOf('<'));
 			}
 
-			if (type.Equals("string[]", StringComparison.OrdinalIgnoreCase) ||
-					type.Equals("int[]", StringComparison.OrdinalIgnoreCase))
+			if (pType.Equals("string[]", StringComparison.OrdinalIgnoreCase) ||
+					pType.Equals("int[]", StringComparison.OrdinalIgnoreCase))
 				return "Array";
 
-			if (type.Equals("long", StringComparison.OrdinalIgnoreCase) ||
-				type.Equals("float", StringComparison.OrdinalIgnoreCase))
+			if (pType.Equals("long", StringComparison.OrdinalIgnoreCase) ||
+				pType.Equals("float", StringComparison.OrdinalIgnoreCase))
 				return "Number";
 			
-			if (type.Equals("int", StringComparison.OrdinalIgnoreCase) ||
-				type.Equals("int32", StringComparison.OrdinalIgnoreCase))
+			if (pType.Equals("int", StringComparison.OrdinalIgnoreCase) ||
+				pType.Equals("int32", StringComparison.OrdinalIgnoreCase))
 				return "int";
 
-			if (type.Equals("uint", StringComparison.OrdinalIgnoreCase) ||
-				type.Equals("uint32", StringComparison.OrdinalIgnoreCase))
+			if (pType.Equals("uint", StringComparison.OrdinalIgnoreCase) ||
+				pType.Equals("uint32", StringComparison.OrdinalIgnoreCase))
 				return "uint";
 
-			if (type.Equals("string", StringComparison.OrdinalIgnoreCase))
+			if (pType.Equals("string", StringComparison.OrdinalIgnoreCase))
 				return "String";
 
-			if (type.Equals("bool", StringComparison.OrdinalIgnoreCase))
+			if (pType.Equals("bool", StringComparison.OrdinalIgnoreCase))
 				return "Boolean";
 
-			return type;
+			return pType;
 		}
 	}
 }

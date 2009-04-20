@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using CStoFlash.Utils;
@@ -23,7 +23,7 @@ namespace CStoFlash {
 				return;
 			}
 
-			AS3NamespaceParser parser = new AS3NamespaceParser();
+			As3NamespaceParser parser = new As3NamespaceParser();
 
 			_parser = new CsParser(commandLine["output"], parser);
 

@@ -42,6 +42,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AS3Writer\ConstantParser.cs" />
+    <Compile Include="AS3Writer\FieldParser.cs" />
+    <Compile Include="AS3Writer\PropertyParser.cs" />
+    <Compile Include="AS3Writer\IndexerParser.cs" />
+    <Compile Include="AS3Writer\ScopeBlock.cs" />
     <Compile Include="CsToAS3.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utils\Arguments.cs" />
