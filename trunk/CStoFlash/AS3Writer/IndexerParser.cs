@@ -1,65 +1,48 @@
 ﻿namespace CStoFlash.AS3Writer {
-	using System.Collections.Generic;
+	using Metaspec;
 
-	using DDW;
 	using Utils;
 
-	public sealed class IndexerType {
-		public string GetName;
-		public string SetName;
-
-		public IndexerType(string pG, string pS) {
-			GetName = pG;
-			SetName = pS;
-		}
-	}
-
 	public static class IndexerParser {
-		private static readonly Dictionary<string, IndexerType> _indexers = new Dictionary<string, IndexerType>();
+		public static void Parse(CsIndexer pIndexer, CodeBuilder pBuilder) {
+			TheIndexers klass = TheClass.Get(pIndexer, pIndexer);
 
-		public static string GetGetterName(NamespaceNode pNn, ClassNode pCn, IType pType) {
-			if (pType == null)
-				return null;
+			if (pIndexer.getter != null) {
+				CsPropertyAccessor getter = pIndexer.getter;
+				
+				pBuilder.AppendFormat("{0}function {1}({2}):{3} {{",
+					As3Helpers.GetModifiers(getter.modifiers),
+					klass.Getter.Name,
+					As3Helpers.GetParams(getter.entity.parameters),
+					As3Helpers.Convert(klass.Getter.ReturnType));
 
-			string key = getName(pNn, pCn, pType);
-			return _indexers.ContainsKey(key) ? _indexers[key].GetName : null;
-		}
-
-		public static string GetSetterName(NamespaceNode pNn, ClassNode pCn, IType pType) {
-			if (pType == null)
-				return null;
-
-			string key = getName(pNn, pCn, pType);
-			return _indexers.ContainsKey(key) ? _indexers[key].SetName : null;
-		}
-
-		private static string getName(NamespaceNode pNn, ConstructedTypeNode pCn, IType pType) {
-			return pNn.Name.QualifiedIdentifier + "." + pCn.Name.Identifier + "::" + Helpers.ConvertType(pType);
-		}
-
-		public static void Parse(NamespaceNode pNn, ClassNode pCn, IndexerNode pNode, CodeBuilder pBuilder, ScopeBlock pScope) {
-			string p = Helpers.GetParams(pNode.Params);
-
-			string type = Helpers.ConvertType(pNode.Type);
-
-			string getterName = null;
-			string setterName = null;
-			string mod = Helpers.GetModifiers(pNode.Modifiers);
-			if (pNode.Getter != null) {
-				getterName = "__get" + type;
-				pBuilder.AppendLine(mod+" function " + getterName + "(" + p + "):" + type + " {");
-				BlockParser.ParseStatementBlock(pNn, pCn, pNode.Getter.StatementBlock, pBuilder, pScope);
+				pBuilder.AppendLine();
+				BlockParser.Parse(getter.definition, pBuilder);
+				pBuilder.AppendLine();
 				pBuilder.AppendLine("}");
+				pBuilder.AppendLine();
 			}
 
-			if (pNode.Setter != null) {
-				setterName = "__set" + type;
-				pBuilder.AppendLine(mod+" function " + setterName + "(" + p + ", value:" + type + "):void {");
-				BlockParser.ParseStatementBlock(pNn, pCn, pNode.Setter.StatementBlock, pBuilder, pScope);
-				pBuilder.AppendLine("}");
+			if (pIndexer.setter == null) {
+				return;
 			}
 
-			_indexers.Add(getName(pNn, pCn, pNode.Type), new IndexerType(getterName, setterName));
+			CsPropertyAccessor setter = pIndexer.setter;
+				
+			//string keys = As3Helpers.GetParams(pIndexer.parameters.parameters);
+
+			pBuilder.AppendFormat(
+				"{0}function {1}({2}):void {{",
+				  As3Helpers.GetModifiers(setter.modifiers),
+				  klass.Setter.Name,
+                  As3Helpers.GetParams(setter.entity.parameters)
+			);
+
+			pBuilder.AppendLine();
+			BlockParser.Parse(setter.definition, pBuilder);
+			pBuilder.AppendLine();
+			pBuilder.AppendLine("}");
+			pBuilder.AppendLine();
 		}
 	}
 }

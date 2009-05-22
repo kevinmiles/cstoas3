@@ -33,18 +33,19 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CMicroParser, Version=1.0.3282.36044, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="CsTransformationParserLibrary, Version=3.0.2.107, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Referenced Assemblies\CMicroParser.dll</HintPath>
+      <HintPath>..\Referenced Assemblies\CsTransformationParserLibrary.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AS3Writer\ConstantParser.cs" />
-    <Compile Include="AS3Writer\FieldParser.cs" />
-    <Compile Include="AS3Writer\PropertyParser.cs" />
+    <None Include="AS3Writer\ConstantParser.cs" />
+    <Compile Include="AS3Writer\Expression.cs" />
+    <None Include="AS3Writer\FieldParser.cs" />
+    <None Include="AS3Writer\PropertyParser.cs" />
     <Compile Include="AS3Writer\IndexerParser.cs" />
     <Compile Include="AS3Writer\ScopeBlock.cs" />
     <Compile Include="CsToAS3.cs" />
@@ -54,10 +55,12 @@
     <Compile Include="Utils\CodeBuilder.cs" />
     <Compile Include="Utils\CsParser.cs" />
     <Compile Include="AS3Writer\MethodParser.cs" />
-    <Compile Include="AS3Writer\Helpers.cs" />
+    <Compile Include="AS3Writer\As3Helpers.cs" />
     <Compile Include="AS3Writer\AS3NamespaceParser.cs" />
     <Compile Include="AS3Writer\BlockParser.cs" />
     <Compile Include="Utils\INamespaceParser.cs" />
+    <Compile Include="Utils\ParserHelper.cs" />
+    <Compile Include="Utils\TheClass.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

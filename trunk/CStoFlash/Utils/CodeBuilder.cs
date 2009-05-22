@@ -14,12 +14,12 @@ namespace CStoFlash.Utils {
 		protected int _indentLevel;
 		protected string _indentString = string.Empty;
 
-		protected CodeBuilder(string indentString) {
+		protected CodeBuilder(string pIndentString) {
 			_builder = new StringBuilder();
-			_indentString = indentString;
+			_indentString = pIndentString;
 		}
 
-		protected string IndentString {
+		protected string indentString {
 			get {
 				StringBuilder sb = new StringBuilder();
 				int n = _indentLevel;
@@ -54,12 +54,12 @@ namespace CStoFlash.Utils {
 			}
 		}
 
-		public char this[int index] {
+		public char this[int pIndex] {
 			get {
-				return _builder[index];
+				return _builder[pIndex];
 			}
 			set {
-				_builder[index] = value;
+				_builder[pIndex] = value;
 			}
 		}
 
@@ -73,40 +73,40 @@ namespace CStoFlash.Utils {
 			return this;
 		}
 
-		public CodeBuilder Append(bool value) {
-			return AppendImpl(value);
+		public CodeBuilder Append(bool pValue) {
+			return AppendImpl(pValue);
 		}
 
-		public CodeBuilder Append(byte value) {
-			return AppendImpl(value);
+		public CodeBuilder Append(byte pValue) {
+			return AppendImpl(pValue);
 		}
 
-		public CodeBuilder Append(char value) {
-			return AppendImpl(value);
+		public CodeBuilder Append(char pValue) {
+			return AppendImpl(pValue);
 		}
 
-		public CodeBuilder Append(decimal value) {
-			return AppendImpl(value);
+		public CodeBuilder Append(decimal pValue) {
+			return AppendImpl(pValue);
 		}
 
-		public CodeBuilder Append(double value) {
-			return AppendImpl(value);
+		public CodeBuilder Append(double pValue) {
+			return AppendImpl(pValue);
 		}
 
-		public CodeBuilder Append(char[] value) {
-			return AppendImpl(value);
+		public CodeBuilder Append(char[] pValue) {
+			return AppendImpl(pValue);
 		}
 
-		public CodeBuilder Append(short value) {
-			return AppendImpl(value);
+		public CodeBuilder Append(short pValue) {
+			return AppendImpl(pValue);
 		}
 
-		public CodeBuilder Append(int value) {
-			return AppendImpl(value);
+		public CodeBuilder Append(int pValue) {
+			return AppendImpl(pValue);
 		}
 
-		public CodeBuilder Append(long value) {
-			return AppendImpl(value);
+		public CodeBuilder Append(long pValue) {
+			return AppendImpl(pValue);
 		}
 
 		public CodeBuilder Append(object value) {
@@ -211,20 +211,16 @@ namespace CStoFlash.Utils {
 			return this;
 		}
 
-		public CodeBuilder AppendFormat(string format, object arg0, object arg1, object arg2, object arg3, object arg4, object arg5) {
+		public CodeBuilder AppendFormat(string format, object arg0, object arg1, object arg2, object arg3, object arg4,
+		                                object arg5) {
 			AppendIndent();
 			_builder.AppendFormat(format, arg0, arg1, arg2, arg3, arg4, arg5);
 			return this;
 		}
 
-		public CodeBuilder AppendLineImpl() {
-			AppendIndent();
+		public CodeBuilder AppendLine() {
 			_builder.AppendLine();
 			return this;
-		}
-
-		public CodeBuilder AppendLine() {
-			return AppendLineImpl();
 		}
 
 		public CodeBuilder AppendLineAndIndent() {
@@ -248,7 +244,7 @@ namespace CStoFlash.Utils {
 
 		public CodeBuilder AppendLine(string value) {
 			Append(value);
-			return AppendLineImpl();
+			return AppendLine();
 		}
 
 		public void CopyTo(int sourceIndex, char[] destination, int destinationIndex, int count) {

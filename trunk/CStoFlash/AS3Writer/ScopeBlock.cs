@@ -1,16 +1,14 @@
 ﻿namespace CStoFlash.AS3Writer {
 	using System.Collections.Generic;
 
-	using DDW;
-
 	public class ScopeBlock {
-		readonly List<Dictionary<string, IType>> _scopes = new List<Dictionary<string, IType>>();
+		readonly List<Dictionary<string, string>> _scopes = new List<Dictionary<string, string>>();
 
 		public void Indent() {
-			_scopes.Add(new Dictionary<string, IType>());
+			_scopes.Add(new Dictionary<string, string>());
 		}
 
-		public void Insert(string pName, IType pType) {
+		public void Insert(string pName, string pType) {
 			_scopes[_scopes.Count-1].Add(pName, pType);
 		}
 
@@ -18,7 +16,7 @@
 			_scopes.RemoveAt(_scopes.Count - 1);
 		}
 
-		public IType Search(string pName) {
+		public string Search(string pName) {
 			for (int c = _scopes.Count - 1; c > -1; c--) {
 				if (_scopes[c].ContainsKey(pName))
 					return _scopes[c][pName];
