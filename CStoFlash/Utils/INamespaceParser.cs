@@ -1,7 +1,11 @@
 ﻿namespace CStoFlash.Utils {
-	using DDW;
+	using System.Collections.Generic;
+
+	using Metaspec;
 
 	public interface INamespaceParser {
-		void Parse(NamespaceNode nn, string outputFolder);
+		void Init();
+		void Parse(CsNamespace pNamespace, IEnumerable<CsUsingDirective> pUsing, string pOutputFolder);
+		void PreParse(CsNamespace pNamespace, IEnumerable<CsUsingDirective> pUsing);
 	}
 }

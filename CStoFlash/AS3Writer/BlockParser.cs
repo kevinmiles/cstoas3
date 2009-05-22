@@ -1,61 +1,108 @@
-﻿using System;
-
+﻿
 namespace CStoFlash.AS3Writer {
+	using System;
 	using System.Collections.Generic;
 	using System.Text;
-	using DDW;
+
+	using Metaspec;
 
 	using Utils;
 
-	public static class BlockParser {
+	public sealed class BlockParser {
 		private static int _enumCount;
-		private static readonly char[] _trimEnd = new[] {',', ' ',';'};
+		//private static readonly char[] _trimEnd = new[] {',', ' ',';'};
 
-		public static void ParseStatementBlock(NamespaceNode pNn, ClassNode pCn, BlockStatement pBlockStatement, CodeBuilder pSb, ScopeBlock pScope) {
+		static readonly Dictionary<Type, parseFunc> _statementWritters = new Dictionary<Type, parseFunc>();
+		//static readonly Dictionary<Type, parseNodeFunc> _nodeWritters = new Dictionary<Type, parseNodeFunc>();
+
+		private delegate void parseFunc(CsStatement pStatement, CodeBuilder pSb);
+		//private delegate string parseNodeFunc(CsNode pStatement);
+
+		static BlockParser() {
+			_statementWritters.Add(typeof(CsLocalVariableDeclaration), parseLocalVariable);
+			_statementWritters.Add(typeof(CsIfStatement), parseIfStatement);
+			_statementWritters.Add(typeof(CsExpressionStatement), parseExpressionStatement);
+			_statementWritters.Add(typeof(CsForeachStatement), parseForeachStatement);
+			_statementWritters.Add(typeof(CsForStatement), parseForStatement);
+			_statementWritters.Add(typeof(CsSwitchStatement), parseSwitchStatement);
+			_statementWritters.Add(typeof(CsBreakStatement), parseBreakStatement);
+			_statementWritters.Add(typeof(CsReturnStatement), parseReturnStatement);
+		}
+
+		public static void Parse(CsBlock pCsBlock, CodeBuilder pSb) {
 			pSb.Indent();
-			pScope.Indent();
-			
-			foreach (StatementNode statement in pBlockStatement.Statements) {
-				ParseStatementNode(pNn, pCn, statement, pSb, pScope);
-				pSb.AppendLine();
+
+			if (pCsBlock.statements != null) {
+				foreach (CsStatement statement in pCsBlock.statements) {
+					parseStatement(statement, pSb);
+				}
 			}
 
-			pScope.Unindent();
 			pSb.Unindent();
 		}
 
-		public static void ParseStatementNode(NamespaceNode pNn, ClassNode pCn, LocalDeclarationStatement pNode, CodeBuilder pSb, ScopeBlock pScope) {
-			string kind = pNode.IsConstant ? "const" : "var";
-			foreach (Declarator declarator in pNode.Declarators) {
-				string initializer;
+		public static void ParseBlockOrStatementOrExpression(CsNode pNode, CodeBuilder pSb) {
+			CsBlock block = pNode as CsBlock;
+			if (block != null) {
+				Parse(block, pSb);
+				return;
+			}
 
-				if (declarator.Initializer == null) {
-					initializer = ";";
+			CsStatement statement = pNode as CsStatement;
+			if (statement != null) {
+				pSb.Indent();
+				parseStatement(statement, pSb);
+				pSb.Unindent();
+				return;
+			}
+
+			Expression ex = Expression.Parse(pNode as CsExpression);
+			pSb.Append(ex.Value+";");
+			pSb.AppendLine();
+		}
+
+		private static string parseNode(CsNode pNode){
+			Expression ex = Expression.Parse(pNode as CsExpression);
+			return ex.Value;
+		}
+
+		private static void parseLocalVariable(CsStatement pStatement, CodeBuilder pSb) {
+			CsLocalVariableDeclaration localVariableDeclaration = (CsLocalVariableDeclaration)pStatement;
+			foreach (CsLocalVariableDeclarator declarator in localVariableDeclaration.declarators) {
+
+				StringBuilder sb = new StringBuilder();
+
+				sb.AppendFormat("var {0}:{1}",
+					declarator.identifier.identifier,
+					As3Helpers.Convert(ParserHelper.GetType(localVariableDeclaration.type))
+				);
+
+				if (declarator.initializer == null) {
+					sb.Append(";");
 
 				} else {
-					initializer = " = " + parseExpressionNode(pNn, pCn, declarator.Initializer, pScope) + ";";
+					sb.AppendFormat(" = {0};", parseNode(declarator.initializer));
 				}
 
-				pScope.Insert(declarator.Identifier.Identifier, pNode.Type);
-
-				pSb.AppendFormat("{0} {1}:{2}{3}",
-					kind,
-					declarator.Identifier.Identifier,
-					Helpers.ConvertType(pNode.Type),
-					initializer);
+				pSb.Append(sb.ToString());
+				pSb.AppendLine();
 			}
 		}
 
-		public static void ParseStatementNode(NamespaceNode pNn, ClassNode pCn, IfStatement pNode, CodeBuilder pSb, ScopeBlock pScope) {
-			pSb.AppendFormat("if ({0}){{", parseExpressionNode(pNn, pCn, pNode.Test, pScope));
+		private static void parseIfStatement(CsStatement pStatement, CodeBuilder pSb) {
+			CsIfStatement ifStatement = (CsIfStatement)pStatement;
+
+			pSb.AppendFormat("if ({0}){{", Expression.Parse(ifStatement.condition));
 			pSb.AppendLine();
 
-			ParseStatementBlock(pNn, pCn, pNode.Statements, pSb, pScope);
+			ParseBlockOrStatementOrExpression(ifStatement.if_statement, pSb);
 
-			if (pNode.ElseStatements.Statements.Count != 0) {
+			if (ifStatement.else_statement != null) {
 				pSb.AppendLine();
-				pSb.AppendLine("} else {");
-				ParseStatementBlock(pNn, pCn, pNode.ElseStatements, pSb, pScope);
+				pSb.Append("} else {");
+				pSb.AppendLine();
+				pSb.AppendLine();
+				ParseBlockOrStatementOrExpression(ifStatement.else_statement, pSb);
 			}
 
 			pSb.Append("}");
@@ -63,279 +110,154 @@ namespace CStoFlash.AS3Writer {
 			pSb.AppendLine();
 		}
 
-		public static void ParseStatementNode(NamespaceNode pNn, ClassNode pCn, ExpressionStatement pNode, CodeBuilder pSb, ScopeBlock pScope) {
-			pSb.AppendLine(parseExpressionNode(pNn, pCn, pNode.Expression, pScope) + ";");
+		private static void parseForStatement(CsStatement pStatement, CodeBuilder pSb) {
+			CsForStatement forStatement = (CsForStatement)pStatement;
+
+			StringBuilder sb = new StringBuilder("for (");
+
+			CsLocalVariableDeclaration localVariableDeclaration = (CsLocalVariableDeclaration)forStatement.initializer;
+			if (localVariableDeclaration != null && localVariableDeclaration.declarators.Count > 0) {
+				sb.Append("var ");
+				int count = localVariableDeclaration.declarators.Count;
+				int now = 0;
+
+				foreach (CsLocalVariableDeclarator declarator in localVariableDeclaration.declarators) {
+
+					sb.AppendFormat("{0}:{1}",
+						declarator.identifier.identifier,
+						As3Helpers.Convert(ParserHelper.GetType(localVariableDeclaration.type))
+					);
+
+					now++;
+
+					if (declarator.initializer != null) {
+						sb.AppendFormat(" = {0}", parseNode(declarator.initializer));
+					} 
+
+					if (now < count) {
+						sb.Append(", ");
+					}
+				}
+
+				sb.Append("; ");
+			}
+
+			sb.Append(Expression.Parse(forStatement.condition).Value);
+			sb.Append("; ");
+
+			CsStatementExpressionList expressionList = (CsStatementExpressionList) forStatement.iterator;
+
+			if (expressionList != null) {
+				foreach (CsExpression expression in expressionList.expressions) {
+					Expression ex = Expression.Parse(expression);
+					sb.Append(ex.Value);
+					sb.Append(", ");
+				}
+
+				sb.Remove(sb.Length - 2, 2);
+			}
+
+			sb.Append("){");
+			pSb.AppendLine(sb.ToString());
+			ParseBlockOrStatementOrExpression(forStatement.statement, pSb);
+			pSb.AppendLine("}");
+			pSb.AppendLine();
+
 		}
 
-		public static void ParseStatementNode(NamespaceNode pNn, ClassNode pCn, ForEachStatement pNode, CodeBuilder pSb, ScopeBlock pScope) {
+		private static void parseForeachStatement(CsStatement pStatement, CodeBuilder pSb) {
+			CsForeachStatement fes = (CsForeachStatement)pStatement;
+
 			_enumCount++;
-			string enumName = String.Format("ie{0}", _enumCount);
+			string enumName = String.Format("__ie{0}", _enumCount);
 			pSb.AppendLine();
 			pSb.AppendFormat("var {0}:IEnumerator = {1}.getEnumerator();",
-				enumName, parseExpressionNode(pNn, pCn, pNode.Collection, pScope));
+				enumName, Expression.Parse(fes.expression).Value);
 			pSb.AppendLine();
 
 			pSb.AppendFormat("while ({0}.moveNext()){{", enumName);
 			pSb.AppendLine();
+
+			string type = As3Helpers.Convert(ParserHelper.GetType(fes.type));
+
 			pSb.AppendFormat("\tvar {1}:{2} = {0}.current as {2};",
 				enumName,
-				pNode.Iterator.Name,
-				Helpers.ConvertType(pNode.Iterator.Type)
+				fes.identifier.identifier,
+				type
 			);
 
-			pScope.Insert(pNode.Iterator.Name, pNode.Iterator.Type);
-
 			pSb.AppendLine();
-			ParseStatementBlock(pNn, pCn, pNode.Statements, pSb, pScope);
+			ParseBlockOrStatementOrExpression(fes.statement, pSb);
 			pSb.AppendLine("}");
+			pSb.AppendLine();
 		}
 
-		public static void ParseStatementNode(NamespaceNode pNn, ClassNode pCn, ForStatement pNode, CodeBuilder pSb, ScopeBlock pScope) {
-			if (pCn == null) {
-				throw new ArgumentNullException("pCn");
-			}
-			pSb.AppendFormat("for ({0}; {1}; {2}){{",
-					getExpressions(pNn, pCn, pNode.Init, pScope), parseExpressionNode(pNn, pCn, pNode.Test, pScope), getExpressions(pNn, pCn, pNode.Inc, pScope));
+		private static void parseSwitchStatement(CsStatement pStatement, CodeBuilder pSb) {
+			CsSwitchStatement switchStatement = (CsSwitchStatement)pStatement;
 
-			pSb.AppendLine();
-			ParseStatementBlock(pNn, pCn, pNode.Statements, pSb, pScope);
-			pSb.AppendLine("}");
-		}
-
-		public static void ParseStatementNode(NamespaceNode pNn, ClassNode pCn, SwitchStatement pNode, CodeBuilder pSb, ScopeBlock pScope) {
-			pSb.AppendFormat("switch ({0}){{", parseExpressionNode(pNn, pCn, pNode.Test, pScope));
+			pSb.AppendFormat("switch ({0}){{", Expression.Parse(switchStatement.expression).Value);
 			pSb.AppendLine();
 			pSb.Indent();
 
-			foreach (CaseNode caseNode in pNode.Cases) {
-				string txt;
-				if (caseNode.IsDefaultCase) {
-					txt = "default";
+			foreach (CsSwitchSection caseNode in switchStatement.sections) {
+				LinkedList<CsSwitchLabel> labels = caseNode.labels;
+				foreach (CsSwitchLabel label in labels){
+					if (label.bDefault) {
+						pSb.Append("default:");
+						pSb.AppendLine();
 
-				} else {
-					//TODO: Ranges??
-					if (caseNode.Ranges.Count != 1)
-						throw new Exception();
-
-					txt = parseExpressionNode(pNn, pCn, caseNode.Ranges[0], pScope);
+					} else {
+						Expression txt = Expression.Parse(label.expression);
+						pSb.AppendFormat("case {0}:", txt.Value);
+						pSb.AppendLine();
+					}
 				}
 
-				pSb.AppendFormat("case {0}:", txt);
-				pSb.AppendLine();
-
-				foreach (StatementNode statementNode in caseNode.Statements) {
-					ParseStatementNode(pNn, pCn, statementNode, pSb, pScope);
+				foreach (CsStatement statementNode in caseNode.statements) {
+					pSb.Indent();
+					parseStatement(statementNode, pSb);
+					pSb.Unindent();
 				}
 			}
 
 			pSb.Unindent();
-			pSb.AppendLine("}");
+			pSb.Append("}");
+			pSb.AppendLine();
 		}
 
-		public static void ParseStatementNode(NamespaceNode pNn, ClassNode pCn, ReturnStatement pNode, CodeBuilder pSb, ScopeBlock pScope) {
-			pSb.AppendFormat("return{0};", pNode.ReturnValue == null ? "" : parseExpressionNode(pNn, pCn, pNode.ReturnValue, pScope));
+		private static void parseBreakStatement(CsStatement pStatement, CodeBuilder pSb) {
+			pSb.Append("break;");
+			pSb.AppendLine();
+			pSb.AppendLine();
 		}
 
-		public static void ParseStatementNode(NamespaceNode pNn, ClassNode pCn, StatementNode pNode, CodeBuilder pSb, ScopeBlock pScope) {
-			if (pNode is LocalDeclarationStatement) {//local variable
-				ParseStatementNode(pNn, pCn, (LocalDeclarationStatement)pNode, pSb, pScope);
+		private static void parseExpressionStatement(CsStatement pStatement, CodeBuilder pSb) {
+			Expression ex = Expression.Parse(((CsExpressionStatement)pStatement).expression);
+			pSb.Append(ex.Value+";");
+			pSb.AppendLine();
+		}
 
-			} else if (pNode is IfStatement) {
-				ParseStatementNode(pNn, pCn, (IfStatement)pNode, pSb, pScope);
-
-			} else if (pNode is ExpressionStatement) {
-				ParseStatementNode(pNn, pCn, (ExpressionStatement)pNode, pSb, pScope);
-
-			} else if (pNode is ForEachStatement) {
-				ParseStatementNode(pNn, pCn, (ForEachStatement)pNode, pSb, pScope);
-
-			} else if (pNode is ForStatement) {
-				ParseStatementNode(pNn, pCn, (ForStatement)pNode, pSb, pScope);
-
-			} else if (pNode is SwitchStatement) {
-				ParseStatementNode(pNn, pCn, (SwitchStatement)pNode, pSb, pScope);
-
-			} else if (pNode is ReturnStatement) {
-				ParseStatementNode(pNn, pCn, (ReturnStatement)pNode, pSb, pScope);
-
-			} else if (pNode is BreakStatement) {
-				pSb.AppendLine("break;");
+		private static void parseReturnStatement(CsStatement pStatement, CodeBuilder pSb) {
+			CsReturnStatement returnStatement = (CsReturnStatement) pStatement;
+			if (returnStatement.expression == null) {
+				pSb.AppendLine("return;");
 
 			} else {
-				throw new Exception("Unhandled Statement:" + pNode);
+				pSb.AppendFormat("return {0};", Expression.Parse(returnStatement.expression).Value);
+				pSb.AppendLine();
 			}
 		}
 
-		private static string getExpressions(NamespaceNode pNn, ClassNode pCn, IEnumerable<ExpressionNode> pNodes, ScopeBlock pScope) {
-			string init = String.Empty;
 
-			foreach (ExpressionNode expressionNode in pNodes) {
-				init += parseExpressionNode(pNn, pCn, expressionNode, pScope) + ", ";
-			}
+		private static void parseStatement(CsStatement pStatement, CodeBuilder pSb) {
+			Type type = pStatement.GetType();
 
-			return init.TrimEnd(_trimEnd);
-		}
-
-		private static string parseExpressionNode(NamespaceNode pNn, ClassNode pCn, ExpressionNode pNode, ScopeBlock pScope) {
-			if (pNode is ObjectCreationExpression) {
-				return makeObjectCreation(pNn, pCn, (ObjectCreationExpression)pNode, pScope);
-			}
-
-			if (pNode is StringPrimitive) {
-				return "\"" + ((StringPrimitive)pNode).Value + "\"";
-			}
-
-			if (pNode is BinaryExpression) {
-				BinaryExpression be = (BinaryExpression)pNode;
-				return parseExpressionNode(pNn, pCn, be.Left, pScope) + " " + Helpers.ConvertTokenId(be.Op) + " " + parseExpressionNode(pNn, pCn, be.Right, pScope);
-			}
-
-			if (pNode is MemberAccessExpression) {
-				MemberAccessExpression mac = (MemberAccessExpression)pNode;
-				return parseExpressionNode(pNn, pCn, mac.Left, pScope) + Helpers.ConvertTokenId(mac.QualifierKind) + parseExpressionNode(pNn, pCn, mac.Right, pScope);
-			}
-
-			if (pNode is IdentifierExpression) {
-				IdentifierExpression ie = (IdentifierExpression) pNode;
-				if (ie.StartsWithPredefinedType) {
-					throw new Exception("Not Implemented");
-				}
-
-				return ie.Identifier.Equals("base") ? "super" : ie.Identifier;
-			}
-
-			if (pNode is NullPrimitive) {
-				return "null";
-			}
-
-			if (pNode is InvocationExpression) {
-				return makeInvocation(pNn, pCn, (InvocationExpression)pNode, pScope);
-			}
-
-			if (pNode is ElementAccessExpression) {
-				return makeElementAccess(pNn, pCn, (ElementAccessExpression) pNode, pScope);
-			}
-
-			if (pNode is BooleanPrimitive) {
-				return ((BooleanPrimitive)pNode).Value ? "true" : "false";
-			}
-
-			if (pNode is IntegralPrimitive) {
-				return ((IntegralPrimitive)pNode).Value.ToString();
-			}
-
-			if (pNode is UnaryExpression) {
-				UnaryExpression ue = ((UnaryExpression)pNode);
-
-				return Helpers.ConvertTokenId(ue.Op) + parseExpressionNode(pNn, pCn, ue.Child, pScope);
-			}
-
-			if (pNode is LocalDeclaration) {
-				LocalDeclaration ue = ((LocalDeclaration)pNode);
-
-				string kind = ue.IsConstant ? "const" : "var";
-				StringBuilder sb = new StringBuilder();
-
-				foreach (Declarator declarator in ue.Declarators) {
-
-					string initializer;
-					if (declarator.Initializer == null) {
-						initializer = ";";
-					} else {
-						initializer = " = " + parseExpressionNode(pNn, pCn, declarator.Initializer, pScope) + ";";
-					}
-
-					sb.AppendFormat("{0} {1}:{2}{3}",
-						kind,
-						declarator.Identifier.Identifier,
-						Helpers.ConvertType(ue.Type),
-						initializer);
-				}
-
-				return sb.ToString();
-			}
-
-			if (pNode is PostIncrementExpression) {
-				PostIncrementExpression pie = ((PostIncrementExpression)pNode);
-				return parseExpressionNode(pNn, pCn, pie.Expression, pScope) + "++";
-			}
-
-			if (pNode is ConditionalExpression) {
-				ConditionalExpression ce = ((ConditionalExpression)pNode);
-				return "(" + parseExpressionNode(pNn, pCn, ce.Test, pScope) + ") ? " + parseExpressionNode(pNn, pCn, ce.Left, pScope) + " : " + parseExpressionNode(pNn, pCn, ce.Right, pScope);
-			}
-
-			throw new Exception("Expression node not implemented:" + pNode);
-		}
-
-
-		/// <summary>
-		/// Creates a new Object <c>new Constructor(param1, param2, ..., paramN)</c>
-		/// </summary>
-		private static string makeObjectCreation(NamespaceNode pNn, ClassNode pCn, ObjectCreationExpression pOce, ScopeBlock pScope) {
-			StringBuilder sb = new StringBuilder("new "+Helpers.ConvertType(pOce.Type));
-			sb.Append("(");
-			foreach (ArgumentNode argumentNode in pOce.ArgumentList) {
-				sb.Append(parseExpressionNode(pNn, pCn, argumentNode.Expression, pScope));
-				sb.Append(", ");
-			}
-
-			if (pOce.ArgumentList.Count != 0)
-				sb.Remove(sb.Length - 2, 2);
-
-			sb.Append(")");
-			return sb.ToString();
-		}
-
-		/// <summary>
-		/// Access an element by accessors  ([]);
-		/// </summary>
-		private static string makeElementAccess(NamespaceNode pNn, ClassNode pCn, ElementAccessExpression pEae, ScopeBlock pScope) {
-			string baseIndexer = parseExpressionNode(pNn, pCn, pEae.LeftSide, pScope);
-
-			StringBuilder sb = new StringBuilder(baseIndexer);
-
-			string name = IndexerParser.GetGetterName(pNn, pCn, pScope.Search(baseIndexer));
-
-			if (String.IsNullOrEmpty(name)) {
-				sb.Append('[');
+			if (_statementWritters.ContainsKey(type)) {
+				_statementWritters[type](pStatement, pSb);
 
 			} else {
-				sb.Append(".");
-				sb.Append(name);
-				sb.Append('(');
+				throw new NotImplementedException("Statement of type: " + pStatement + " not implemented");
 			}
-
-			foreach (ExpressionNode node in pEae.Expressions) {
-				sb.Append(parseExpressionNode(pNn, pCn, node, pScope));
-			}
-
-			if (String.IsNullOrEmpty(name)) {
-				sb.Append(']');
-
-			} else {
-				sb.Append(")");
-			}
-
-			return sb.ToString();
-		}
-		/// <summary>
-		/// Makes an invocation call <c>MethodName(param1, param2..., paramN)</c>
-		/// </summary>
-		private static string makeInvocation(NamespaceNode pNn, ClassNode pCn, InvocationExpression pIe, ScopeBlock pScope) {
-			StringBuilder sb = new StringBuilder(parseExpressionNode(pNn, pCn, pIe.LeftSide, pScope));
-			sb.Append("(");
-			
-			foreach (ArgumentNode argumentNode in pIe.ArgumentList) {
-				sb.Append(parseExpressionNode(pNn, pCn, argumentNode.Expression, pScope));
-				sb.Append(", ");
-			}
-
-			if (pIe.ArgumentList.Count != 0) 
-				sb.Remove(sb.Length - 2, 2);
-
-			sb.Append(")");
-			return sb.ToString();
 		}
 	}
 }

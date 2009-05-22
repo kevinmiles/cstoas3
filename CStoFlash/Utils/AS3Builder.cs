@@ -1,8 +1,6 @@
 ﻿namespace CStoFlash.Utils {
-	using System.Collections.Generic;
-
 	public class AS3Builder : CodeBuilder {
-		public AS3Builder(string indentString) : base(indentString) {}
+		public AS3Builder(string pIndentString) : base(pIndentString) {}
 
 		/// <summary>
 		/// Begins the scope.
@@ -24,10 +22,10 @@
 		/// <summary>
 		/// Begins the scope.
 		/// </summary>
-		/// <param name="openClause">The opening clause.</param>
+		/// <param name="pOpenClause">The opening clause.</param>
 		/// <returns></returns>
-		public AS3Builder BeginScope(string openClause) {
-			Append(openClause);
+		public AS3Builder BeginScope(string pOpenClause) {
+			Append(pOpenClause);
 			return BeginScope();
 		}
 
