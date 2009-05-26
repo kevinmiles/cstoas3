@@ -27,6 +27,7 @@ namespace CStoFlash.AS3Writer {
 			_statementWritters.Add(typeof(CsSwitchStatement), parseSwitchStatement);
 			_statementWritters.Add(typeof(CsBreakStatement), parseBreakStatement);
 			_statementWritters.Add(typeof(CsReturnStatement), parseReturnStatement);
+			_statementWritters.Add(typeof(CsLocalConstantDeclaration), parseLocalConstantDeclaration);
 		}
 
 		public static void Parse(CsBlock pCsBlock, CodeBuilder pSb) {
@@ -66,10 +67,27 @@ namespace CStoFlash.AS3Writer {
 			return ex.Value;
 		}
 
+		private static void parseLocalConstantDeclaration(CsStatement pStatement, CodeBuilder pSb) {
+			CsLocalConstantDeclaration lcd = (CsLocalConstantDeclaration)pStatement;
+
+			foreach (CsLocalConstantDeclarator declarator in lcd.declarators) {
+				StringBuilder sb = new StringBuilder();
+
+				sb.AppendFormat("const {0}:{1} = {2};",
+					declarator.identifier.identifier,
+					As3Helpers.Convert(ParserHelper.GetType(lcd.type)),
+					Expression.Parse(declarator.expression).Value
+				);
+
+				pSb.Append(sb.ToString());
+				pSb.AppendLine();
+			}
+
+		}
+
 		private static void parseLocalVariable(CsStatement pStatement, CodeBuilder pSb) {
 			CsLocalVariableDeclaration localVariableDeclaration = (CsLocalVariableDeclaration)pStatement;
 			foreach (CsLocalVariableDeclarator declarator in localVariableDeclaration.declarators) {
-
 				StringBuilder sb = new StringBuilder();
 
 				sb.AppendFormat("var {0}:{1}",

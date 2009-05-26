@@ -81,10 +81,13 @@ namespace CStoFlash.Utils {
 			_entityTypeRef.Add(cs_entity_type.et_float64, "float");
 			_entityTypeRef.Add(cs_entity_type.et_decimal, "decimal");
 
-			_entityTypeRef.Add(cs_entity_type.et_unknown, "?*?*?*");
+			_entityTypeRef.Add(cs_entity_type.et_unknown, "*UnknownEntityRef*");
 		}
 
 		public static string GetSignature(IEnumerable<CsFormalParameter> pLinkedList) {
+			if (pLinkedList == null)
+				return string.Empty;
+
 			List<string> list = new List<string>();
 			foreach (CsFormalParameter param in pLinkedList) {
 				list.Add(GetType(param.type));

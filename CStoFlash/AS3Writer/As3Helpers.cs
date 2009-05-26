@@ -27,6 +27,9 @@ namespace CStoFlash.AS3Writer {
 		}
 		
 		public static string GetParams(IEnumerable<CsFormalParameter> pLinkedList) {
+			if (pLinkedList == null)
+				return string.Empty;
+
 			StringBuilder prms = new StringBuilder();
 			foreach (CsFormalParameter param in pLinkedList) {
 				prms.AppendFormat("{0}:{1}, ",
@@ -86,13 +89,18 @@ namespace CStoFlash.AS3Writer {
 			int l = pType.IndexOf('<');
 			int r = pType.IndexOf('>');
 
-			if (l != -1 && r != -1 && l < r) {//remove generics
+			if (pType.StartsWith("Vector<", StringComparison.Ordinal)) {
+				pType = pType.Substring(7, pType.Length - 8);
+				return "Vector.<" + Convert(pType) + ">";
+			}
+
+			if ((l != -1 && r != -1 && l < r)) {//remove generics
 				pType = pType.Substring(0, l);
 			}
 
 			int brackets = pType.IndexOf("[]", StringComparison.Ordinal);
-
-			if (brackets != -1 && brackets == pType.Length-2) {
+			
+			if (brackets != -1 && brackets == pType.Length - 2) {
 				pType = pType.Substring(0, pType.Length - 2);
 				return "Vector.<"+Convert(pType)+">";
 			}

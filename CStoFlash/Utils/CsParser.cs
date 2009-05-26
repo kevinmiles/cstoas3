@@ -30,6 +30,12 @@
 			IExternalAssemblyModule module = IExternalAssemblyModuleFactory.create(assemblyBuffer, assemblyPath);
 			project.addExternalAssemblyModules(new[] { module }, false, null);
 
+			string flashLibrary = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+			assemblyBuffer = File.ReadAllBytes(flashLibrary+"\\flash.dll");
+			module = IExternalAssemblyModuleFactory.create(assemblyBuffer, flashLibrary);
+			project.addExternalAssemblyModules(new[] { module }, false, null);
+			
+
 			foreach (string fileName in pFiles) {
 				char[] buffer = File.ReadAllText(fileName).ToCharArray();
 				ICsFile file = ICsFileFactory.create(buffer, fileName);
