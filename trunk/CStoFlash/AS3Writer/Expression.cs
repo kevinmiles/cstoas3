@@ -133,7 +133,8 @@
 				exp += "[" + indexes[0] + "]";
 
 			} else {
-				TheIndexers i = k.GetIndexerBySignature(param);
+				TheIndexers i = k.GetIndexer(pStatement);
+				//TheIndexers i = k.GetIndexerBySignature(param);
 				isInternal = true;
 
 				CsAssignmentExpression parent = pStatement.parent as CsAssignmentExpression;
@@ -154,11 +155,22 @@
 
 		private static Expression parseInvocationExpression(CsExpression pStatement) {
 			CsInvocationExpression ex = (CsInvocationExpression)pStatement;
+			TheClass k = TheClass.Get(pStatement);
 
-			Expression val = Parse(ex.expression);
-			string args = As3Helpers.GetParams(ex.argument_list);
+			List<string> indexes = new List<string>();
 
-			return new Expression(val + "(" + args + ")", ParserHelper.GetType(ex.entity_typeref));
+			foreach (CsArgument argument in ex.argument_list.list) {
+				indexes.Add(Parse(argument.expression).Value);
+			}
+
+			string name = k == null ? 
+				Parse(ex.expression).Value : 
+				k.GetMethod((CsMethod)((CsEntityMethod)ex.entity).decl).Name;
+
+			return new Expression(
+				name+ "(" + string.Join(", ", indexes.ToArray()) + ")", 
+				ParserHelper.GetType(ex.entity_typeref)
+			);
 		}
 
 		private static Expression parseMakeRefExpression(CsExpression pStatement) {
@@ -182,7 +194,7 @@
 			CsNewObjectExpression node = (CsNewObjectExpression)pExpression;
 			StringBuilder sb = new StringBuilder();
 			sb.Append("new ");
-			sb.Append(As3Helpers.Convert(ParserHelper.GetType(node.type.type_name)));
+			sb.Append(As3Helpers.Convert(ParserHelper.GetType(node.type)));
 			sb.Append("(");
 
 			if (node.argument_list != null) {
@@ -219,11 +231,24 @@
 		}
 
 		private static Expression parsePrimaryExpressionMemberAccess(CsExpression pExpression) {
+			//expression "." identifier (type-argument-list?)
 			CsPrimaryExpressionMemberAccess ex = (CsPrimaryExpressionMemberAccess)pExpression;
 
-			//expression "." identifier (type-argument-list?)
+			string name = string.Empty;
+			CsEntityVariable entityVariable = (CsEntityVariable) ex.entity;
+
+			foreach (CsEntityAttribute attribute in entityVariable.attributes) {
+				if (!attribute.type.parent.name.Equals("As3NameAttribute", StringComparison.Ordinal)) {
+					continue;
+				}
+
+				name = (attribute.fixed_arguments[0]).value.ToString();
+			}
+
+			if (string.IsNullOrEmpty(name)) name = ex.identifier.identifier;
+			
 			return new Expression(
-				Parse(ex.expression).Value + "." + ex.identifier.identifier,
+				Parse(ex.expression).Value + "." + name,
 				ParserHelper.GetType(pExpression.entity_typeref)
 			);
 		}

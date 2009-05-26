@@ -4,7 +4,7 @@ using System.Text.RegularExpressions;
 namespace CStoFlash.Utils {
 	public class Arguments : Dictionary<string, string> {
 		// Constructor
-		public Arguments(IEnumerable<string> args) {
+		public Arguments(IEnumerable<string> pArgs) {
 			Regex splitter = new Regex(@"^-{1,2}|^/|=|:", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
 			Regex remover = new Regex(@"^['""]?(.*?)['""]?$", RegexOptions.IgnoreCase | RegexOptions.Compiled);
@@ -16,7 +16,7 @@ namespace CStoFlash.Utils {
 			// {-,/,--}param{ ,=,:}((",')value(",'))
 			// Examples: 
 			// -param1 value1 --param2 /param3:"Test-:-work" /param4=happy -param5 '--=nice=--'
-			foreach (string txt in args) {
+			foreach (string txt in pArgs) {
 				// Look for new parameters (-,/ or --) and a
 				// possible enclosed value (=,
 				parts = splitter.Split(txt, 3);
@@ -74,9 +74,9 @@ namespace CStoFlash.Utils {
 			}
 		}
 
-		new public string this[string param] {
+		new public string this[string pParam] {
 			get {
-				return ContainsKey(param) ? base[param] : null;
+				return ContainsKey(pParam) ? base[pParam] : null;
 			}
 		}
 	}

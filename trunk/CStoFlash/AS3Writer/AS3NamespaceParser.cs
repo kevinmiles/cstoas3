@@ -43,8 +43,17 @@
 					sb.AppendFormat("{1}class {0}", className, As3Helpers.GetModifiers(theClass.modifiers));
 
 					if (theClass.type_base != null && theClass.type_base.base_list.Count != 0) {
-						sb.Append(" extends ");
+						bool hasImplement = false;
+
 						foreach (CsTypeRef typeRef in theClass.type_base.base_list) {
+
+							if (typeRef.entity_typeref.u is CsEntityInstanceSpecifier) {
+								setExtendsImplements(((CsEntityInstanceSpecifier)typeRef.entity_typeref.u).type.u, ref hasImplement, sb);
+
+							} else {
+								setExtendsImplements(typeRef.entity_typeref.u, ref hasImplement, sb);
+							}
+
 							sb.Append(As3Helpers.Convert(ParserHelper.GetType(typeRef.type_name)));
 						}
 					}
@@ -62,10 +71,16 @@
 							MethodParser.Parse((CsMethod)memberDeclaration, builder);
 
 						} else if (memberDeclaration is CsIndexer) {
-							IndexerParser.Parse((CsIndexer)memberDeclaration, builder);
+							IndexerParser.Parse((CsIndexer) memberDeclaration, builder);
+
+						} else if (memberDeclaration is CsVariableDeclaration) {
+							VariableParser.Parse((CsVariableDeclaration) memberDeclaration, builder);
+
+						} else if (memberDeclaration is CsConstantDeclaration) {
+							ConstantParser.Parse((CsConstantDeclaration)memberDeclaration, builder);
 
 						} else {
-							throw new NotSupportedException();
+								throw new NotSupportedException();
 						}
 					}
 
@@ -80,25 +95,22 @@
 
 				if (theClass == null) {
 					throw new Exception("Unknow type");
+				}			
+			}
+		}
+
+		private static void setExtendsImplements(object pIn, ref bool pHasImplement, StringBuilder pStringBuilder) {
+			if (pIn is CsEntityClass) {
+				pStringBuilder.Append(" extends ");
+
+			} else if (pIn is CsEntityInterface) {
+				if (pHasImplement) {
+					pStringBuilder.Append(", ");
+
+				} else {
+					pStringBuilder.Append(" implements ");
+					pHasImplement = true;
 				}
-
-/*
-				if (cn.Interfaces.Count != 0) {
-					sb.Append(" implements ");
-					foreach (InterfaceNode iNode in cn.Interfaces) {
-						sb.Append(iNode.Name.Identifier);
-					}
-				}
-
-				sb.Append(" {");
-				builder.Append(sb.ToString());
-				builder.AppendLineAndIndent();
-
-
-*/
-
-
-				
 			}
 		}
 
@@ -115,7 +127,11 @@
 			if (pNn == null) return;
 
 			foreach (CsUsingNamespaceDirective directive in pNn) {
-				pStrb.AppendFormat("import {0};", As3Helpers.Convert(ParserHelper.GetType(directive)));
+				string name = As3Helpers.Convert(ParserHelper.GetType(directive));
+				if (name.StartsWith("flash.Global", StringComparison.Ordinal))
+					continue;
+
+				pStrb.AppendFormat("import {0};", name);
 				pStrb.AppendLine();
 			}
 		}
