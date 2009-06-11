@@ -28,6 +28,12 @@ namespace CStoFlash.AS3Writer {
 			_statementWritters.Add(typeof(CsBreakStatement), parseBreakStatement);
 			_statementWritters.Add(typeof(CsReturnStatement), parseReturnStatement);
 			_statementWritters.Add(typeof(CsLocalConstantDeclaration), parseLocalConstantDeclaration);
+			_statementWritters.Add(typeof(CsThrowStatement), parseThrowStatement);
+		}
+
+		private static void parseThrowStatement(CsStatement pStatement, CodeBuilder pSb) {
+			CsThrowStatement throwStatement = (CsThrowStatement)pStatement;
+			pSb.AppendFormat("throw {0};", parseNode(throwStatement.expression));
 		}
 
 		public static void Parse(CsBlock pCsBlock, CodeBuilder pSb) {
@@ -82,7 +88,6 @@ namespace CStoFlash.AS3Writer {
 				pSb.Append(sb.ToString());
 				pSb.AppendLine();
 			}
-
 		}
 
 		private static void parseLocalVariable(CsStatement pStatement, CodeBuilder pSb) {

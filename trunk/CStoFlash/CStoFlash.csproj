@@ -79,6 +79,7 @@
     <Compile Include="AS3Writer\As3Helpers.cs" />
     <Compile Include="AS3Writer\AS3NamespaceParser.cs" />
     <Compile Include="AS3Writer\BlockParser.cs" />
+    <Compile Include="Utils\ImportStatementList.cs" />
     <Compile Include="Utils\INamespaceParser.cs" />
     <Compile Include="Utils\ParserHelper.cs" />
     <Compile Include="Utils\TheClass.cs" />

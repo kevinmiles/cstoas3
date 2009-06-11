@@ -9,8 +9,6 @@
 	using System.Collections.Generic;
 
 	public class As3NamespaceParser : INamespaceParser {
-		
-
 		public void Init() {
 			TheClass.Init();
 		}
@@ -33,6 +31,10 @@
 
 				parseUsing(pUsing, builder);
 				parseUsing(pNamespace.using_directives, builder);
+				const string IMPORT_MARKER = "*-MoreImportsHere-*";
+
+				builder.AppendLine(IMPORT_MARKER);
+				ImportStatementList.Init();
 
 				CsClass theClass = cn as CsClass;
 
@@ -80,7 +82,7 @@
 							ConstantParser.Parse((CsConstantDeclaration)memberDeclaration, builder);
 
 						} else {
-								throw new NotSupportedException();
+							throw new NotSupportedException();
 						}
 					}
 
@@ -88,8 +90,23 @@
 					//theClass.member_declarations
 					//theClass.ctor_method??static constructor?
 
+					string replace = string.Empty;
+					if (ImportStatementList.List.Count > 0) {
+						StringBuilder i = new StringBuilder();
+						foreach (string import in ImportStatementList.List) {
+							i.AppendLine();
+							i.AppendFormat("\timport {0};", import);
+							
+						}
+						i.AppendLine();
+						replace = i.ToString();
+					}
+
+					builder.Replace(IMPORT_MARKER, replace);
+
 					builder.AppendLineAndUnindent("}");
 					builder.AppendLineAndUnindent("}");
+
 					File.WriteAllText(packDir + "\\" + className + ".as", builder.ToString());
 				}
 

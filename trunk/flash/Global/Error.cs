@@ -12,6 +12,15 @@
 		public Error(string pMessage, int pId) {
 			
 		}
+
+		public Error(string pMessage) {
+
+		}
+
+		public Error() {
+
+		}
+
 		/// <summary>
 		/// Returns the call stack for an error as a string at the time of the error's construction (for the debugger version of Flash Player and the AIR Debug Launcher (ADL) only; returns null if not using the debugger version of Flash Player or the ADL.
 		/// </summary>
