@@ -33,16 +33,79 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="accessibility\Accessibility.cs" />
+    <Compile Include="accessibility\AccessibilityProperties.cs" />
     <Compile Include="Attributes.cs" />
+    <Compile Include="desktop\Clipboard.cs" />
+    <Compile Include="desktop\ClipboardFormats.cs" />
+    <Compile Include="desktop\ClipboardTransferMode.cs" />
+    <Compile Include="display\ActionScriptVersion.cs" />
+    <Compile Include="display\BitmapData.cs" />
+    <Compile Include="display\BitmapDataChannel.cs" />
+    <Compile Include="display\BlendMode.cs" />
+    <Compile Include="display\IBitmapDrawable.cs" />
+    <Compile Include="display\IGraphicsData.cs" />
+    <Compile Include="display\IGraphicsFill.cs" />
+    <Compile Include="display\IGraphicsPath.cs" />
+    <Compile Include="display\IGraphicsStroke.cs" />
+    <Compile Include="display\DisplayObject.cs" />
+    <Compile Include="display\LoaderInfo.cs" />
+    <Compile Include="display\Shader.cs" />
+    <Compile Include="display\ShaderData.cs" />
+    <Compile Include="display\ShaderPrecision.cs" />
+    <Compile Include="events\Event.cs" />
+    <Compile Include="events\EventDispatcher.cs" />
+    <Compile Include="events\EventPhase.cs" />
+    <Compile Include="events\EventType.cs" />
+    <Compile Include="events\IEventDispatcher.cs" />
+    <Compile Include="filters\BevelFilter.cs" />
+    <Compile Include="filters\BitmapFilter.cs" />
+    <Compile Include="filters\BitmapFilterType.cs" />
+    <Compile Include="filters\BlurFilter.cs" />
+    <Compile Include="filters\ColorMatrixFilter.cs" />
+    <Compile Include="filters\ConvolutionFilter.cs" />
+    <Compile Include="filters\GradientGlowFilter.cs" />
+    <Compile Include="filters\DisplacementMapFilter.cs" />
+    <Compile Include="filters\DisplacementMapFilterMode.cs" />
+    <Compile Include="filters\DropShadowFilter.cs" />
+    <Compile Include="filters\GlowFilter.cs" />
+    <Compile Include="filters\GradientBevelFilter.cs" />
+    <Compile Include="filters\ShaderFilter.cs" />
+    <Compile Include="geom\ColorTransform.cs" />
+    <Compile Include="geom\Matrix3D.cs" />
+    <Compile Include="geom\Matrix.cs" />
+    <Compile Include="geom\Orientation3D.cs" />
+    <Compile Include="geom\PerspectiveProjection.cs" />
+    <Compile Include="geom\Point.cs" />
+    <Compile Include="geom\Rectangle.cs" />
+    <Compile Include="geom\Transform.cs" />
+    <Compile Include="geom\Vector3D.cs" />
+    <Compile Include="Global\Class.cs" />
+    <Compile Include="Global\SecurityError.cs" />
+    <Compile Include="Global\IllegalOperationError.cs" />
+    <Compile Include="Global\EOFError.cs" />
+    <Compile Include="Global\IOError.cs" />
+    <Compile Include="Global\Reflection.cs" />
+    <Compile Include="Global\Untyped.cs" />
     <Compile Include="Global\Error.cs" />
     <Compile Include="Global\RangeError.cs" />
     <Compile Include="Global\TypeError.cs" />
     <Compile Include="Global\Vector.cs" />
+    <Compile Include="net\IDynamicPropertyOutput.cs" />
+    <Compile Include="net\IDynamicPropertyWriter.cs" />
+    <Compile Include="net\ObjectEncoding.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="system\ApplicationDomain.cs" />
+    <Compile Include="utils\ByteArray.cs" />
+    <Compile Include="utils\CompressionAlgorithm.cs" />
+    <Compile Include="utils\Endian.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="display\" />
-    <Folder Include="events\" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
     <Folder Include="text\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

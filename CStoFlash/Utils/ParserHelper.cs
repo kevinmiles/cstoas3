@@ -66,6 +66,7 @@ namespace CStoFlash.Utils {
 			_entityTypeRef.Add(cs_entity_type.et_string, "string");
 			_entityTypeRef.Add(cs_entity_type.et_boolean, "bool");
 			_entityTypeRef.Add(cs_entity_type.et_void, "void");
+			_entityTypeRef.Add(cs_entity_type.et_object, "object");
 
 			_entityTypeRef.Add(cs_entity_type.et_uint8, "uint");
 			_entityTypeRef.Add(cs_entity_type.et_uint16, "uint");
@@ -187,6 +188,8 @@ namespace CStoFlash.Utils {
 								return GetType(indexer.type);
 							}
 						}
+
+						return cls.name;
 					}
 
 					return "IHaveNOIdeaWhatShouldBeHere";

@@ -163,12 +163,22 @@
 				indexes.Add(Parse(argument.expression).Value);
 			}
 
-			string name = k == null ? 
-				Parse(ex.expression).Value : 
-				k.GetMethod((CsMethod)((CsEntityMethod)ex.entity).decl).Name;
+			string name = getRealName(ex, k == null ?
+				Parse(ex.expression).Value :
+				k.GetMethod((CsMethod)((CsEntityMethod)ex.entity).decl).Name);
+
+			//patch
+			if (name.Contains("{0}")) {
+				string p = indexes[0];
+				indexes.RemoveAt(0);
+				name = string.Format(name, p, string.Join(", ", indexes.ToArray()));
+
+			} else {
+				name = name + "(" + string.Join(", ", indexes.ToArray()) + ")";
+			}
 
 			return new Expression(
-				name+ "(" + string.Join(", ", indexes.ToArray()) + ")", 
+				name, 
 				ParserHelper.GetType(ex.entity_typeref)
 			);
 		}
@@ -234,19 +244,11 @@
 			//expression "." identifier (type-argument-list?)
 			CsPrimaryExpressionMemberAccess ex = (CsPrimaryExpressionMemberAccess)pExpression;
 
-			string name = string.Empty;
-			CsEntityVariable entityVariable = (CsEntityVariable) ex.entity;
-
-			foreach (CsEntityAttribute attribute in entityVariable.attributes) {
-				if (!attribute.type.parent.name.Equals("As3NameAttribute", StringComparison.Ordinal)) {
-					continue;
-				}
-
-				name = (attribute.fixed_arguments[0]).value.ToString();
+			string name = ex.identifier.identifier;
+			if (ex.parent is CsInvocationExpression) {
+				name = getRealName(ex, name);
 			}
 
-			if (string.IsNullOrEmpty(name)) name = ex.identifier.identifier;
-			
 			return new Expression(
 				Parse(ex.expression).Value + "." + name,
 				ParserHelper.GetType(pExpression.entity_typeref)
@@ -423,9 +425,11 @@
 		private static Expression parseAsIsExpression(CsExpression pExpression) {
 			CsAsIsExpression ex = (CsAsIsExpression) pExpression;
 
+			string asType = ParserHelper.GetType(ex.entity_typeref);
+
 			return new Expression(
-				ParserHelper.GetTokenType(ex.oper) + " " + Parse(ex.expression).Value,
-				ParserHelper.GetType(ex.entity_typeref)
+				Parse(ex.expression).Value + " " + ParserHelper.GetTokenType(ex.oper) + " " + asType,
+				asType
 			);
 		}
 
@@ -435,7 +439,10 @@
 
 		private static Expression parseSimpleName(CsExpression pExpression) {
 			CsSimpleName ex = (CsSimpleName)pExpression;
-			return new Expression(ex.identifier.identifier, ParserHelper.GetType(ex.entity_typeref));
+
+			return new Expression(
+				getRealName(ex, ex.identifier.identifier), 
+				ParserHelper.GetType(ex.entity_typeref));
 		}
 
 		private static Expression parseLiteral(CsExpression pExpression) {
@@ -494,6 +501,72 @@
 							return new Expression(encodeString(li.literal), "string");
 					}
 			}
+		}
+
+		private static string getRealName(CsExpression pExpression, string pName) {
+			object entity = pExpression.entity;
+			IEnumerable<CsEntityAttribute> m;
+
+			if (entity is CsEntityClass) {
+				return getRealNameFromAttr(((CsEntityClass)pExpression.entity).attributes, pName);
+			}
+
+			if (entity is CsEntityVariable) {
+				m = ((CsEntityVariable)pExpression.entity).attributes;
+				addImports(m);
+				return getRealNameFromAttr(m, pName);
+			}
+
+			if (entity is CsEntityEnum) {
+				return getRealNameFromAttr(((CsEntityEnum)pExpression.entity).attributes, pName);
+			}
+
+			if (entity is CsEntityStruct) {
+				return getRealNameFromAttr(((CsEntityStruct)pExpression.entity).attributes, pName);
+			}
+
+			if (entity is CsEntityConstant) {
+				return getRealNameFromAttr(((CsEntityConstant)pExpression.entity).attributes, pName);
+			}
+
+			if (entity is CsEntityMethod) {
+				m = ((CsEntityMethod) pExpression.entity).attributes;
+				addImports(m);
+				return getRealNameFromAttr(m, pName);
+			}
+
+			return pName;
+		}
+
+		private static void addImports(IEnumerable<CsEntityAttribute> pList) {
+			if (pList == null)
+				return;
+
+			foreach (CsEntityAttribute attribute in pList) {
+				if (!attribute.type.parent.name.Equals("As3NamespaceAttribute", StringComparison.Ordinal)) {
+					continue;
+				}
+
+				ImportStatementList.AddImport(attribute.fixed_arguments[0].value.ToString());
+			}
+		}
+
+		private static string getRealNameFromAttr(IEnumerable<CsEntityAttribute> pList, string pName) {
+			if (pName.Equals("ToString", StringComparison.Ordinal))
+				pName = "toString";
+
+			if (pList == null)
+				return pName;
+
+			foreach (CsEntityAttribute attribute in pList) {
+				if (!attribute.type.parent.name.Equals("As3NameAttribute", StringComparison.Ordinal)) {
+					continue;
+				}
+
+				return (attribute.fixed_arguments[0]).value.ToString();
+			}
+
+			return pName;
 		}
 
 		private static string encodeString(string pIn) {
