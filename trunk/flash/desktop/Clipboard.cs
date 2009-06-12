@@ -81,7 +81,5 @@
 		public bool setDataHandler(ClipboardFormats pFormat, ClipboardHandler pHandler, bool pSerializable) {
 			return false;
 		}
-
-
 	}
 }

@@ -3,7 +3,7 @@
 		/// <summary>
 		/// Defines the value of the type property of an error event object.
 		/// </summary>
-		public static readonly string ERROR;
+		public const string ERROR = "error";
 
 		/// <summary>
 		/// [read-only] Contains the reference number associated with the specific error.

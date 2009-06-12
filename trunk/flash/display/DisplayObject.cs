@@ -10,6 +10,42 @@
 	using geom;
 
 	public abstract class DisplayObject : EventDispatcher, IBitmapDrawable {
+		/// <summary>
+		/// Dispatched when a display object is added to the display list.
+		/// </summary>
+		[As3Event(Event.ADDED)]
+		public event EventDelegate added;
+
+		/// <summary>
+		/// Dispatched when a display object is added to the on stage display list, either directly or through the addition of a sub tree in which the display object is contained.
+		/// </summary>
+		[As3Event(Event.ADDED_TO_STAGE)]
+		public event EventDelegate addedToStage;
+
+		/// <summary>
+		/// Dispatched when the playhead is entering a new frame.
+		/// </summary>
+		[As3Event(Event.ENTER_FRAME)]
+		public event EventDelegate enterFrame;
+
+		/// <summary>
+		/// Dispatched when a display object is about to be removed from the display list.
+		/// </summary>
+		[As3Event(Event.REMOVED)]
+		public event EventDelegate removed;
+
+		/// <summary>
+		/// Dispatched when a display object is about to be removed from the display list, either directly or through the removal of a sub tree in which the display object is contained.
+		/// </summary>
+		[As3Event(Event.REMOVED_FROM_STAGE)]
+		public event EventDelegate removedFromStage;
+
+		/// <summary>
+		/// Dispatched when the display list is about to be updated and rendered.
+		/// </summary>
+		[As3Event(Event.RENDER)]
+		public event EventDelegate render;
+
 		public readonly LoaderInfo loaderInfo;
 		public readonly float mouseX;
 		public readonly float mouseY;

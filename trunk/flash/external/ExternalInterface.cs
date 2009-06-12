@@ -1,4 +1,6 @@
 ﻿namespace flash.external {
+	using System;
+
 	public static class ExternalInterface {
 		/// <summary>
 		/// Indicates whether this player is in a container that offers an external interface.
@@ -18,12 +20,16 @@
 		/// </summary>
 		public static readonly string objectID;
 
+
+		public delegate object ExternalInterfaceCallback(params object[] arguments);
+
 		/// <summary>
 		/// Registers an ActionScript method as callable from the container.
 		/// </summary>
 		/// <param name="functionName"></param>
 		/// <param name="closure"></param>
-		public static void addCallback(string functionName, Function closure) {}
+		public static void addCallback(string functionName, ExternalInterfaceCallback callBack) {
+		}
 
 		/// <summary>
 		/// Calls a function exposed by the Flash Player container, passing zero or more arguments.
@@ -31,32 +37,16 @@
 		/// <param name="functionName"></param>
 		/// <param name="arguments"></param>
 		/// <returns></returns>
+		public static object call(string functionName, params object[] arguments) {
+			return default(object);
+		}
+
+		/// <summary>
+		/// Calls a function exposed by the Flash Player container, passing zero or more arguments.
+		/// </summary>
+		/// <param name="functionName"></param>
+		/// <returns></returns>
 		public static object call(string functionName) {
-			return default(object);
-		}
-
-		public static object call(string functionName, object arguments) {
-			return default(object);
-		}
-
-		public static object call(string functionName, object arg0, object arg1) {
-			return default(object);
-		}
-
-		public static object call(string functionName, object arg0, object arg1, object arg2) {
-			return default(object);
-		}
-
-		public static object call(string functionName, object arg0, object arg1, object arg2, object arg3) {
-			return default(object);
-		}
-
-		public static object call(string functionName, object arg0, object arg1, object arg2, object arg3, object arg4) {
-			return default(object);
-		}
-
-		public static object call(string functionName, object arg0, object arg1, object arg2, object arg3, object arg4,
-		                          object arg5) {
 			return default(object);
 		}
 	}

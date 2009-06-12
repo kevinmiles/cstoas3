@@ -332,5 +332,11 @@
 		public uint unshift(params T[] pElements) {
 			return 0;
 		}
+
+		public object this[int i] {
+			get {
+				return null;
+			}
+		}
 	}
 }

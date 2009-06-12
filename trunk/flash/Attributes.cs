@@ -16,14 +16,21 @@
 	}
 
 	[AttributeUsage(AttributeTargets.Class , AllowMultiple = false)]
-	internal sealed class As3IsGeneric : Attribute {
-		public As3IsGeneric(bool pIsGeneric) {
+	internal sealed class As3IsGenericAttribute : Attribute {
+		public As3IsGenericAttribute(bool pIsGeneric) {
 
 		}
 	}
 
 	[AttributeUsage(AttributeTargets.Event, AllowMultiple = false)]
-	internal sealed class As3FlashEvent : Attribute {
+	internal sealed class As3EventAttribute : Attribute {
+		public As3EventAttribute(string eventName) {
 
+		}
+	}
+
+	[AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
+	internal sealed class As3AsObject : Attribute {
+		
 	}
 }

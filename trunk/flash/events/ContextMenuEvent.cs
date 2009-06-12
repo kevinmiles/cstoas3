@@ -5,12 +5,12 @@
 		/// <summary>
 		/// Defines the value of the type property of a menuItemSelect event object.
 		/// </summary>
-		public static readonly string MENU_ITEM_SELECT ;
+		public const string MENU_ITEM_SELECT = "menuItemSelect";
 
 		/// <summary>
 		/// Defines the value of the type property of a menuSelect event object.
 		/// </summary>
-		public static readonly string MENU_SELECT;
+		public const string MENU_SELECT = "menuSelect";
 
 		public ContextMenuEvent(string pType) : base(pType) {}
 

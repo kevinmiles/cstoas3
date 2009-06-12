@@ -3,12 +3,12 @@
 		/// <summary>
 		///  Defines the value of the type property of a link event object.
 		/// </summary>
-		public static readonly string LINK;
+		public const string LINK="link";
 
 		/// <summary>
 		/// Defines the value of the type property of a textInput event object.
 		/// </summary>
-		public static readonly string TEXT_INPUT;
+		public const string TEXT_INPUT = "textInput";
 
 		/// <summary>
 		/// Creates an Event object that contains information about text events.

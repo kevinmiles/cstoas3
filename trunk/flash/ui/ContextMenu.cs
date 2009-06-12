@@ -5,8 +5,6 @@
 
 	using events;
 
-	using ScriptCoreLib.ActionScript.flash.ui;
-
 	public class ContextMenu : EventDispatcher {
 		#region Properties
 		/// <summary>
@@ -39,8 +37,9 @@
 		/// <summary>
 		/// Dispatched when a user first generates a context menu but before the contents of the context menu are displayed.
 		/// </summary>
-		[As3FlashEvent]
-		public event Action<ContextMenuEvent> menuSelect;
+		[As3Event(ContextMenuEvent.MENU_SELECT)]
+		public event ContextMenuEventDelegate menuSelect;
 
+		
 	}
 }

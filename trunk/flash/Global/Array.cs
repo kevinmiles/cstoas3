@@ -31,8 +31,8 @@
 	}
 
 	public class Array {
-		public delegate bool ArrayFilterCallback(Untyped item, int index, Array array);
-		public delegate void ArrayForeachCallback(Untyped item, int index, Array array);
+		public delegate bool ArrayFilterCallback(object item, int index, Array array);
+		public delegate void ArrayForeachCallback(object item, int index, Array array);
 		public delegate float ArraySortCallback(object itemA, object itemB);
 
 
@@ -304,6 +304,11 @@
 		public Array( params object[] values) {
 		}
 
+		public object this[int i] {
+			get {
+				return null;
+			}
+		}
 
 		//from to..
 		public static implicit operator string[](Array array) {

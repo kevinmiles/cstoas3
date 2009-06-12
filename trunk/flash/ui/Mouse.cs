@@ -1,33 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿namespace flash.ui {
+	public static class Mouse {
+		/// <summary>
+		/// Hides the pointer.
+		/// </summary>
+		public static void hide() {}
 
-namespace ScriptCoreLib.ActionScript.flash.ui
-{
-    // http://livedocs.adobe.com/flash/9.0/ActionScriptLangRefV3/flash/ui/Mouse.html
-    [Script(IsNative=true)]
-    public static class Mouse
-    {
-        #region Methods
-        /// <summary>
-        /// [static] Hides the pointer.
-        /// </summary>
-        public static void hide()
-        {
-        }
-
-        /// <summary>
-        /// [static] Displays the pointer.
-        /// </summary>
-        public static void show()
-        {
-        }
-
-        #endregion
-
-        #region Constructors
-        #endregion
-
-    }
+		/// <summary>
+		/// Displays the pointer.
+		/// </summary>
+		public static void show() {}
+	}
 }

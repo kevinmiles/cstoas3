@@ -3,12 +3,12 @@
 		/// <summary>
 		/// Defines the value of the type property of a data event object.
 		/// </summary>
-		public static readonly string DATA;
+		public const string DATA = "data";
 
 		/// <summary>
 		/// Defines the value of the type property of an uploadCompleteData event object.
 		/// </summary>
-		public static readonly string UPLOAD_COMPLETE_DATA;
+		public const string UPLOAD_COMPLETE_DATA = "uploadCompleteData";
 
 		/// <summary>
 		/// The raw data loaded into Flash Player or Adobe AIR.
@@ -16,13 +16,6 @@
 		public string data {
 			get;
 			set;
-		}
-
-		/// <summary>
-		/// Creates a copy of the <see cref="DataEvent"/> object and sets the value of each property to match that of the original.
-		/// </summary>
-		public Event clone() {
-			return default(Event);
 		}
 
 		/// <summary>

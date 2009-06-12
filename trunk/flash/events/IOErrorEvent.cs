@@ -3,14 +3,7 @@
 		/// <summary>
 		/// Defines the value of the type property of an ioError event object.
 		/// </summary>
-		public static readonly string IO_ERROR;
-
-		/// <summary>
-		/// Creates a copy of the IOErrorEvent object and sets the value of each property to match that of the original.
-		/// </summary>
-		public Event clone() {
-			return default(Event);
-		}
+		public const string IO_ERROR = "ioError";
 
 		/// <summary>
 		/// Creates an Event object that contains specific information about ioError events.

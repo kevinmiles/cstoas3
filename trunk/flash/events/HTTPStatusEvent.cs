@@ -14,6 +14,11 @@
 		/// <summary>
 		/// The <see cref="HTTPStatusEvent"/>.HTTP_STATUS constant defines the value of the type property of a httpStatus event object.
 		/// </summary>
-		public static readonly string HTTP_STATUS;
+		public const string HTTP_STATUS = "httpStatus";
+
+		/// <summary>
+		/// The <see cref="HTTPStatusEvent"/>.HTTP_STATUS constant defines the value of the type property of a httpStatus event object.
+		/// </summary>
+		public const string HTTP_RESPONSE_STATUS = "httpResponseStatus";
 	}
 }

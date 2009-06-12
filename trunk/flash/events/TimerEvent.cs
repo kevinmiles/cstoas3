@@ -3,12 +3,12 @@
 		/// <summary>
 		/// Defines the value of the type property of a timer event object.
 		/// </summary>
-		public static readonly string TIMER;
+		public const string TIMER="timer";
 
 		/// <summary>
 		/// Defines the value of the type property of a timerComplete event object.
 		/// </summary>
-		public static readonly string TIMER_COMPLETE;
+		public const string TIMER_COMPLETE = "timerComplete";
 
 		public TimerEvent(string pType) : base(pType) {}
 		public TimerEvent(string pType, bool pBubbles) : base(pType, pBubbles) {}

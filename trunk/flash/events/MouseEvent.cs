@@ -5,52 +5,52 @@
 		/// <summary>
 		/// Defines the value of the type property of a click event object.
 		/// </summary>
-		public static readonly string CLICK;
+		public const string CLICK ="click";
 
 		/// <summary>
 		/// Defines the value of the type property of a doubleClick event object.
 		/// </summary>
-		public static readonly string DOUBLE_CLICK ;
+		public const string DOUBLE_CLICK ="doubleClick";
 
 		/// <summary>
 		/// Defines the value of the type property of a mouseDown event object.
 		/// </summary>
-		public static readonly string MOUSE_DOWN ;
+		public const string MOUSE_DOWN="mouseDown" ;
 
 		/// <summary>
 		/// Defines the value of the type property of a mouseMove event object.
 		/// </summary>
-		public static readonly string MOUSE_MOVE ;
+		public const string MOUSE_MOVE ="mouseMove";
 
 		/// <summary>
 		/// Defines the value of the type property of a mouseOut event object.
 		/// </summary>
-		public static readonly string MOUSE_OUT ;
+		public const string MOUSE_OUT ="mouseOut";
 
 		/// <summary>
 		/// Defines the value of the type property of a mouseOver event object.
 		/// </summary>
-		public static readonly string MOUSE_OVER ;
+		public const string MOUSE_OVER ="mouseOver";
 
 		/// <summary>
 		/// Defines the value of the type property of a mouseUp event object.
 		/// </summary>
-		public static readonly string MOUSE_UP ;
+		public const string MOUSE_UP ="mouseUp";
 
 		/// <summary>
 		/// Defines the value of the type property of a mouseWheel event object.
 		/// </summary>
-		public static readonly string MOUSE_WHEEL ;
+		public const string MOUSE_WHEEL ="mouseWheel";
 
 		/// <summary>
 		/// Defines the value of the type property of a rollOut event object.
 		/// </summary>
-		public static readonly string ROLL_OUT ;
+		public const string ROLL_OUT ="rollOut";
 
 		/// <summary>
 		/// Defines the value of the type property of a rollOver event object.
 		/// </summary>
-		public static readonly string ROLL_OVER ;
+		public const string ROLL_OVER = "rollOver";
 
 		public MouseEvent(string pType) : base(pType) {}
 

@@ -1,94 +1,195 @@
 ﻿namespace flash.events {
 	public class Event {
-		public Event(string pType) {
+		/// <summary>
+		/// [static] The Event.ACTIVATE constant defines the value of the type property of an activate event object.
+		/// </summary>
+		public const string ACTIVATE = "activate";
 
+		/// <summary>
+		/// [static] The Event.ADDED constant defines the value of the type property of an added event object.
+		/// </summary>
+		public const string ADDED = "added";
+
+		/// <summary>
+		/// [static] The Event.ADDED_TO_STAGE constant defines the value of the type property of an addedToStage event object.
+		/// </summary>
+		public const string ADDED_TO_STAGE = "addedToStage";
+
+		/// <summary>
+		/// [static] The Event.CANCEL constant defines the value of the type property of a cancel event object.
+		/// </summary>
+		public const string CANCEL = "cancel";
+
+		/// <summary>
+		/// [static] The Event.CHANGE constant defines the value of the type property of a change event object.
+		/// </summary>
+		public const string CHANGE = "change";
+
+		/// <summary>
+		/// [static] The Event.CLOSE constant defines the value of the type property of a close event object.
+		/// </summary>
+		public const string CLOSE = "close";
+
+		/// <summary>
+		/// [static] The Event.COMPLETE constant defines the value of the type property of a complete event object.
+		/// </summary>
+		public const string COMPLETE = "complete";
+
+		/// <summary>
+		/// [static] The Event.CONNECT constant defines the value of the type property of a connect event object.
+		/// </summary>
+		public const string CONNECT = "connect";
+
+		/// <summary>
+		/// [static] The Event.DEACTIVATE constant defines the value of the type property of a deactivate event object.
+		/// </summary>
+		public const string DEACTIVATE = "deactivate";
+
+		/// <summary>
+		/// [static] The Event.ENTER_FRAME constant defines the value of the type property of an enterFrame event object.
+		/// </summary>
+		public const string ENTER_FRAME = "enterFrame";
+
+		/// <summary>
+		/// [static] The Event.FULL_SCREEN constant defines the value of the type property of a fullScreen event object.
+		/// </summary>
+		public const string FULLSCREEN = "fullScreen";
+
+		/// <summary>
+		/// [static] The Event.ID3 constant defines the value of the type property of an id3 event object.
+		/// </summary>
+		public const string ID3 = "id3";
+
+		/// <summary>
+		/// [static] The Event.INIT constant defines the value of the type property of an init event object.
+		/// </summary>
+		public const string INIT = "init";
+
+		/// <summary>
+		/// [static] The Event.MOUSE_LEAVE constant defines the value of the type property of a mouseLeave event object.
+		/// </summary>
+		public const string MOUSE_LEAVE = "mouseLeave";
+
+		/// <summary>
+		/// [static] The Event.OPEN constant defines the value of the type property of an open event object.
+		/// </summary>
+		public const string OPEN = "open";
+
+		/// <summary>
+		/// [static] The Event.REMOVED constant defines the value of the type property of a removed event object.
+		/// </summary>
+		public const string REMOVED = "removed";
+
+		/// <summary>
+		/// [static] The Event.REMOVED_FROM_STAGE constant defines the value of the type property of a removedFromStage event object.
+		/// </summary>
+		public const string REMOVED_FROM_STAGE = "removedFromStage";
+
+		/// <summary>
+		/// [static] The Event.RENDER constant defines the value of the type property of a render event object.
+		/// </summary>
+		public const string RENDER = "render";
+
+		/// <summary>
+		/// [static] The Event.RESIZE constant defines the value of the type property of a resize event object.
+		/// </summary>
+		public const string RESIZE = "resize";
+
+		/// <summary>
+		/// [static] The Event.SCROLL constant defines the value of the type property of a scroll event object.
+		/// </summary>
+		public const string SCROLL = "scroll";
+
+		/// <summary>
+		/// [static] The Event.SELECT constant defines the value of the type property of a select event object.
+		/// </summary>
+		public const string SELECT = "select";
+
+		/// <summary>
+		/// [static] The Event.SOUND_COMPLETE constant defines the value of the type property of a soundComplete event object.
+		/// </summary>
+		public const string SOUND_COMPLETE = "soundComplete";
+
+		/// <summary>
+		/// [static] The Event.TAB_CHILDREN_CHANGE constant defines the value of the type property of a tabChildrenChange event object.
+		/// </summary>
+		public const string TAB_CHILDREN_CHANGE = "tabChildrenChange";
+
+		/// <summary>
+		/// [static] The Event.TAB_ENABLED_CHANGE constant defines the value of the type property of a tabEnabledChange event object.
+		/// </summary>
+		public const string TAB_ENABLED_CHANGE = "tabEnabledChange";
+
+		/// <summary>
+		/// [static] The Event.TAB_INDEX_CHANGE constant defines the value of the type property of a tabIndexChange event object.
+		/// </summary>
+		public const string TAB_INDEX_CHANGE = "tabIndexChange";
+
+		/// <summary>
+		/// [static] The Event.UNLOAD constant defines the value of the type property of an unload event object.
+		/// </summary>
+		public const string UNLOAD = "unload";
+
+		/// <summary>
+		/// [read-only] Indicates whether an event is a bubbling event.
+		/// </summary>
+		public bool bubbles {
+			get;
+			private set;
 		}
 
-		public Event(string pType, bool pBubbles) {
-
-		}
-
-		public Event(string pType, bool pBubbles, bool pCancelable) {
-
-		}
-
 		/// <summary>
-		/// Indicates whether an event is a bubbling event
+		/// [read-only] Indicates whether the behavior associated with the event can be prevented.
 		/// </summary>
-		public readonly bool bubbles;
-
-		/// <summary>
-		/// Indicates whether the behavior associated with the event can be prevented.
-		/// </summary>
-		public readonly bool cancelable;
-
-		/// <summary>
-		/// The object that is actively processing the Event object with an event listener.
-		/// </summary>
-		public readonly object currentTarget;
-
-		/// <summary>
-		/// The current phase in the event flow
-		/// </summary>
-		public readonly EventPhase eventPhase;
-
-		/// <summary>
-		/// The event target.
-		/// </summary>
-		public readonly object target;
-
-		/// <summary>
-		/// The type of event.
-		/// </summary>
-		public readonly string type;
-
-		/// <summary>
-		/// Duplicates an instance of an Event subclass.
-		/// </summary>
-		/// <returns></returns>
-		public Event clone() {
-			return null;
+		public bool cancelable {
+			get;
+			private set;
 		}
 
 		/// <summary>
-		/// A utility function for implementing the toString() method in custom ActionScript 3.0 Event classes.
+		/// [read-only] The object that is actively processing the Event object with an event listener.
 		/// </summary>
-		/// <param name="pClassName">The name of your custom Event class</param>
-		/// <param name="pArguments">The properties of the Event class and the properties that you add in your custom Event class</param>
-		/// <returns></returns>
-		public string formatToString(string pClassName, params object[] pArguments) {
-			return "";
+		public object currentTarget {
+			get;
+			private set;
 		}
 
 		/// <summary>
-		/// Checks whether the <see cref="preventDefault"/>() method has been called on the event. If the <see cref="preventDefault"/>() method has been called, returns true ; otherwise, returns false .
+		/// [read-only] The current phase in the event flow.
 		/// </summary>
-		/// <returns>If <see cref="preventDefault"/>() has been called, returns true ; otherwise, returns false .</returns>
-		public bool isDefaultPrevented() {
-			return false;
+		public uint eventPhase {
+			get;
+			private set;
 		}
 
 		/// <summary>
-		/// Cancels an event's default behavior if that behavior can be canceled. 
+		/// [read-only] The event target.
 		/// </summary>
-		public void preventDefault() {
-			
+		public object target {
+			get;
+			private set;
 		}
 
 		/// <summary>
-		/// Prevents processing of any event listeners in the current node and any subsequent nodes in the event flow. This method takes effect immediately, and it affects event listeners in the current node. In contrast, the stopPropagation() method doesn't take effect until all the event listeners in the current node finish processing. 
+		/// [read-only] The type of event.
 		/// </summary>
-		public void stopImmediatePropagation() {
-			
+		public string type {
+			get;
+			private set;
 		}
 
 		/// <summary>
-		/// Prevents processing of any event listeners in nodes subsequent to the current node in the event flow. This method does not affect any event listeners in the current node ( currentTarget ). In contrast, the stopImmediatePropagation() method prevents processing of event listeners in both the current node and subsequent nodes. Additional calls to this method have no effect. This method can be called in any phase of the event flow.
+		/// Cancels an event's default behavior if that behavior can be canceled.
 		/// </summary>
-		public void stopPropagation() {
-			
-		}
+		public void preventDefault() {}
 
-		
+		/// <summary>
+		/// Prevents processing of any event listeners in the current node and any subsequent nodes in the event flow.
+		/// </summary>
+		public void stopImmediatePropagation() {}
+
+		public Event(string type, bool bubbles, bool cancelable) {}
+		public Event(string type, bool bubbles) {}
+		public Event(string type) {}
 	}
 }

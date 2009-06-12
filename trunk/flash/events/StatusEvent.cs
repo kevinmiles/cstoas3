@@ -25,6 +25,6 @@
 		/// <summary>
 		/// Defines the value of the type property of a status event object.
 		/// </summary>
-		public static readonly string STATUS;
+		public const string STATUS = "status";
 	}
 }

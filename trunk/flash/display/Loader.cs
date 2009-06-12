@@ -1,4 +1,8 @@
 ﻿namespace flash.display {
+	using net;
+
+	using system;
+
 	using utils;
 
 	public class Loader : DisplayObjectContainer {
