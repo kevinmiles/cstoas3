@@ -3,7 +3,7 @@
 		/// <summary>
 		/// Defines the value of the type property of a sync event object.
 		/// </summary>
-		public static readonly string SYNC;
+		public const string SYNC = "sync";
 
 		public SyncEvent(string pType) : base(pType) {}
 		public SyncEvent(string pType, bool pBubbles) : base(pType, pBubbles) {}

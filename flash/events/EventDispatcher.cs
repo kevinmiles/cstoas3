@@ -1,6 +1,4 @@
 ﻿namespace flash.events {
-	using System;
-
 	public class EventDispatcher : IEventDispatcher {
 		/// <summary>
 		/// Aggregates an instance of the EventDispatcher class
@@ -11,45 +9,45 @@
 		/// <summary>
 		/// Aggregates an instance of the EventDispatcher class
 		/// </summary>
-		/// <param name="pTarget">The target object for events dispatched to the EventDispatcher object. This parameter is used when the EventDispatcher instance is aggregated by a class that implements IEventDispatcher; it is necessary so that the containing object can be the target for events. Do not use this parameter in simple cases in which a class extends EventDispatcher.</param>
-		public EventDispatcher(IEventDispatcher pTarget) {
+		/// <param name="pTarget">The target object for events dispatched to the EventDispatcher object. This parameter is used when the EventDispatcher instance is aggregated by a class that implements <see cref="IEventDispatcher"/>; it is necessary so that the containing object can be the target for events. Do not use this parameter in simple cases in which a class extends EventDispatcher.</param>
+		public EventDispatcher(IEventDispatcher target) {
 			
 		}
 
-		public void addEventListener(string pType, EventHandler pHandler) {
-			throw new NotImplementedException();
+		public void addEventListener(string type, EventHandler handler) {
+			
 		}
 
-		public void addEventListener(string pType, EventHandler pHandler, bool pUseCapture, int pPriority, bool pUseWeakReference) {
-			throw new NotImplementedException();
+		public void addEventListener(string type, EventHandler handler, bool useCapture, int priority, bool useWeakReference) {
+			
 		}
 
-		public void addEventListener(string pType, EventHandler pHandler, bool pUseCapture, int pPriority) {
-			throw new NotImplementedException();
+		public void addEventListener(string type, EventHandler handler, bool useCapture, int priority) {
+			
 		}
 
-		public void addEventListener(string pType, EventHandler pHandler, bool pUseCapture) {
-			throw new NotImplementedException();
+		public void addEventListener(string type, EventHandler handler, bool useCapture) {
+			
 		}
 
 		public bool dispatchEvent(Event pEvent) {
-			throw new NotImplementedException();
+			return false;
 		}
 
-		public bool hasEventListener(string pType) {
-			throw new NotImplementedException();
+		public bool hasEventListener(string type) {
+			return false;
 		}
 
-		public void removeEventListener(string pType, EventHandler pHandler) {
-			throw new NotImplementedException();
+		public void removeEventListener(string type, EventHandler handler) {
+			
 		}
 
-		public void removeEventListener(string pType, EventHandler pHandler, bool pUseCapture) {
-			throw new NotImplementedException();
+		public void removeEventListener(string type, EventHandler handler, bool useCapture) {
+			
 		}
 
-		public bool willTrigger(string pType) {
-			throw new NotImplementedException();
+		public bool willTrigger(string type) {
+			return false;
 		}
 	}
 }

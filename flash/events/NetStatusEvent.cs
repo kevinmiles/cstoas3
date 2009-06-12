@@ -17,6 +17,6 @@
 		/// <summary>
 		/// Defines the value of the type property of a netStatus event object.
 		/// </summary>
-		public static readonly string NET_STATUS;
+		public const string NET_STATUS = "netStatus";
 	}
 }

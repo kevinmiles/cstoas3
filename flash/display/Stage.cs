@@ -1,4 +1,6 @@
 ﻿namespace flash.display {
+	using events;
+
 	using geom;
 	using text;
 
@@ -14,7 +16,7 @@
 		/// <summary>
 		/// [write-only]
 		/// </summary>
-		public readonly bool cacheAsBitmap;
+		public new readonly bool cacheAsBitmap;
 
 		/// <summary>
 		/// A value from the <see cref="StageDisplayState"/> class that specifies which display state to use.
@@ -61,23 +63,10 @@
 		/// <summary>
 		/// Indicates the height of the display object, in pixels.
 		/// </summary>
-		public double height {
+		public new double height {
 			get;
-			set;
+			private set;
 		}
-
-		/// <summary>
-		/// Determines whether or not the children of the object are mouse enabled.
-		/// </summary>
-		public bool mouseChildren {
-			get;
-			set;
-		}
-
-		/// <summary>
-		/// [read-only] Returns the number of children of this object.
-		/// </summary>
-		public readonly int numChildren;
 
 		/// <summary>
 		/// A value from the <see cref="StageQuality"/> class that specifies which rendering quality is used.
@@ -128,32 +117,11 @@
 		}
 
 		/// <summary>
-		/// Determines whether the children of the object are tab enabled.
-		/// </summary>
-		public bool tabChildren {
-			get;
-			set;
-		}
-
-		/// <summary>
-		/// [write-only]
-		/// </summary>
-		public bool tabEnabled {
-			get;
-			set;
-		}
-
-		/// <summary>
-		/// [read-only] Returns a <see cref="TextSnapshot"/> object for this <see cref="DisplayObjectContainer"/> instance.
-		/// </summary>
-		public readonly TextSnapshot textSnapshot;
-
-		/// <summary>
 		/// Indicates the width of the display object, in pixels.
 		/// </summary>
-		public double width {
+		new public double width {
 			get;
-			set;
+			private set;
 		}
 
 		/// <summary>
@@ -167,5 +135,23 @@
 		public bool isFocusInaccessible() {
 			return default(bool);
 		}
+
+		/// <summary>
+		/// Dispatched when the Stage object enters, or leaves, full-screen mode.
+		/// </summary>
+		[As3Event(FullScreenEvent.FULL_SCREEN)]
+		public event FullScreenEventDelegate fullScreen;
+
+		/// <summary>
+		/// Dispatched by the Stage object when the mouse pointer moves out of the stage area.
+		/// </summary>
+		[As3Event(Event.MOUSE_LEAVE)]
+		public event EventDelegate mouseLeave;
+
+		/// <summary>
+		/// Dispatched when the <see cref="scaleMode"/> property of the Stage object is set to <see cref="StageScaleMode"/>.NO_SCALE and the SWF file is resized.
+		/// </summary>
+		[As3Event(Event.RESIZE)]
+		public event EventDelegate resize;
 	}
 }

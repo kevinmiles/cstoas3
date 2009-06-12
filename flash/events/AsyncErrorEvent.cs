@@ -40,6 +40,6 @@
 		/// <summary>
 		/// [static] The <see cref="AsyncErrorEvent"/>.ASYNC_ERROR constant defines the value of the type property of an asyncError event object.
 		/// </summary>
-		public static readonly string ASYNC_ERROR;
+		public const string ASYNC_ERROR = "asyncError";
 	}
 }

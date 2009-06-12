@@ -162,7 +162,7 @@
 		/// </summary>
 		/// <returns>The deserialized object.</returns>
 		/// <exception cref="EOFError">There is not sufficient data available to read.</exception>
-		public Untyped readObject() {
+		public object readObject() {
 			return null;
 		}
 
@@ -311,7 +311,7 @@
 		/// Writes an object into the byte array in AMF serialized format.
 		/// </summary>
 		/// <param name="pObject">The object to serialize</param>
-		public void writeObject(Untyped pObject) {
+		public void writeObject(object pObject) {
 
 		}
 

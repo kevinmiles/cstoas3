@@ -1,6 +1,8 @@
 ﻿namespace flash.display {
 	using geom;
 
+	using media;
+
 	public class Sprite : DisplayObjectContainer {
 		/// <summary>
 		/// Specifies the button mode of this sprite.

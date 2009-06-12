@@ -25,11 +25,11 @@
 		/// <summary>
 		/// Defines the value of the type property of a progress event object.
 		/// </summary>
-		public static readonly string PROGRESS;
+		public const string PROGRESS="progress";
 
 		/// <summary>
 		/// Defines the value of the type property of a socketData event object.
 		/// </summary>
-		public static readonly string SOCKET_DATA;
+		public const string SOCKET_DATA = "socketData";
 	}
 }

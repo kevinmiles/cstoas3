@@ -5,22 +5,22 @@
 		/// <summary>
 		/// Defines the value of the type property of a focusIn event object.
 		/// </summary>
-		public static readonly string FOCUS_IN;
+		public const string FOCUS_IN = "focusIn";
 
 		/// <summary>
 		/// Defines the value of the type property of a focusOut event object.
 		/// </summary>
-		public static readonly string FOCUS_OUT;
+		public const string FOCUS_OUT="focusOut";
 
 		/// <summary>
 		/// Defines the value of the type property of a keyFocusChange event object.
 		/// </summary>
-		public static readonly string KEY_FOCUS_CHANGE;
+		public const string KEY_FOCUS_CHANGE="keyFocusChange";
 
 		/// <summary>
 		/// Defines the value of the type property of a mouseFocusChange event object.
 		/// </summary>
-		public static readonly string MOUSE_FOCUS_CHANGE;
+		public const string MOUSE_FOCUS_CHANGE = "mouseFocusChange";
 
 		public FocusEvent(string pType) : base(pType) {}
 

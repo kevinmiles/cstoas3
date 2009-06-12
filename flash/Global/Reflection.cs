@@ -13,7 +13,7 @@
 		/// <returns>A string containing the fully qualified class name.</returns>
 		[As3Name("getQualifiedClassName")]
 		[As3Namespace("flash.utils.getQualifiedClassName")]
-		public static string getQualifiedClassName(Untyped pClass) {
+		public static string getQualifiedClassName(object pClass) {
 			return "";
 		}
 

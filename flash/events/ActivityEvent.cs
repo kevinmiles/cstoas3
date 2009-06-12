@@ -3,7 +3,7 @@
 		/// <summary>
 		/// The <see cref="ActivityEvent"/>.ACTIVITY constant defines the value of the type property of an activity event object.
 		/// </summary>
-		public static readonly string ACTIVITY;
+		public const string ACTIVITY = "activity";
 
 		public ActivityEvent(string pType) : base(pType) {}
 

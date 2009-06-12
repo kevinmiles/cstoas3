@@ -3,12 +3,12 @@
 		/// <summary>
 		/// Defines the value of the type property of a keyDown event object.
 		/// </summary>
-		public static readonly string KEY_DOWN;
+		public const string KEY_DOWN = "keyDown";
 
 		/// <summary>
 		/// Defines the value of the type property of a keyUp event object.
 		/// </summary>
-		public static readonly string KEY_UP;
+		public const string KEY_UP = "keyUp";
 
 		public KeyboardEvent(string pType) : base(pType) {}
 
