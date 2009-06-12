@@ -40,24 +40,68 @@
     <Compile Include="desktop\ClipboardFormats.cs" />
     <Compile Include="desktop\ClipboardTransferMode.cs" />
     <Compile Include="display\ActionScriptVersion.cs" />
+    <Compile Include="display\Bitmap.cs" />
     <Compile Include="display\BitmapData.cs" />
     <Compile Include="display\BitmapDataChannel.cs" />
     <Compile Include="display\BlendMode.cs" />
+    <Compile Include="display\CapsStyle.cs" />
+    <Compile Include="display\ColorCorrection.cs" />
+    <Compile Include="display\ColorCorrectionSupport.cs" />
+    <Compile Include="display\DisplayObjectContainer.cs" />
+    <Compile Include="display\FocusDirection.cs" />
+    <Compile Include="display\FrameLabel.cs" />
+    <Compile Include="display\GradientType.cs" />
+    <Compile Include="display\Graphics.cs" />
     <Compile Include="display\IBitmapDrawable.cs" />
     <Compile Include="display\IGraphicsData.cs" />
     <Compile Include="display\IGraphicsFill.cs" />
     <Compile Include="display\IGraphicsPath.cs" />
     <Compile Include="display\IGraphicsStroke.cs" />
     <Compile Include="display\DisplayObject.cs" />
+    <Compile Include="display\InteractiveObject.cs" />
+    <Compile Include="display\InterpolationMethod.cs" />
+    <Compile Include="display\Loader.cs" />
     <Compile Include="display\LoaderInfo.cs" />
+    <Compile Include="display\MovieClip.cs" />
+    <Compile Include="display\NativeMenu.cs" />
+    <Compile Include="display\NativeMenuItem.cs" />
+    <Compile Include="display\PixelSnapping.cs" />
+    <Compile Include="display\Scene.cs" />
     <Compile Include="display\Shader.cs" />
     <Compile Include="display\ShaderData.cs" />
     <Compile Include="display\ShaderPrecision.cs" />
+    <Compile Include="display\Shape.cs" />
+    <Compile Include="display\SpreadMethod.cs" />
+    <Compile Include="display\Sprite.cs" />
+    <Compile Include="display\Stage.cs" />
+    <Compile Include="display\StageAlign.cs" />
+    <Compile Include="display\StageDisplayState.cs" />
+    <Compile Include="display\StageQuality.cs" />
+    <Compile Include="display\StageScaleMode.cs" />
+    <Compile Include="events\ActivityEvent.cs" />
+    <Compile Include="events\AsyncErrorEvent.cs" />
+    <Compile Include="events\ContextMenuEvent.cs" />
+    <Compile Include="events\DataEvent.cs" />
+    <Compile Include="events\ErrorEvent.cs" />
     <Compile Include="events\Event.cs" />
     <Compile Include="events\EventDispatcher.cs" />
     <Compile Include="events\EventPhase.cs" />
     <Compile Include="events\EventType.cs" />
+    <Compile Include="events\FocusEvent.cs" />
+    <Compile Include="events\FullScreenEvent.cs" />
+    <Compile Include="events\HTTPStatusEvent.cs" />
     <Compile Include="events\IEventDispatcher.cs" />
+    <Compile Include="events\IOErrorEvent.cs" />
+    <Compile Include="events\KeyboardEvent.cs" />
+    <Compile Include="events\MouseEvent.cs" />
+    <Compile Include="events\NetStatusEvent.cs" />
+    <Compile Include="events\ProgressEvent.cs" />
+    <Compile Include="events\SecurityErrorEvent.cs" />
+    <Compile Include="events\StatusEvent.cs" />
+    <Compile Include="events\SyncEvent.cs" />
+    <Compile Include="events\TextEvent.cs" />
+    <Compile Include="events\TimerEvent.cs" />
+    <Compile Include="external\ExternalInterface.cs" />
     <Compile Include="filters\BevelFilter.cs" />
     <Compile Include="filters\BitmapFilter.cs" />
     <Compile Include="filters\BitmapFilterType.cs" />
@@ -80,6 +124,7 @@
     <Compile Include="geom\Rectangle.cs" />
     <Compile Include="geom\Transform.cs" />
     <Compile Include="geom\Vector3D.cs" />
+    <Compile Include="Global\Array.cs" />
     <Compile Include="Global\Class.cs" />
     <Compile Include="Global\SecurityError.cs" />
     <Compile Include="Global\IllegalOperationError.cs" />
@@ -96,17 +141,24 @@
     <Compile Include="net\ObjectEncoding.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="system\ApplicationDomain.cs" />
+    <Compile Include="text\TextSnapshot.cs" />
+    <Compile Include="ui\ContextMenu.cs" />
+    <Compile Include="ui\ContextMenuBuiltInItems.cs" />
+    <Compile Include="ui\ContextMenuItem.cs" />
+    <Compile Include="ui\Keyboard.cs" />
+    <Compile Include="ui\KeyLocation.cs" />
+    <Compile Include="ui\Mouse.cs" />
     <Compile Include="utils\ByteArray.cs" />
     <Compile Include="utils\CompressionAlgorithm.cs" />
     <Compile Include="utils\Endian.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="text\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

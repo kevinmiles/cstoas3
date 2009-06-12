@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace flash.filters {
+﻿namespace flash.filters {
 	public class BevelFilter : BitmapFilter{
 		/// <summary>
 		/// The angle of the bevel.
