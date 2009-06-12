@@ -10,6 +10,13 @@
 	using geom;
 
 	public abstract class DisplayObject : EventDispatcher, IBitmapDrawable {
+		public readonly LoaderInfo loaderInfo;
+		public readonly float mouseX;
+		public readonly float mouseY;
+		public readonly DisplayObjectContainer parent;
+		public readonly DisplayObject root;
+		public readonly Stage stage;
+
 		/// <summary>
 		/// The current accessibility options for this display object.
 		/// </summary>
@@ -26,15 +33,6 @@
 		public BlendMode blendMode;
 
 		/// <summary>
-		/// Sets a shader that is used for blending the foreground and background.
-		/// </summary>
-		public Shader blendShader {
-			set {
-				throw new NotImplementedException();
-			}
-		}
-
-		/// <summary>
 		/// If set to true, Flash Player or Adobe AIR caches an internal bitmap representation of the display object.
 		/// </summary>
 		public bool cacheAsBitmap;
@@ -43,18 +41,10 @@
 
 		public float height;
 
-		public readonly LoaderInfo loaderInfo;
-
 		public DisplayObject mask;
-
-		public readonly float mouseX;
-		public readonly float mouseY;
 
 		public string name;
 		public object opaqueBackground;
-		
-		public readonly DisplayObjectContainer parent;
-		public readonly DisplayObject root;
 
 		public float rotation;
 		public float rotationX;
@@ -67,13 +57,21 @@
 		public float scaleZ;
 
 		public Rectangle scrollRect;
-		public readonly Stage stage;
 		public Transform transform;
 		public bool visible;
 		public float width;
 		public float x;
 		public float yx;
 		public float z;
+
+		/// <summary>
+		/// Sets a shader that is used for blending the foreground and background.
+		/// </summary>
+		public Shader blendShader {
+			set {
+				throw new NotImplementedException();
+			}
+		}
 
 		public Rectangle getBounds(DisplayObject targetCoordinateSpace) {
 			return null;
@@ -95,8 +93,13 @@
 			return false;
 		}
 
-		public bool hitTestPoint(float x, float y, bool shapeFlag){return false;}
-		public bool hitTestPoint(float x, float y){return false;}
+		public bool hitTestPoint(float x, float y, bool shapeFlag) {
+			return false;
+		}
+
+		public bool hitTestPoint(float x, float y) {
+			return false;
+		}
 
 		public Point local3DToGlobal(Vector3D point3D) {
 			return null;

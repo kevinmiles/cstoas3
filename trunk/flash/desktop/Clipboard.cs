@@ -67,6 +67,7 @@
 
 		public delegate object ClipboardHandler();
 
+
 		/// <summary>
 		/// Adds a reference to a handler function that produces the data for the specified format on demand. Use this method to defer creation or rendering of the data until it is actually accessed. Flash Player requires a user event (such as a key press or mouse click) before using setDataHandler() . In AIR, this restriction only applies to content outside of the application security sandbox.
 		/// </summary>

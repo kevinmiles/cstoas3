@@ -1,6 +1,12 @@
 ﻿namespace flash.Global {
 	[As3Name("*")]
 	public class Untyped {
+		public object this[object pI] {
+			get {
+				return null;
+			}
+		}
+
 		//From
 		public static implicit operator int (Untyped pUntyped) {
 			return 0;

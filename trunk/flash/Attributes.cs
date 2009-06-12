@@ -21,4 +21,9 @@
 
 		}
 	}
+
+	[AttributeUsage(AttributeTargets.Event, AllowMultiple = false)]
+	internal sealed class As3FlashEvent : Attribute {
+
+	}
 }
