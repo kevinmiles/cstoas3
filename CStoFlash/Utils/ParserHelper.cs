@@ -85,6 +85,10 @@ namespace CStoFlash.Utils {
 			_entityTypeRef.Add(cs_entity_type.et_unknown, "*UnknownEntityRef*");
 		}
 
+		public static string EscapeString(string pIn) {
+			return "\"" + pIn.Replace("\\", "\\\\").Replace("\"", "\\\"") + "\"";
+		}
+
 		public static string GetSignature(IEnumerable<CsFormalParameter> pLinkedList) {
 			if (pLinkedList == null)
 				return string.Empty;
@@ -260,6 +264,72 @@ namespace CStoFlash.Utils {
 				return GetType((CsTypeRef)pDirective);
 
 			throw new Exception("Unsupported node type");
+		}
+
+		public static string GetRealName(CsExpression pExpression, string pName) {
+			object entity = pExpression.entity;
+			IEnumerable<CsEntityAttribute> m;
+
+			if (entity is CsEntityClass) {
+				return getRealNameFromAttr(((CsEntityClass)pExpression.entity).attributes, pName);
+			}
+
+			if (entity is CsEntityVariable) {
+				m = ((CsEntityVariable)pExpression.entity).attributes;
+				addImports(m);
+				return getRealNameFromAttr(m, pName);
+			}
+
+			if (entity is CsEntityEnum) {
+				return getRealNameFromAttr(((CsEntityEnum)pExpression.entity).attributes, pName);
+			}
+
+			if (entity is CsEntityStruct) {
+				return getRealNameFromAttr(((CsEntityStruct)pExpression.entity).attributes, pName);
+			}
+
+			if (entity is CsEntityConstant) {
+				return getRealNameFromAttr(((CsEntityConstant)pExpression.entity).attributes, pName);
+			}
+
+			if (entity is CsEntityMethod) {
+				m = ((CsEntityMethod)pExpression.entity).attributes;
+				addImports(m);
+				return getRealNameFromAttr(m, pName);
+			}
+
+			return pName;
+		}
+
+		private static void addImports(IEnumerable<CsEntityAttribute> pList) {
+			if (pList == null)
+				return;
+
+			foreach (CsEntityAttribute attribute in pList) {
+				if (!attribute.type.parent.name.Equals("As3NamespaceAttribute", StringComparison.Ordinal)) {
+					continue;
+				}
+
+				ImportStatementList.AddImport(attribute.fixed_arguments[0].value.ToString());
+			}
+		}
+
+		private static string getRealNameFromAttr(IEnumerable<CsEntityAttribute> pList, string pName) {
+			if (pName.Equals("ToString", StringComparison.Ordinal))
+				pName = "toString";
+
+			if (pList == null)
+				return pName;
+
+			foreach (CsEntityAttribute attribute in pList) {
+				if (!attribute.type.parent.name.Equals("As3NameAttribute", StringComparison.Ordinal)) {
+					continue;
+				}
+
+				return (attribute.fixed_arguments[0]).value.ToString();
+			}
+
+			return pName;
 		}
 	}
 }

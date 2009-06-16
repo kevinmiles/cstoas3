@@ -18,7 +18,7 @@ namespace CStoFlash.AS3Writer {
 
 			StringBuilder prms = new StringBuilder();
 			foreach (CsArgument param in pList.list) {
-				Expression ex = Expression.Parse(param.expression);
+				Expression ex = FactoryExpressionCreator.Parse(param.expression);
 				prms.Append(ex.Value);
 				prms.Append(", ");
 			}

@@ -1,0 +1,14 @@
+﻿namespace CStoFlash.AS3Writer.Expressions {
+	using System;
+
+	using Metaspec;
+
+	using Utils;
+
+	public class RefTypeExpression : IExpressionParser {
+		public Expression Parse(CsExpression pStatement) {
+			//__reftype "(" expresion ")"
+			throw new NotImplementedException();
+		}
+	}
+}

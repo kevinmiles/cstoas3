@@ -63,13 +63,13 @@ namespace CStoFlash.AS3Writer {
 				return;
 			}
 
-			Expression ex = Expression.Parse(pNode as CsExpression);
+			Expression ex = FactoryExpressionCreator.Parse(pNode as CsExpression);
 			pSb.Append(ex.Value+";");
 			pSb.AppendLine();
 		}
 
 		private static string parseNode(CsNode pNode){
-			Expression ex = Expression.Parse(pNode as CsExpression);
+			Expression ex = FactoryExpressionCreator.Parse(pNode as CsExpression);
 			return ex.Value;
 		}
 
@@ -82,7 +82,7 @@ namespace CStoFlash.AS3Writer {
 				sb.AppendFormat("const {0}:{1} = {2};",
 					declarator.identifier.identifier,
 					As3Helpers.Convert(ParserHelper.GetType(lcd.type)),
-					Expression.Parse(declarator.expression).Value
+					FactoryExpressionCreator.Parse(declarator.expression).Value
 				);
 
 				pSb.Append(sb.ToString());
@@ -115,7 +115,7 @@ namespace CStoFlash.AS3Writer {
 		private static void parseIfStatement(CsStatement pStatement, CodeBuilder pSb) {
 			CsIfStatement ifStatement = (CsIfStatement)pStatement;
 
-			pSb.AppendFormat("if ({0}){{", Expression.Parse(ifStatement.condition));
+			pSb.AppendFormat("if ({0}){{", FactoryExpressionCreator.Parse(ifStatement.condition));
 			pSb.AppendLine();
 
 			ParseBlockOrStatementOrExpression(ifStatement.if_statement, pSb);
@@ -165,14 +165,14 @@ namespace CStoFlash.AS3Writer {
 				sb.Append("; ");
 			}
 
-			sb.Append(Expression.Parse(forStatement.condition).Value);
+			sb.Append(FactoryExpressionCreator.Parse(forStatement.condition).Value);
 			sb.Append("; ");
 
 			CsStatementExpressionList expressionList = (CsStatementExpressionList) forStatement.iterator;
 
 			if (expressionList != null) {
 				foreach (CsExpression expression in expressionList.expressions) {
-					Expression ex = Expression.Parse(expression);
+					Expression ex = FactoryExpressionCreator.Parse(expression);
 					sb.Append(ex.Value);
 					sb.Append(", ");
 				}
@@ -195,7 +195,7 @@ namespace CStoFlash.AS3Writer {
 			string enumName = String.Format("__ie{0}", _enumCount);
 			pSb.AppendLine();
 			pSb.AppendFormat("var {0}:IEnumerator = {1}.getEnumerator();",
-				enumName, Expression.Parse(fes.expression).Value);
+				enumName, FactoryExpressionCreator.Parse(fes.expression).Value);
 			pSb.AppendLine();
 
 			pSb.AppendFormat("while ({0}.moveNext()){{", enumName);
@@ -218,7 +218,7 @@ namespace CStoFlash.AS3Writer {
 		private static void parseSwitchStatement(CsStatement pStatement, CodeBuilder pSb) {
 			CsSwitchStatement switchStatement = (CsSwitchStatement)pStatement;
 
-			pSb.AppendFormat("switch ({0}){{", Expression.Parse(switchStatement.expression).Value);
+			pSb.AppendFormat("switch ({0}){{", FactoryExpressionCreator.Parse(switchStatement.expression).Value);
 			pSb.AppendLine();
 			pSb.Indent();
 
@@ -230,7 +230,7 @@ namespace CStoFlash.AS3Writer {
 						pSb.AppendLine();
 
 					} else {
-						Expression txt = Expression.Parse(label.expression);
+						Expression txt = FactoryExpressionCreator.Parse(label.expression);
 						pSb.AppendFormat("case {0}:", txt.Value);
 						pSb.AppendLine();
 					}
@@ -255,7 +255,7 @@ namespace CStoFlash.AS3Writer {
 		}
 
 		private static void parseExpressionStatement(CsStatement pStatement, CodeBuilder pSb) {
-			Expression ex = Expression.Parse(((CsExpressionStatement)pStatement).expression);
+			Expression ex = FactoryExpressionCreator.Parse(((CsExpressionStatement)pStatement).expression);
 			pSb.Append(ex.Value+";");
 			pSb.AppendLine();
 		}
@@ -266,7 +266,7 @@ namespace CStoFlash.AS3Writer {
 				pSb.AppendLine("return;");
 
 			} else {
-				pSb.AppendFormat("return {0};", Expression.Parse(returnStatement.expression).Value);
+				pSb.AppendFormat("return {0};", FactoryExpressionCreator.Parse(returnStatement.expression).Value);
 				pSb.AppendLine();
 			}
 		}
