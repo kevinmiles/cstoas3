@@ -16,7 +16,7 @@
 					modifiers,
 					declarator.identifier.identifier,
 					As3Helpers.Convert(ParserHelper.GetType(declarator.entity.type)),
-					Expression.Parse(declarator.expression).Value
+					FactoryExpressionCreator.Parse(declarator.expression).Value
 				);
 
 				pBuilder.Append(sb.ToString());

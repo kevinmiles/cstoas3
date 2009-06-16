@@ -1,4 +1,6 @@
-﻿namespace CStoFlash.Utils {
+﻿namespace CStoFlash.AS3Writer {
+	using Utils;
+
 	public class AS3Builder : CodeBuilder {
 		public AS3Builder(string pIndentString) : base(pIndentString) {}
 

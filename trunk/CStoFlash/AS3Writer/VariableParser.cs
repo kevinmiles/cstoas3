@@ -23,7 +23,7 @@
 					sb.Append(";");
 
 				} else {
-					Expression ex = Expression.Parse(declarator.initializer as CsExpression);
+					Expression ex = FactoryExpressionCreator.Parse(declarator.initializer as CsExpression);
 					sb.AppendFormat(" = {0};", ex.Value);
 				}
 
