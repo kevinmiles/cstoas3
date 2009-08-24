@@ -99,7 +99,6 @@
     <Compile Include="AS3Writer\Expressions\UncheckedExpression.cs" />
     <Compile Include="AS3Writer\Expressions\LambdaExpression.cs" />
     <Compile Include="AS3Writer\IndexerParser.cs" />
-    <None Include="AS3Writer\ScopeBlock.cs" />
     <Compile Include="AS3Writer\VariableParser.cs" />
     <Compile Include="CsToAS3.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

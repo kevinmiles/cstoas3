@@ -12,16 +12,13 @@
 				name = ParserHelper.GetRealName(ex, name);
 			}
 
-			if (ex.ec == expression_classification.ec_event_access) {
-				
-
-			} else {
-				
+			if (ex.ec == expression_classification.ec_event_access) {//remove eventhandler name
+				name = string.Empty;
 			}
 
 			return new Expression(
 				FactoryExpressionCreator.Parse(ex.expression).Value + "." + name,
-				ParserHelper.GetType(pStatement.entity_typeref)
+				pStatement.entity_typeref
 			);
 		}
 	}

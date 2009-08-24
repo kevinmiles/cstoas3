@@ -11,7 +11,7 @@
 
 			return new Expression(
 				ParserHelper.GetTokenType(ex.oper) + exp.Value,
-				ParserHelper.GetType(pStatement.entity_typeref)
+				pStatement.entity_typeref
 			);
 		}
 	}

@@ -12,7 +12,7 @@
 				FactoryExpressionCreator.Parse(ex.true_expression).Value + " : " +
 				FactoryExpressionCreator.Parse(ex.false_expression).Value,
 
-				ParserHelper.GetType(pStatement.entity_typeref)
+				pStatement.entity_typeref
 			);
 		}
 	}

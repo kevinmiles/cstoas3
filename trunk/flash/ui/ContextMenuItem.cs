@@ -29,7 +29,7 @@
 		/// <summary>
 		/// Dispatched when a user selects an item from a context menu.
 		/// </summary>
-		[As3Event(ContextMenuEvent.MENU_ITEM_SELECT)]
+		[As3Event("ContextMenuEvent.MENU_ITEM_SELECT")]
 		public event ContextMenuEventDelegate menuItemSelect;
 
 		/// <summary>

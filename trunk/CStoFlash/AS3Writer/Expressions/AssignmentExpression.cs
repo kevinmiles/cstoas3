@@ -11,23 +11,33 @@
 
 			Expression left = FactoryExpressionCreator.Parse(ex.lhs);
 			Expression right = FactoryExpressionCreator.Parse(ex.rhs);
-			string type = ParserHelper.GetType(pStatement.entity_typeref);
 
 			if ((ex.lhs is CsElementAccess) && left.InternalType) {
 				switch (ex.oper) {
 					case CsTokenType.tkASSIGN:
-						return new Expression(string.Format(left.Value, right.Value), type);
+						return new Expression(string.Format(left.Value, right.Value), pStatement.entity_typeref);
 
 					case CsTokenType.tkPLUS_EQ:
 					case CsTokenType.tkMINUS_EQ:
 					case CsTokenType.tkDIV_EQ:
 					case CsTokenType.tkMUL_EQ:
 						string getter = ElementAccessHelper.parseElementAccess(ex.lhs, true, false).Value;
-						return new Expression(string.Format(left.Value, getter + ParserHelper.GetTokenType(convertToken(ex.oper)) + right.Value), type);
+						return new Expression(string.Format(left.Value, getter + ParserHelper.GetTokenType(convertToken(ex.oper)) + right.Value), pStatement.entity_typeref);
 				}
 			}
 
-			return new Expression(left.Value + ParserHelper.GetTokenType(ex.oper) + right.Value, type);
+			if (ex.lhs.ec == expression_classification.ec_event_access) {
+				CsEntityEvent ev = (CsEntityEvent)ex.lhs.entity;
+				string eventName = ParserHelper.GetEventFromAttr(ev.attributes);
+				return new Expression(
+					left.Value + 
+					(ex.oper == CsTokenType.tkPLUS_EQ ? "addEventListener" : "removeEventListener")+
+					"(" + eventName + ", " + right.Value + ", false, 0, true)"
+					, pStatement.entity_typeref
+				);
+			}
+
+			return new Expression(left.Value + ParserHelper.GetTokenType(ex.oper) + right.Value, pStatement.entity_typeref);
 		}
 
 		private static CsTokenType convertToken(CsTokenType pInToken) {

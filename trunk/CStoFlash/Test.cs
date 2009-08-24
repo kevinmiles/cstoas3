@@ -11,7 +11,8 @@
 
 			string val0 = m[0];
 
-			IME.imeComposition += imeEvent;
+			IME a = new IME();
+			a.imeComposition += imeEvent;
 
 		}
 

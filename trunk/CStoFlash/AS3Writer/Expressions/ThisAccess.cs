@@ -6,7 +6,7 @@
 	public class ThisAccess : IExpressionParser {
 		public Expression Parse(CsExpression pStatement) {
 			//CsThisAccess ex = (CsThisAccess)pExpression;
-			return new Expression("this", ParserHelper.GetType(pStatement.entity_typeref));
+			return new Expression("this", pStatement.entity_typeref);
 		}
 	}
 }

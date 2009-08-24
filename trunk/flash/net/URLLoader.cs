@@ -45,37 +45,37 @@
 		/// <summary>
 		/// Dispatched after all the received data is decoded and placed in the data property of the URLLoader object.
 		/// </summary>
-		[As3Event(Event.COMPLETE)]
+		[As3Event("Event.COMPLETE")]
 		public event EventDelegate complete;
 
 		/// <summary>
 		/// Dispatched if a call to URLLoader.load() attempts to access data over HTTP.
 		/// </summary>
-		[As3Event(HTTPStatusEvent.HTTP_STATUS)]
+		[As3Event("HTTPStatusEvent.HTTP_STATUS")]
 		public event HTTPStatusEventDelegate httpStatus;
 
 		/// <summary>
 		/// Dispatched if a call to URLLoader.load() results in a fatal error that terminates the download.
 		/// </summary>
-		[As3Event(IOErrorEvent.IO_ERROR)]
+		[As3Event("IOErrorEvent.IO_ERROR")]
 		public event IOErrorEventDelegate ioError;
 
 		/// <summary>
 		/// Dispatched when the download operation commences following a call to the URLLoader.load() method.
 		/// </summary>
-		[As3Event(Event.OPEN)]
+		[As3Event("Event.OPEN")]
 		public event EventDelegate open;
 
 		/// <summary>
 		/// Dispatched when data is received as the download operation progresses.
 		/// </summary>
-		[As3Event(ProgressEvent.PROGRESS)]
+		[As3Event("ProgressEvent.PROGRESS")]
 		public event ProgressEventDelegate progress;
 
 		/// <summary>
 		/// Dispatched if a call to URLLoader.load() attempts to load data from a server outside the security sandbox.
 		/// </summary>
-		[As3Event(SecurityErrorEvent.SECURITY_ERROR)]
+		[As3Event("SecurityErrorEvent.SECURITY_ERROR")]
 		public event SecurityErrorEventDelegate securityError;
 	}
 }

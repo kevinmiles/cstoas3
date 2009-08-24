@@ -240,8 +240,15 @@ namespace CStoFlash.Utils {
 				g = g.TrimEnd(_paramTrim) + ">";
 			}
 
-			if (pDirective.namespace_or_type_name == null)
+			if (pDirective.namespace_or_type_name == null) {
+				if (pDirective.parent is CsTypeRef) {
+					if (GetClassNameFromAttr(((CsEntityClass)((CsTypeRef)pDirective.parent).entity_typeref.u).attributes))
+						return "Object";
+				}
+
 				return pDirective.identifier.identifier + g;
+			}
+			
 
 			string ret = GetType(pDirective.namespace_or_type_name);
 			if (!string.IsNullOrEmpty(ret))
@@ -330,6 +337,55 @@ namespace CStoFlash.Utils {
 			}
 
 			return pName;
+		}
+
+		
+		public static bool GetClassNameFromAttr(CsAttributes pList) {
+			if (pList == null)
+				return false;
+
+			if (pList.sections == null || pList.sections.Count == 0)
+				return false;
+
+			foreach (CsAttributeSection section in pList.sections) {
+				foreach (CsAttribute attribute in section.attribute_list) {
+					return GetClassNameFromAttr(attribute.entities);
+				}
+			}
+
+			return false;
+		}
+
+		public static bool GetClassNameFromAttr(IEnumerable<CsEntityAttribute> pList) {
+			if (pList == null)
+				return false;
+
+			foreach (CsEntityAttribute entity in pList) {
+				if (!entity.type.parent.name.Equals("As3AsObject", StringComparison.Ordinal)) {
+					continue;
+				}
+
+				return true;
+			}
+
+			return false;
+		}
+
+		public static string GetEventFromAttr(IEnumerable<CsEntityAttribute> pList) {
+			if (pList == null)
+				return null;
+
+			addImports(pList);
+
+			foreach (CsEntityAttribute attribute in pList) {
+				if (!attribute.type.parent.name.Equals("As3EventAttribute", StringComparison.Ordinal)) {
+					continue;
+				}
+
+				return (attribute.fixed_arguments[0]).value.ToString();
+			}
+
+			return null;
 		}
 	}
 }

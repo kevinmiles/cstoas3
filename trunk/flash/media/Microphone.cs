@@ -132,13 +132,13 @@
 		/// <summary>
 		/// Dispatched when a microphone begins or ends a session.
 		/// </summary>
-		[As3Event(ActivityEvent.ACTIVITY)]
+		[As3Event("ActivityEvent.ACTIVITY")]
 		public event ActivityEventDelegate activity;
 
 		/// <summary>
 		/// Dispatched when a microphone reports its status.
 		/// </summary>
-		[As3Event(StatusEvent.STATUS)]
+		[As3Event("StatusEvent.STATUS")]
 		public event StatusEventDelegate status;
 	}
 }
