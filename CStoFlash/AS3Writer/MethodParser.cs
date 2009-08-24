@@ -18,7 +18,6 @@
 				return;
 			}
 
-
 			pSb.AppendFormat("{0}function {1}({2}) {{",
 			                 As3Helpers.GetModifiers(pConstructor.modifiers),
 			                 klass.Name,
