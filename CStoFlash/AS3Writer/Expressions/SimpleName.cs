@@ -9,7 +9,7 @@
 
 			return new Expression(
 				ParserHelper.GetRealName(ex, ex.identifier.identifier),
-				ParserHelper.GetType(ex.entity_typeref));
+				ex.entity_typeref);
 		}
 	}
 }

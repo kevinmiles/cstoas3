@@ -118,11 +118,10 @@ namespace CStoFlash.Utils {
 		private readonly Dictionary<string, TheMethod> _constructorNames = new Dictionary<string, TheMethod>();
 		private readonly Dictionary<CsIndexer, TheIndexers> _indexers = new Dictionary<CsIndexer, TheIndexers>();
 		private readonly List<string> _implements = new List<string>();
-		private readonly CsClass _theClass;
+		private readonly CsClassStruct _theClass;
 
-		public TheClass(CsClass pClass) {
+		public TheClass(CsClassStruct pClass) {
 			_theClass = pClass;
-
 			CsQualifiedIdentifier list = ((CsNamespace) pClass.parent).qualified_identifier;
 			List<string> name = new List<string>(list.Count);
 
@@ -186,6 +185,7 @@ namespace CStoFlash.Utils {
 			get {
 				return _theClass.identifier.identifier;
 			}
+
 		}
 
 		public string NameSpace {

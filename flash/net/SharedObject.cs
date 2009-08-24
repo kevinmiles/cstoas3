@@ -108,19 +108,19 @@
 		/// <summary>
 		/// Dispatched when an exception is thrown asynchronously — that is, from native asynchronous code.
 		/// </summary>
-		[As3Event(AsyncErrorEvent.ASYNC_ERROR)]
+		[As3Event("AsyncErrorEvent.ASYNC_ERROR")]
 		public event AsyncErrorEventDelegate asyncError;
 
 		/// <summary>
 		/// Dispatched when a SharedObject instance is reporting its status or error condition.
 		/// </summary>
-		[As3Event(NetStatusEvent.NET_STATUS)]
+		[As3Event("NetStatusEvent.NET_STATUS")]
 		public event NetStatusEventDelegate netStatus;
 
 		/// <summary>
 		/// Dispatched when a remote shared object has been updated by the server.
 		/// </summary>
-		[As3Event(SyncEvent.SYNC)]
+		[As3Event("SyncEvent.SYNC")]
 		public event SyncEventDelegate sync;
 	}
 }

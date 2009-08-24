@@ -42,7 +42,7 @@
 		/// <summary>
 		/// Dispatched when a sound has finished playing.
 		/// </summary>
-		[As3Event(Event.ACTIVATE)]
+		[As3Event("Event.ACTIVATE")]
 		public event EventDelegate soundComplete;
 	}
 }

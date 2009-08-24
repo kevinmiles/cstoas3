@@ -32,7 +32,7 @@
 
 			return new Expression(
 				name,
-				ParserHelper.GetType(ex.entity_typeref)
+				ex.entity_typeref
 			);
 		}
 	}

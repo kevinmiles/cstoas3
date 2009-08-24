@@ -34,7 +34,7 @@
 			TheClass k = TheClass.Get(pStatement);
 
 			List<string> indexes = new List<string>();
-			List<string> param = new List<string>();
+			List<CsEntityTypeRef> param = new List<CsEntityTypeRef>();
 
 			foreach (CsExpression ex in pList) {
 				Expression te = FactoryExpressionCreator.Parse(ex);
@@ -45,7 +45,8 @@
 			string exp = pIndexer == null ? "super" : pIndexer.Value;
 			bool isInternal = false;
 
-			if (k == null || pIndexer == null || (pIndexer.Type != null && pIndexer.Type.Contains("["))) {
+			//TODO:Check array access...
+			if (k == null || pIndexer == null || (pIndexer.Type != null && pIndexer.Type.type == cs_entity_type.et_array)) {
 				//Array access or unknown accessor
 				exp += "[" + indexes[0] + "]";
 
@@ -68,7 +69,7 @@
 				}
 			}
 
-			return new Expression(exp, ParserHelper.GetType(pStatement.entity_typeref), isInternal);
+			return new Expression(exp, pStatement.entity_typeref, isInternal);
 		}
 	}
 }

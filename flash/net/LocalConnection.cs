@@ -58,19 +58,19 @@
 		/// <summary>
 		/// Dispatched when an exception is thrown asynchronously — that is, from native asynchronous code.
 		/// </summary>
-		[As3Event(AsyncErrorEvent.ASYNC_ERROR)]
+		[As3Event("AsyncErrorEvent.ASYNC_ERROR")]
 		public event AsyncErrorEventDelegate asyncError;
 
 		/// <summary>
 		/// Dispatched if a call to LocalConnection.send() attempts to send data to a different security sandbox.
 		/// </summary>
-		[As3Event(SecurityErrorEvent.SECURITY_ERROR)]
+		[As3Event("SecurityErrorEvent.SECURITY_ERROR")]
 		public event SecurityErrorEventDelegate securityError;
 
 		/// <summary>
 		/// Dispatched when a LocalConnection object reports its status.
 		/// </summary>
-		[As3Event(StatusEvent.STATUS)]
+		[As3Event("StatusEvent.STATUS")]
 		public event StatusEventDelegate status;
 	}
 }

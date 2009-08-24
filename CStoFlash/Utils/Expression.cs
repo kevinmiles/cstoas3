@@ -1,15 +1,18 @@
 ﻿namespace CStoFlash.Utils {
+	using Metaspec;
+
 	public class Expression {
 		public Expression() {
-			Value = Type = "";
+			Value = "";
+			Type = null;
 		}
 
-		public Expression(string pValue, string pType) {
+		public Expression(string pValue, CsEntityTypeRef pType) {
 			Value = pValue;
 			Type = pType;
 		}
 
-		public Expression(string pValue, string pType, bool pIsInternal) {
+		public Expression(string pValue, CsEntityTypeRef pType, bool pIsInternal) {
 			Value = pValue;
 			Type = pType;
 			InternalType = pIsInternal;
@@ -20,7 +23,7 @@
 			set;
 		}
 
-		public string Type {
+		public CsEntityTypeRef Type {
 			get;
 			set;
 		}

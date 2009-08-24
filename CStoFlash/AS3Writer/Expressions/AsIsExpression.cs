@@ -7,11 +7,11 @@
 		public Expression Parse(CsExpression pStatement) {
 			CsAsIsExpression ex = (CsAsIsExpression)pStatement;
 
-			string asType = ParserHelper.GetType(ex.entity_typeref);
-
 			return new Expression(
-				FactoryExpressionCreator.Parse(ex.expression).Value + " " + ParserHelper.GetTokenType(ex.oper) + " " + asType,
-				asType
+				FactoryExpressionCreator.Parse(ex.expression).Value 
+				+ " "
+				+ ParserHelper.GetTokenType(ex.oper) + " " + ParserHelper.GetType(ex.entity_typeref),
+				ex.entity_typeref
 			);
 		}
 	}

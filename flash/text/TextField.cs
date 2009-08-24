@@ -11,25 +11,25 @@
 		/// <summary>
 		/// Dispatched after a control's value is modified.
 		/// </summary>
-		[As3Event(Event.CHANGE)]
+		[As3Event("Event.CHANGE")]
 		public event EventDelegate change;
 
 		/// <summary>
 		/// Dispatched when a user clicks a hyperlink in an HTML-enabled text field, where the URL begins with "event:".
 		/// </summary>
-		[As3Event(TextEvent.LINK)]
+		[As3Event("TextEvent.LINK")]
 		public event TextEventDelegate link;
 
 		/// <summary>
 		/// Dispatched by a TextField object after the user scrolls.
 		/// </summary>
-		[As3Event(Event.SCROLL)]
+		[As3Event("Event.SCROLL")]
 		public event EventDelegate scroll;
 
 		/// <summary>
 		/// Flash Player dispatches the textInput event when a user enters one or more characters of text.
 		/// </summary>
-		[As3Event(TextEvent.TEXT_INPUT)]
+		[As3Event("TextEvent.TEXT_INPUT")]
 		public event TextEventDelegate textInput;
 
 		/// <summary>

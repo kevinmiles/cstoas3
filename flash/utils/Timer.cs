@@ -5,13 +5,13 @@
 		/// <summary>
 		/// Dispatched whenever a Timer object reaches an interval specified according to the delay property.
 		/// </summary>
-		[As3Event(TimerEvent.TIMER)]
+		[As3Event("TimerEvent.TIMER")]
 		public event TimerEventDelegate timer;
 
 		/// <summary>
 		/// Dispatched whenever it has completed the number of requests set by <see cref="repeatCount"/>.
 		/// </summary>
-		[As3Event(TimerEvent.TIMER_COMPLETE)]
+		[As3Event("TimerEvent.TIMER_COMPLETE")]
 		public event TimerEventDelegate timerComplete;
 
 		/// <summary>

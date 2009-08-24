@@ -8,7 +8,7 @@
 		}
 	}
 
-	[AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
+	[AttributeUsage(AttributeTargets.Method | AttributeTargets.Event, AllowMultiple = false)]
 	internal sealed class As3NamespaceAttribute : Attribute {
 		public As3NamespaceAttribute(string pAs3Namespace) {
 

@@ -243,19 +243,19 @@
 		/// <summary>
 		/// Dispatched when an exception is thrown asynchronously — that is, from native asynchronous code.
 		/// </summary>
-		[As3Event(AsyncErrorEvent.ASYNC_ERROR)]
+		[As3Event("AsyncErrorEvent.ASYNC_ERROR")]
 		public event AsyncErrorEventDelegate asyncError;
 
 		/// <summary>
 		/// Dispatched when an input or output error occurs that causes a network operation to fail.
 		/// </summary>
-		[As3Event(IOErrorEvent.IO_ERROR)]
+		[As3Event("IOErrorEvent.IO_ERROR")]
 		public event IOErrorEventDelegate ioError;
 
 		/// <summary>
 		/// Dispatched when a NetStream object is reporting its status or error condition.
 		/// </summary>
-		[As3Event(NetStatusEvent.NET_STATUS)]
+		[As3Event("NetStatusEvent.NET_STATUS")]
 		public event NetStatusEventDelegate netStatus;
 
 		/// <summary>

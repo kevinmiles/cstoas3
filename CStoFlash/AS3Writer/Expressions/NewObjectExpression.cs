@@ -33,7 +33,7 @@
 
 			return new Expression(
 				sb.ToString(),
-				ParserHelper.GetType(pStatement.entity_typeref)
+				pStatement.entity_typeref
 			);
 		}
 	}

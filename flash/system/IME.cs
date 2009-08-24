@@ -15,7 +15,7 @@
 			
 		}
 
-		[As3Event(IMEEvent.IME_COMPOSITION)]
-		public static event IMEEventDelegate imeComposition;
+		[As3Event("IMEEvent.IME_COMPOSITION")]
+		public event IMEEventDelegate imeComposition;
 	}
 }

@@ -189,7 +189,7 @@
 				if (name.StartsWith("flash.Global", StringComparison.Ordinal))
 					continue;
 
-				pStrb.AppendFormat("import {0};", name);
+				pStrb.AppendFormat("import {0}.*;", name);
 				pStrb.AppendLine();
 			}
 		}
