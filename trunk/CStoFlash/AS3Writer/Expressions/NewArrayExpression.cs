@@ -9,7 +9,13 @@
 		public Expression Parse(CsExpression pStatement) {
 			//"new" non-array-type "[" expression-list "]" ( rank-specifiers )? ( array-initializer )?
 			//"new" non-array-type? rank-specifiers array-initializer
-			throw new NotImplementedException();
+			CsNewArrayExpression ex = (CsNewArrayExpression) pStatement;
+
+			string initializer;
+			foreach (CsNode node in ex.initializer.initializers) {
+				
+			}
+
 		}
 	}
 }

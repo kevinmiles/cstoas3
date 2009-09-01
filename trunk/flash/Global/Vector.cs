@@ -338,5 +338,9 @@
 				return null;
 			}
 		}
+
+		public static implicit operator Vector<T>(T[] pStr) {
+			return null;
+		}
 	}
 }
