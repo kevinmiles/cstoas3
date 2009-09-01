@@ -133,6 +133,7 @@
     <Compile Include="Global\Function.cs" />
     <Compile Include="Global\Math.cs" />
     <Compile Include="Global\Namespace.cs" />
+    <Compile Include="Global\Number.cs" />
     <Compile Include="Global\QName.cs" />
     <Compile Include="Global\RegExp.cs" />
     <Compile Include="Global\SecurityError.cs" />
@@ -144,6 +145,7 @@
     <Compile Include="Global\Error.cs" />
     <Compile Include="Global\RangeError.cs" />
     <Compile Include="Global\TypeError.cs" />
+    <Compile Include="Global\Utils.cs" />
     <Compile Include="Global\Vector.cs" />
     <Compile Include="Global\XML.cs" />
     <Compile Include="Global\XMLList.cs" />

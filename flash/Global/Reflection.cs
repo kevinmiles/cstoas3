@@ -1,5 +1,5 @@
 ﻿namespace flash.Global {
-	public class Reflection {
+	public static class Reflection {
 		[As3Name("getDefinitionByName")]
 		[As3Namespace("flash.utils.getDefinitionByName")]
 		public static object getDefinitionByName(string pName) {

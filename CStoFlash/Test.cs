@@ -14,6 +14,9 @@
 			IME a = new IME();
 			a.imeComposition += imeEvent;
 
+			string[] c = new []{"a", "b", "c"};
+			Vector<string> b = (Vector<string>) c;
+
 		}
 
 		private static void imeEvent(IMEEvent eventobject) {
