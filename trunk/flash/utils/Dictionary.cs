@@ -18,6 +18,10 @@
 			get {
 				return null;
 			}
+
+			set {
+				value = i;
+			}
 		}
 	}
 }

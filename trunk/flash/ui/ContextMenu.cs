@@ -6,7 +6,6 @@
 	using events;
 
 	public class ContextMenu : EventDispatcher {
-		#region Properties
 		/// <summary>
 		/// An object that has the following properties of the <see cref="ContextMenuBuiltInItems"/> class: forwardAndBack, loop, play, print, quality, rewind, save, and zoom.
 		/// </summary>
@@ -22,7 +21,6 @@
 			get;
 			set;
 		}
-		#endregion
 
 		/// <summary>
 		/// Pops up this menu at the specified location.

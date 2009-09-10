@@ -23,7 +23,7 @@
 	}
 
 	[AttributeUsage(AttributeTargets.Event, AllowMultiple = false)]
-	internal sealed class As3EventAttribute : Attribute {
+	public sealed class As3EventAttribute : Attribute {
 		public As3EventAttribute(string eventName) {
 
 		}

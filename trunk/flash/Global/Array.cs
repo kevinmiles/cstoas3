@@ -308,26 +308,47 @@
 			get {
 				return null;
 			}
+
+			set {
+				value = i;
+			}
 		}
 
-		//from to..
-		public static implicit operator string[](Array array) {
-			return null;
-		}
+		//from array to xxx[]..
+		//public static implicit operator string[](Array array) {
+		//    return null;
+		//}
 
-		public static implicit operator object[](Array array) {
-			return null;
-		}
-		//----
+		//public static implicit operator object[](Array array) {
+		//    return null;
+		//}
+
+		//from xxx[] to array----
 		public static implicit operator Array(string[] val) {
 			return null;
 		}
 
-		public static implicit operator Array(object[] val) {
+		public static implicit operator Array(Object[] val) {
 			return null;
 		}
 
 		public static implicit operator Array(int[] val) {
+			return null;
+		}
+
+		public static implicit operator Array(uint[] val) {
+			return null;
+		}
+
+		public static implicit operator Array(float[] val) {
+			return null;
+		}
+
+		public static implicit operator Array(double[] val) {
+			return null;
+		}
+
+		public static implicit operator Array(Number[] val) {
 			return null;
 		}
 	}

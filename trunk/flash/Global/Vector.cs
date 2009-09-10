@@ -339,7 +339,11 @@
 			}
 		}
 
-		public static implicit operator Vector<T>(T[] pStr) {
+		public static explicit operator Vector<T>(Array array) {
+			return null;
+		}
+
+		public static explicit operator Array(Vector<T> vector) {
 			return null;
 		}
 	}

@@ -22,5 +22,17 @@
 
 			throw new NotImplementedException();
 		}
+
+		public static Expression Parse(CsNode pNode) {
+			if (pNode != null) {
+				Type type = pNode.GetType();
+
+				if (_parsers.ContainsKey(type)) {
+					return _parsers[type].Parse(pNode as CsExpression);
+				}
+			}
+
+			throw new NotImplementedException();
+		}
 	}
 }

@@ -130,11 +130,11 @@
 		/// Matches the specifed pattern against the string.
 		/// </summary>
 		public string[] match(string pattern) {
-			return default(Array);
+			return new string[1];
 		}
 
 		public string[] match(RegExp pattern) {
-			return default(Array);
+			return new string[1];
 		}
 
 		/// <summary>
