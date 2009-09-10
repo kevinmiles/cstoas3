@@ -1,5 +1,6 @@
 ﻿namespace CStoFlash.AS3Writer.Expressions {
-	using System;
+	using System.Collections.Generic;
+	using System.Text;
 
 	using Metaspec;
 
@@ -11,11 +12,27 @@
 			//"new" non-array-type? rank-specifiers array-initializer
 			CsNewArrayExpression ex = (CsNewArrayExpression) pStatement;
 
-			string initializer;
-			foreach (CsNode node in ex.initializer.initializers) {
-				
+			StringBuilder builder = new StringBuilder("new Array(");
+			
+			if (ex.initializer != null) {
+				List<string> initializers = new List<string>();
+
+				foreach (CsNode node in ex.initializer.initializers) {
+					Expression expression = FactoryExpressionCreator.Parse(node as CsExpression);
+					initializers.Add(expression.Value);
+				}
+
+				if (initializers.Count != 0) {
+					builder.Append(string.Join(", ", initializers.ToArray()));
+				}
+
+			} else if (ex.expressions != null && ex.expressions.list != null && ex.expressions.list.Count == 1) {
+				Expression expression = FactoryExpressionCreator.Parse(ex.expressions.list.First.Value);
+				builder.Append(expression.Value);
 			}
 
+			builder.Append(")");
+			return new Expression(builder.ToString(), pStatement.entity_typeref);
 		}
 	}
 }

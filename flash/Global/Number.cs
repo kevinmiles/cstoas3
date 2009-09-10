@@ -28,16 +28,6 @@
 		/// </summary>
 		public const Number POSITIVE_INFINITY = null;
 
-		public Number() {
-		}
-
-		/// <summary>
-		/// Creates a Number object with the specified value. This constructor has the same effect as the Number() public native function that converts an object of a different type to a primitive numeric value. 
-		/// </summary>
-		/// <param name="num">The numeric value of the Number instance being created or a value to be converted to a Number. The default value is 0 if <paramref name="num"/> is not specified. Using the constructor without specifying a <paramref name="num"/> parameter is not the same as declaring a variable of type Number with no value assigned (such as var myNumber:Number ), which defaults to <see cref="NaN"/> . A number with no value assigned is undefined and the equivalent of new Number(undefined) .</param>
-		public Number(object num) {
-			
-		}
 
 		/// <summary>
 		/// Returns a string representation of the number in exponential notation. The string contains one digit before the decimal point and up to 20 digits after the decimal point, as specified by the <paramref name="fractionDigits"/> parameter. 
@@ -69,64 +59,19 @@
 			return "";
 		}
 
-		/// <summary>
-		/// Implicit conversion from As to C#
-		/// </summary>
-		/// <returns></returns>
-		public static implicit operator double(Number pStr) {
-			return 0;
-		}
-
-		/// <summary>
-		/// Implicit conversion from As to C#
-		/// </summary>
 		public static implicit operator Number(double pStr) {
 			return null;
 		}
 
-		/// <summary>
-		/// Implicit conversion from As to C#
-		/// </summary>
-		/// <returns></returns>
-		public static implicit operator long(Number pStr) {
-			return 0;
-		}
-
-		/// <summary>
-		/// Implicit conversion from As to C#
-		/// </summary>
 		public static implicit operator Number(long pStr) {
 			return null;
 		}
 
-		/// <summary>
-		/// Implicit conversion from As to C#
-		/// </summary>
-		/// <returns></returns>
-		public static implicit operator float(Number pStr) {
-			return 0;
-		}
-
-		/// <summary>
-		/// Implicit conversion from As to C#
-		/// </summary>
-		public static implicit operator Number(float pStr) {
+		public static explicit operator UInt32(Number val) {
 			return null;
 		}
 
-		public static implicit operator int(Number pStr) {
-			return 0;
-		}
-
-		public static implicit operator Number(int pStr) {
-			return null;
-		}
-
-		public static implicit operator uint(Number pStr) {
-			return 0;
-		}
-
-		public static implicit operator Number(uint pStr) {
+		public static explicit operator Int32(Number val) {
 			return null;
 		}
 	}

@@ -48,6 +48,32 @@ namespace CStoFlash.AS3Writer {
 			pSb.Unindent();
 		}
 
+		public static void ParseNode(CsNode pNode, CodeBuilder pSb) {
+			CsBlock block = pNode as CsBlock;
+			if (block != null) {
+				Parse(block, pSb);
+				return;
+			}
+
+			CsStatement statement = pNode as CsStatement;
+			if (statement != null) {
+				pSb.Indent();
+				parseStatement(statement, pSb);
+				pSb.Unindent();
+				return;
+			}
+
+			CsExpression expression = pNode as CsExpression;
+			if (expression != null) {
+				Expression ex = FactoryExpressionCreator.Parse(pNode as CsExpression);
+				pSb.Append(ex.Value + ";");
+				pSb.AppendLine();
+				return;
+			}
+
+			throw new Exception();
+		}
+
 		public static void ParseBlockOrStatementOrExpression(CsNode pNode, CodeBuilder pSb) {
 			CsBlock block = pNode as CsBlock;
 			if (block != null) {

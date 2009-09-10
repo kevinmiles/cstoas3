@@ -75,7 +75,17 @@ namespace CStoFlash.Utils {
 
 			CsInvocationExpression csie = pNode as CsInvocationExpression;
 			if (csie != null) {
-				return csie.entity == null ? null : Get((CsEntityClass)((CsEntityMethod)csie.entity).parent);
+				if (csie.entity == null)
+					return null;
+
+				CsEntityMethod method = ((CsEntityMethod) csie.entity);
+				if (method.parent is CsEntityClass) {
+					return Get((CsEntityClass)method.parent);
+				}
+
+				if (method.parent is CsEntityDelegate) {
+					return null;
+				}
 			}
 
 			CsConstructor csc = pNode as CsConstructor;

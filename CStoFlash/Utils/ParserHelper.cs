@@ -242,8 +242,19 @@ namespace CStoFlash.Utils {
 
 			if (pDirective.namespace_or_type_name == null) {
 				if (pDirective.parent is CsTypeRef) {
-					if (GetClassNameFromAttr(((CsEntityClass)((CsTypeRef)pDirective.parent).entity_typeref.u).attributes))
+					
+
+					CsTypeRef parent = ((CsTypeRef) pDirective.parent);
+
+					if (parent.entity_typeref.u is CsEntityClass) {
+						if (IsClassDefinedAsObject(((CsEntityClass)parent.entity_typeref.u).attributes))
 						return "Object";
+					}
+
+					if (parent.entity_typeref.u is CsEntityInstanceSpecifier) {
+						//if (IsClassDefinedAsObject(((CsEntityInstanceSpecifier)parent.entity_typeref.u)))
+						//return "Object";
+					}
 				}
 
 				return pDirective.identifier.identifier + g;
@@ -339,8 +350,8 @@ namespace CStoFlash.Utils {
 			return pName;
 		}
 
-		
-		public static bool GetClassNameFromAttr(CsAttributes pList) {
+
+		public static bool IsClassDefinedAsObject(CsAttributes pList) {
 			if (pList == null)
 				return false;
 
@@ -349,14 +360,14 @@ namespace CStoFlash.Utils {
 
 			foreach (CsAttributeSection section in pList.sections) {
 				foreach (CsAttribute attribute in section.attribute_list) {
-					return GetClassNameFromAttr(attribute.entities);
+					return IsClassDefinedAsObject(attribute.entities);
 				}
 			}
 
 			return false;
 		}
 
-		public static bool GetClassNameFromAttr(IEnumerable<CsEntityAttribute> pList) {
+		public static bool IsClassDefinedAsObject(IEnumerable<CsEntityAttribute> pList) {
 			if (pList == null)
 				return false;
 

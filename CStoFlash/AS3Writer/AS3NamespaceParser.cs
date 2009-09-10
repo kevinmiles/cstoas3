@@ -122,6 +122,9 @@
 						} else if (memberDeclaration is CsConstantDeclaration) {
 							ConstantParser.Parse((CsConstantDeclaration)memberDeclaration, builder);
 
+						} else if (memberDeclaration is CsDelegate) {
+							throw new NotSupportedException();
+
 						} else {
 							throw new NotSupportedException();
 						}

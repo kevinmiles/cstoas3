@@ -128,12 +128,15 @@
     <Compile Include="geom\Vector3D.cs" />
     <Compile Include="Global\Array.cs" />
     <Compile Include="Global\Class.cs" />
+    <Compile Include="Global\UInt32.cs" />
     <Compile Include="Global\Date.cs" />
     <Compile Include="Global\EmbedAttribute.cs" />
     <Compile Include="Global\Function.cs" />
+    <Compile Include="Global\Int32.cs" />
     <Compile Include="Global\Math.cs" />
     <Compile Include="Global\Namespace.cs" />
     <Compile Include="Global\Number.cs" />
+    <Compile Include="Global\Object.cs" />
     <Compile Include="Global\QName.cs" />
     <Compile Include="Global\RegExp.cs" />
     <Compile Include="Global\SecurityError.cs" />
