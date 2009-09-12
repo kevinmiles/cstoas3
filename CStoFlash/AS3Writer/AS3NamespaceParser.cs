@@ -123,7 +123,13 @@
 							ConstantParser.Parse((CsConstantDeclaration)memberDeclaration, builder);
 
 						} else if (memberDeclaration is CsDelegate) {
-							throw new NotSupportedException();
+							DelegateParser.Parse((CsDelegate)memberDeclaration, builder);
+
+						} else if (memberDeclaration is CsEvent) {
+							EventParser.Parse((CsEvent)memberDeclaration, builder);
+
+						} else if (memberDeclaration is CsProperty) {
+							PropertyParser.Parse((CsProperty)memberDeclaration, builder);
 
 						} else {
 							throw new NotSupportedException();
@@ -208,7 +214,7 @@
 					TheClass.Add(theClass);
 
 				} else {
-					throw new Exception("Unknow type");
+					throw new Exception("Unknown type");
 				}
 			}
 		}

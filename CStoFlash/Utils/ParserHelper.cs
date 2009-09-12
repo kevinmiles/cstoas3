@@ -8,6 +8,11 @@ namespace CStoFlash.Utils {
 	using Metaspec;
 
 	public static class ParserHelper {
+		const string AS3_AS_OBJECT = "As3AsObject";
+		const string AS3_EVENT_ATTRIBUTE = "As3EventAttribute";
+		const string AS3_NAME_ATTRIBUTE = "As3NameAttribute";
+		const string AS3_NAMESPACE_ATTRIBUTE = "As3NamespaceAttribute";
+
 		private static readonly char[] _paramTrim = new[] { ',', ' ' };
 		private static readonly Dictionary<CsTokenType, string> _typeRef = new Dictionary<CsTokenType, string>();
 		private static readonly Dictionary<cs_entity_type, string> _entityTypeRef = new Dictionary<cs_entity_type, string>();
@@ -319,19 +324,6 @@ namespace CStoFlash.Utils {
 			return pName;
 		}
 
-		private static void addImports(IEnumerable<CsEntityAttribute> pList) {
-			if (pList == null)
-				return;
-
-			foreach (CsEntityAttribute attribute in pList) {
-				if (!attribute.type.parent.name.Equals("As3NamespaceAttribute", StringComparison.Ordinal)) {
-					continue;
-				}
-
-				ImportStatementList.AddImport(attribute.fixed_arguments[0].value.ToString());
-			}
-		}
-
 		private static string getRealNameFromAttr(IEnumerable<CsEntityAttribute> pList, string pName) {
 			if (pName.Equals("ToString", StringComparison.Ordinal))
 				pName = "toString";
@@ -339,19 +331,80 @@ namespace CStoFlash.Utils {
 			if (pList == null)
 				return pName;
 
-			foreach (CsEntityAttribute attribute in pList) {
-				if (!attribute.type.parent.name.Equals("As3NameAttribute", StringComparison.Ordinal)) {
-					continue;
-				}
-
-				return (attribute.fixed_arguments[0]).value.ToString();
-			}
-
-			return pName;
+			string n = GetAttributeValue<string>(pList, AS3_NAME_ATTRIBUTE);
+			return string.IsNullOrEmpty(n) ? pName : n;
 		}
 
 
 		public static bool IsClassDefinedAsObject(CsAttributes pList) {
+			return HasAttribute(pList, AS3_AS_OBJECT);
+		}
+
+		public static bool IsClassDefinedAsObject(IEnumerable<CsEntityAttribute> pList) {
+			return HasAttribute(pList, AS3_AS_OBJECT);
+		}
+
+		public static string GetEventFromAttr(CsAttributes pList) {
+			addImports(pList);
+			return GetAttributeValue<string>(pList, AS3_EVENT_ATTRIBUTE);
+		}
+
+		public static string GetEventFromAttr(IEnumerable<CsEntityAttribute> pList) {
+			addImports(pList);
+			return GetAttributeValue<string>(pList, AS3_EVENT_ATTRIBUTE);
+		}
+
+		private static void addImports(IEnumerable<CsEntityAttribute> pList) {
+			if (pList == null)
+				return;
+
+			ImportStatementList.AddImport(GetAttributeValue<string>(pList, AS3_NAMESPACE_ATTRIBUTE));
+		}
+
+		private static void addImports(CsAttributes pList) {
+			if (pList == null)
+				return;
+
+			ImportStatementList.AddImport(GetAttributeValue<string>(pList, AS3_NAMESPACE_ATTRIBUTE));
+		}
+
+		public static T GetAttributeValue<T>(CsAttributes pList, string pAttrName) where T:class {
+			T def = default(T);
+
+			if (pList == null)
+				return def;
+
+			if (pList.sections == null || pList.sections.Count == 0)
+				return def;
+
+			foreach (CsAttributeSection section in pList.sections) {
+				foreach (CsAttribute attribute in section.attribute_list) {
+					T val = GetAttributeValue<T>(attribute.entities, pAttrName);
+
+					if (val != null && !val.Equals(def))
+						return val;
+				}
+			}
+
+			return def;
+		}
+
+		public static T GetAttributeValue<T>(IEnumerable<CsEntityAttribute> pList, string pAttrName) where T:class{
+			if (pList == null)
+				return default(T);
+
+			foreach (CsEntityAttribute attribute in pList) {
+				if (!attribute.type.parent.name.Equals(pAttrName, StringComparison.Ordinal)) {
+					continue;
+				}
+
+				return (attribute.fixed_arguments[0]).value as T;
+			}
+
+			return default(T);
+		}
+
+		public static bool HasAttribute(CsAttributes pList, string pAttrName) {
 			if (pList == null)
 				return false;
 
@@ -360,43 +413,26 @@ namespace CStoFlash.Utils {
 
 			foreach (CsAttributeSection section in pList.sections) {
 				foreach (CsAttribute attribute in section.attribute_list) {
-					return IsClassDefinedAsObject(attribute.entities);
+					bool val = HasAttribute(attribute.entities, pAttrName);
+					if (val)
+						return true;
 				}
 			}
 
 			return false;
 		}
 
-		public static bool IsClassDefinedAsObject(IEnumerable<CsEntityAttribute> pList) {
+		public static bool HasAttribute(IEnumerable<CsEntityAttribute> pList, string pAttrName) {
 			if (pList == null)
 				return false;
 
-			foreach (CsEntityAttribute entity in pList) {
-				if (!entity.type.parent.name.Equals("As3AsObject", StringComparison.Ordinal)) {
-					continue;
+			foreach (CsEntityAttribute attribute in pList) {
+				if (attribute.type.parent.name.Equals(pAttrName, StringComparison.Ordinal)) {
+					return true;
 				}
-
-				return true;
 			}
 
 			return false;
-		}
-
-		public static string GetEventFromAttr(IEnumerable<CsEntityAttribute> pList) {
-			if (pList == null)
-				return null;
-
-			addImports(pList);
-
-			foreach (CsEntityAttribute attribute in pList) {
-				if (!attribute.type.parent.name.Equals("As3EventAttribute", StringComparison.Ordinal)) {
-					continue;
-				}
-
-				return (attribute.fixed_arguments[0]).value.ToString();
-			}
-
-			return null;
 		}
 	}
 }
