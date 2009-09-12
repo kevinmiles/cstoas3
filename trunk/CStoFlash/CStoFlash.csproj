@@ -62,7 +62,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AS3Writer\ConstantParser.cs" />
-    <None Include="AS3Writer\FieldParser.cs" />
+    <Compile Include="AS3Writer\PropertyParser.cs" />
+    <Compile Include="AS3Writer\EventParser.cs" />
+    <Compile Include="AS3Writer\DelegateParser.cs" />
     <Compile Include="AS3Writer\Expressions\BinaryExpression.cs" />
     <Compile Include="AS3Writer\Expressions\ArrayInitializer.cs" />
     <Compile Include="AS3Writer\Expressions\AsIsExpression.cs" />

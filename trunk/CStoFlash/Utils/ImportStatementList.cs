@@ -12,6 +12,7 @@ namespace CStoFlash.Utils {
 		}
 
 		public static void AddImport(string pImport) {
+			if (string.IsNullOrEmpty(pImport)) return;
 			if (List.Contains(pImport)) return;
 			List.Add(pImport);
 		}

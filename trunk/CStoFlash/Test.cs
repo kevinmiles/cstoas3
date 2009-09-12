@@ -1,12 +1,13 @@
 ﻿namespace CStoFlash {
 	using flash;
+	using flash.display;
 	using flash.events;
 	using flash.Global;
 	using flash.system;
 
-	public class Test {
-		static void Main() {
-			
+	public class Test : MovieClip {
+		[As3MainClass(640, 480, 30, 0xffffff)]
+		public Test() {
 			RegExp rx = new RegExp("", "");
 			RegExpMatch m = rx.exec("");
 
@@ -25,14 +26,21 @@
 
 			Event e = new Event("type");
 			TestEvent.Invoke(e);
+
+			Sarasa += "hola";
 		}
 
-		private static void imeEvent(IMEEvent eventobject) {
+		public string Sarasa {
+			get;
+			private set;
+		}
+
+		private void imeEvent(IMEEvent pEventobject) {
 			
 
 		}
 
-		public delegate void MyDelegate(Event eventObject);
+		public delegate void MyDelegate(Event pEventObject);
 
 		[As3Event("IMEEvent.IME_COMPOSITION")]
 		public static event MyDelegate TestEvent;
