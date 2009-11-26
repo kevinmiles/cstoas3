@@ -74,7 +74,7 @@
 		public event ProgressEventDelegate progress;
 
 		/// <summary>
-		/// Dispatched by a LoaderInfo object whenever a loaded object is removed by using the unload() method of the Loader object, or when a second load is performed by the same Loader object and the original content is removed prior to the load beginning.
+		/// Dispatched by a <see cref="LoaderInfo"/> object whenever a loaded object is removed by using the unload() method of the Loader object, or when a second load is performed by the same Loader object and the original content is removed prior to the load beginning.
 		/// </summary>
 		[As3Event("Event.UNLOAD")]
 		public event EventDelegate unload;
