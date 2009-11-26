@@ -5,11 +5,17 @@
 		/// </summary>
 		public const string ACTIVITY = "activity";
 
-		public ActivityEvent(string pType) : base(pType) {}
+		public ActivityEvent(string pType) : base(pType) {
+			return;
+		}
 
-		public ActivityEvent(string pType, bool pBubbles) : base(pType, pBubbles) {}
+		public ActivityEvent(string pType, bool pBubbles) : base(pType, pBubbles) {
+			return;
+		}
 
-		public ActivityEvent(string pType, bool pBubbles, bool pCancelable) : base(pType, pBubbles, pCancelable) {}
+		public ActivityEvent(string pType, bool pBubbles, bool pCancelable) : base(pType, pBubbles, pCancelable) {
+			return;
+		}
 
 		/// <summary>
 		/// Indicates whether the device is activating (true) or deactivating (false).

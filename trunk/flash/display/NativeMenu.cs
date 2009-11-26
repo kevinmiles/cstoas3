@@ -31,7 +31,7 @@
 		}
 
 		public void display(Stage stage, float stageX, float stageY) {
-			
+			return;
 		}
 
 		public NativeMenuItem  getItemAt(int index) {
@@ -46,7 +46,9 @@
 			return 0;
 		}
 
-		public void removeAllItems(){}
+		public void removeAllItems() {
+			return;
+		}
 
 		public NativeMenuItem removeItem(NativeMenuItem item) {
 			return item;
@@ -56,6 +58,8 @@
 			return null;
 		}
 
-		public void setItemIndex(NativeMenuItem item, int index){}
+		public void setItemIndex(NativeMenuItem item, int index) {
+			return;
+		}
 	}
 }

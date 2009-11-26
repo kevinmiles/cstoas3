@@ -53,10 +53,12 @@
 
 		public string systemFont;
 		public string unicodeRange;
-		public EmbedAttribute() {}
+		public EmbedAttribute() {
+			return;
+		}
 
 		public EmbedAttribute(string source) {
-
+			return;
 		}
 	}
 }

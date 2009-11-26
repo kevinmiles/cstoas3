@@ -96,7 +96,7 @@
 		[As3Name("parseFloat")]
 		[As3Namespace("flash.utils.parseFloat")]
 		public static Number parseFloat(string str) {
-			return 0;
+			return new Number();
 		}
 
 		/// <summary>
@@ -108,13 +108,13 @@
 		[As3Name("parseInt")]
 		[As3Namespace("flash.utils.parseInt")]
 		public static Number parseInt(string str, uint radix) {
-			return 0;
+			return new Number();
 		}
 
 		[As3Name("parseInt")]
 		[As3Namespace("flash.utils.parseInt")]
 		public static Number parseInt(string str) {
-			return 0;
+			return new Number();
 		}
 
 		/// <summary>

@@ -1,16 +1,10 @@
 ﻿namespace flash.Global {
-	[As3Name("uint")]
-	public class UInt32 {
-		public Int32 MAX_VALUE = 1;
-		public Int32 MIN_VALUE = 1;
+	using flash;
 
-		public static implicit operator UInt32(uint val) {
-			return null;
-		}
-
-		public static explicit operator UInt32(int val) {
-			return null;
-		}
+	[As3Name("int")]
+	public struct Int {
+		public const int MAX_VALUE = 0;
+		public const int MIN_VALUE = 0;
 
 		/// <summary>
 		/// Returns a string representation of the number in exponential notation
@@ -18,7 +12,7 @@
 		/// <param name="pFractionDigits">An integer between 0 and 20, inclusive, that represents the desired number of decimal places.</param>
 		/// <returns></returns>
 		/// <exception cref="RangeError">Throws an exception if the fractionDigits argument is outside the range 0 to 20.</exception>
-		public string ToExponential(uint pFractionDigits) {
+		public string toExponential(uint pFractionDigits) {
 			return null;
 		}
 
@@ -29,7 +23,7 @@
 		/// <param name="pFractionDigits">An integer between 0 and 20, inclusive, that represents the desired number of decimal places.</param>
 		/// <returns></returns>
 		/// <exception cref="RangeError">Throws an exception if the fractionDigits argument is outside the range 0 to 20.</exception>
-		public string ToFixed(uint pFractionDigits) {
+		public string toFixed(uint pFractionDigits) {
 			return null;
 		}
 
@@ -40,21 +34,24 @@
 		/// <param name="pPrecision">An integer between 1 and 21, inclusive, that represents the desired number of digits to represent in the resulting string.</param>
 		/// <returns></returns>
 		/// <exception cref="RangeError">Throws an exception if the precision argument is outside the range 1 to 21.</exception>
-		public string ToPrecision(uint pPrecision) {
+		public string toPrecision(uint pPrecision) {
 			return null;
 		}
 
-
-		public static implicit operator Number(UInt32 val) {
-			return null;
+		public static implicit operator int(Int pStr) {
+			return 0;
 		}
 
-		public static explicit operator UInt32(Number val) {
-			return null;
+		public static implicit operator Int(int pStr) {
+			return new Int();
 		}
 
-		public static explicit operator UInt32(Int32 val) {
-			return null;
+		public static explicit operator Int(Number pStr) {
+			return new Int();
+		}
+
+		public static implicit operator Number(Int pStr) {
+			return new Number();
 		}
 	}
 }

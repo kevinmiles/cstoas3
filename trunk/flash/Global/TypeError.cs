@@ -6,7 +6,7 @@
 		/// </summary>
 		/// <param name="pMessage">Contains the message associated with the TypeError object</param>
 		public TypeError(string pMessage) : base(pMessage, 0) {
-
+			return;
 		}
 	}
 }

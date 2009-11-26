@@ -21,9 +21,17 @@
 		/// <param name="bitmapData">The <see cref="BitmapData"/> object being referenced.</param>
 		/// <param name="pixelSnapping">Whether or not the Bitmap object is snapped to the nearest pixel.</param>
 		/// <param name="smoothing">Whether or not the bitmap is smoothed when scaled.</param>
-		public Bitmap(BitmapData bitmapData, PixelSnapping pixelSnapping, bool smoothing) {}
-		public Bitmap(BitmapData bitmapData, PixelSnapping pixelSnapping) {}
-		public Bitmap(BitmapData bitmapData) {}
-		public Bitmap() {}
+		public Bitmap(BitmapData bitmapData, PixelSnapping pixelSnapping, bool smoothing) {
+			return;
+		}
+		public Bitmap(BitmapData bitmapData, PixelSnapping pixelSnapping) {
+			return;
+		}
+		public Bitmap(BitmapData bitmapData) {
+			return;
+		}
+		public Bitmap() {
+			return;
+		}
 	}
 }

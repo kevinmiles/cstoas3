@@ -224,11 +224,15 @@ namespace CStoFlash.Utils {
 			if (pDirective.namespace_or_type_name == null)
 				return "";
 
-			string ret = GetType(pDirective.namespace_or_type_name.namespace_or_type_name);
+
+			//pDirective.namespace_or_type_entity.name
+
+			string ret = GetType(pDirective.namespace_or_type_name);
 			if (!string.IsNullOrEmpty(ret))
 				ret += ".";
 
-			return ret + pDirective.namespace_or_type_name.identifier.identifier;
+			return ret + pDirective.namespace_or_type_entity.name;
+				//pDirective.namespace_or_type_name.identifier.identifier;
 		}
 
 		public static string GetType(CsNamespaceOrTypeName pDirective) {

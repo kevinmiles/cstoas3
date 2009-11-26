@@ -41,7 +41,9 @@
 		/// </summary>
 		/// <param name="re">The pattern of the regular expression (also known as the constructor string ). This is the main part of the regular expression (the part that goes within the "/" characters). </param>
 		/// <param name="flags">The modifiers of the regular expression (g, i, s, m, x)</param>
-		public RegExp(string re, string flags) {}
+		public RegExp(string re, string flags) {
+			return;
+		}
 
 		/// <summary>
 		/// Performs a search for the regular expression on the given string <paramref name="str"/>.

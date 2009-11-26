@@ -20,9 +20,15 @@
 		public string name;
 		public NativeMenu submenu;
 
-		public NativeMenuItem(string label, bool isSeparator) {}
-		public NativeMenuItem(string label) {}
-		public NativeMenuItem() {}
+		public NativeMenuItem(string label, bool isSeparator) {
+			return;
+		}
+		public NativeMenuItem(string label) {
+			return;
+		}
+		public NativeMenuItem() {
+			return;
+		}
 
 		public NativeMenuItem clone() {
 			return this;

@@ -12,6 +12,8 @@
     <AssemblyName>flash</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkSubset>
+    </TargetFrameworkSubset>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>false</DebugSymbols>
@@ -22,6 +24,9 @@
     </DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+    <NoStdLib>true</NoStdLib>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>none</DebugType>
@@ -32,11 +37,17 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Release\flash.XML</DocumentationFile>
+    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+    <NoStdLib>true</NoStdLib>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="accessibility\Accessibility.cs" />
     <Compile Include="accessibility\AccessibilityProperties.cs" />
     <Compile Include="Attributes.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="VSAttrs.cs" />
     <Compile Include="desktop\Clipboard.cs" />
     <Compile Include="desktop\ClipboardFormats.cs" />
     <Compile Include="desktop\ClipboardTransferMode.cs" />
@@ -79,6 +90,32 @@
     <Compile Include="display\StageDisplayState.cs" />
     <Compile Include="display\StageQuality.cs" />
     <Compile Include="display\StageScaleMode.cs" />
+    <Compile Include="EfxExtensions\CompileCheck\System\Array.cs" />
+    <Compile Include="EfxExtensions\CompileCheck\System\Boolean.cs" />
+    <Compile Include="EfxExtensions\CompileCheck\System\Char.cs" />
+    <Compile Include="EfxExtensions\CompileCheck\System\Byte.cs" />
+    <Compile Include="EfxExtensions\CompileCheck\System\MulticastDelegate.cs" />
+    <Compile Include="EfxExtensions\CompileCheck\System\RuntimeTypeHandle.cs" />
+    <Compile Include="EfxExtensions\CompileCheck\System\Enum.cs" />
+    <Compile Include="EfxExtensions\CompileCheck\System\RuntimeFieldHandle.cs" />
+    <Compile Include="EfxExtensions\CompileCheck\System\UIntPtr.cs" />
+    <Compile Include="EfxExtensions\CompileCheck\System\IntPtr.cs" />
+    <Compile Include="EfxExtensions\CompileCheck\System\SByte.cs" />
+    <Compile Include="EfxExtensions\CompileCheck\System\Delegate.cs" />
+    <Compile Include="EfxExtensions\CompileCheck\System\Single.cs" />
+    <Compile Include="EfxExtensions\CompileCheck\System\UInt64.cs" />
+    <Compile Include="EfxExtensions\CompileCheck\System\UInt16.cs" />
+    <Compile Include="EfxExtensions\CompileCheck\System\Int16.cs" />
+    <Compile Include="EfxExtensions\CompileCheck\System\Int64.cs" />
+    <Compile Include="EfxExtensions\CompileCheck\System\Double.cs" />
+    <Compile Include="EfxExtensions\CompileCheck\System\Int32.cs" />
+    <Compile Include="EfxExtensions\CompileCheck\System\ValueType.cs" />
+    <Compile Include="EfxExtensions\CompileCheck\System\Void.cs" />
+    <Compile Include="EfxExtensions\Required\System\Collections\IEnumerable.cs" />
+    <Compile Include="EfxExtensions\Required\System\Collections\IEnumerator.cs" />
+    <Compile Include="EfxExtensions\CompileCheck\System\Exception.cs" />
+    <Compile Include="EfxExtensions\Required\System\IDisposable.cs" />
+    <Compile Include="EfxExtensions\Required\System\Type.cs" />
     <Compile Include="events\ActivityEvent.cs" />
     <Compile Include="events\AsyncErrorEvent.cs" />
     <Compile Include="events\ContextMenuEvent.cs" />
@@ -128,15 +165,15 @@
     <Compile Include="geom\Vector3D.cs" />
     <Compile Include="Global\Array.cs" />
     <Compile Include="Global\Class.cs" />
-    <Compile Include="Global\UInt32.cs" />
+    <Compile Include="EfxExtensions\CompileCheck\System\UInt32.cs" />
     <Compile Include="Global\Date.cs" />
     <Compile Include="Global\EmbedAttribute.cs" />
     <Compile Include="Global\Function.cs" />
-    <Compile Include="Global\Int32.cs" />
+    <Compile Include="Global\Int.cs" />
     <Compile Include="Global\Math.cs" />
     <Compile Include="Global\Namespace.cs" />
     <Compile Include="Global\Number.cs" />
-    <Compile Include="Global\Object.cs" />
+    <Compile Include="EfxExtensions\CompileCheck\System\Object.cs" />
     <Compile Include="Global\QName.cs" />
     <Compile Include="Global\RegExp.cs" />
     <Compile Include="Global\SecurityError.cs" />
@@ -144,10 +181,11 @@
     <Compile Include="Global\EOFError.cs" />
     <Compile Include="Global\IOError.cs" />
     <Compile Include="Global\Reflection.cs" />
-    <Compile Include="Global\String.cs" />
+    <Compile Include="EfxExtensions\CompileCheck\System\String.cs" />
     <Compile Include="Global\Error.cs" />
     <Compile Include="Global\RangeError.cs" />
     <Compile Include="Global\TypeError.cs" />
+    <Compile Include="Global\UInt.cs" />
     <Compile Include="Global\Utils.cs" />
     <Compile Include="Global\Vector.cs" />
     <Compile Include="Global\XML.cs" />
@@ -175,7 +213,6 @@
     <Compile Include="net\URLRequestHeader.cs" />
     <Compile Include="net\URLRequestMethod.cs" />
     <Compile Include="net\URLVariables.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="system\ApplicationDomain.cs" />
     <Compile Include="system\Capabilities.cs" />
     <Compile Include="system\IME.cs" />
@@ -212,8 +249,14 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

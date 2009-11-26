@@ -1,6 +1,8 @@
 ﻿namespace flash.Global {
 	using System;
 
+	using flash;
+
 	[Flags]
 	[As3Name("Array")]
 	public enum ArraySortOptions {
@@ -30,7 +32,7 @@
 		UNIQUESORT
 	}
 
-	public class Array {
+	public class Array  {
 		public delegate bool ArrayFilterCallback(object item, int index, Array array);
 		public delegate void ArrayForeachCallback(object item, int index, Array array);
 		public delegate float ArraySortCallback(object itemA, object itemB);
@@ -57,8 +59,6 @@
 		public Array concat() {
 			return default(Array);
 		}
-
-		
 
 		/// <summary>
 		/// Executes a test function on each item in the array until an item is reached that returns false for the specified function.
@@ -92,12 +92,14 @@
 		/// Executes a function on each item in the array.
 		/// </summary>
 		public void forEach(ArrayForeachCallback callback, object thisObject) {
+			return;
 		}
 
 		/// <summary>
 		/// Executes a function on each item in the array.
 		/// </summary>
 		public void forEach(ArrayForeachCallback callback) {
+			return;
 		}
 
 		/// <summary>
@@ -290,18 +292,21 @@
 		/// Lets you create an array of the specified number of elements.
 		/// </summary>
 		public Array(int numElements) {
+			return;
 		}
 
 		/// <summary>
 		/// Lets you create an array of the specified number of elements.
 		/// </summary>
 		public Array() {
+			return;
 		}
 
 		/// <summary>
 		/// Lets you create an array that contains the specified elements.
 		/// </summary>
 		public Array( params object[] values) {
+			return;
 		}
 
 		public object this[int i] {
@@ -310,46 +315,8 @@
 			}
 
 			set {
-				value = i;
+				return;
 			}
-		}
-
-		//from array to xxx[]..
-		//public static implicit operator string[](Array array) {
-		//    return null;
-		//}
-
-		//public static implicit operator object[](Array array) {
-		//    return null;
-		//}
-
-		//from xxx[] to array----
-		public static implicit operator Array(string[] val) {
-			return null;
-		}
-
-		public static implicit operator Array(Object[] val) {
-			return null;
-		}
-
-		public static implicit operator Array(int[] val) {
-			return null;
-		}
-
-		public static implicit operator Array(uint[] val) {
-			return null;
-		}
-
-		public static implicit operator Array(float[] val) {
-			return null;
-		}
-
-		public static implicit operator Array(double[] val) {
-			return null;
-		}
-
-		public static implicit operator Array(Number[] val) {
-			return null;
 		}
 	}
 }

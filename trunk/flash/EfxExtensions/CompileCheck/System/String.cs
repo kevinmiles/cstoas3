@@ -1,31 +1,27 @@
-﻿namespace flash.Global {
+﻿namespace System {
+	using flash.Global;
+
 	public sealed class String {
+		#region Delegates
+		/// <param name="match">The matching portion of the string.</param>
+		/// <param name="args">Any captured parenthetical group matches are provided as the next arguments. The number of arguments passed this way will vary depending on the number of parenthetical matches. You can determine the number of parenthetical matches by checking arguments.length - 3 within the function code. Then, the index position in the string where the match begins. And last, The complete string.</param>
+		/// <returns></returns>
+		public delegate string StringReplaceDelegate(string match, params object[] args);
+		#endregion
+
+		/// <summary>
+		/// Creates a new String object initialized to the specified string.
+		/// </summary>
+		public String(string val) {
+			return;
+		}
+
 		/// <summary>
 		/// [read-only] An integer specifying the number of characters in the specified String object.
 		/// </summary>
 		public int length {
 			get;
 			private set;
-		}
-
-		/// <summary>
-		/// Creates a new String object initialized to the specified string.
-		/// </summary>
-		public String(string val) {}
-
-		/// <summary>
-		/// Implicit conversion from As to C#
-		/// </summary>
-		/// <returns></returns>
-		public static implicit operator string(String pStr) {
-			return "";
-		}
-
-		/// <summary>
-		/// Implicit conversion from As to C#
-		/// </summary>
-		public static implicit operator String(string pStr) {
-			return "";
 		}
 
 		/// <summary>
@@ -147,11 +143,6 @@
 		public string replace(RegExp pattern, string repl) {
 			return default(string);
 		}
-
-		/// <param name="match">The matching portion of the string.</param>
-		/// <param name="args">Any captured parenthetical group matches are provided as the next arguments. The number of arguments passed this way will vary depending on the number of parenthetical matches. You can determine the number of parenthetical matches by checking arguments.length - 3 within the function code. Then, the index position in the string where the match begins. And last, The complete string.</param>
-		/// <returns></returns>
-		public delegate string StringReplaceDelegate(string match, params object[] args);
 
 		public string replace(string pattern, StringReplaceDelegate repl) {
 			return default(string);
@@ -284,8 +275,72 @@
 		/// <summary>
 		/// Returns the primitive value of a String instance.
 		/// </summary>
-		public string valueOf() {
+		public new string valueOf() {
 			return default(string);
+		}
+
+
+		/// <summary>
+		/// Just for compatibility with C# compiler. DO NOT USE
+		/// </summary>
+		public static string Concat(Object arg0) {
+			return "";
+		}
+
+		/// <summary>
+		/// Just for compatibility with C# compiler. DO NOT USE
+		/// </summary>
+		public static string Concat(Object[] args) {
+			return "";
+		}
+
+		/// <summary>
+		/// Just for compatibility with C# compiler. DO NOT USE
+		/// </summary>
+		public static string Concat(string[] values) {
+			return "";
+		}
+
+		/// <summary>
+		/// Just for compatibility with C# compiler. DO NOT USE
+		/// </summary>
+		public static string Concat(Object arg0, Object arg1) {
+			return "";
+		}
+
+		/// <summary>
+		/// Just for compatibility with C# compiler. DO NOT USE
+		/// </summary>
+		public static string Concat(string str0, string str1) {
+			return "";
+		}
+
+		/// <summary>
+		/// Just for compatibility with C# compiler. DO NOT USE
+		/// </summary>
+		public static string Concat(Object arg0, Object arg1, Object arg2) {
+			return "";
+		}
+
+		/// <summary>
+		/// Just for compatibility with C# compiler. DO NOT USE
+		/// </summary>
+		public static string Concat(string str0, string str1, string str2) {
+			return "";
+		}
+
+		/// <summary>
+		/// Just for compatibility with C# compiler. DO NOT USE
+		/// </summary>
+		public static string Concat(Object arg0, Object arg1, Object arg2, Object arg3) {
+			return "";
+		}
+
+		/// <summary>
+		/// Just for compatibility with C# compiler. DO NOT USE
+		/// </summary>
+		public static string Concat(string str0, string str1, string str2, string str3) {
+			return "";
 		}
 	}
 }

@@ -7,7 +7,7 @@
 		/// <param name="pMessage">Contains the message associated with the RangeError object</param>
 		public RangeError(string pMessage)
 			: base(pMessage, 0) {
-
+			return;
 		}
 	}
 }

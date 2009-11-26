@@ -7,10 +7,12 @@
 		/// <param name="pMessage">A string associated with the error object. </param>
 		public IllegalOperationError(string pMessage)
 			: base(pMessage, 0) {
+			return;
 		}
 
 		public IllegalOperationError()
 			: base("", 0) {
+			return;
 		}
 	}
 }
