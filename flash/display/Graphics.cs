@@ -31,7 +31,7 @@
 		}
 
 		/// <summary>
-		/// Specifies a gradient fill used by subsequent calls to other Graphics methods (such as lineTo() or drawCircle()) for the object.
+		/// Specifies a gradient fill used by subsequent calls to other Graphics methods (such as <see cref="lineTo"/>() or <see cref="drawCircle"/>()) for the object.
 		/// </summary>
 		public void beginGradientFill(string type, uint[] colors, float[] alphas, int[] ratios, Matrix matrix,
 									  SpreadMethod spreadMethod, InterpolationMethod interpolationMethod, float focalPointRatio) {
@@ -39,7 +39,7 @@
 		}
 
 		/// <summary>
-		/// Specifies a gradient fill used by subsequent calls to other Graphics methods (such as lineTo() or drawCircle()) for the object.
+		/// Specifies a gradient fill used by subsequent calls to other Graphics methods (such as <see cref="lineTo"/>() or <see cref="drawCircle"/>()) for the object.
 		/// </summary>
 		public void beginGradientFill(string type, uint[] colors, float[] alphas, int[] ratios, Matrix matrix,
 									  SpreadMethod spreadMethod, InterpolationMethod interpolationMethod) {

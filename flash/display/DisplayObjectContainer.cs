@@ -5,7 +5,6 @@
 
 	public class DisplayObjectContainer : InteractiveObject
 	{
-		#region Properties
 		/// <summary>
 		/// Determines whether or not the children of the object are mouse enabled.
 		/// </summary>
@@ -25,8 +24,6 @@
 		/// [read-only] Returns a <see cref="TextSnapshot"/> object for this <see cref="DisplayObjectContainer"/> instance.
 		/// </summary>
 		public readonly TextSnapshot textSnapshot;
-
-		#endregion
 
 		/// <summary>
 		/// Adds a child <see cref="DisplayObject"/> instance to this <see cref="DisplayObjectContainer"/> instance.
@@ -53,7 +50,7 @@
 		}
 
 		/// <summary>
-		/// Determines whether the specified display object is a child of the DisplayObjectContainer instance or the instance itself.
+		/// Determines whether the specified display object is a child of the <see cref="DisplayObjectContainer"/> instance or the instance itself.
 		/// </summary>
 		public bool contains(DisplayObject child)
 		{
@@ -77,7 +74,7 @@
 		}
 
 		/// <summary>
-		/// Returns the index position of a child DisplayObject instance.
+		/// Returns the index position of a child <see cref="DisplayObject"/> instance.
 		/// </summary>
 		public int getChildIndex(DisplayObject child)
 		{
@@ -85,7 +82,7 @@
 		}
 
 		/// <summary>
-		/// Returns an array of objects that lie under the specified point and are children (or grandchildren, and so on) of this DisplayObjectContainer instance.
+		/// Returns an array of objects that lie under the specified point and are children (or grandchildren, and so on) of this <see cref="DisplayObjectContainer"/> instance.
 		/// </summary>
 		public object[] getObjectsUnderPoint(Point point)
 		{
@@ -93,7 +90,7 @@
 		}
 
 		/// <summary>
-		/// Removes the specified child DisplayObject instance from the child list of the DisplayObjectContainer instance.
+		/// Removes the specified child <see cref="DisplayObject"/> instance from the child list of the <see cref="DisplayObjectContainer"/> instance.
 		/// </summary>
 		public DisplayObject removeChild(DisplayObject child)
 		{
@@ -101,7 +98,7 @@
 		}
 
 		/// <summary>
-		/// Removes a child DisplayObject from the specified index position in the child list of the DisplayObjectContainer.
+		/// Removes a child <see cref="DisplayObject"/> from the specified index position in the child list of the <see cref="DisplayObjectContainer"/>.
 		/// </summary>
 		public DisplayObject removeChildAt(int index)
 		{

@@ -46,6 +46,7 @@
     <Compile Include="accessibility\Accessibility.cs" />
     <Compile Include="accessibility\AccessibilityProperties.cs" />
     <Compile Include="Attributes.cs" />
+    <Compile Include="EfxExtensions\CompileCheck\System\Attributes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="VSAttrs.cs" />
     <Compile Include="desktop\Clipboard.cs" />

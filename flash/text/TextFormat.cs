@@ -2,7 +2,7 @@
 	public class TextFormat {
 		/// <summary>
 		/// Indicates the alignment of the paragraph.
-		/// <summary>
+		/// </summary>
 		public TextFormatAlign align {
 			get;
 			set;
@@ -10,7 +10,7 @@
 
 		/// <summary>
 		/// Indicates the block indentation in pixels.
-		/// <summary>
+		/// </summary>
 		public double blockIndent {
 			get;
 			set;
@@ -18,7 +18,7 @@
 
 		/// <summary>
 		/// Specifies whether the text is boldface.
-		/// <summary>
+		/// </summary>
 		public bool bold {
 			get;
 			set;
@@ -26,7 +26,7 @@
 
 		/// <summary>
 		/// Indicates that the text is part of a bulleted list.
-		/// <summary>
+		/// </summary>
 		public bool bullet {
 			get;
 			set;
@@ -34,7 +34,7 @@
 
 		/// <summary>
 		/// Indicates the color of the text.
-		/// <summary>
+		/// </summary>
 		public uint color {
 			get;
 			set;
@@ -42,7 +42,7 @@
 
 		/// <summary>
 		/// The name of the font for text in this text format, as a string.
-		/// <summary>
+		/// </summary>
 		public string font {
 			get;
 			set;
@@ -50,7 +50,7 @@
 
 		/// <summary>
 		/// Indicates the indentation from the left margin to the first character in the paragraph.
-		/// <summary>
+		/// </summary>
 		public double indent {
 			get;
 			set;
@@ -58,7 +58,7 @@
 
 		/// <summary>
 		/// Indicates whether text in this text format is italicized.
-		/// <summary>
+		/// </summary>
 		public bool italic {
 			get;
 			set;
@@ -66,7 +66,7 @@
 
 		/// <summary>
 		/// A Boolean value that indicates whether kerning is enabled (true) or disabled (false).
-		/// <summary>
+		/// </summary>
 		public bool kerning {
 			get;
 			set;
@@ -74,7 +74,7 @@
 
 		/// <summary>
 		/// An integer representing the amount of vertical space (called leading) between lines.
-		/// <summary>
+		/// </summary>
 		public int leading {
 			get;
 			set;
@@ -82,7 +82,7 @@
 
 		/// <summary>
 		/// The left margin of the paragraph, in pixels.
-		/// <summary>
+		/// </summary>
 		public double leftMargin {
 			get;
 			set;
@@ -90,7 +90,7 @@
 
 		/// <summary>
 		/// A number representing the amount of space that is uniformly distributed between all characters.
-		/// <summary>
+		/// </summary>
 		public double letterSpacing {
 			get;
 			set;
@@ -98,7 +98,7 @@
 
 		/// <summary>
 		/// The right margin of the paragraph, in pixels.
-		/// <summary>
+		/// </summary>
 		public double rightMargin {
 			get;
 			set;
@@ -106,7 +106,7 @@
 
 		/// <summary>
 		/// The point size of text in this text format.
-		/// <summary>
+		/// </summary>
 		public double size {
 			get;
 			set;
@@ -114,7 +114,7 @@
 
 		/// <summary>
 		/// Specifies custom tab stops as an array of non-negative integers.
-		/// <summary>
+		/// </summary>
 		public uint[] tabStops {
 			get;
 			set;
@@ -122,15 +122,15 @@
 
 		/// <summary>
 		/// Indicates the target window where the hyperlink is displayed.
-		/// <summary>
+		/// </summary>
 		public string target {
 			get;
 			set;
 		}
 
 		/// <summary>
-		/// Indicates whether the text that uses this text format is underlined (true) or not (false).
-		/// <summary>
+		/// Indicates whether the text that uses this text format is underlined (<see langword="true"/>) or not (<see langword="false"/>).
+		/// </summary>
 		public bool underline {
 			get;
 			set;
@@ -138,7 +138,7 @@
 
 		/// <summary>
 		/// Indicates the target URL for the text in this text format.
-		/// <summary>
+		/// </summary>
 		public string url {
 			get;
 			set;

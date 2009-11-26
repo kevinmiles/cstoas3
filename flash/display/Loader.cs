@@ -12,7 +12,7 @@
 		public readonly DisplayObject content;
 
 		/// <summary>
-		/// [read-only] Returns a LoaderInfo object corresponding to the object being loaded.
+		/// [read-only] Returns a <see cref="LoaderInfo"/> object corresponding to the object being loaded.
 		/// </summary>
 		public readonly LoaderInfo contentLoaderInfo;
 
@@ -38,14 +38,14 @@
 		}
 
 		/// <summary>
-		/// Loads from binary data stored in a ByteArray object.
+		/// Loads from binary data stored in a <see cref="ByteArray"/> object.
 		/// </summary>
 		public void loadBytes(ByteArray bytes, LoaderContext context) {
 			return;
 		}
 
 		/// <summary>
-		/// Loads from binary data stored in a ByteArray object.
+		/// Loads from binary data stored in a <see cref="ByteArray"/> object.
 		/// </summary>
 		public void loadBytes(ByteArray bytes) {
 			return;
