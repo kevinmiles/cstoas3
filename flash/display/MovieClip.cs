@@ -54,13 +54,19 @@
 		/// <summary>
 		/// Moves the playhead in the timeline of the movie clip.
 		/// </summary>
-		public void play() {}
+		public void play() {
+			return;
+		}
 
 		/// <summary>
 		/// Stops the playhead in the movie clip.
 		/// </summary>
-		public void stop() {}
+		public void stop() {
+			return;
+		}
 
-		public void nextFrame() {}
+		public void nextFrame() {
+			return;
+		}
 	}
 }

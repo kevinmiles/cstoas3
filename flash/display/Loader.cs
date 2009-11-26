@@ -19,31 +19,43 @@
 		/// <summary>
 		/// Cancels a load() method operation that is currently in progress for the Loader instance.
 		/// </summary>
-		public void close() {}
+		public void close() {
+			return;
+		}
 
 		/// <summary>
 		/// Loads a SWF, JPEG, progressive JPEG, unanimated GIF, or PNG file into an object that is a child of this Loader object.
 		/// </summary>
-		public void load(URLRequest request, LoaderContext context) {}
+		public void load(URLRequest request, LoaderContext context) {
+			return;
+		}
 
 		/// <summary>
 		/// Loads a SWF, JPEG, progressive JPEG, unanimated GIF, or PNG file into an object that is a child of this Loader object.
 		/// </summary>
-		public void load(URLRequest request) {}
+		public void load(URLRequest request) {
+			return;
+		}
 
 		/// <summary>
 		/// Loads from binary data stored in a ByteArray object.
 		/// </summary>
-		public void loadBytes(ByteArray bytes, LoaderContext context) {}
+		public void loadBytes(ByteArray bytes, LoaderContext context) {
+			return;
+		}
 
 		/// <summary>
 		/// Loads from binary data stored in a ByteArray object.
 		/// </summary>
-		public void loadBytes(ByteArray bytes) {}
+		public void loadBytes(ByteArray bytes) {
+			return;
+		}
 
 		/// <summary>
 		/// Removes a child of this Loader object that was loaded by using the load() method.
 		/// </summary>
-		public void unload() {}
+		public void unload() {
+			return;
+		}
 	}
 }

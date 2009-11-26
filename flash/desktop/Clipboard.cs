@@ -17,7 +17,7 @@
 		/// Deletes all data representations from this Clipboard object.
 		/// </summary>
 		public void clear() {
-			
+			return;
 		}
 
 		/// <summary>
@@ -25,6 +25,7 @@
 		/// </summary>
 		/// <param name="pFormat">The data format to remove.</param>
 		public void clearData(ClipboardFormats pFormat) {
+			return;
 		}
 
 		/// <summary>

@@ -105,7 +105,7 @@
 		/// </summary>
 		public Shader blendShader {
 			set {
-				throw new NotImplementedException();
+				return;
 			}
 		}
 

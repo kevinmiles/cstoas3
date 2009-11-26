@@ -1,4 +1,6 @@
 ﻿namespace flash.Global {
+	using System;
+
 	/// <summary>
 	/// The XML class contains methods and properties for working with XML objects. The XML class (along with the XMLList, Namespace, and QName classes) implements the powerful XML-handling standards defined in ECMAScript for XML (E4X) specification (ECMA-357 edition 2).
 	/// </summary>
@@ -186,7 +188,7 @@
 		/// <summary>
 		/// Checks to see whether the object has the property specified by the p parameter.
 		/// </summary>
-		public bool hasOwnProperty(string p) {
+		new public bool hasOwnProperty(string p) {
 			return default(bool);
 		}
 
@@ -307,7 +309,7 @@
 		/// <summary>
 		/// Checks whether the property p is in the set of properties that can be iterated in a for..in statement applied to the XML object.
 		/// </summary>
-		public bool propertyIsEnumerable(string p) {
+		new public bool propertyIsEnumerable(string p) {
 			return default(bool);
 		}
 
@@ -335,22 +337,30 @@
 		/// <summary>
 		/// Changes the local name of the XML object to the given name parameter.
 		/// </summary>
-		public void setLocalName(string name) {}
+		public void setLocalName(string name) {
+			return;
+		}
 
 		/// <summary>
 		/// Sets the name of the XML object to the given qualified name or attribute name.
 		/// </summary>
-		public void setName(string name) {}
+		public void setName(string name) {
+			return;
+		}
 
 		/// <summary>
 		/// Sets the namespace associated with the XML object.
 		/// </summary>
-		public void setNamespace(Namespace ns) {}
+		public void setNamespace(Namespace ns) {
+			return;
+		}
 
 		/// <summary>
 		/// [static] Sets values for the following XML properties: ignoreComments, ignoreProcessingInstructions, ignoreWhitespace, prettyIndent, and prettyPrinting.
 		/// </summary>
-		public static void setSettings( XMLSettings settings) {}
+		public static void setSettings(XMLSettings settings) {
+			return;
+		}
 
 		/// <summary>
 		/// [static] Retrieves the following properties: ignoreComments, ignoreProcessingInstructions, ignoreWhitespace, prettyIndent, and prettyPrinting.
@@ -376,14 +386,14 @@
 		/// <summary>
 		/// Returns the XML object.
 		/// </summary>
-		public XML valueOf() {
+		new public XML valueOf() {
 			return default(XML);
 		}
 
 		/// <summary>
 		/// Creates a new XML object.
 		/// </summary>
-		public XML(object value) {}
+		public XML(object value) {return;}
 	}
 
 	[As3AsObject]

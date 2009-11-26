@@ -19,18 +19,22 @@
 		/// <summary>
 		/// Returns the URI value of the specified object.
 		/// </summary>
-		public string valueOf() {
+		new public string valueOf() {
 			return default(string);
 		}
 
 		/// <summary>
 		/// Creates a Namespace object.
 		/// </summary>
-		public Namespace(object uriValue) {}
+		public Namespace(object uriValue) {
+			return;
+		}
 
 		/// <summary>
 		/// Creates a Namespace object according to the values of the prefixValue and uriValue parameters.
 		/// </summary>
-		public Namespace(object prefixValue, object uriValue) {}
+		public Namespace(object prefixValue, object uriValue) {
+			return;
+		}
 	}
 }

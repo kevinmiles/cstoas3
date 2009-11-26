@@ -115,7 +115,7 @@
 		/// <summary>
 		/// [read-only]
 		/// </summary>
-		public ContextMenu contextMenu {
+		new public ContextMenu contextMenu {
 			get;
 			private set;
 		}

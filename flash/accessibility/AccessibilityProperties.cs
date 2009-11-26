@@ -6,7 +6,7 @@
 		public string description;
 
 		/// <summary>
-		/// If true, causes Flash Player to exclude child objects within this display object from the accessible presentation.
+		/// If <see langword="true"/>, causes Flash Player to exclude child objects within this display object from the accessible presentation.
 		/// </summary>
 		public bool forceSimple;
 
@@ -16,7 +16,7 @@
 		public string name;
 
 		/// <summary>
-		/// If true, disables the Flash Player default auto-labeling system.
+		/// If <see langword="true"/>, disables the Flash Player default auto-labeling system.
 		/// </summary>
 		public bool noAutoLabeling;
 
@@ -26,7 +26,7 @@
 		public string shortcut;
 
 		/// <summary>
-		/// If true, excludes this display object from accessible presentation.
+		/// If <see langword="true"/>, excludes this display object from accessible presentation.
 		/// </summary>
 		public bool silent;
 	}

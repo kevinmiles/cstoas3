@@ -470,7 +470,7 @@
 		/// <summary>
 		/// Returns the number of milliseconds since midnight January 1, 1970, universal time, for a Date object.
 		/// </summary>
-		public double valueOf() {
+		new public double valueOf() {
 			return default(double);
 		}
 
@@ -505,8 +505,12 @@
 		/// </summary>
 		public Date(object yearOrTimevalue, double month) {}
 
-		public Date(long ticks) {}
+		public Date(long ticks) {
+			return;
+		}
 
-		public Date() {}
+		public Date() {
+			return;
+		}
 	}
 }

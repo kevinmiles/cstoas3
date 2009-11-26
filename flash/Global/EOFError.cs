@@ -7,10 +7,12 @@
 		/// <param name="pMessage">A string associated with the error object. </param>
 		public EOFError(string pMessage)
 			: base(pMessage, 0) {
+			return;
 		}
 
 		public EOFError()
 			: base("", 0) {
+			return;
 		}
 	}
 }

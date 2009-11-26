@@ -8,7 +8,7 @@
 		/// </summary>
 		/// <param name="pByteCode">The shader's byte code.</param>
 		public ShaderData(ByteArray pByteCode) {
-			
+			return;
 		}
 	}
 }

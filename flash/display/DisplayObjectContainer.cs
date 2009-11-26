@@ -111,29 +111,29 @@
 		/// <summary>
 		/// Changes the position of an existing child in the display object container.
 		/// </summary>
-		public void setChildIndex(DisplayObject child, int index)
-		{
+		public void setChildIndex(DisplayObject child, int index) {
+			return;
 		}
 
 		/// <summary>
 		/// Swaps the z-order (front-to-back order) of the two specified child objects.
 		/// </summary>
-		public void swapChildren(DisplayObject child1, DisplayObject child2)
-		{
+		public void swapChildren(DisplayObject child1, DisplayObject child2) {
+			return;
 		}
 
 		/// <summary>
 		/// Swaps the z-order (front-to-back order) of the child objects at the two specified index positions in the child list.
 		/// </summary>
-		public void swapChildrenAt(int index1, int index2)
-		{
+		public void swapChildrenAt(int index1, int index2) {
+			return;
 		}
 
 		/// <summary>
 		/// Calling the new DisplayObjectContainer() constructor throws an ArgumentError exception.
 		/// </summary>
-		public DisplayObjectContainer()
-		{
+		public DisplayObjectContainer() {
+			return;
 		}
 	}
 }

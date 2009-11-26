@@ -87,7 +87,7 @@
 		/// <summary>
 		/// Checks for the property specified by p.
 		/// </summary>
-		public bool hasOwnProperty(string p) {
+		new public bool hasOwnProperty(string p) {
 			return default(bool);
 		}
 
@@ -136,7 +136,7 @@
 		/// <summary>
 		/// Checks whether the property p is in the set of properties that can be iterated in a for..in statement applied to the XMLList object.
 		/// </summary>
-		public bool propertyIsEnumerable(string p) {
+		new public bool propertyIsEnumerable(string p) {
 			return default(bool);
 		}
 
@@ -157,14 +157,16 @@
 		/// <summary>
 		/// Returns the XMLList object.
 		/// </summary>
-		public XMLList valueOf() {
+		new public XMLList valueOf() {
 			return default(XMLList);
 		}
 
 		/// <summary>
 		/// Creates a new XMLList object.
 		/// </summary>
-		public XMLList(object value) {}
+		public XMLList(object value) {
+			return;
+		}
 
 		public XML this[int i] {
 			get {

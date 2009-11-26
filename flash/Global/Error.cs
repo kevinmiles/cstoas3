@@ -10,15 +10,15 @@
 		/// <param name="pMessage">A string associated with the Error object; this parameter is optional</param>
 		/// <param name="pId">A reference number to associate with the specific error message</param>
 		public Error(string pMessage, int pId) {
-			
+			return;
 		}
 
 		public Error(string pMessage) {
-
+			return;
 		}
 
 		public Error() {
-
+			return;
 		}
 
 		/// <summary>
@@ -33,7 +33,7 @@
 		/// Returns the string "Error" by default or the value contained in the Error.message property, if defined.
 		/// </summary>
 		/// <returns>The error message.</returns>
-		public string toString() {
+		new public string toString() {
 			return "";
 		}
 	}

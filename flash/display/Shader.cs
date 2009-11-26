@@ -7,7 +7,7 @@
 		/// </summary>
 		/// <param name="pByteCode">The raw shader bytecode to link to the Shader.</param>
 		public Shader(ByteArray pByteCode) {
-			
+			return;
 		}
 
 		/// <summary>
@@ -15,7 +15,7 @@
 		/// </summary>
 		public ByteArray byteCode {
 			set {
-				
+				return;
 			}
 		}
 

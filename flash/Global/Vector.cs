@@ -1,4 +1,5 @@
 ﻿namespace flash.Global {
+	using System;
 
 	[As3IsGeneric(true)]
 	public class Vector<T> {
@@ -24,7 +25,7 @@
 		/// Creates a Vector with the specified base type
 		/// </summary>
 		public Vector() {
-
+			return;
 		}
 
 		/// <summary>
@@ -32,7 +33,7 @@
 		/// </summary>
 		/// <param name="pLength">The initial length (number of elements) of the Vector. If this parameter is greater than zero, the specified number of Vector elements are created and populated with the default value appropriate to the base type ( null for reference types).</param>
 		public Vector(uint pLength) {
-
+			return;
 		}
 		/// <summary>
 		/// Creates a Vector with the specified base type
@@ -40,7 +41,7 @@
 		/// <param name="pLength">The initial length (number of elements) of the Vector. If this parameter is greater than zero, the specified number of Vector elements are created and populated with the default value appropriate to the base type ( null for reference types).</param>
 		/// <param name="pIsFixed">Whether the Vector's length is fixed ( true ) or can be changed ( false ). This value can also be set using the <see cref="isFixed"/> property</param>
 		public Vector(uint pLength, bool pIsFixed) {
-		
+			return;
 		}
 
 		/// <summary>
@@ -97,7 +98,7 @@
 		/// <param name="pCallback">The function to run on each item in the Vector. This function is invoked with three arguments: the current item from the Vector, the index of the item, and the Vector object.</param>
 		/// <param name="pThisObject">The object that the identifer this in the callback function refers to when the function is called.</param>
 		public void forEach(VectorForEachCallback pCallback, object pThisObject) {
-
+			return;
 		}
 
 		/// <summary>
@@ -105,7 +106,7 @@
 		/// </summary>
 		/// <param name="pCallback">The function to run on each item in the Vector. This function is invoked with three arguments: the current item from the Vector, the index of the item, and the Vector object.</param>
 		public void forEach(VectorForEachCallback pCallback) {
-
+			return;
 		}
 
 		/// <summary>
@@ -318,7 +319,7 @@
 		/// Returns a string that represents the elements in the Vector. Every element in the Vector, starting with index 0 and ending with the highest index, is converted to a concatenated string and separated by commas. To specify a custom separator, use the Vector.join() method.
 		/// </summary>
 		/// <returns>A string of Vector elements.</returns>
-		public string toString() {
+		new public string toString() {
 			return "";
 		}
 

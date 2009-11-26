@@ -251,7 +251,7 @@ namespace CStoFlash.AS3Writer {
 			foreach (CsSwitchSection caseNode in switchStatement.sections) {
 				LinkedList<CsSwitchLabel> labels = caseNode.labels;
 				foreach (CsSwitchLabel label in labels){
-					if (label.bDefault) {
+					if (label.default_label) {
 						pSb.Append("default:");
 						pSb.AppendLine();
 

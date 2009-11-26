@@ -49,21 +49,29 @@
 		/// <summary>
 		/// Lets the user drag the specified sprite.
 		/// </summary>
-		public void startDrag(bool lockCenter, Rectangle bounds) {}
+		public void startDrag(bool lockCenter, Rectangle bounds) {
+			return;
+		}
 
 		/// <summary>
 		/// Lets the user drag the specified sprite.
 		/// </summary>
-		public void startDrag(bool lockCenter) {}
+		public void startDrag(bool lockCenter) {
+			return;
+		}
 
 		/// <summary>
 		/// Lets the user drag the specified sprite.
 		/// </summary>
-		public void startDrag() {}
+		public void startDrag() {
+			return;
+		}
 
 		/// <summary>
 		/// Ends the startDrag() method.
 		/// </summary>
-		public void stopDrag() {}
+		public void stopDrag() {
+			return;
+		}
 	}
 }
