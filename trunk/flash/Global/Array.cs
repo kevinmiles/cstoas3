@@ -3,6 +3,8 @@
 
 	using flash;
 
+	///<summary>
+	///</summary>
 	[Flags]
 	[As3Name("Array")]
 	public enum ArraySortOptions {
@@ -36,7 +38,6 @@
 		public delegate bool ArrayFilterCallback(object item, int index, Array array);
 		public delegate void ArrayForeachCallback(object item, int index, Array array);
 		public delegate float ArraySortCallback(object itemA, object itemB);
-
 
 		/// <summary>
 		/// A non-negative integer specifying the number of elements in the array.
@@ -277,7 +278,7 @@
 		/// <summary>
 		/// Adds one or more elements to the beginning of an array and returns the new length of the array.
 		/// </summary>
-		public uint unshift( params object[] args) {
+		public uint unshift(params object[] args) {
 			return default(uint);
 		}
 

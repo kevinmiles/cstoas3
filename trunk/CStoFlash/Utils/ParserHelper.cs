@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 namespace CStoFlash.Utils {
 	using System.Diagnostics;
+	using System.Linq;
 
 	using Metaspec;
 
@@ -12,6 +13,8 @@ namespace CStoFlash.Utils {
 		const string AS3_EVENT_ATTRIBUTE = "As3EventAttribute";
 		const string AS3_NAME_ATTRIBUTE = "As3NameAttribute";
 		const string AS3_NAMESPACE_ATTRIBUTE = "As3NamespaceAttribute";
+		public const string AS3_IS_DEFAULT_ARRAY = "As3IsDefaultArray";
+		public const string AS3_IS_DEFAULT_OBJECT = "As3IsDefaultObject";
 
 		private static readonly char[] _paramTrim = new[] { ',', ' ' };
 		private static readonly Dictionary<CsTokenType, string> _typeRef = new Dictionary<CsTokenType, string>();
@@ -224,16 +227,29 @@ namespace CStoFlash.Utils {
 			if (pDirective.namespace_or_type_name == null)
 				return "";
 
-
 			//pDirective.namespace_or_type_entity.name
 
 			string ret = GetType(pDirective.namespace_or_type_name);
 			if (!string.IsNullOrEmpty(ret))
 				ret += ".";
 
-			return ret + pDirective.namespace_or_type_entity.name;
+			return ret;
+			//+pDirective.namespace_or_type_entity.name;
 				//pDirective.namespace_or_type_name.identifier.identifier;
 		}
+
+		public static string GetType(CsUsingAliasDirective pDirective) {
+			if (pDirective.namespace_or_type_name == null)
+				return "";
+
+
+			string ret = GetType(pDirective.namespace_or_type_name);
+			if (!string.IsNullOrEmpty(ret))
+				ret += ".";
+
+			return ret + pDirective.namespace_or_type_entity.name;
+		}
+
 
 		public static string GetType(CsNamespaceOrTypeName pDirective) {
 			string g = "";
@@ -252,7 +268,6 @@ namespace CStoFlash.Utils {
 			if (pDirective.namespace_or_type_name == null) {
 				if (pDirective.parent is CsTypeRef) {
 					
-
 					CsTypeRef parent = ((CsTypeRef) pDirective.parent);
 
 					if (parent.entity_typeref.u is CsEntityClass) {
@@ -289,6 +304,9 @@ namespace CStoFlash.Utils {
 
 			if (pDirective is CsTypeRef)
 				return GetType((CsTypeRef)pDirective);
+
+			if (pDirective is CsUsingAliasDirective)
+				return GetType((CsUsingAliasDirective)pDirective);
 
 			throw new Exception("Unsupported node type");
 		}
@@ -381,13 +399,9 @@ namespace CStoFlash.Utils {
 			if (pList.sections == null || pList.sections.Count == 0)
 				return def;
 
-			foreach (CsAttributeSection section in pList.sections) {
-				foreach (CsAttribute attribute in section.attribute_list) {
-					T val = GetAttributeValue<T>(attribute.entities, pAttrName);
-
-					if (val != null && !val.Equals(def))
-						return val;
-				}
+			foreach (T val in
+				pList.sections.SelectMany(pSection => pSection.attribute_list.Select(pAttribute => GetAttributeValue<T>(pAttribute.entities, pAttrName)).Where(pVal => pVal != null && !pVal.Equals(def)))) {
+				return val;
 			}
 
 			return def;

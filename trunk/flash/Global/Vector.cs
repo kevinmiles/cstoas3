@@ -340,11 +340,24 @@
 			}
 		}
 
+		///<summary>
+		/// Converts an Array to a Vector of type <typeparamref name="T"/>
+		///</summary>
+		///<param name="array"></param>
+		///<returns></returns>
 		public static explicit operator Vector<T>(Array array) {
 			return null;
 		}
 
 		public static explicit operator Array(Vector<T> vector) {
+			return null;
+		}
+
+		public static explicit operator Vector<T>(T[] array) {
+			return null;
+		}
+
+		public static explicit operator T[](Vector<T> vector) {
 			return null;
 		}
 	}

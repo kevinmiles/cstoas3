@@ -193,13 +193,28 @@
 		private static void parseUsing(IEnumerable<CsUsingDirective> pNn, CodeBuilder pStrb) {
 			if (pNn == null) return;
 
-			foreach (CsUsingNamespaceDirective directive in pNn) {
-				string name = As3Helpers.Convert(ParserHelper.GetType(directive));
-				if (name.StartsWith("flash.Global", StringComparison.Ordinal))
-					continue;
+			foreach (CsUsingDirective directive in pNn) {
+				if (directive is CsUsingNamespaceDirective) {
+					string name = As3Helpers.Convert(ParserHelper.GetType(directive));
+					if (name.StartsWith("flash.Global", StringComparison.Ordinal) || name.StartsWith("System", StringComparison.Ordinal))
+						continue;
 
-				pStrb.AppendFormat("import {0}.*;", name);
-				pStrb.AppendLine();
+					pStrb.AppendFormat("import {0}*;", name);
+					pStrb.AppendLine();
+					continue;
+				}
+
+				if (directive is CsUsingAliasDirective) {
+					string name = As3Helpers.Convert(ParserHelper.GetType(directive));
+					if (name.StartsWith("flash.Global", StringComparison.Ordinal))
+						continue;
+
+					pStrb.AppendFormat("import {0}*;", name);
+					pStrb.AppendLine();
+					continue;
+				}
+
+				throw new Exception("Unhandled using type");
 			}
 		}
 

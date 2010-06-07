@@ -44,7 +44,7 @@
 
 			//Setter
 			string sModifiers = As3Helpers.GetModifiers(setter.modifiers);
-			pBuilder.AppendFormat("{0}function {1}(value:{2}):void {{",
+			pBuilder.AppendFormat("{0}function {1}(value:{2}):{2} {{",
 				string.IsNullOrEmpty(sModifiers) ? defModifier : sModifiers,
 				setter.entity.name,
 				type
@@ -55,10 +55,15 @@
 			if (empty) {
 				pBuilder.Indent();
 				pBuilder.AppendFormat("_{0} = value;", identifier);
+				pBuilder.AppendLine();
+				pBuilder.Append("return value;");
 				pBuilder.Unindent();
 
 			} else {
+				BlockParser.InsideSetter = true;
 				BlockParser.Parse(setter.definition, pBuilder);
+				BlockParser.InsideSetter = false;
+				pBuilder.AppendLine("	return value;");
 			}
 
 			pBuilder.AppendLine();

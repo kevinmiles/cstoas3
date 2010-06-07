@@ -1,4 +1,5 @@
 ﻿namespace CStoFlash.AS3Writer.Expressions {
+	using System.Collections.Generic;
 	using System.Text;
 
 	using Metaspec;
@@ -14,7 +15,9 @@
 			//delegate-creation-expression: 
 			//"new" delegate-type "(" expression ")"
 			CsNewObjectExpression node = (CsNewObjectExpression)pStatement;
+
 			StringBuilder sb = new StringBuilder();
+
 			sb.Append("new ");
 			sb.Append(As3Helpers.Convert(ParserHelper.GetType(node.type)));
 			sb.Append("(");
@@ -29,7 +32,7 @@
 				sb.Remove(sb.Length - 2, 2);
 			}
 
-			sb.Append(")");
+			sb.Append(")");	
 
 			return new Expression(
 				sb.ToString(),

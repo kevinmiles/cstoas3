@@ -62,4 +62,7 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <PropertyGroup>
+    <PostBuildEvent>copy "$(ProjectDir)Test.cs" "$(ProjectDir)..\CStoFlash\bin\Debug\source\"</PostBuildEvent>
+  </PropertyGroup>
 </Project>

@@ -39,6 +39,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -49,9 +50,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CsTransformationParserLibrary, Version=4.0.0.132, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="SharpKit.Compiler.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=b83f527cfd9d0f78, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Referenced Assemblies\CsTransformationParserLibrary.dll</HintPath>
+      <HintPath>..\Referenced Assemblies\SharpKit.Compiler.Core.DLL</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
