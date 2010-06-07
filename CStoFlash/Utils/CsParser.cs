@@ -24,15 +24,15 @@
 			project.setErrorMessageCallback(addError);
 			project.addFiles();
 
-			string assemblyPath = Assembly.GetAssembly(typeof(object)).Location;
-			byte[] assemblyBuffer = File.ReadAllBytes(assemblyPath);
+			//string assemblyPath = Assembly.GetAssembly(typeof(object)).Location;
+			//byte[] assemblyBuffer = File.ReadAllBytes(assemblyPath);
 
-			IExternalAssemblyModule module = IExternalAssemblyModuleFactory.create(assemblyBuffer, assemblyPath);
-			project.addExternalAssemblyModules(new[] { module }, false, null);
+			//IExternalAssemblyModule module = IExternalAssemblyModuleFactory.create(assemblyBuffer, assemblyPath);
+			//project.addExternalAssemblyModules(new[] { module }, false, null);
 
 			string flashLibrary = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-			assemblyBuffer = File.ReadAllBytes(flashLibrary+"\\flash.dll");
-			module = IExternalAssemblyModuleFactory.create(assemblyBuffer, flashLibrary);
+			byte[] assemblyBuffer = File.ReadAllBytes(flashLibrary + "\\flash.dll");
+			IExternalAssemblyModule module = IExternalAssemblyModuleFactory.create(assemblyBuffer, flashLibrary);
 			project.addExternalAssemblyModules(new[] { module }, false, null);
 			
 

@@ -16,6 +16,8 @@ namespace CStoFlash.AS3Writer {
 		//static readonly Dictionary<Type, parseNodeFunc> _nodeWritters = new Dictionary<Type, parseNodeFunc>();
 
 		private delegate void parseFunc(CsStatement pStatement, CodeBuilder pSb);
+
+		public static bool InsideSetter;
 		//private delegate string parseNodeFunc(CsNode pStatement);
 
 		static BlockParser() {
@@ -251,7 +253,8 @@ namespace CStoFlash.AS3Writer {
 			foreach (CsSwitchSection caseNode in switchStatement.sections) {
 				LinkedList<CsSwitchLabel> labels = caseNode.labels;
 				foreach (CsSwitchLabel label in labels){
-					if (label.default_label) {
+					if (label.bDefault) {
+					//if (label.default_label) {
 						pSb.Append("default:");
 						pSb.AppendLine();
 
@@ -289,7 +292,7 @@ namespace CStoFlash.AS3Writer {
 		private static void parseReturnStatement(CsStatement pStatement, CodeBuilder pSb) {
 			CsReturnStatement returnStatement = (CsReturnStatement) pStatement;
 			if (returnStatement.expression == null) {
-				pSb.AppendLine("return;");
+				pSb.AppendLine(InsideSetter ? "return value;" : "return;");
 
 			} else {
 				pSb.AppendFormat("return {0};", FactoryExpressionCreator.Parse(returnStatement.expression).Value);

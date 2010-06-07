@@ -1,6 +1,8 @@
 ﻿namespace flash {
 	using System;
 
+
+
 	[AttributeUsage(AttributeTargets.Event, AllowMultiple = false)]
 	public sealed class As3EventAttribute : Attribute {
 		public As3EventAttribute(string eventName) {
@@ -8,7 +10,7 @@
 		}
 	}
 
-	[AttributeUsage(AttributeTargets.Constructor, AllowMultiple = false)]
+	[AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
 	public sealed class As3MainClassAttribute : Attribute {
 		public As3MainClassAttribute(int pWidth, int pHeight, int pFrameRate, uint pBackgroundColor) {
 			return;

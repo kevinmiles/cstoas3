@@ -9,12 +9,13 @@
 
 			if (pIndexer.getter != null) {
 				CsPropertyAccessor getter = pIndexer.getter;
+				string returnType = As3Helpers.Convert(klass.Getter.ReturnType);
 				
 				pBuilder.AppendFormat("{0}function {1}({2}):{3} {{",
 					As3Helpers.GetModifiers(getter.modifiers),
 					klass.Getter.Name,
 					As3Helpers.GetParams(getter.entity.parameters),
-					As3Helpers.Convert(klass.Getter.ReturnType));
+					returnType);
 
 				pBuilder.AppendLine();
 				BlockParser.Parse(getter.definition, pBuilder);
@@ -39,8 +40,11 @@
 			);
 
 			pBuilder.AppendLine();
+			//BlockParser.InsideSetter = true;
 			BlockParser.Parse(setter.definition, pBuilder);
+			//BlockParser.InsideSetter = false;
 			pBuilder.AppendLine();
+			//pBuilder.AppendLine("return value;");
 			pBuilder.AppendLine("}");
 			pBuilder.AppendLine();
 		}

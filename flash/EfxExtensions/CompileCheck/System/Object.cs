@@ -1,4 +1,5 @@
 ﻿namespace System {
+
 	public class Object {
 		/// <summary>
 		/// Indicates whether an object has a specified property defined.
@@ -62,5 +63,16 @@
 				return;
 			}
 		}
+
+		public static bool operator ==(object object1, object object2) {
+			return true;
+		}
+
+		public static bool operator !=(object object1, object object2) {
+			return false;
+		}
+
+
 	}
+
 }

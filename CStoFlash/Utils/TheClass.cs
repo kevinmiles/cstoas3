@@ -41,8 +41,8 @@ namespace CStoFlash.Utils {
 					case cs_entity_type.et_class:
 						return Get(csea.expression.entity_typeref.u as CsEntityClass);
 
-					default:
-						throw new Exception();
+					default://Object access?
+						return null;
 				}
 			}
 

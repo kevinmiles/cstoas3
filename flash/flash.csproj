@@ -47,6 +47,8 @@
     <Compile Include="accessibility\AccessibilityProperties.cs" />
     <Compile Include="Attributes.cs" />
     <Compile Include="EfxExtensions\CompileCheck\System\Attributes.cs" />
+    <Compile Include="EfxExtensions\CompileCheck\System\Object.cs" />
+    <Compile Include="Global\String.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="VSAttrs.cs" />
     <Compile Include="desktop\Clipboard.cs" />
@@ -174,7 +176,6 @@
     <Compile Include="Global\Math.cs" />
     <Compile Include="Global\Namespace.cs" />
     <Compile Include="Global\Number.cs" />
-    <Compile Include="EfxExtensions\CompileCheck\System\Object.cs" />
     <Compile Include="Global\QName.cs" />
     <Compile Include="Global\RegExp.cs" />
     <Compile Include="Global\SecurityError.cs" />
@@ -267,4 +268,7 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <PropertyGroup>
+    <PostBuildEvent>copy "$(TargetDir)flash.*" "$(ProjectDir)..\CStoFlash\bin\Debug\"</PostBuildEvent>
+  </PropertyGroup>
 </Project>
