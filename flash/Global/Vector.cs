@@ -1,8 +1,9 @@
 ﻿namespace flash.Global {
 	using System;
+	using System.Collections;
 
 	[As3IsGeneric(true)]
-	public class Vector<T> {
+	public class Vector<T> : IEnumerable<T> {
 
 		[As3Name("fixed")]
 		public bool isFixed;
@@ -353,12 +354,45 @@
 			return null;
 		}
 
-		public static explicit operator Vector<T>(T[] array) {
-			return null;
+		//public static explicit operator Vector<T>(T[] array) {
+		//    return null;
+		//}
+
+		public static implicit operator Vector<T>(T[] array) {
+		    return null;
 		}
 
-		public static explicit operator T[](Vector<T> vector) {
-			return null;
+		[Obsolete("Just for compatibility with C# compiler. DO NOT USE")]
+		public IEnumerator<T> GetEnumerator() {
+			return new VectorEnumerator<T>();
+		}
+
+		[Obsolete("Just for compatibility with C# compiler. DO NOT USE")]
+		IEnumerator IEnumerable.GetEnumerator() {
+			return GetEnumerator();
+		}
+	}
+
+	[Obsolete("Just for compatibility with C# compiler. DO NOT USE")]
+	public class VectorEnumerator<T> : IEnumerator<T> {
+		object IEnumerator.Current {
+			get {
+				return Current;
+			}
+		}
+
+		public T Current {
+			get {
+				return default(T);
+			}
+		}
+
+		public bool MoveNext() {
+			return true;
+		}
+
+		public void Reset() {
+			
 		}
 	}
 }

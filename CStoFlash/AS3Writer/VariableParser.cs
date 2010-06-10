@@ -8,7 +8,7 @@
 	public static class VariableParser {
 
 		public static void Parse(CsVariableDeclaration pCsVariableDeclaration, AS3Builder pBuilder) {
-			string modifiers = As3Helpers.GetModifiers(pCsVariableDeclaration.modifiers);
+			string modifiers = As3Helpers.GetModifiers(pCsVariableDeclaration.modifiers, null);
 
 			foreach (CsVariableDeclarator declarator in pCsVariableDeclaration.declarators) {
 				StringBuilder sb = new StringBuilder();

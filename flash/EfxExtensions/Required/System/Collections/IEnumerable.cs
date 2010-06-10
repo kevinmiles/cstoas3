@@ -1,6 +1,10 @@
 ﻿namespace System.Collections {
 
 	public interface IEnumerable {
-		IEnumerator getEnumerator();
+		IEnumerator GetEnumerator();
 	}
+
+	public interface IEnumerable<T> : IEnumerable {
+		new IEnumerator<T> GetEnumerator ();
+	} 
 }

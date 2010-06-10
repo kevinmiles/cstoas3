@@ -11,14 +11,18 @@
 			TheClass k = TheClass.Get(pStatement);
 
 			List<string> indexes = new List<string>();
-
-			foreach (CsArgument argument in ex.argument_list.list) {
-				indexes.Add(FactoryExpressionCreator.Parse(argument.expression).Value);
+			
+			if (ex.argument_list != null) {
+				foreach (CsArgument argument in ex.argument_list.list) {
+					indexes.Add(FactoryExpressionCreator.Parse(argument.expression).Value);
+				}
 			}
 
-			string name = ParserHelper.GetRealName(ex, k == null ?
-				FactoryExpressionCreator.Parse(ex.expression).Value :
-				k.GetMethod((CsMethod)((CsEntityMethod)ex.entity).decl).Name);
+			string name = ParserHelper.GetRealName(ex, FactoryExpressionCreator.Parse(ex.expression).Value);
+
+			//string name = ParserHelper.GetRealName(ex, k == null ?
+			//    FactoryExpressionCreator.Parse(ex.expression).Value :
+			//    k.GetMethod((CsMethod)((CsEntityMethod)ex.entity).decl).Name);
 
 			//patch
 			if (name.Contains("{0}")) {

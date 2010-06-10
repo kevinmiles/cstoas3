@@ -19,12 +19,18 @@
 			}
 
 			pSb.AppendFormat("{0}function {1}({2}) {{",
-			                 As3Helpers.GetModifiers(pConstructor.modifiers),
+							 As3Helpers.GetModifiers(pConstructor.modifiers, null),
 			                 klass.Name,
 			                 As3Helpers.GetParams(pConstructor.parameters.parameters)
 				);
 
 			pSb.AppendLine();
+
+			if (pConstructor.basethis == CsTokenType.tkBASE) {
+				pSb.AppendFormat("\tsuper({0});", As3Helpers.GetParams(pConstructor.argument_list));
+				pSb.AppendLine();
+			}
+
 			BlockParser.Parse(pConstructor.definition, pSb);
 			pSb.AppendLine();
 			pSb.AppendLine("}");
@@ -40,7 +46,7 @@
 			TheMethod klass = TheClass.Get(pMethod, pMethod);
 
 			pSb.AppendFormat("{0}function {1}({2}):{3} {{",
-				As3Helpers.GetModifiers(pMethod.modifiers),
+				As3Helpers.GetModifiers(pMethod.modifiers, null),
 				klass.Name,
 				As3Helpers.GetParams(pMethod.parameters.parameters),
 				As3Helpers.Convert(klass.ReturnType)

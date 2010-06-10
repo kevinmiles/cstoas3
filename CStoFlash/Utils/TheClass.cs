@@ -264,6 +264,7 @@ namespace CStoFlash.Utils {
 		public TheMethod GetMethod(CsMethod pMethod) {
 			return _methods.ContainsKey(pMethod) ? _methods[pMethod] : null;
 		}
+
 	}
 
 	public class TheMethod {

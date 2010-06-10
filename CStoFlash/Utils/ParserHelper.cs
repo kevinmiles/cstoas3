@@ -13,8 +13,8 @@ namespace CStoFlash.Utils {
 		const string AS3_EVENT_ATTRIBUTE = "As3EventAttribute";
 		const string AS3_NAME_ATTRIBUTE = "As3NameAttribute";
 		const string AS3_NAMESPACE_ATTRIBUTE = "As3NamespaceAttribute";
-		public const string AS3_IS_DEFAULT_ARRAY = "As3IsDefaultArray";
-		public const string AS3_IS_DEFAULT_OBJECT = "As3IsDefaultObject";
+		//public const string AS3_IS_DEFAULT_ARRAY = "As3IsDefaultArray";
+		//public const string AS3_IS_DEFAULT_OBJECT = "As3IsDefaultObject";
 
 		private static readonly char[] _paramTrim = new[] { ',', ' ' };
 		private static readonly Dictionary<CsTokenType, string> _typeRef = new Dictionary<CsTokenType, string>();

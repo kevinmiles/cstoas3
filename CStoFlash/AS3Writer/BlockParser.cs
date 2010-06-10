@@ -219,25 +219,36 @@ namespace CStoFlash.AS3Writer {
 		private static void parseForeachStatement(CsStatement pStatement, CodeBuilder pSb) {
 			CsForeachStatement fes = (CsForeachStatement)pStatement;
 
-			_enumCount++;
-			string enumName = String.Format("__ie{0}", _enumCount);
-			pSb.AppendLine();
-			pSb.AppendFormat("var {0}:IEnumerator = {1}.getEnumerator();",
-				enumName, FactoryExpressionCreator.Parse(fes.expression).Value);
-			pSb.AppendLine();
-
-			pSb.AppendFormat("while ({0}.moveNext()){{", enumName);
-			pSb.AppendLine();
-
+			Expression ex = FactoryExpressionCreator.Parse(fes.expression);
 			string type = As3Helpers.Convert(ParserHelper.GetType(fes.type));
 
-			pSb.AppendFormat("\tvar {1}:{2} = {0}.current as {2};",
-				enumName,
-				fes.identifier.identifier,
-				type
-			);
-
 			pSb.AppendLine();
+
+			if (ex.Type.type == cs_entity_type.et_array || ex.IsAs3Generic) {//foreach
+				pSb.AppendFormat("for each(var {0}:{1} in {2}){{",
+					fes.identifier.identifier,
+					type,
+					ex.Value);
+				pSb.AppendLine();
+
+			} else {
+				_enumCount++;
+				string enumName = String.Format("__ie{0}", _enumCount);
+				pSb.AppendFormat("var {0}:IEnumerator = {1}.getEnumerator();",
+				enumName, ex.Value);
+				pSb.AppendLine();
+				pSb.AppendFormat("while ({0}.moveNext()){{", enumName);
+				pSb.AppendLine();
+				
+				pSb.AppendFormat("\tvar {1}:{2} = {0}.current as {2};",
+					enumName,
+					fes.identifier.identifier,
+					type
+				);
+
+				pSb.AppendLine();
+			}
+			
 			ParseBlockOrStatementOrExpression(fes.statement, pSb);
 			pSb.AppendLine("}");
 			pSb.AppendLine();

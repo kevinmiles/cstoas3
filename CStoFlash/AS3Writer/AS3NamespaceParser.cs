@@ -11,6 +11,13 @@
 	using System.Collections.Generic;
 
 	public class As3NamespaceParser : INamespaceParser {
+		private static readonly Dictionary<CsModifierEnum, string> _notValidClassMod = 
+			new Dictionary<CsModifierEnum, string> {
+				{ CsModifierEnum.mSTATIC, "final" }, 
+				{ CsModifierEnum.mPRIVATE, null },
+				{ CsModifierEnum.mABSTRACT, null }
+			};
+
 		static As3NamespaceParser() {
 			FactoryExpressionCreator.AddParser(typeof(CsBinaryExpression), new BinaryExpression());
 			FactoryExpressionCreator.AddParser(typeof(CsArrayInitializer), new ArrayInitializer());
@@ -82,8 +89,8 @@
 				if (theClass != null) {//it's a class....
 					StringBuilder sb = new StringBuilder();
 					string className = theClass.identifier.identifier;
-					
-					sb.AppendFormat("{1}class {0}", className, As3Helpers.GetModifiers(theClass.modifiers));
+
+					sb.AppendFormat("{1}class {0}", className, As3Helpers.GetModifiers(theClass.modifiers, _notValidClassMod));
 
 					if (theClass.type_base != null && theClass.type_base.base_list.Count != 0) {
 						bool hasImplement = false;
@@ -158,6 +165,7 @@
 					builder.AppendLineAndUnindent("}");
 
 					File.WriteAllText(packDir + "\\" + className + ".as", builder.ToString());
+					builder.Length = 0;
 				}
 
 				if (theClass == null) {
