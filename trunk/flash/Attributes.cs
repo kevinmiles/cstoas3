@@ -1,8 +1,6 @@
 ﻿namespace flash {
 	using System;
 
-
-
 	[AttributeUsage(AttributeTargets.Event, AllowMultiple = false)]
 	public sealed class As3EventAttribute : Attribute {
 		public As3EventAttribute(string eventName) {

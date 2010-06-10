@@ -15,7 +15,7 @@
 			StringBuilder builder = new StringBuilder();
 			
 			if (ex.initializer != null) {
-				builder.Append("[");
+				builder.AppendFormat("Vector.<{0}>([", ParserHelper.GetType(((CsEntityArraySpecifier)ex.entity_typeref.u).type));
 				List<string> initializers = new List<string>();
 
 				foreach (CsNode node in ex.initializer.initializers) {
@@ -27,7 +27,7 @@
 					builder.Append(string.Join(", ", initializers.ToArray()));
 				}
 
-				builder.Append("]");
+				builder.Append("])");
 
 			} else if (ex.expressions != null && ex.expressions.list != null && ex.expressions.list.Count == 1) {
 				builder.Append("new Array(");

@@ -7,7 +7,7 @@
 
 	public static class ConstantParser {
 		public static void Parse(CsConstantDeclaration pCsVariableDeclaration, AS3Builder pBuilder) {
-			string modifiers = As3Helpers.GetModifiers(pCsVariableDeclaration.modifiers);
+			string modifiers = As3Helpers.GetModifiers(pCsVariableDeclaration.modifiers, null);
 
 			foreach (CsConstantDeclarator declarator in pCsVariableDeclaration.declarators) {
 				StringBuilder sb = new StringBuilder();

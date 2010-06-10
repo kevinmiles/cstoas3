@@ -12,7 +12,7 @@
 				string returnType = As3Helpers.Convert(klass.Getter.ReturnType);
 				
 				pBuilder.AppendFormat("{0}function {1}({2}):{3} {{",
-					As3Helpers.GetModifiers(getter.modifiers),
+					As3Helpers.GetModifiers(getter.modifiers, null),
 					klass.Getter.Name,
 					As3Helpers.GetParams(getter.entity.parameters),
 					returnType);
@@ -34,7 +34,7 @@
 
 			pBuilder.AppendFormat(
 				"{0}function {1}({2}):void {{",
-				  As3Helpers.GetModifiers(setter.modifiers),
+				  As3Helpers.GetModifiers(setter.modifiers, null),
 				  klass.Setter.Name,
                   As3Helpers.GetParams(setter.entity.parameters)
 			);

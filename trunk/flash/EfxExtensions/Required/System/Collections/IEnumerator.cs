@@ -1,11 +1,17 @@
 ﻿namespace System.Collections {
 	public interface IEnumerator {
-		object current {
+		object Current {
 			get;
 		}
 
-		bool moveNext();
+		bool MoveNext();
 
-		void reset();
+		void Reset();
+	}
+
+	public interface IEnumerator<T> : IEnumerator {
+		new T Current {
+			get;
+		}
 	}
 }

@@ -28,6 +28,12 @@
 			set;
 		}
 
+		public bool IsAs3Generic {
+			get {
+				return ParserHelper.HasAttribute(Type.getType().attributes, "As3IsGenericAttribute");
+			}
+		}
+
 		public bool InternalType {
 			get;
 			set;

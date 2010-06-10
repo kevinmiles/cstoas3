@@ -9,7 +9,7 @@
 			CsPropertyAccessor setter = pCsProperty.setter;
 			string identifier = pCsProperty.identifier.identifier;
 			string type = As3Helpers.Convert(ParserHelper.GetType(pCsProperty.type));
-			string defModifier = As3Helpers.GetModifiers(pCsProperty.modifiers);
+			string defModifier = As3Helpers.GetModifiers(pCsProperty.modifiers, null);
 
 			bool empty = getter.definition == null && setter.definition == null;
 
@@ -19,7 +19,7 @@
 			}
 
 			//Getter
-			string gModifiers = As3Helpers.GetModifiers(getter.modifiers);
+			string gModifiers = As3Helpers.GetModifiers(getter.modifiers, null);
 			pBuilder.AppendFormat("{0}function {1}():{2} {{",
 				string.IsNullOrEmpty(gModifiers) ? defModifier : gModifiers,
 				getter.entity.name,
@@ -43,7 +43,7 @@
 
 
 			//Setter
-			string sModifiers = As3Helpers.GetModifiers(setter.modifiers);
+			string sModifiers = As3Helpers.GetModifiers(setter.modifiers, null);
 			pBuilder.AppendFormat("{0}function {1}(value:{2}):{2} {{",
 				string.IsNullOrEmpty(sModifiers) ? defModifier : sModifiers,
 				setter.entity.name,

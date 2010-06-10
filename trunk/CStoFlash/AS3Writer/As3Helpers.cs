@@ -54,35 +54,44 @@ namespace CStoFlash.AS3Writer {
 			return prms.ToString().TrimEnd(_paramTrim);
 		}
 
+		private static string getMod(CsModifierEnum pEnum, IDictionary<CsModifierEnum, string> pReplacements, string pValue) {
+			string r;
+			if (pReplacements == null)
+				return pValue;
 
-		public static string GetModifiers(CsModifiers pModifier) {
-			StringBuilder sb = new StringBuilder();
+			return pReplacements.TryGetValue(pEnum, out r) ? r : pValue;
+		}
 
-			if ((pModifier.flags & (uint)CsModifierEnum.mNEW) != 0)
-				sb.Append("new ");
+		public static string GetModifiers(CsModifiers pModifier, Dictionary<CsModifierEnum, string> pReplaceable) {
+			List<string> mods = new List<string>();
+
+			if ((pModifier.flags & (uint)CsModifierEnum.mNEW) != 0) {
+				mods.Add(getMod(CsModifierEnum.mNEW, pReplaceable, "new"));
+			}
 
 			if ((pModifier.flags & (uint)CsModifierEnum.mSEALED) != 0)
-				sb.Append("final ");
+				mods.Add(getMod(CsModifierEnum.mSEALED, pReplaceable, "final"));
 
 			if ((pModifier.flags & (uint)CsModifierEnum.mPUBLIC) != 0)
-				sb.Append("public ");
+				mods.Add(getMod(CsModifierEnum.mPUBLIC, pReplaceable, "public"));
 
 			if ((pModifier.flags & (uint)CsModifierEnum.mINTERNAL) != 0)
-				sb.Append("internal ");
+				mods.Add(getMod(CsModifierEnum.mINTERNAL, pReplaceable, "internal"));
 
 			if ((pModifier.flags & (uint)CsModifierEnum.mPROTECTED) != 0)
-				sb.Append("protected ");
+				mods.Add(getMod(CsModifierEnum.mPROTECTED, pReplaceable, "protected"));
 
 			if ((pModifier.flags & (uint)CsModifierEnum.mPRIVATE) != 0)
-				sb.Append("private ");
+				mods.Add(getMod(CsModifierEnum.mPRIVATE, pReplaceable, "private"));
 
 			if ((pModifier.flags & (uint)CsModifierEnum.mOVERRIDE) != 0)
-				sb.Append("override ");
+				mods.Add(getMod(CsModifierEnum.mOVERRIDE, pReplaceable, "override"));
 
 			if ((pModifier.flags & (uint)CsModifierEnum.mSTATIC) != 0)
-				sb.Append("static ");
+				mods.Add(getMod(CsModifierEnum.mSTATIC, pReplaceable, "static"));
 
-			return sb.ToString();
+			string ret = string.Join(" ", mods.ToArray());
+			return string.IsNullOrEmpty(ret) ? string.Empty : ret + " ";
 		}
 	
 		public static string Convert(string pType) {
@@ -101,9 +110,9 @@ namespace CStoFlash.AS3Writer {
 			int brackets = pType.IndexOf("[]", StringComparison.Ordinal);
 			
 			if (brackets != -1 && brackets == pType.Length - 2) {
-				//pType = pType.Substring(0, pType.Length - 2);
-				//return "Vector.<"+Convert(pType)+">";
-				return "Array";
+				pType = pType.Substring(0, pType.Length - 2);
+				return "Vector.<"+Convert(pType)+">";
+				//return "Array";
 			}
 
 			if (pType.Equals("long", StringComparison.OrdinalIgnoreCase) ||
