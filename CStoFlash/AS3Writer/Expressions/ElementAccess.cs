@@ -25,7 +25,12 @@
 			//expression "[" expression-list "]"
 			CsElementAccess stat = (CsElementAccess)pStatement;
 
-			return getIndexerExpression(stat, stat.expressions.list,
+			List<CsExpression> l = new List<CsExpression>();
+			foreach (CsArgument csArgument in stat.argument_list.list) {
+				l.Add(csArgument.expression);
+			}
+
+			return getIndexerExpression(stat, l,
 															FactoryExpressionCreator.Parse(stat.expression), pForce, pGetSetter);
 		}
 
@@ -44,14 +49,16 @@
 
 			string exp = pIndexer == null ? "super" : pIndexer.Value;
 			bool isInternal = false;
+			TheIndexers i = null;
+			if (k != null)
+				i = k.GetIndexer(pStatement);
 
 			//TODO:Check array access...
-			if (k == null || pIndexer == null || (pIndexer.Type != null && pIndexer.Type.type == cs_entity_type.et_array)) {
+			if (i == null || pIndexer == null || (pIndexer.Type != null && pIndexer.Type.type == cs_entity_type.et_array)) {
 				//Array access or unknown accessor
 				exp += "[" + indexes[0] + "]";
 
 			} else {
-				TheIndexers i = k.GetIndexer(pStatement);
 				//TheIndexers i = k.GetIndexerBySignature(param);
 				isInternal = true;
 

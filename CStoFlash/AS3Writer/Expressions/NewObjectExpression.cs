@@ -18,6 +18,8 @@
 
 			StringBuilder sb = new StringBuilder();
 
+			TheClass c = TheClass.Get(pStatement);
+
 			sb.Append("new ");
 			sb.Append(As3Helpers.Convert(ParserHelper.GetType(node.type)));
 			sb.Append("(");
