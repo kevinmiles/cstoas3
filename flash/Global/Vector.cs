@@ -1,6 +1,7 @@
 ﻿namespace flash.Global {
 	using System;
 	using System.Collections;
+	using System.ComponentModel;
 
 	[As3IsGeneric(true)]
 	public class Vector<T> : IEnumerable<T> {
@@ -363,17 +364,23 @@
 		}
 
 		[Obsolete("Just for compatibility with C# compiler. DO NOT USE")]
+		[Browsable(false)]
+		[EditorBrowsable(EditorBrowsableState.Never)]
 		public IEnumerator<T> GetEnumerator() {
 			return new VectorEnumerator<T>();
 		}
 
 		[Obsolete("Just for compatibility with C# compiler. DO NOT USE")]
+		[Browsable(false)]
+		[EditorBrowsable(EditorBrowsableState.Never)]
 		IEnumerator IEnumerable.GetEnumerator() {
 			return GetEnumerator();
 		}
 	}
 
 	[Obsolete("Just for compatibility with C# compiler. DO NOT USE")]
+	[Browsable(false)]
+	[EditorBrowsable(EditorBrowsableState.Never)]
 	public class VectorEnumerator<T> : IEnumerator<T> {
 		object IEnumerator.Current {
 			get {

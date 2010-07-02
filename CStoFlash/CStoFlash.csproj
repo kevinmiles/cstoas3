@@ -113,7 +113,6 @@
     <Compile Include="AS3Writer\PropertyParser.cs" />
     <Compile Include="AS3Writer\VariableParser.cs" />
     <Compile Include="Utils\CodeBuilder.cs" />
-    <Compile Include="Plugins\IPluginInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utils\Arguments.cs" />
@@ -121,7 +120,6 @@
     <Compile Include="Utils\CsParser.cs" />
     <Compile Include="Utils\Expression.cs" />
     <Compile Include="Utils\FactoryExpressionCreator.cs" />
-    <Compile Include="Plugins\IPlugin.cs" />
     <Compile Include="Utils\IExpressionParser.cs" />
     <Compile Include="Utils\ImportStatementList.cs" />
     <Compile Include="Utils\INamespaceParser.cs" />
