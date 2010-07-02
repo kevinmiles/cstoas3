@@ -1,4 +1,5 @@
 ﻿namespace System {
+	using ComponentModel;
 
 	public sealed class String {
 		public static implicit operator String(flash.Global.String pStr) {
@@ -21,6 +22,8 @@
 		/// Just for compatibility with C# compiler. DO NOT USE
 		/// </summary>
 		[Obsolete("Just for compatibility with C# compiler. DO NOT USE")]
+		[Browsable(false)]
+		[EditorBrowsable(EditorBrowsableState.Never)]
 		public static string Concat(Object arg0) {
 			return "";
 		}
@@ -29,6 +32,8 @@
 		/// Just for compatibility with C# compiler. DO NOT USE
 		/// </summary>
 		[Obsolete("Just for compatibility with C# compiler. DO NOT USE")]
+		[Browsable(false)]
+		[EditorBrowsable(EditorBrowsableState.Never)]
 		public static string Concat(Object[] args) {
 			return "";
 		}
@@ -37,6 +42,8 @@
 		/// Just for compatibility with C# compiler. DO NOT USE
 		/// </summary>
 		[Obsolete("Just for compatibility with C# compiler. DO NOT USE")]
+		[Browsable(false)]
+		[EditorBrowsable(EditorBrowsableState.Never)]
 		public static string Concat(string[] values) {
 			return "";
 		}
@@ -45,6 +52,8 @@
 		/// Just for compatibility with C# compiler. DO NOT USE
 		/// </summary>
 		[Obsolete("Just for compatibility with C# compiler. DO NOT USE")]
+		[Browsable(false)]
+		[EditorBrowsable(EditorBrowsableState.Never)]
 		public static string Concat(Object arg0, Object arg1) {
 			return "";
 		}
@@ -53,6 +62,8 @@
 		/// Just for compatibility with C# compiler. DO NOT USE
 		/// </summary>
 		[Obsolete("Just for compatibility with C# compiler. DO NOT USE")]
+		[Browsable(false)]
+		[EditorBrowsable(EditorBrowsableState.Never)]
 		public static string Concat(string str0, string str1) {
 			return "";
 		}
@@ -61,6 +72,8 @@
 		/// Just for compatibility with C# compiler. DO NOT USE
 		/// </summary>
 		[Obsolete("Just for compatibility with C# compiler. DO NOT USE")]
+		[Browsable(false)]
+		[EditorBrowsable(EditorBrowsableState.Never)]
 		public static string Concat(Object arg0, Object arg1, Object arg2) {
 			return "";
 		}
@@ -69,6 +82,8 @@
 		/// Just for compatibility with C# compiler. DO NOT USE
 		/// </summary>
 		[Obsolete("Just for compatibility with C# compiler. DO NOT USE")]
+		[Browsable(false)]
+		[EditorBrowsable(EditorBrowsableState.Never)]
 		public static string Concat(string str0, string str1, string str2) {
 			return "";
 		}
@@ -77,6 +92,8 @@
 		/// Just for compatibility with C# compiler. DO NOT USE
 		/// </summary>
 		[Obsolete("Just for compatibility with C# compiler. DO NOT USE")]
+		[Browsable(false)]
+		[EditorBrowsable(EditorBrowsableState.Never)]
 		public static string Concat(Object arg0, Object arg1, Object arg2, Object arg3) {
 			return "";
 		}
@@ -85,6 +102,8 @@
 		/// Just for compatibility with C# compiler. DO NOT USE
 		/// </summary>
 		[Obsolete("Just for compatibility with C# compiler. DO NOT USE")]
+		[Browsable(false)]
+		[EditorBrowsable(EditorBrowsableState.Never)]
 		public static string Concat(string str0, string str1, string str2, string str3) {
 			return "";
 		}
