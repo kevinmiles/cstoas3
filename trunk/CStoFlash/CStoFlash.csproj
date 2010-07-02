@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -10,11 +10,14 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>CStoFlash</RootNamespace>
     <AssemblyName>CStoFlash</AssemblyName>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkSubset>
-    </TargetFrameworkSubset>
-    <StartupObject>CStoFlash.CsToAS3</StartupObject>
+    <StartupObject>CStoFlash.Program</StartupObject>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <UpgradeBackupLocation />
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -27,9 +30,9 @@
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -40,6 +43,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -48,11 +52,11 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="SharpKit.Compiler.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=b83f527cfd9d0f78, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Referenced Assemblies\SharpKit.Compiler.Core.DLL</HintPath>
+    <Reference Include="CsTransformationParserLibrary">
+      <HintPath>..\Referenced Assemblies\CsTransformationParserLibrary.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
@@ -62,34 +66,38 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AS3Writer\AS3Builder.cs" />
+    <Compile Include="AS3Writer\As3Helpers.cs" />
+    <Compile Include="AS3Writer\AS3NamespaceParser.cs" />
+    <Compile Include="AS3Writer\BlockParser.cs" />
     <Compile Include="AS3Writer\ConstantParser.cs" />
-    <Compile Include="AS3Writer\PropertyParser.cs" />
-    <Compile Include="AS3Writer\EventParser.cs" />
     <Compile Include="AS3Writer\DelegateParser.cs" />
-    <Compile Include="AS3Writer\Expressions\BinaryExpression.cs" />
+    <Compile Include="AS3Writer\EventParser.cs" />
+    <Compile Include="AS3Writer\Expressions\AnonymousMethodExpression.cs" />
+    <Compile Include="AS3Writer\Expressions\AnonymousObjectCreationExpression.cs" />
+    <Compile Include="AS3Writer\Expressions\ArgListExpression.cs" />
     <Compile Include="AS3Writer\Expressions\ArrayInitializer.cs" />
     <Compile Include="AS3Writer\Expressions\AsIsExpression.cs" />
     <Compile Include="AS3Writer\Expressions\AssignmentExpression.cs" />
-    <Compile Include="AS3Writer\Expressions\ConditionalExpression.cs" />
-    <Compile Include="AS3Writer\Expressions\CheckedExpression.cs" />
     <Compile Include="AS3Writer\Expressions\BaseMemberAccess.cs" />
-    <Compile Include="AS3Writer\Expressions\ArgListExpression.cs" />
-    <Compile Include="AS3Writer\Expressions\AnonymousObjectCreationExpression.cs" />
-    <Compile Include="AS3Writer\Expressions\AnonymousMethodExpression.cs" />
+    <Compile Include="AS3Writer\Expressions\BinaryExpression.cs" />
     <Compile Include="AS3Writer\Expressions\CastUnaryExpression.cs" />
-    <Compile Include="AS3Writer\Expressions\PreIncrementDecrementExpression.cs" />
-    <Compile Include="AS3Writer\Expressions\OperatorUnaryExpression.cs" />
+    <Compile Include="AS3Writer\Expressions\CheckedExpression.cs" />
+    <Compile Include="AS3Writer\Expressions\ConditionalExpression.cs" />
     <Compile Include="AS3Writer\Expressions\DefaultValueExpression.cs" />
     <Compile Include="AS3Writer\Expressions\ElementAccess.cs" />
     <Compile Include="AS3Writer\Expressions\InvocationExpression.cs" />
+    <Compile Include="AS3Writer\Expressions\LambdaExpression.cs" />
     <Compile Include="AS3Writer\Expressions\Literal.cs" />
     <Compile Include="AS3Writer\Expressions\MakeRefExpression.cs" />
     <Compile Include="AS3Writer\Expressions\NewArrayExpression.cs" />
     <Compile Include="AS3Writer\Expressions\NewObjectExpression.cs" />
+    <Compile Include="AS3Writer\Expressions\OperatorUnaryExpression.cs" />
     <Compile Include="AS3Writer\Expressions\ParenthesizedExpression.cs" />
     <Compile Include="AS3Writer\Expressions\PointerMemberAccess.cs" />
     <Compile Include="AS3Writer\Expressions\PostIncrementDecrementExpression.cs" />
     <Compile Include="AS3Writer\Expressions\PredefinedTypeMemberAccess.cs" />
+    <Compile Include="AS3Writer\Expressions\PreIncrementDecrementExpression.cs" />
     <Compile Include="AS3Writer\Expressions\PrimaryExpressionMemberAccess.cs" />
     <Compile Include="AS3Writer\Expressions\QualifiedAliasMemberAccess.cs" />
     <Compile Include="AS3Writer\Expressions\QueryExpression.cs" />
@@ -100,26 +108,29 @@
     <Compile Include="AS3Writer\Expressions\ThisAccess.cs" />
     <Compile Include="AS3Writer\Expressions\TypeofExpression.cs" />
     <Compile Include="AS3Writer\Expressions\UncheckedExpression.cs" />
-    <Compile Include="AS3Writer\Expressions\LambdaExpression.cs" />
     <Compile Include="AS3Writer\IndexerParser.cs" />
-    <Compile Include="AS3Writer\VariableParser.cs" />
-    <Compile Include="CsToAS3.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Utils\FactoryExpressionCreator.cs" />
-    <Compile Include="Utils\Arguments.cs" />
-    <Compile Include="AS3Writer\AS3Builder.cs" />
-    <Compile Include="Utils\CodeBuilder.cs" />
-    <Compile Include="Utils\CsParser.cs" />
     <Compile Include="AS3Writer\MethodParser.cs" />
-    <Compile Include="AS3Writer\As3Helpers.cs" />
-    <Compile Include="AS3Writer\AS3NamespaceParser.cs" />
-    <Compile Include="AS3Writer\BlockParser.cs" />
+    <Compile Include="AS3Writer\PropertyParser.cs" />
+    <Compile Include="AS3Writer\VariableParser.cs" />
+    <Compile Include="Utils\CodeBuilder.cs" />
+    <Compile Include="Plugins\IPluginInfo.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utils\Arguments.cs" />
+    <Compile Include="Utils\ConverterFactory.cs" />
+    <Compile Include="Utils\CsParser.cs" />
     <Compile Include="Utils\Expression.cs" />
+    <Compile Include="Utils\FactoryExpressionCreator.cs" />
+    <Compile Include="Plugins\IPlugin.cs" />
     <Compile Include="Utils\IExpressionParser.cs" />
     <Compile Include="Utils\ImportStatementList.cs" />
     <Compile Include="Utils\INamespaceParser.cs" />
     <Compile Include="Utils\ParserHelper.cs" />
+    <Compile Include="Utils\Project.cs" />
     <Compile Include="Utils\TheClass.cs" />
+    <Compile Include="VsProjectParser\VsProject.cs" />
+    <Compile Include="VsProjectParser\VsProjectConfiguration.cs" />
+    <Compile Include="VsProjectParser\VsProjectItem.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -127,7 +138,7 @@
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
       <Visible>False</Visible>
-      <ProductName>.NET Framework Client Profile</ProductName>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
     <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">

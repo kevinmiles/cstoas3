@@ -97,6 +97,18 @@ namespace CStoFlash.Utils {
 			return "\"" + pIn.Replace("\\", "\\\\").Replace("\"", "\\\"") + "\"";
 		}
 
+		public static string GetSignature(CsArgumentList pCsArgumentList) {
+			if (pCsArgumentList == null)
+				return string.Empty;
+
+			List<string> list = new List<string>();
+			foreach (CsArgument csArgument in pCsArgumentList.list) {
+				Expression e = FactoryExpressionCreator.Parse(csArgument.expression);
+				list.Add(GetType(e.Type));
+			}
+			return string.Join("_", list.ToArray());
+		}
+
 		public static string GetSignature(IEnumerable<CsFormalParameter> pLinkedList) {
 			if (pLinkedList == null)
 				return string.Empty;

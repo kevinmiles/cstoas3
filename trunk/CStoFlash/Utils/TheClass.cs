@@ -29,70 +29,87 @@ namespace CStoFlash.Utils {
 			if (pNode == null)
 				return null;
 
-			CsElementAccess csea = pNode as CsElementAccess;
-			if (csea != null) {
-				if (csea.expression.entity_typeref == null)
-					return null;
+			CsClass klass = pNode as CsClass;
 
-				switch (csea.expression.entity_typeref.type) {
-					case cs_entity_type.et_array://Array access
-						return null;
+			if (klass != null && _classes.ContainsKey(klass)) {
+				return _classes[klass];
+			}
 
-					case cs_entity_type.et_class:
-						return Get(csea.expression.entity_typeref.u as CsEntityClass);
+			//CsElementAccess csea = pNode as CsElementAccess;
+			//if (csea != null) {
+			//    if (csea.expression.entity_typeref == null)
+			//        return null;
 
-					default://Object access?
-						return null;
+			//    switch (csea.expression.entity_typeref.type) {
+			//        case cs_entity_type.et_array://Array access
+			//            return null;
+
+			//        case cs_entity_type.et_class:
+			//            return Get(csea.expression.entity_typeref.u as CsEntityClass);
+
+			//        default://Object access?
+			//            return null;
+			//    }
+			//}
+
+			//CsIndexer csi = pNode as CsIndexer;
+			//if (csi != null) {
+			//    CsClass theClass;
+
+			//    do {
+			//        theClass = pNode.parent as CsClass;
+			//        pNode = pNode.parent;
+
+			//    } while (theClass == null && pNode.parent != null);
+
+
+			//    if (theClass != null && _classes.ContainsKey(theClass))
+			//        return _classes[theClass];
+
+			//    return null;
+			//}
+
+			//CsBaseIndexerAccess csbia = pNode as CsBaseIndexerAccess;
+			//if (csbia != null) {
+			//    return Get((CsEntityClass)csbia.entity_typeref.u);
+			//}
+
+			//CsMethod csm = pNode as CsMethod;
+			//if (csm != null) {
+			//    return csm.entity == null ? null : Get((CsEntityClass)csm.entity.parent);
+			//}
+
+			//CsInvocationExpression csie = pNode as CsInvocationExpression;
+			//if (csie != null) {
+			//    if (csie.entity == null)
+			//        return null;
+
+			//    CsEntityMethod method = ((CsEntityMethod) csie.entity);
+			//    if (method.parent is CsEntityClass) {
+			//        return Get((CsEntityClass)method.parent);
+			//    }
+
+			//    if (method.parent is CsEntityDelegate) {
+			//        return null;
+			//    }
+			//}
+
+			//CsConstructor csc = pNode as CsConstructor;
+			//if (csc != null) {
+			//    return csc.entity == null ? null : Get((CsEntityClass)(csc.entity).parent);
+			//}
+
+			CsTypeRef csTypeRef = pNode as CsTypeRef;
+			if (csTypeRef != null) {
+				return csTypeRef.entity_typeref == null ? null : Get((CsEntityClass)(csTypeRef.entity_typeref.u));
+			}
+
+			while (pNode.parent != null) {
+				pNode = pNode.parent;
+				if (pNode is CsTypeRef || pNode is CsClass) {
+					return Get(pNode);
 				}
 			}
-
-			CsIndexer csi = pNode as CsIndexer;
-			if (csi != null) {
-				CsClass theClass;
-
-				do {
-					theClass = pNode.parent as CsClass;
-					pNode = pNode.parent;
-
-				} while (theClass == null && pNode.parent != null);
-
-
-				if (theClass != null && _classes.ContainsKey(theClass))
-					return _classes[theClass];
-
-				return null;
-			}
-
-			CsBaseIndexerAccess csbia = pNode as CsBaseIndexerAccess;
-			if (csbia != null) {
-				return Get((CsEntityClass)csbia.entity_typeref.u);
-			}
-
-			CsMethod csm = pNode as CsMethod;
-			if (csm != null) {
-				return csm.entity == null ? null : Get((CsEntityClass)csm.entity.parent);
-			}
-
-			CsInvocationExpression csie = pNode as CsInvocationExpression;
-			if (csie != null) {
-				if (csie.entity == null)
-					return null;
-
-				CsEntityMethod method = ((CsEntityMethod) csie.entity);
-				if (method.parent is CsEntityClass) {
-					return Get((CsEntityClass)method.parent);
-				}
-
-				if (method.parent is CsEntityDelegate) {
-					return null;
-				}
-			}
-
-			CsConstructor csc = pNode as CsConstructor;
-			if (csc != null) {
-				return csc.entity == null ? null : Get((CsEntityClass)(csc.entity).parent);
-			}
-
 
 			throw new Exception();
 		}
@@ -129,6 +146,8 @@ namespace CStoFlash.Utils {
 		private readonly Dictionary<CsIndexer, TheIndexers> _indexers = new Dictionary<CsIndexer, TheIndexers>();
 		private readonly List<string> _implements = new List<string>();
 		private readonly CsClassStruct _theClass;
+		readonly List<string> _extends = new List<string>();
+		private readonly CsTypeRef _baseTypeRef;
 
 		public TheClass(CsClassStruct pClass) {
 			_theClass = pClass;
@@ -143,7 +162,15 @@ namespace CStoFlash.Utils {
 
 			if (pClass.type_base != null && pClass.type_base.base_list.Count != 0) {
 				foreach (CsTypeRef typeRef in pClass.type_base.base_list) {
-					Extends = ParserHelper.GetType(typeRef.type_name);
+					if (typeRef.entity_typeref.u is CsEntityClass) {
+						Extends.Add(ParserHelper.GetType(typeRef.type_name));
+						_baseTypeRef = typeRef;
+
+					} else if (typeRef.entity_typeref.u is CsEntityInterface) {
+						Implements.Add(ParserHelper.GetType(typeRef.type_name));
+					} else {
+						throw new NotSupportedException();
+					}
 				}
 			}
 
@@ -195,7 +222,47 @@ namespace CStoFlash.Utils {
 			get {
 				return _theClass.identifier.identifier;
 			}
+		}
 
+		private TheClass _base;
+		public TheClass BaseClass {
+			get {
+				return _base ?? (_base = Get(_baseTypeRef));
+			}
+		}
+
+		private string _baseName;
+		public string BaseClassName {
+			get {
+				if (_baseName == null) {
+					TheClass c = BaseClass;
+					List<string> path = new List<string>();
+					if (_baseTypeRef == null) {
+						return string.Empty;
+					}
+
+					if (c == null) {
+						CsEntityClass csTypeRef = (CsEntityClass)_baseTypeRef.entity_typeref.u;
+						path.Add(csTypeRef.name);
+						CsEntity ns = csTypeRef.parent;
+						while (ns != null) {
+							if (!string.IsNullOrEmpty(ns.name))
+								path.Add(ns.name);
+
+							ns = ns.parent;
+						}
+
+					} else {
+						path.Add(c.Name);
+						path.Add(c.NameSpace);
+					}
+
+					path.Reverse();
+					_baseName = string.Join(".", path.ToArray());
+				}
+
+				return _baseName;
+			}
 		}
 
 		public string NameSpace {
@@ -203,9 +270,8 @@ namespace CStoFlash.Utils {
 			private set;
 		}
 
-		public string Extends {
-			get;
-			set;
+		public List<string> Extends {
+			get { return _extends; }
 		}
 
 		public Dictionary<CsMethod, TheMethod> Methods {
@@ -232,29 +298,44 @@ namespace CStoFlash.Utils {
 			}
 		}
 
-		public TheIndexers GetIndexerBySignature(List<string> pParams) {
-			string sig = string.Join(",", pParams.ToArray());
+		//public TheIndexers GetIndexerBySignature(List<string> pParams) {
+		//    string sig = string.Join(",", pParams.ToArray());
 
-			foreach (KeyValuePair<CsIndexer, TheIndexers> indexer in Indexers) {
-				if (sig.Equals(indexer.Value.Getter.Signature, StringComparison.OrdinalIgnoreCase))
-					return indexer.Value;
-			}
+		//    foreach (KeyValuePair<CsIndexer, TheIndexers> indexer in Indexers) {
+		//        if (sig.Equals(indexer.Value.Getter.Signature, StringComparison.OrdinalIgnoreCase))
+		//            return indexer.Value;
+		//    }
 
-			return null;
-		}
+		//    return null;
+		//}
 
 		public TheIndexers GetIndexer(CsExpression pIndexer) {
 			CsBaseIndexerAccess csbia = pIndexer as CsBaseIndexerAccess;
 			CsIndexer i;
+			CsEntityProperty p;
 			if (csbia != null) {
-				i = (CsIndexer) ((CsEntityProperty) csbia.entity).decl;
+				p = (CsEntityProperty)csbia.entity;
+				if (p == null)
+					return null;
+
+				i = (CsIndexer) p.decl;
+				if (i == null)
+					return null;
+
 				return _indexers.ContainsKey(i) ? _indexers[i] : null;	
 			}
 
 			CsElementAccess csea = pIndexer as CsElementAccess;
 
 			if (csea != null) {
-				i = (CsIndexer)((CsEntityProperty)csea.entity).decl;
+				p = (CsEntityProperty)csea.entity;
+				if (p == null)
+					return null;
+
+				i = (CsIndexer)p.decl;
+				if (i == null)
+					return null;
+
 				return _indexers.ContainsKey(i) ? _indexers[i] : null;	
 			}
 
@@ -263,6 +344,28 @@ namespace CStoFlash.Utils {
 
 		public TheMethod GetMethod(CsMethod pMethod) {
 			return _methods.ContainsKey(pMethod) ? _methods[pMethod] : null;
+		}
+
+		public TheMethod GetMethodBySignature(string pSignature) {
+			foreach (KeyValuePair<CsMethod, TheMethod> method in Methods) {
+				if (pSignature.Equals(method.Value.Signature, StringComparison.OrdinalIgnoreCase))
+					return method.Value;
+			}
+
+			return null;
+		}
+
+		public TheMethod GetConstructorBySignature(string pSignature) {
+			foreach (KeyValuePair<CsConstructor, TheMethod> method in Constructors) {
+				if (pSignature.Equals(method.Value.Signature, StringComparison.OrdinalIgnoreCase))
+					return method.Value;
+			}
+
+			return null;
+		}
+
+		public bool HasOneConstructor {
+			get { return Constructors.Count <= 1; }
 		}
 
 	}
@@ -288,9 +391,18 @@ namespace CStoFlash.Utils {
 
 		public string Name {
 			get {
-				string name = (_method == null ? _constructor.identifier.identifier : _method.identifier.identifier);
+				string name = (_method == null ? "_init" : _method.identifier.identifier);
 				//if (_method != null) name = name.ToLowerInvariant()[0] + name.Substring(1);
 				return IsUnique ? name : name + "_" + Signature.Replace(',', '_').Replace("<", "").Replace(">", "");
+			}
+		}
+
+		public string SimpleName {
+			get {
+				if (_method == null)
+					return _constructor.identifier.identifier.ToUpperInvariant()[0] + _constructor.identifier.identifier.Substring(1);
+
+				return _method.identifier.identifier.ToLowerInvariant()[0] + _method.identifier.identifier.Substring(1);
 			}
 		}
 
