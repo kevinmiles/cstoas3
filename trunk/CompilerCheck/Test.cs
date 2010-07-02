@@ -16,7 +16,12 @@
 		}
 
 		public Test() {
+			const string pepe = "aa";
+
 			RegExp rx = new RegExp("", "");
+
+			RegExp rx2 = new RegExp("", ""), rx3 = new RegExp("","");
+
 			RegExpMatch m = rx.exec("");
 
 			string val0 = m[0];
@@ -49,6 +54,14 @@
 			Sarasa = Extensions.Extension1("chau", 1);
 
 			string bb = MyMethod("1", "2", "3");
+
+			new OtraClase();
+			new OtraClase("a");
+			new OtraClase("b","c");
+
+			new BaseClase("d");
+			new BaseClase("d", "e", "f");
+
 		}
 
 		public string MyMethod(params string[] arguments) {
@@ -103,6 +116,13 @@
 
 	public class OtraClase : BaseClase, IDisposable {
 		public OtraClase() : base("hola") {
+		}
+
+		public OtraClase(string a) : this(a, "b"+"c"){
+			
+		}
+
+		public OtraClase(string a, string b) {//has to call base() constructor...
 			
 		}
 
@@ -114,6 +134,18 @@
 	public class BaseClase {
 		public BaseClase(string pValue) {
 			Valor = pValue;
+		}
+
+		public BaseClase(string a, string b, string c) {
+			
+		}
+
+		protected BaseClase() {
+			
+		}
+
+		public void ParamTest(string a, string b ="hola") {
+			
 		}
 
 		public string Valor {

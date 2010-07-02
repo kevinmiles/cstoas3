@@ -12,16 +12,11 @@ namespace CStoFlash.AS3Writer {
 		private static int _enumCount;
 		//private static readonly char[] _trimEnd = new[] {',', ' ',';'};
 
-		static readonly Dictionary<Type, parseFunc> _statementWritters = new Dictionary<Type, parseFunc>();
-		//static readonly Dictionary<Type, parseNodeFunc> _nodeWritters = new Dictionary<Type, parseNodeFunc>();
-
-		private delegate void parseFunc(CsStatement pStatement, CodeBuilder pSb);
-
+		static readonly Dictionary<Type, Action<CsStatement, CodeBuilder>> _statementWritters = new Dictionary<Type, Action<CsStatement, CodeBuilder>>();
 		public static bool InsideSetter;
-		//private delegate string parseNodeFunc(CsNode pStatement);
 
 		static BlockParser() {
-			_statementWritters.Add(typeof(CsLocalVariableDeclaration), parseLocalVariable);
+			_statementWritters.Add(typeof(CsDeclarationStatement), parseLocalVariable);
 			_statementWritters.Add(typeof(CsIfStatement), parseIfStatement);
 			_statementWritters.Add(typeof(CsExpressionStatement), parseExpressionStatement);
 			_statementWritters.Add(typeof(CsForeachStatement), parseForeachStatement);
@@ -29,7 +24,6 @@ namespace CStoFlash.AS3Writer {
 			_statementWritters.Add(typeof(CsSwitchStatement), parseSwitchStatement);
 			_statementWritters.Add(typeof(CsBreakStatement), parseBreakStatement);
 			_statementWritters.Add(typeof(CsReturnStatement), parseReturnStatement);
-			_statementWritters.Add(typeof(CsLocalConstantDeclaration), parseLocalConstantDeclaration);
 			_statementWritters.Add(typeof(CsThrowStatement), parseThrowStatement);
 		}
 
@@ -39,6 +33,9 @@ namespace CStoFlash.AS3Writer {
 		}
 
 		public static void Parse(CsBlock pCsBlock, CodeBuilder pSb) {
+			if (pCsBlock == null) 
+				return;
+
 			pSb.Indent();
 
 			if (pCsBlock.statements != null) {
@@ -102,7 +99,9 @@ namespace CStoFlash.AS3Writer {
 		}
 
 		private static void parseLocalConstantDeclaration(CsStatement pStatement, CodeBuilder pSb) {
-			CsLocalConstantDeclaration lcd = (CsLocalConstantDeclaration)pStatement;
+			CsDeclarationStatement declarationStatement = (CsDeclarationStatement)pStatement;
+
+			CsLocalConstantDeclaration lcd = (CsLocalConstantDeclaration)declarationStatement.declaration;
 
 			foreach (CsLocalConstantDeclarator declarator in lcd.declarators) {
 				StringBuilder sb = new StringBuilder();
@@ -119,8 +118,15 @@ namespace CStoFlash.AS3Writer {
 		}
 
 		private static void parseLocalVariable(CsStatement pStatement, CodeBuilder pSb) {
-			CsLocalVariableDeclaration localVariableDeclaration = (CsLocalVariableDeclaration)pStatement;
-			foreach (CsLocalVariableDeclarator declarator in localVariableDeclaration.declarators) {
+			CsDeclarationStatement declarationStatement = (CsDeclarationStatement)pStatement;
+
+			CsLocalVariableDeclaration localVariableDeclaration = declarationStatement.declaration as CsLocalVariableDeclaration;
+			if (localVariableDeclaration == null) {
+				parseLocalConstantDeclaration(pStatement, pSb);
+				return;
+			}
+			
+			foreach (var declarator in localVariableDeclaration.declarators) {
 				StringBuilder sb = new StringBuilder();
 
 				sb.AppendFormat("var {0}:{1}",
@@ -264,8 +270,7 @@ namespace CStoFlash.AS3Writer {
 			foreach (CsSwitchSection caseNode in switchStatement.sections) {
 				LinkedList<CsSwitchLabel> labels = caseNode.labels;
 				foreach (CsSwitchLabel label in labels){
-					if (label.bDefault) {
-					//if (label.default_label) {
+					if (label.default_label) {
 						pSb.Append("default:");
 						pSb.AppendLine();
 

@@ -79,9 +79,9 @@
 
 				parseUsing(pUsing, builder);
 				parseUsing(pNamespace.using_directives, builder);
-				const string IMPORT_MARKER = "*-MoreImportsHere-*";
+				const string importMarker = "*-MoreImportsHere-*";
 
-				builder.AppendLine(IMPORT_MARKER);
+				builder.AppendLine(importMarker);
 				ImportStatementList.Init();
 
 				CsClass theClass = cn as CsClass;
@@ -159,7 +159,7 @@
 						replace = i.ToString();
 					}
 
-					builder.Replace(IMPORT_MARKER, replace);
+					builder.Replace(importMarker, replace);
 
 					builder.AppendLineAndUnindent("}");
 					builder.AppendLineAndUnindent("}");
