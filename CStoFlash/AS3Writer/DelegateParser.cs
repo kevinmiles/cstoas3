@@ -1,8 +1,8 @@
 ﻿namespace CStoFlash.AS3Writer {
-	using Metaspec;
+	using CsParser;
 
 	public static class DelegateParser {
-		public static void Parse(CsDelegate pCsDelegate, AS3Builder pBuilder) {
+		public static void Parse(TheDelegate pDelegate, As3Builder pBuilder) {
 		}
 	}
 }

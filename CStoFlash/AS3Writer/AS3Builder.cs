@@ -1,14 +1,14 @@
 ﻿namespace CStoFlash.AS3Writer {
-	using Utils;
+	using Tools;
 
-	public class AS3Builder : CodeBuilder {
-		public AS3Builder(string pIndentString) : base(pIndentString) {}
+	public class As3Builder : CodeBuilder {
+		public As3Builder(string pIndentString) : base(pIndentString) {}
 
 		/// <summary>
 		/// Begins the scope.
 		/// </summary>
 		/// <returns></returns>
-		public AS3Builder BeginScope() {
+		public As3Builder BeginScope() {
 			AppendLine("{").Indent();
 			return this;
 		}
@@ -16,7 +16,7 @@
 		/// Ends the scope.
 		/// </summary>
 		/// <returns></returns>
-		public AS3Builder EndScope() {
+		public As3Builder EndScope() {
 			Unindent().AppendLine("}");
 			return this;
 		}
@@ -26,7 +26,7 @@
 		/// </summary>
 		/// <param name="pOpenClause">The opening clause.</param>
 		/// <returns></returns>
-		public AS3Builder BeginScope(string pOpenClause) {
+		public As3Builder BeginScope(string pOpenClause) {
 			Append(pOpenClause);
 			return BeginScope();
 		}

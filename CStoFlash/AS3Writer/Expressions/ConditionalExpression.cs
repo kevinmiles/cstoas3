@@ -1,7 +1,6 @@
 ﻿namespace CStoFlash.AS3Writer.Expressions {
 	using Metaspec;
-
-	using Utils;
+	using Tools;
 
 	public class ConditionalExpression : IExpressionParser {
 		public Expression Parse(CsExpression pStatement) {

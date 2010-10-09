@@ -1,7 +1,7 @@
 ﻿namespace CStoFlash.AS3Writer.Expressions {
+	using CsParser;
 	using Metaspec;
-
-	using Utils;
+	using Tools;
 
 	public class Literal : IExpressionParser {
 		public Expression Parse(CsExpression pStatement) {
@@ -54,10 +54,10 @@
 
 						case CsLiteralType.literal_verbatim_string:
 							string l = li.literal.Substring(2, li.literal.Length - 3);
-							return new Expression(ParserHelper.EscapeString(l), pStatement.entity_typeref);
+							return new Expression(Helpers.EscapeString(l), pStatement.entity_typeref);
 
 						default:
-							return new Expression(ParserHelper.EscapeString(li.literal), pStatement.entity_typeref);
+							return new Expression(Helpers.EscapeString(li.literal), pStatement.entity_typeref);
 					}
 			}
 		}

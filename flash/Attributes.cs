@@ -8,7 +8,7 @@
 		}
 	}
 
-	[AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
+	[AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
 	public sealed class As3MainClassAttribute : Attribute {
 		public As3MainClassAttribute(int pWidth, int pHeight, int pFrameRate, uint pBackgroundColor) {
 			return;

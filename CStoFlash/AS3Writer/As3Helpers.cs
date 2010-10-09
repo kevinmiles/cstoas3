@@ -1,97 +1,96 @@
-﻿using System.Text;
-
-
-namespace CStoFlash.AS3Writer {
+﻿namespace CStoFlash.AS3Writer {
 	using System;
 	using System.Collections.Generic;
-
-	using Metaspec;
-
-	using Utils;
+	using CsParser;
+	using Tools;
 
 	public static class As3Helpers {
-		private static readonly char[] _paramTrim = new[] { ',', ' ' };
+		//private static readonly char[] _paramTrim = new[] { ',', ' ' };
 
-		public static string GetParams(CsArgumentList pList) {
-			if (pList == null || pList.list == null)
-				return string.Empty;
+		//public static string GetParameters(CsArgumentList pList) {
+		//    if (pList == null || pList.list == null)
+		//        return string.Empty;
 
-			StringBuilder prms = new StringBuilder();
-			foreach (CsArgument param in pList.list) {
-				Expression ex = FactoryExpressionCreator.Parse(param.expression);
-				prms.Append(ex.Value);
-				prms.Append(", ");
-			}
+		//    StringBuilder prms = new StringBuilder();
+		//    foreach (CsArgument param in pList.list) {
+		//        Expression ex = FactoryExpressionCreator.Parse(param.expression);
+		//        prms.Append(ex.Value);
+		//        prms.Append(", ");
+		//    }
 
-			return prms.ToString().TrimEnd(_paramTrim);
-		}
+		//    return prms.ToString().TrimEnd(_paramTrim);
+		//}
 		
-		public static string GetParams(IEnumerable<CsFormalParameter> pLinkedList) {
-			if (pLinkedList == null)
-				return string.Empty;
+		//public static string GetParameters(IEnumerable<CsFormalParameter> pLinkedList) {
+		//    if (pLinkedList == null)
+		//        return string.Empty;
 
-			StringBuilder prms = new StringBuilder();
-			foreach (CsFormalParameter param in pLinkedList) {
-				prms.AppendFormat("{0}:{1}, ",
-					param.identifier.identifier,
-					Convert(ParserHelper.GetType(param.type))
-				);
-			}
+		//    StringBuilder prms = new StringBuilder();
+		//    foreach (CsFormalParameter param in pLinkedList) {
+		//        Expression e = param.default_argument == null ? null : FactoryExpressionCreator.Parse(param.default_argument.expression);
+	
+		//        prms.AppendFormat("{0}:{1}{2}, ",
+		//            param.identifier.identifier,
+		//            Convert(ParserHelper.GetType(param.type)),
+		//            e == null ? string.Empty : " = "+e.Value
+		//        );
+		//    }
 
-			return prms.ToString().TrimEnd(_paramTrim);
-		}
+		//    return prms.ToString().TrimEnd(_paramTrim);
+		//}
 
-		public static string GetParams(CsEntityFormalParameter[] pLinkedList) {
-			StringBuilder prms = new StringBuilder();
-			foreach (CsEntityFormalParameter param in pLinkedList) {
-				prms.AppendFormat("{0}:{1}, ",
-					param.param == null ? param.name : param.param.identifier.identifier,
-					Convert(ParserHelper.GetType(param.type))
-					//Convert(ParserHelper.GetType(param.param.type))
-				);
-			}
+		//public static string GetParameters(CsEntityFormalParameter[] pLinkedList) {
+		//    StringBuilder prms = new StringBuilder();
+		//    foreach (CsEntityFormalParameter param in pLinkedList) {
+		//        prms.AppendFormat("{0}:{1}, ",
+		//            param.param == null ? param.name : param.param.identifier.identifier,
+		//            Convert(ParserHelper.GetType(param.type))
+		//            //Convert(ParserHelper.GetType(param.param.type))
+		//        );
+		//    }
 
-			return prms.ToString().TrimEnd(_paramTrim);
-		}
+		//    return prms.ToString().TrimEnd(_paramTrim);
+		//}
 
-		private static string getMod(CsModifierEnum pEnum, IDictionary<CsModifierEnum, string> pReplacements, string pValue) {
-			string r;
-			if (pReplacements == null)
-				return pValue;
+		private static readonly Dictionary<string,string> _flashModifiers = new Dictionary<string, string> {
+			{"sealed","final"},
+			{"extern",""},
+			{"partial",""},
+			{"unsafe",""},
+			{"virtual",""},
+			{"volatile",""},
+			{"abstract",""}
+		};
 
-			return pReplacements.TryGetValue(pEnum, out r) ? r : pValue;
-		}
-
-		public static string GetModifiers(CsModifiers pModifier, Dictionary<CsModifierEnum, string> pReplaceable) {
+		public static string ConvertModifiers(List<string> pModifiers, Dictionary<string , string> pReplaceable = null) {
 			List<string> mods = new List<string>();
+			foreach (string modifier in pModifiers) {
+				string o;
+				string mod = modifier;
+				if (_flashModifiers.TryGetValue(modifier, out o)) {
+					if (string.IsNullOrEmpty(o)) continue;
+					mod = o;
+				}
 
-			if ((pModifier.flags & (uint)CsModifierEnum.mNEW) != 0) {
-				mods.Add(getMod(CsModifierEnum.mNEW, pReplaceable, "new"));
+				if (pReplaceable != null) {
+					if (pReplaceable.TryGetValue(mod, out o))
+						mod = o;
+				}
+
+				mods.Add(mod);
 			}
 
-			if ((pModifier.flags & (uint)CsModifierEnum.mSEALED) != 0)
-				mods.Add(getMod(CsModifierEnum.mSEALED, pReplaceable, "final"));
-
-			if ((pModifier.flags & (uint)CsModifierEnum.mPUBLIC) != 0)
-				mods.Add(getMod(CsModifierEnum.mPUBLIC, pReplaceable, "public"));
-
-			if ((pModifier.flags & (uint)CsModifierEnum.mINTERNAL) != 0)
-				mods.Add(getMod(CsModifierEnum.mINTERNAL, pReplaceable, "internal"));
-
-			if ((pModifier.flags & (uint)CsModifierEnum.mPROTECTED) != 0)
-				mods.Add(getMod(CsModifierEnum.mPROTECTED, pReplaceable, "protected"));
-
-			if ((pModifier.flags & (uint)CsModifierEnum.mPRIVATE) != 0)
-				mods.Add(getMod(CsModifierEnum.mPRIVATE, pReplaceable, "private"));
-
-			if ((pModifier.flags & (uint)CsModifierEnum.mOVERRIDE) != 0)
-				mods.Add(getMod(CsModifierEnum.mOVERRIDE, pReplaceable, "override"));
-
-			if ((pModifier.flags & (uint)CsModifierEnum.mSTATIC) != 0)
-				mods.Add(getMod(CsModifierEnum.mSTATIC, pReplaceable, "static"));
-
-			string ret = string.Join(" ", mods.ToArray());
+			string ret = mods.Join(" ");
 			return string.IsNullOrEmpty(ret) ? string.Empty : ret + " ";
+		}
+
+		public static string GetCallingArguments(List<Expression> pArguments) {
+			List<string> values = new List<string>();
+			foreach (Expression expression in pArguments) {
+				values.Add(expression.Value);
+			}
+
+			return values.Join(", ");
 		}
 	
 		public static string Convert(string pType) {
@@ -124,17 +123,30 @@ namespace CStoFlash.AS3Writer {
 				pType.Equals("int32", StringComparison.OrdinalIgnoreCase))
 				return "int";
 
-			if (pType.Equals("uint", StringComparison.OrdinalIgnoreCase) ||
+			if (pType.Equals(@"uint", StringComparison.OrdinalIgnoreCase) ||
 				pType.Equals("uint32", StringComparison.OrdinalIgnoreCase))
-				return "uint";
+				return @"uint";
 
 			if (pType.Equals("string", StringComparison.OrdinalIgnoreCase))
 				return "String";
 
-			if (pType.Equals("bool", StringComparison.OrdinalIgnoreCase))
+			if (pType.Equals(@"bool", StringComparison.OrdinalIgnoreCase))
 				return "Boolean";
 
 			return pType;
+		}
+
+		public static object GetParameters(List<TheMethodArgument> pArguments) {
+			List<string> args = new List<string>();
+			foreach (TheMethodArgument methodArgument in pArguments) {
+				args.Add(string.Format("{0}:{1}{2}",
+					methodArgument.Name, 
+					methodArgument.Type,
+					methodArgument.DefaultValue == null ? string.Empty : " = "+methodArgument.DefaultValue.Value
+				));
+			}
+
+			return args.Join(", ");
 		}
 	}
 }

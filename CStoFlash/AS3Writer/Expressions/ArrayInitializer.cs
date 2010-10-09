@@ -2,8 +2,7 @@
 	using System;
 
 	using Metaspec;
-
-	using Utils;
+	using Tools;
 
 	public class ArrayInitializer : IExpressionParser {
 		public Expression Parse(CsExpression pStatement) {

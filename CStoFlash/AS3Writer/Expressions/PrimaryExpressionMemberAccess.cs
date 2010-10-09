@@ -1,7 +1,7 @@
 ﻿namespace CStoFlash.AS3Writer.Expressions {
+	using CsParser;
 	using Metaspec;
-
-	using Utils;
+	using Tools;
 
 	public class PrimaryExpressionMemberAccess : IExpressionParser {
 		public Expression Parse(CsExpression pStatement) {
@@ -9,7 +9,7 @@
 			CsPrimaryExpressionMemberAccess ex = (CsPrimaryExpressionMemberAccess)pStatement;
 			string name = ex.identifier.identifier;
 			if (ex.parent is CsInvocationExpression) {
-				name = ParserHelper.GetRealName(ex, name);
+				name = Helpers.GetRealName(ex, name);
 			}
 
 			if (ex.ec == expression_classification.ec_event_access) {//remove eventhandler name

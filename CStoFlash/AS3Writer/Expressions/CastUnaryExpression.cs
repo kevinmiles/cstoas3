@@ -1,7 +1,7 @@
 ﻿namespace CStoFlash.AS3Writer.Expressions {
+	using CsParser;
 	using Metaspec;
-
-	using Utils;
+	using Tools;
 
 	public class CastUnaryExpression : IExpressionParser {
 		public Expression Parse(CsExpression pStatement) {
@@ -9,7 +9,7 @@
 			
 			//TODO:Check type...
 			return new Expression(
-				As3Helpers.Convert(ParserHelper.GetType(ex.type)) + "(" + FactoryExpressionCreator.Parse(ex.unary_expression).Value + ")",
+				As3Helpers.Convert(Helpers.GetType(ex.type)) + "(" + FactoryExpressionCreator.Parse(ex.unary_expression).Value + ")",
 				ex.type.entity_typeref
 			);
 		}

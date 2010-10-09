@@ -1,67 +1,55 @@
 ﻿namespace CStoFlash.AS3Writer {
-	using Metaspec;
-
-	using Utils;
-
+	using CsParser;
 	public static class PropertyParser {
-		public static void Parse(CsProperty pCsProperty, AS3Builder pBuilder) {
-			CsPropertyAccessor getter = pCsProperty.getter;
-			CsPropertyAccessor setter = pCsProperty.setter;
-			string identifier = pCsProperty.identifier.identifier;
-			string type = As3Helpers.Convert(ParserHelper.GetType(pCsProperty.type));
-			string defModifier = As3Helpers.GetModifiers(pCsProperty.modifiers, null);
+		public static void Parse(TheProperty pProperty, As3Builder pBuilder) {
+			string type = As3Helpers.Convert(pProperty.ReturnType);
 
-			bool empty = getter.definition == null && setter.definition == null;
-
-			if (empty) {
-				pBuilder.AppendFormat("private var _{0}:{1};", identifier, type);
+			if (pProperty.IsEmpty) {
+				pBuilder.AppendFormat("private var _{0}:{1};", pProperty.RealName, type);
 				pBuilder.AppendLine();
 			}
 
 			//Getter
-			string gModifiers = As3Helpers.GetModifiers(getter.modifiers, null);
 			pBuilder.AppendFormat("{0}function {1}():{2} {{",
-				string.IsNullOrEmpty(gModifiers) ? defModifier : gModifiers,
-				getter.entity.name,
+				As3Helpers.ConvertModifiers(pProperty.Getter.Modifiers),
+				pProperty.Getter.RealName,
 				type
 			);
 
 			pBuilder.AppendLine();
 
-			if (empty) {
+			if (pProperty.IsEmpty) {
 				pBuilder.Indent();
-				pBuilder.AppendFormat("return _{0};", identifier);
+				pBuilder.AppendFormat("return _{0};", pProperty.RealName);
 				pBuilder.Unindent();
 
 			} else {
-				BlockParser.Parse(getter.definition, pBuilder);
+				BlockParser.Parse(pProperty.Getter.CodeBlock, pBuilder);
 			}
 
 			pBuilder.AppendLine();
 			pBuilder.AppendLine("}");
 			pBuilder.AppendLine();
 
-
 			//Setter
-			string sModifiers = As3Helpers.GetModifiers(setter.modifiers, null);
 			pBuilder.AppendFormat("{0}function {1}(value:{2}):{2} {{",
-				string.IsNullOrEmpty(sModifiers) ? defModifier : sModifiers,
-				setter.entity.name,
+				As3Helpers.ConvertModifiers(pProperty.Setter.Modifiers),
+				pProperty.Setter.RealName,
 				type
 			);
 
 			pBuilder.AppendLine();
 
-			if (empty) {
+			if (pProperty.IsEmpty) {
 				pBuilder.Indent();
-				pBuilder.AppendFormat("_{0} = value;", identifier);
+				pBuilder.AppendFormat("_{0} = value;", pProperty.RealName);
 				pBuilder.AppendLine();
 				pBuilder.Append("return value;");
 				pBuilder.Unindent();
 
 			} else {
 				BlockParser.InsideSetter = true;
-				BlockParser.Parse(setter.definition, pBuilder);
+				BlockParser.Parse(pProperty.Setter.CodeBlock, pBuilder);
 				BlockParser.InsideSetter = false;
 				pBuilder.AppendLine("	return value;");
 			}
