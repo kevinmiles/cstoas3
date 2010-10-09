@@ -1,10 +1,10 @@
 ﻿namespace CStoFlash.AS3Writer.Expressions {
+	using System;
 	using System.Collections.Generic;
 	using System.Text;
-
+	using CsParser;
 	using Metaspec;
-
-	using Utils;
+	using Tools;
 
 	public class NewObjectExpression : IExpressionParser {
 		public Expression Parse(CsExpression pStatement) {
@@ -17,24 +17,39 @@
 			CsNewObjectExpression node = (CsNewObjectExpression)pStatement;
 
 			StringBuilder sb = new StringBuilder();
+			TheClass c = TheClassFactory.Get(pStatement.entity_typeref);
 
-			TheClass c = TheClass.Get(pStatement);
+			sb.Append("(new ");
+			bool addP = false;
+			if (c == null) {
+				sb.AppendFormat("{0}(",As3Helpers.Convert(Helpers.GetType(node.type)));
+				addP = true;
 
-			sb.Append("new ");
-			sb.Append(As3Helpers.Convert(ParserHelper.GetType(node.type)));
-			sb.Append("(");
+			} else {
+				TheConstructor constructor = c.GetConstructor(node);
+				sb.AppendFormat("{0}()).{1}(", c.Name, constructor.Name);
 
-			if (node.argument_list != null) {
-				foreach (CsArgument argument in node.argument_list.list) {
-					Expression ex = FactoryExpressionCreator.Parse(argument.expression);
-					sb.Append(ex.Value);
-					sb.Append(", ");
-				}
+				//if (constructor.IsDefaultConstructor) {
+				//    sb.AppendFormat("{0}(", constructor.Name);
+				//    addP = true;
 
-				sb.Remove(sb.Length - 2, 2);
+				//} else {
+					
+				//}	
 			}
 
-			sb.Append(")");	
+			if (node.argument_list != null) {
+				List<string> args = new List<string>();
+				foreach (CsArgument argument in node.argument_list.list) {
+					args.Add(FactoryExpressionCreator.Parse(argument.expression).Value);
+				}
+
+				sb.Append(String.Join(", ", args.ToArray()));
+			}
+
+			sb.Append(")");
+			if (addP)
+				sb.Append(")");
 
 			return new Expression(
 				sb.ToString(),

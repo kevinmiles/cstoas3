@@ -1,113 +1,82 @@
 ﻿namespace CStoFlash.AS3Writer {
-	using System;
 	using System.Collections.Generic;
-	using Metaspec;
-
-	using Utils;
+	using CsParser;
 
 	public static class MethodParser {
-		private static readonly Dictionary<CsModifierEnum, string> _notValidConstructorMod =
-			new Dictionary<CsModifierEnum, string> {
-				{ CsModifierEnum.mPRIVATE, "public" },
-				{ CsModifierEnum.mABSTRACT, "public"},
-				{ CsModifierEnum.mPROTECTED, "public"}
+		private static readonly Dictionary<string, string> _notValidConstructorMod =
+			new Dictionary<string, string> {
+				{ "private", "public" },
+				{ "abstract", "public"}
 			};
 
-		//>CsConstructor
-		//	>argument_list
-		//	>definition CsBlock
-		//	>identifier
-		//	>parameters
-		//	>modifiers
+		public static void Parse(TheConstructor pConstructor, As3Builder pBuilder) {
+			if (pConstructor.IsStaticConstructor) {
+				pBuilder.Append("{");
 
-		public static void Parse(CsConstructor pConstructor, CodeBuilder pSb) {
-			//string baseClassName = TheClass.Get(pConstructor).BaseClassName;
-			//bool flashDefault = baseClassName.StartsWith("flash.",StringComparison.Ordinal);
-			//flashDefault |= c != null && c.Extends.Count == 0;
+			} else {
+				pBuilder.AppendFormat("{4}{0}function {1}({2}):{3} {{",
+								 As3Helpers.ConvertModifiers(pConstructor.Modifiers, _notValidConstructorMod),
+								 pConstructor.Name,
+								 As3Helpers.GetParameters(pConstructor.Arguments),
+								 pConstructor.RealName,
+								 pConstructor.OverridesBaseConstructor ? "override " : string.Empty
+					);
+			}
 
-			TheMethod klass = TheClass.Get(pConstructor, pConstructor);
-			bool defaultConstructor = klass.Name.Equals("_init_", StringComparison.Ordinal);
-			string constructorName = defaultConstructor ? klass.SimpleName : klass.Name;
-				//flashDefault ? klass.SimpleName : klass.Name;
-			string modifiers = As3Helpers.GetModifiers(pConstructor.modifiers, defaultConstructor ? _notValidConstructorMod : null);
-
-			pSb.AppendFormat("{0}function {1}({2}){3} {{",
-							 modifiers,
-							 constructorName,
-			                 As3Helpers.GetParams(pConstructor.parameters.parameters),
-							 defaultConstructor ? string.Empty : ":" + klass.SimpleName
-				);
-
-			pSb.AppendLine();
+			pBuilder.AppendLine();
 
 			//Si hay un constructor sin parámetros, usarlo como constructor de la clase.
 			//De esta manera se va a respetar el super() sin tener que hacer hacks...
+			TheConstructor constructor = pConstructor.BaseConstructor;
+			TheConstructor parentConstructor = pConstructor.ParentConstructor;
+			if (constructor != null) {
+				if (!pConstructor.HasBaseCall && parentConstructor != null) {
+					pBuilder.AppendFormat("\tsuper.{0}();",
+						parentConstructor.Name
+					);
 
-			if (pConstructor.basethis == CsTokenType.tkBASE || pConstructor.basethis == CsTokenType.tkTHIS) {
-				CsEntityClass basec = pConstructor.basethis == CsTokenType.tkBASE
-				                      	? (CsEntityClass) ((CsEntityClass) pConstructor.entity.parent).base_type.u
-				                      	: ((CsEntityClass) pConstructor.entity.parent);
+					pBuilder.AppendLine();
+				}
 
-				TheClass baseClass = TheClass.Get(basec);
-				TheMethod constructor = baseClass.GetConstructorBySignature(ParserHelper.GetSignature(pConstructor.argument_list));
-
-				pSb.AppendFormat("\t{0}{1}({2});",
-					pConstructor.basethis == CsTokenType.tkBASE ? "super." : string.Empty,
-					constructor.Name,                    
-				    As3Helpers.GetParams(pConstructor.argument_list)
+				pBuilder.AppendFormat("\t{0}{1}({2});",
+					pConstructor.HasBaseCall ? "super." : string.Empty,
+					constructor.Name,
+					As3Helpers.GetCallingArguments(pConstructor.BaseArguments)
 				);
-				pSb.AppendLine();
 
-			} 
-			//else {
-			//    if (!flashDefault && !string.IsNullOrEmpty(baseClassName)) {
-			//        pSb.AppendLine("\tsuper();");	
-			//    }
-			//}
+				pBuilder.AppendLine();
+				
+			} else if (parentConstructor != null){
+				pBuilder.AppendFormat("\tsuper.{0}();",
+					parentConstructor.Name
+				);
+				pBuilder.AppendLine();
+			}
 
-			BlockParser.Parse(pConstructor.definition, pSb);
-			pSb.AppendLine();
-			if (!defaultConstructor)
-				pSb.AppendLine("\treturn this;");
+			BlockParser.InsideConstructor = !pConstructor.IsStaticConstructor;
+			BlockParser.Parse(pConstructor.CodeBlock, pBuilder);
+			BlockParser.InsideConstructor = false;
 
-			pSb.AppendLine("}");
-			pSb.AppendLine();
+			if (!pConstructor.IsStaticConstructor)
+				pBuilder.AppendLine("\treturn this;");
 
-			//call same class constructor
-			//pConstructor.argument_list.list
-
-			//pConstructor.basethis
+			pBuilder.AppendLine("}");
+			pBuilder.AppendLine();
 		}
 
-		//private static string getNamespace(CsEntity pNamespace) {
-		//    while (!pNamespace.isNamespace()) {
-		//        pNamespace = pNamespace.parent;
-		//    }
-
-		//    List<string> l = new List<string>();
-		//    while (pNamespace.parent != null && pNamespace.isNamespace()) {
-		//        l.Insert(0, pNamespace.name);
-		//        pNamespace = pNamespace.parent;
-		//    }
-
-		//    return string.Join(".", l.ToArray());
-		//}
-
-		public static void Parse(CsMethod pMethod, CodeBuilder pSb) {
-			TheMethod klass = TheClass.Get(pMethod, pMethod);
-
-			pSb.AppendFormat("{0}function {1}({2}):{3} {{",
-				As3Helpers.GetModifiers(pMethod.modifiers, null),
-				klass.Name,
-				As3Helpers.GetParams(pMethod.parameters.parameters),
-				As3Helpers.Convert(klass.ReturnType)
+		public static void Parse(TheMethod pMethod, As3Builder pBuilder) {
+			pBuilder.AppendFormat("{0}function {1}({2}):{3} {{",
+				As3Helpers.ConvertModifiers(pMethod.Modifiers, null),
+				pMethod.Name,
+				As3Helpers.GetParameters(pMethod.Arguments),
+				As3Helpers.Convert(pMethod.ReturnType)
 			);
 
-			pSb.AppendLine();
-			BlockParser.Parse(pMethod.definition, pSb);
-			pSb.AppendLine();
-			pSb.AppendLine("}");
-			pSb.AppendLine();
+			pBuilder.AppendLine();
+			BlockParser.Parse(pMethod.CodeBlock, pBuilder);
+			pBuilder.AppendLine();
+			pBuilder.AppendLine("}");
+			pBuilder.AppendLine();
 		}
 	}
 }

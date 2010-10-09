@@ -1,8 +1,8 @@
 ﻿namespace CStoFlash.AS3Writer {
-	using Metaspec;
+	using CsParser;
 
 	public static class EventParser {
-		public static void Parse(CsEvent pCsEvent, AS3Builder pBuilder) {
+		public static void Parse(TheEvent pEvent, As3Builder pBuilder) {
 		}
 	}
 }

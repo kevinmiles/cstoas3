@@ -1,7 +1,7 @@
 ﻿namespace CStoFlash.AS3Writer.Expressions {
+	using CsParser;
 	using Metaspec;
-
-	using Utils;
+	using Tools;
 
 	public class SimpleName : IExpressionParser {
 		public Expression Parse(CsExpression pStatement) {
@@ -29,7 +29,7 @@
 
 
 			} else {
-				val = ParserHelper.GetRealName(ex, ex.identifier.identifier);
+				val = Helpers.GetRealName(ex, ex.identifier.identifier);
 			}
 
 			return new Expression(

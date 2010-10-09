@@ -3,10 +3,9 @@ namespace CStoFlash.AS3Writer {
 	using System;
 	using System.Collections.Generic;
 	using System.Text;
-
+	using CsParser;
 	using Metaspec;
-
-	using Utils;
+	using Tools;
 
 	public sealed class BlockParser {
 		private static int _enumCount;
@@ -14,6 +13,7 @@ namespace CStoFlash.AS3Writer {
 
 		static readonly Dictionary<Type, Action<CsStatement, CodeBuilder>> _statementWritters = new Dictionary<Type, Action<CsStatement, CodeBuilder>>();
 		public static bool InsideSetter;
+		public static bool InsideConstructor;
 
 		static BlockParser() {
 			_statementWritters.Add(typeof(CsDeclarationStatement), parseLocalVariable);
@@ -106,9 +106,9 @@ namespace CStoFlash.AS3Writer {
 			foreach (CsLocalConstantDeclarator declarator in lcd.declarators) {
 				StringBuilder sb = new StringBuilder();
 
-				sb.AppendFormat("const {0}:{1} = {2};",
+				sb.AppendFormat(@"const {0}:{1} = {2};",
 					declarator.identifier.identifier,
-					As3Helpers.Convert(ParserHelper.GetType(lcd.type)),
+					As3Helpers.Convert(Helpers.GetType(lcd.type)),
 					FactoryExpressionCreator.Parse(declarator.expression).Value
 				);
 
@@ -131,7 +131,7 @@ namespace CStoFlash.AS3Writer {
 
 				sb.AppendFormat("var {0}:{1}",
 					declarator.identifier.identifier,
-					As3Helpers.Convert(ParserHelper.GetType(localVariableDeclaration.type))
+					As3Helpers.Convert(Helpers.GetType(localVariableDeclaration.type))
 				);
 
 				if (declarator.initializer == null) {
@@ -182,7 +182,7 @@ namespace CStoFlash.AS3Writer {
 
 					sb.AppendFormat("{0}:{1}",
 						declarator.identifier.identifier,
-						As3Helpers.Convert(ParserHelper.GetType(localVariableDeclaration.type))
+						As3Helpers.Convert(Helpers.GetType(localVariableDeclaration.type))
 					);
 
 					now++;
@@ -226,7 +226,7 @@ namespace CStoFlash.AS3Writer {
 			CsForeachStatement fes = (CsForeachStatement)pStatement;
 
 			Expression ex = FactoryExpressionCreator.Parse(fes.expression);
-			string type = As3Helpers.Convert(ParserHelper.GetType(fes.type));
+			string type = As3Helpers.Convert(Helpers.GetType(fes.type));
 
 			pSb.AppendLine();
 
@@ -239,7 +239,7 @@ namespace CStoFlash.AS3Writer {
 
 			} else {
 				_enumCount++;
-				string enumName = String.Format("__ie{0}", _enumCount);
+				string enumName = String.Format(@"__ie{0}", _enumCount);
 				pSb.AppendFormat("var {0}:IEnumerator = {1}.getEnumerator();",
 				enumName, ex.Value);
 				pSb.AppendLine();
@@ -308,7 +308,7 @@ namespace CStoFlash.AS3Writer {
 		private static void parseReturnStatement(CsStatement pStatement, CodeBuilder pSb) {
 			CsReturnStatement returnStatement = (CsReturnStatement) pStatement;
 			if (returnStatement.expression == null) {
-				pSb.AppendLine(InsideSetter ? "return value;" : "return;");
+				pSb.AppendLine(InsideConstructor ? "return this" : InsideSetter ? "return value;" : "return;");
 
 			} else {
 				pSb.AppendFormat("return {0};", FactoryExpressionCreator.Parse(returnStatement.expression).Value);

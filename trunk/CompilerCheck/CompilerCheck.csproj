@@ -56,7 +56,14 @@
     <NoStdLib>true</NoStdLib>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>CStoFlash.Test</StartupObject>
+  </PropertyGroup>
   <ItemGroup>
+    <Compile Include="ConstructorOverloadedTest.cs" />
+    <Compile Include="ExtensionsTest.cs" />
+    <Compile Include="MethodOverloadingTest.cs" />
+    <Compile Include="OptionalParameterTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Test.cs" />
   </ItemGroup>
@@ -95,6 +102,6 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>copy "$(ProjectDir)Test.cs" "$(ProjectDir)..\CStoFlash\bin\Debug\source\"</PostBuildEvent>
+    <PostBuildEvent>copy "$(ProjectDir)*.cs" "$(ProjectDir)..\CStoFlash\bin\Debug\source\"</PostBuildEvent>
   </PropertyGroup>
 </Project>

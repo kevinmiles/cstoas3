@@ -1,9 +1,8 @@
 ﻿namespace CStoFlash.AS3Writer.Expressions {
 	using System;
-
+	using CsParser;
 	using Metaspec;
-
-	using Utils;
+	using Tools;
 
 	public class AssignmentExpression : IExpressionParser {
 		public Expression Parse(CsExpression pStatement) {
@@ -22,7 +21,7 @@
 					case CsTokenType.tkDIV_EQ:
 					case CsTokenType.tkMUL_EQ:
 						string getter = ElementAccessHelper.parseElementAccess(ex.lhs, true, false).Value;
-						return new Expression(string.Format(left.Value, getter + ParserHelper.GetTokenType(convertToken(ex.oper)) + right.Value), pStatement.entity_typeref);
+						return new Expression(string.Format(left.Value, getter + Helpers.GetTokenType(convertToken(ex.oper)) + right.Value), pStatement.entity_typeref);
 				}
 			}
 
@@ -36,13 +35,13 @@
 					case CsTokenType.tkDIV_EQ:
 					case CsTokenType.tkMUL_EQ:
 						string getter = SimpleNameHelper.ParseSimpleName(ex.lhs, true, false).Value;
-						return new Expression(string.Format(left.Value, getter + ParserHelper.GetTokenType(convertToken(ex.oper)) + right.Value), pStatement.entity_typeref);
+						return new Expression(string.Format(left.Value, getter + Helpers.GetTokenType(convertToken(ex.oper)) + right.Value), pStatement.entity_typeref);
 				}
 			}
 
 			if (ex.lhs.ec == expression_classification.ec_event_access) {
 				CsEntityEvent ev = (CsEntityEvent)ex.lhs.entity;
-				string eventName = ParserHelper.GetEventFromAttr(ev.attributes);
+				string eventName = Helpers.GetEventFromAttr(ev.attributes);
 				return new Expression(
 					left.Value + 
 					(ex.oper == CsTokenType.tkPLUS_EQ ? "addEventListener" : "removeEventListener") +
@@ -51,7 +50,7 @@
 				);
 			}
 
-			return new Expression(string.Format("{0} {2} {1}", left.Value, right.Value, ParserHelper.GetTokenType(ex.oper)), pStatement.entity_typeref);
+			return new Expression(string.Format("{0} {2} {1}", left.Value, right.Value, Helpers.GetTokenType(ex.oper)), pStatement.entity_typeref);
 		}
 
 		private static CsTokenType convertToken(CsTokenType pInToken) {

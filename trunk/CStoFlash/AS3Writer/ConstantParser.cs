@@ -1,22 +1,19 @@
 ﻿namespace CStoFlash.AS3Writer {
 	using System.Text;
-
-	using Metaspec;
-
-	using Utils;
+	using CsParser;
 
 	public static class ConstantParser {
-		public static void Parse(CsConstantDeclaration pCsVariableDeclaration, AS3Builder pBuilder) {
-			string modifiers = As3Helpers.GetModifiers(pCsVariableDeclaration.modifiers, null);
+		public static void Parse(TheConstant pConstant, As3Builder pBuilder) {
+			string modifiers = As3Helpers.ConvertModifiers(pConstant.Modifiers);
 
-			foreach (CsConstantDeclarator declarator in pCsVariableDeclaration.declarators) {
+			foreach (Constant declarator in pConstant.Constants) {
 				StringBuilder sb = new StringBuilder();
 
-				sb.AppendFormat("{0}const {1}:{2} = {3};",
+				sb.AppendFormat(@"{0}const {1}:{2} = {3};",
 					modifiers,
-					declarator.identifier.identifier,
-					As3Helpers.Convert(ParserHelper.GetType(declarator.entity.type)),
-					FactoryExpressionCreator.Parse(declarator.expression).Value
+					declarator.RealName,
+					As3Helpers.Convert(declarator.ReturnType),
+					declarator.Initializer.Value
 				);
 
 				pBuilder.Append(sb.ToString());

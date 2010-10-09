@@ -1,47 +1,40 @@
 ﻿namespace CStoFlash.AS3Writer {
-	using Metaspec;
-
-	using Utils;
+	using CsParser;
 
 	public static class IndexerParser {
-		public static void Parse(CsIndexer pIndexer, CodeBuilder pBuilder) {
-			TheIndexers klass = TheClass.Get(pIndexer, pIndexer);
+		public static void Parse(TheIndexer pGetIndexer, As3Builder pBuilder) {
 
-			if (pIndexer.getter != null) {
-				CsPropertyAccessor getter = pIndexer.getter;
-				string returnType = As3Helpers.Convert(klass.Getter.ReturnType);
-				
+			if (pGetIndexer.Getter != null) {
+				//CsPropertyAccessor getter = pGetIndexer.getter;
 				pBuilder.AppendFormat("{0}function {1}({2}):{3} {{",
-					As3Helpers.GetModifiers(getter.modifiers, null),
-					klass.Getter.Name,
-					As3Helpers.GetParams(getter.entity.parameters),
-					returnType);
+					As3Helpers.ConvertModifiers(pGetIndexer.Getter.Modifiers),
+					pGetIndexer.Getter.Name,
+					As3Helpers.GetParameters(pGetIndexer.Getter.Arguments),
+					As3Helpers.Convert(pGetIndexer.ReturnType));
 
 				pBuilder.AppendLine();
-				BlockParser.Parse(getter.definition, pBuilder);
+				BlockParser.Parse(pGetIndexer.Getter.CodeBlock, pBuilder);
 				pBuilder.AppendLine();
 				pBuilder.AppendLine("}");
 				pBuilder.AppendLine();
 			}
 
-			if (pIndexer.setter == null) {
+			if (pGetIndexer.Setter == null) {
 				return;
 			}
 
-			CsPropertyAccessor setter = pIndexer.setter;
-				
 			//string keys = As3Helpers.GetParams(pIndexer.parameters.parameters);
 
 			pBuilder.AppendFormat(
 				"{0}function {1}({2}):void {{",
-				  As3Helpers.GetModifiers(setter.modifiers, null),
-				  klass.Setter.Name,
-                  As3Helpers.GetParams(setter.entity.parameters)
+				  As3Helpers.ConvertModifiers(pGetIndexer.Setter.Modifiers),
+				  pGetIndexer.Setter.Name,
+				  As3Helpers.GetParameters(pGetIndexer.Setter.Arguments)
 			);
 
 			pBuilder.AppendLine();
 			//BlockParser.InsideSetter = true;
-			BlockParser.Parse(setter.definition, pBuilder);
+			BlockParser.Parse(pGetIndexer.Setter.CodeBlock, pBuilder);
 			//BlockParser.InsideSetter = false;
 			pBuilder.AppendLine();
 			//pBuilder.AppendLine("return value;");

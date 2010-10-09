@@ -1,7 +1,13 @@
 namespace CStoFlash {
 	using System;
 	using AS3Writer;
-	using Utils;
+	using Tools;
+
+	/// <summary>
+	/// @TODO:
+	/// Custom event handlers (not AS3)
+	/// probar que compile :)
+	/// </summary>
 
 	public static class Program {
 		public static void Main(string[] pArgs) {
@@ -10,8 +16,8 @@ namespace CStoFlash {
 			Arguments commandLine = new Arguments(pArgs);
 			string lang = "as3";
 
-			if (!string.IsNullOrEmpty(commandLine["lang"])) {
-				lang = commandLine["lang"];
+			if (!string.IsNullOrEmpty(commandLine[@"lang"])) {
+				lang = commandLine[@"lang"];
 				if (!ConverterFactory.HasConverter(lang)) {
 					Console.WriteLine("The specified language does not has a parser associated.");
 					return;

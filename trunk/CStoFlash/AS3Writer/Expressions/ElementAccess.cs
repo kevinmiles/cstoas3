@@ -1,9 +1,8 @@
 ﻿namespace CStoFlash.AS3Writer.Expressions {
 	using System.Collections.Generic;
-
+	using CsParser;
 	using Metaspec;
-
-	using Utils;
+	using Tools;
 
 	public class BaseIndexerAccess : IExpressionParser {
 		public Expression Parse(CsExpression pStatement) {
@@ -36,7 +35,7 @@
 
 		internal static Expression getIndexerExpression(CsExpression pStatement, IEnumerable<CsExpression> pList,
 		                                                Expression pIndexer, bool pForce, bool pGetSetter) {
-			TheClass k = TheClass.Get(pStatement);
+			TheClass k = TheClassFactory.Get(pStatement);
 
 			List<string> indexes = new List<string>();
 			List<CsEntityTypeRef> param = new List<CsEntityTypeRef>();
@@ -49,7 +48,7 @@
 
 			string exp = pIndexer == null ? "super" : pIndexer.Value;
 			bool isInternal = false;
-			TheIndexers i = null;
+			TheIndexer i = null;
 			if (k != null)
 				i = k.GetIndexer(pStatement);
 

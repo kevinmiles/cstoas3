@@ -1,7 +1,7 @@
 ﻿namespace CStoFlash.AS3Writer.Expressions {
+	using CsParser;
 	using Metaspec;
-
-	using Utils;
+	using Tools;
 
 	public class PreIncrementDecrementExpression : IExpressionParser {
 		public Expression Parse(CsExpression pStatement) {
@@ -10,7 +10,7 @@
 			Expression exp = FactoryExpressionCreator.Parse(ex.unary_expression);
 
 			return new Expression(
-				ParserHelper.GetTokenType(ex.oper) + exp.Value,
+				Helpers.GetTokenType(ex.oper) + exp.Value,
 				pStatement.entity_typeref
 			);
 		}

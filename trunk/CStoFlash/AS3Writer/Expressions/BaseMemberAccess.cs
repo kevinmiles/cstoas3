@@ -1,14 +1,11 @@
 ﻿namespace CStoFlash.AS3Writer.Expressions {
-	using System;
-
 	using Metaspec;
-
-	using Utils;
+	using Tools;
 
 	public class BaseMemberAccess : IExpressionParser {
 		public Expression Parse(CsExpression pStatement) {
 			// "base" "." identifier (type-argument-list)?
-			throw new NotImplementedException();
+			return new Expression("super.", pStatement.entity_typeref);
 		}
 	}
 }
