@@ -70,6 +70,7 @@
     <Compile Include="AS3Writer\As3Helpers.cs" />
     <Compile Include="AS3Writer\AS3NamespaceParser.cs" />
     <Compile Include="AS3Writer\BlockParser.cs" />
+    <Compile Include="AS3Writer\ClassParser.cs" />
     <Compile Include="AS3Writer\ConstantParser.cs" />
     <Compile Include="AS3Writer\DelegateParser.cs" />
     <Compile Include="AS3Writer\EventParser.cs" />
@@ -186,6 +187,6 @@
   -->
   <PropertyGroup>
     <PostBuildEvent>copy "$(ProjectDir)..\flash\bin\Release\flash.*" "$(TargetDir)"
-copy "$(ProjectDir)..\CompilerCheck\Test.cs" "$(TargetDir)Test.cs"</PostBuildEvent>
+</PostBuildEvent>
   </PropertyGroup>
 </Project>

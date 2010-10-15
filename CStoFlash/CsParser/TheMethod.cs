@@ -5,12 +5,15 @@
 	public class TheMethod : BaseMethod, ICsMethod {
 		private readonly string _name;
 
-		internal TheMethod(CsEntityMethod pCsMethod, TheClass pMyClass) {
+		internal TheMethod(CsEntityMethod pCsMethod, TheClass pMyClass, bool pIsEvent = false, bool pIsAddEvent = false) {
 			MyClass = pMyClass;
-			//Modifiers.AddRange(Helpers.GetModifiers(pCsMethod.mflags));
+			//Modifiers.AddRange(Helpers.GetModifiers(pCsMethod.access));
 			Arguments = getArguments(pCsMethod.parameters);
 			Signature = getSignature(Arguments);
-			_name = Helpers.GetRealName(pCsMethod, pCsMethod.name);
+			
+			_name = Helpers.GetRealName(pCsMethod, pIsEvent ? 
+				pIsAddEvent ? "add" : "remove" : 
+				pCsMethod.name);
 			
 			RealName = pCsMethod.name;
 			FullRealName = MyClass.FullRealName + "." + RealName;

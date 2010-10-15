@@ -13,15 +13,28 @@
 		private readonly Dictionary<CsConstantDeclaration, TheConstant> _constants = new Dictionary<CsConstantDeclaration, TheConstant>();
 		private readonly Dictionary<CsProperty, TheProperty> _properties = new Dictionary<CsProperty, TheProperty>();
 		private readonly Dictionary<CsDelegate, TheDelegate> _delegates = new Dictionary<CsDelegate, TheDelegate>();
-		private readonly Dictionary<CsEvent, TheEvent> _events = new Dictionary<CsEvent, TheEvent>();
+		private readonly Dictionary<string, TheEvent> _events = new Dictionary<string, TheEvent>();
 
 		readonly List<string> _extends = new List<string>();
 		private readonly List<string> _implements = new List<string>();
 
 		public TheClass(CsClassStruct pCsClass) {
-			CsQualifiedIdentifier list = ((CsNamespace)pCsClass.parent).qualified_identifier;
-			List<string> name = new List<string>(list.Count);
-			name.AddRange(list.Select(pIdentifier => pIdentifier.identifier.identifier));
+			CsNamespace csNamespace;
+			List<string> name = new List<string>();
+			if (pCsClass.parent is CsClass) {
+				IsPrivate = true;
+				csNamespace = (CsNamespace)pCsClass.parent.parent;
+				
+
+			} else {
+				csNamespace = (CsNamespace)pCsClass.parent;
+			}
+
+			CsQualifiedIdentifier list = csNamespace.qualified_identifier;
+			name.AddRange(list.Select(pIdentifier => pIdentifier.identifier.identifier));	
+			
+			if (IsPrivate)
+				name.Add(((CsClass)pCsClass.parent).identifier.identifier);
 
 			NameSpace = string.Join(".", name.ToArray());
 			RealName = pCsClass.identifier.identifier;
@@ -132,7 +145,14 @@
 
 				CsEvent e = memberDeclaration as CsEvent;
 				if (e != null) {
-					_events.Add(e, new TheEvent(e, this));
+					TheEvent theEvent = new TheEvent(e, this);
+					_events.Add(theEvent.RealName, theEvent);
+					continue;
+				}
+
+				CsClass csClass = memberDeclaration as CsClass;
+				if (csClass != null) {
+					
 					continue;
 				}
 
@@ -141,6 +161,9 @@
 
 			Modifiers.AddRange(Helpers.GetModifiers(pCsClass.modifiers));
 		}
+
+		public bool IsPrivate {
+			get; private set; }
 
 		public TheClass(CsEntity pCsEntity) {
 			IsEntity = true;
@@ -273,6 +296,10 @@
 		public bool IsEntity { get; private set; }
 
 		public TheConstructor GetConstructor(CsConstructor pMethod) {
+			if (pMethod == null) {//no constructor...
+				return null;
+			}
+
 			TheConstructor c;
 			return _constructors.TryGetValue(pMethod, out c) ? c : null;
 		}
@@ -301,9 +328,9 @@
 			return _delegates.TryGetValue(pMemberDeclaration, out c) ? c : null;
 		}
 
-		public TheEvent GetEvent(CsEvent pMemberDeclaration) {
+		public TheEvent GetEvent(string pEventName) {
 			TheEvent c;
-			return _events.TryGetValue(pMemberDeclaration, out c) ? c : null;
+			return _events.TryGetValue(pEventName, out c) ? c : null;
 		}
 
 		public TheProperty GetProperty(CsProperty pMemberDeclaration) {

@@ -91,17 +91,22 @@
 		public static List<Expression> GetCallingArguments(CsArgumentList pCsEntityFormalParameter) {
 			List<Expression> arguments = new List<Expression>();
 
-			if (pCsEntityFormalParameter == null || pCsEntityFormalParameter.list == null)
+			if (pCsEntityFormalParameter == null || pCsEntityFormalParameter.list == null) {
 				return arguments;
+			}
 
-			arguments.AddRange(pCsEntityFormalParameter.list.Select(pCsArgument => FactoryExpressionCreator.Parse(pCsArgument.expression)));
+			arguments.AddRange(
+			                   pCsEntityFormalParameter.list.Select(
+			                                                        pCsArgument =>
+			                                                        FactoryExpressionCreator.Parse(pCsArgument.expression)));
 
 			return arguments;
 		}
 
 		public static string Join(this IEnumerable<string> pEnumerable, string pSeparator) {
-			if (pEnumerable == null)
+			if (pEnumerable == null) {
 				return string.Empty;
+			}
 
 			string[] a = pEnumerable.ToArray();
 			return a.Length == 0 ? string.Empty : string.Join(pSeparator, a);
@@ -127,17 +132,16 @@
 
 			switch (pDirective.type) {
 				case cs_entity_type.et_array:
-					CsEntityArraySpecifier eas = pDirective.u as CsEntityArraySpecifier;
-					return GetType(eas.type) + "[]";
+					return GetType(((CsEntityArraySpecifier)pDirective.u).type) + "[]";
 
 				case cs_entity_type.et_enum:
-					CsEntityEnum ee = pDirective.u as CsEntityEnum;
-					return ee.name;
+					return ((CsEntityEnum)pDirective.u).name;
 
 				case cs_entity_type.et_generic_param:
-					CsEntityGenericParam egp = pDirective.u as CsEntityGenericParam;
-
-					return egp.name;
+					//CsEntityGenericParam egp = pDirective.u as CsEntityGenericParam;
+					//TODO: check generics parameters
+					return "*";
+					//return egp.name;
 
 				case cs_entity_type.et_genericinst:
 					CsEntityInstanceSpecifier eis = pDirective.u as CsEntityInstanceSpecifier;
@@ -302,7 +306,9 @@
 			}
 
 			List<object> vals = GetAttributeValue(pList, AS3_NAMESPACE_ATTRIBUTE);
-			if (vals.Count == 0) return;
+			if (vals.Count == 0) {
+				return;
+			}
 
 			ImportStatementList.AddImport((string)vals[0]);
 		}
@@ -313,8 +319,9 @@
 			}
 
 			List<object> vals = GetAttributeValue(pList, AS3_NAMESPACE_ATTRIBUTE);
-			if (vals.Count == 0)
+			if (vals.Count == 0) {
 				return;
+			}
 
 			ImportStatementList.AddImport((string)vals[0]);
 		}
@@ -328,7 +335,36 @@
 				return new List<object>();
 			}
 
-			return pList.sections.SelectMany(pSection => pSection.attribute_list.Select(pAttribute => GetAttributeValue(pAttribute.entities, pAttrName)).Where(pVal => pVal != null)).FirstOrDefault();
+			return
+				pList.sections.SelectMany(
+				                          pSection =>
+				                          pSection.attribute_list.Select(
+				                                                         pAttribute =>
+				                                                         pAttribute.entities == null
+				                                                         	? getAttributeValue(pAttribute, pAttrName)
+				                                                         	: GetAttributeValue(pAttribute.entities, pAttrName)).Where
+				                          	(pVal => pVal != null)).FirstOrDefault();
+		}
+
+		private static List<object> getAttributeValue(CsAttribute pAttribute, string pAttrName) {
+			string s;
+			List<object> values = new List<object>();
+
+			if (pAttribute.attribute_name != null) {
+				CsNamespaceOrTypeName n = (CsNamespaceOrTypeName)pAttribute.attribute_name;
+				s = n.identifier.original_text;
+			} else {
+				throw new Exception();
+				//s = attribute.type.parent.name;
+			}
+
+			if (s.Equals(pAttrName, StringComparison.Ordinal) || (s + "Attribute").Equals(pAttrName, StringComparison.Ordinal)) {
+				foreach (var argument in pAttribute.positional_argument_list.list) {
+					values.Add(((CsLiteral)argument).literal);
+				}
+			}
+
+			return values;
 		}
 
 		public static List<object> GetAttributeValue(IEnumerable<CsEntityAttribute> pList, string pAttrName) {
@@ -345,18 +381,16 @@
 					s = n.identifier.original_text;
 				} else if (attribute.type.parent != null && attribute.type.parent is CsEntityClass) {
 					s = attribute.type.parent.name;
-
 				} else {
 					continue;
 				}
 
-				if (s.Equals(pAttrName, StringComparison.Ordinal) || (s + "Attribute").Equals(pAttrName, StringComparison.Ordinal)) {
-					foreach (var argument in attribute.fixed_arguments) {
-						values.Add(argument.value);
-					}
-
-					return values;
+				if (!s.Equals(pAttrName, StringComparison.Ordinal) && !(s + "Attribute").Equals(pAttrName, StringComparison.Ordinal)) {
+					continue;
 				}
+
+				values.AddRange(attribute.fixed_arguments.Select(pArgument => pArgument.value));
+				return values;
 			}
 
 			return values;
@@ -462,8 +496,9 @@
 			}
 
 			List<object> vals = GetAttributeValue(pList, AS3_NAME_ATTRIBUTE);
-			if (vals.Count == 0)
+			if (vals.Count == 0) {
 				return pName;
+			}
 
 			string n = (string)vals[0];
 			return string.IsNullOrEmpty(n) ? pName : n;
@@ -484,7 +519,8 @@
 		}
 
 		public static bool HasAttribute(IEnumerable<CsEntityAttribute> pList, string pAttrName) {
-			return pList != null && pList.Any(pAttribute => pAttribute.type.parent.name.Equals(pAttrName, StringComparison.Ordinal));
+			return pList != null &&
+			       pList.Any(pAttribute => pAttribute.type.parent.name.Equals(pAttrName, StringComparison.Ordinal));
 		}
 
 		public static string GetType(CsNode pDirective) {

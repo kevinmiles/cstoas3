@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "flash", "flash\flash.csproj", "{996DB095-9B7E-4B49-B217-E13C70E1C56D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CompilerCheck", "CompilerCheck\CompilerCheck.csproj", "{CA3E4833-EF60-40F2-B8E2-BCA3B47F0AD8}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,10 +13,6 @@ Global
 		{996DB095-9B7E-4B49-B217-E13C70E1C56D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{996DB095-9B7E-4B49-B217-E13C70E1C56D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{996DB095-9B7E-4B49-B217-E13C70E1C56D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CA3E4833-EF60-40F2-B8E2-BCA3B47F0AD8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CA3E4833-EF60-40F2-B8E2-BCA3B47F0AD8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CA3E4833-EF60-40F2-B8E2-BCA3B47F0AD8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CA3E4833-EF60-40F2-B8E2-BCA3B47F0AD8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
