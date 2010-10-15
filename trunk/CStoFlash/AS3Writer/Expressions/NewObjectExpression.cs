@@ -27,15 +27,16 @@
 
 			} else {
 				TheConstructor constructor = c.GetConstructor(node);
+				if (constructor == null) {
+					//sb.AppendFormat("{0}())(", c.Name);	
+					return new Expression(
+						string.Format("new {0}()", c.Name),
+						pStatement.entity_typeref
+					);
+
+				}
+
 				sb.AppendFormat("{0}()).{1}(", c.Name, constructor.Name);
-
-				//if (constructor.IsDefaultConstructor) {
-				//    sb.AppendFormat("{0}(", constructor.Name);
-				//    addP = true;
-
-				//} else {
-					
-				//}	
 			}
 
 			if (node.argument_list != null) {

@@ -52,7 +52,7 @@
 			if (k != null)
 				i = k.GetIndexer(pStatement);
 
-			//TODO:Check array access...
+			//TODO: Check array access...
 			if (i == null || pIndexer == null || (pIndexer.Type != null && pIndexer.Type.type == cs_entity_type.et_array)) {
 				//Array access or unknown accessor
 				exp += "[" + indexes[0] + "]";

@@ -4,16 +4,16 @@ namespace CStoFlash {
 	using Tools;
 
 	/// <summary>
-	/// @TODO:
-	/// Custom event handlers (not AS3)
-	/// probar que compile :)
+	/// TODO: test that it actually generates good AS3 :)
+	/// TODO: VS templates
+	/// TODO: JS version
 	/// </summary>
 
 	public static class Program {
-		public static void Main(string[] pArgs) {
+		public static void Main(string[] pArguments) {
 			ConverterFactory.AddParser(new As3NamespaceParser(), "as3");
 
-			Arguments commandLine = new Arguments(pArgs);
+			Arguments commandLine = new Arguments(pArguments);
 			string lang = "as3";
 
 			if (!string.IsNullOrEmpty(commandLine[@"lang"])) {

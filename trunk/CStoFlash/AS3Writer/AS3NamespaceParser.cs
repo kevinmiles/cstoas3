@@ -1,6 +1,7 @@
 ﻿namespace CStoFlash.AS3Writer {
 	using System;
 	using System.IO;
+	using System.Linq;
 	using System.Text;
 	using CsParser;
 	using Expressions;
@@ -10,12 +11,6 @@
 	using System.Collections.Generic;
 
 	public class As3NamespaceParser : INamespaceParser {
-		private static readonly Dictionary<string , string> _notValidClassMod = 
-			new Dictionary<string, string> {
-				{ "private", null },
-				{ "abstract", null }
-			};
-
 		static As3NamespaceParser() {
 			FactoryExpressionCreator.AddParser(typeof(CsBinaryExpression), new BinaryExpression());
 			FactoryExpressionCreator.AddParser(typeof(CsArrayInitializer), new ArrayInitializer());
@@ -55,10 +50,6 @@
 			FactoryExpressionCreator.AddParser(typeof(CsPreIncrementDecrementExpression), new PreIncrementDecrementExpression());
 		}
 
-		//public void Init() {
-		//    TheClass.Init();
-		//}
-
 		public void Parse(CsNamespace pNameSpace, IEnumerable<CsUsingDirective> pUsing, string pOutputFolder) {
 			if (pNameSpace == null) {
 				return;
@@ -75,115 +66,21 @@
 				builder.Append(name);
 				builder.AppendLineAndIndent(" {");
 
-				parseUsing(pUsing, builder);
-				parseUsing(pNameSpace.using_directives, builder);
-				const string importMarker = "*-MoreImportsHere-*";
+				StringBuilder usings = new StringBuilder();
 
-				builder.AppendLine(importMarker);
+				parseUsing(pUsing, usings);
+				parseUsing(pNameSpace.using_directives, usings);
+				Using = usings.ToString();
+
+				builder.Append(usings);
+
+				builder.AppendLine(ClassParser.IMPORT_MARKER);
 				ImportStatementList.Init();
 
 				CsClass csClass = cn as CsClass;
 
 				if (csClass != null) {//it's a class....
-					StringBuilder sb = new StringBuilder();
-					TheClass myClass = TheClassFactory.Get(csClass);
-					bool isMainClass = Helpers.HasAttribute(csClass.attributes, "As3MainClassAttribute");
-
-					if (isMainClass) {
-						List<object> vals = Helpers.GetAttributeValue(csClass.attributes, "As3MainClassAttribute");
-						sb.AppendFormat(@"[SWF(width=""{0}"", height=""{1}"", frameRate=""{2}"", backgroundColor=""{3}"")]",
-							vals[0],
-							vals[1],
-							vals[2],
-							vals[3]
-							);
-						sb.AppendLine();
-						sb.Append("\t");
-					}
-
-					sb.AppendFormat("{1}class {0}", 
-						myClass.Name, 
-						As3Helpers.ConvertModifiers(myClass.Modifiers, _notValidClassMod));
-
-					if (myClass.Extends.Count != 0) {
-						sb.AppendFormat(" extends {0}", myClass.Extends[0]);
-					}
-
-					if (myClass.Implements.Count != 0) {
-						sb.Append(" implements ");
-						sb.Append(myClass.Implements.Join(", "));
-					}
-
-					sb.Append(" {");
-					sb.AppendLine();
-					
-					builder.Append(sb.ToString());
-					builder.AppendLineAndIndent();
-
-					if (isMainClass) {
-						builder.AppendFormat(@"public function {0}():void {{
-			if (stage) _init();
-			else addEventListener(Event.ADDED_TO_STAGE, __loaded);
-		}}
-
-		private function __loaded(e:Event = null):void {{
-			removeEventListener(Event.ADDED_TO_STAGE, __loaded);
-			_init();
-		}}
-", myClass.Name);
-						builder.AppendLine();
-					}
-
-					foreach (CsNode memberDeclaration in csClass.member_declarations) {
-						if (memberDeclaration is CsConstructor) {
-							MethodParser.Parse(myClass.GetConstructor((CsConstructor)memberDeclaration), builder);
-
-						} else if (memberDeclaration is CsMethod) {
-							MethodParser.Parse(myClass.GetMethod((CsMethod)memberDeclaration), builder);
-
-						} else if (memberDeclaration is CsIndexer) {
-							IndexerParser.Parse(myClass.GetIndexer((CsIndexer)memberDeclaration), builder);
-
-						} else if (memberDeclaration is CsVariableDeclaration) {
-							VariableParser.Parse(myClass.GetVariable((CsVariableDeclaration) memberDeclaration), builder);
-
-						} else if (memberDeclaration is CsConstantDeclaration) {
-							ConstantParser.Parse(myClass.GetConstant((CsConstantDeclaration)memberDeclaration), builder);
-
-						} else if (memberDeclaration is CsDelegate) {
-							DelegateParser.Parse(myClass.GetDelegate((CsDelegate)memberDeclaration), builder);
-
-						} else if (memberDeclaration is CsEvent) {
-							EventParser.Parse(myClass.GetEvent((CsEvent)memberDeclaration), builder);
-
-						} else if (memberDeclaration is CsProperty) {
-							PropertyParser.Parse(myClass.GetProperty((CsProperty)memberDeclaration), builder);
-
-						} else {
-							throw new NotSupportedException();
-						}
-					}
-
-
-					//theClass.member_declarations
-					//theClass.ctor_method??static constructor?
-
-					string replace = string.Empty;
-					if (ImportStatementList.List.Count > 0) {
-						StringBuilder i = new StringBuilder();
-						foreach (string import in ImportStatementList.List) {
-							i.AppendLine();
-							i.AppendFormat("\timport {0};", import);
-							
-						}
-						i.AppendLine();
-						replace = i.ToString();
-					}
-
-					builder.Replace(importMarker, replace);
-
-					builder.AppendLineAndUnindent("}");
-					builder.AppendLineAndUnindent("}");
+					ClassParser.Parse(csClass, builder);
 
 					File.WriteAllText(packDir + "\\" + Helpers.GetRealName(csClass, csClass.identifier.identifier) + ".as", builder.ToString());
 					builder.Length = 0;
@@ -195,16 +92,14 @@
 			}
 		}
 
-		private static string getNamespace(CsNamespace pNamespace) {
-			string name = string.Empty;
-			foreach (CsQualifiedIdentifierPart identifier in pNamespace.qualified_identifier) {
-				name += identifier.identifier.identifier + ".";
-			}
+		public static string Using { get; private set; }
 
+		private static string getNamespace(CsNamespace pNamespace) {
+			string name = pNamespace.qualified_identifier.Aggregate(string.Empty, (pCurrent, pIdentifier) => pCurrent + (pIdentifier.identifier.identifier + "."));
 			return name.Substring(0, name.Length - 1);
 		}
 
-		private static void parseUsing(IEnumerable<CsUsingDirective> pNn, CodeBuilder pStrb) {
+		private static void parseUsing(IEnumerable<CsUsingDirective> pNn, StringBuilder pStrb) {
 			if (pNn == null) return;
 
 			foreach (CsUsingDirective directive in pNn) {

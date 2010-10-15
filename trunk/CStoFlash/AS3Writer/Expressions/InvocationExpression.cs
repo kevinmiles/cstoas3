@@ -47,7 +47,20 @@
 					name = name.Replace(m.RealName, m.Name);
 				}
 
-			} else if (entityDelegate == null) {
+			} else if (entityDelegate != null) {
+				//es un evento?
+				if (ex.expression.ec == expression_classification.ec_event_access) {
+					TheEvent theEvent = c.GetEvent(name);
+					if (theEvent.IsFlashEvent) {
+						name = "dispatchEvent";
+
+					} else {
+						name += ".fire";
+					}
+
+				}
+				
+			} else {
 				throw new Exception("Unexpected data type");
 			}
 

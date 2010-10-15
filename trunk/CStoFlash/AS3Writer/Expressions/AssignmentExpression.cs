@@ -41,13 +41,43 @@
 
 			if (ex.lhs.ec == expression_classification.ec_event_access) {
 				CsEntityEvent ev = (CsEntityEvent)ex.lhs.entity;
-				string eventName = Helpers.GetEventFromAttr(ev.attributes);
+				
+				TheClass theClass = TheClassFactory.Get((CsEntityClass)ev.parent);
+				
+				//flash event on flash.xxxx
+				if (theClass == null) {
+					string eventName = Helpers.GetEventFromAttr(ev.attributes);
+
+					return new Expression(
+						left.Value +
+						(ex.oper == CsTokenType.tkPLUS_EQ ? 
+						("addEventListener(" + eventName + ", " + right.Value + ", false, 0, true)") :
+						("removeEventListener(" + eventName + ", " + right.Value + ")"))
+						, pStatement.entity_typeref
+					);
+				}
+
+				TheEvent theEvent = theClass.GetEvent(ev.name);
+
+				if (string.IsNullOrEmpty(theEvent.EventName)) {//custom event on the same class
+					return new Expression(
+						//event name == left => left IS the event name. Do not add twice
+						left.Value + (ev.name.Equals(left.Value, StringComparison.Ordinal) ? string.Empty : ev.name) +
+						(ex.oper == CsTokenType.tkPLUS_EQ ? ".add" : ".remove") +
+						"(" + right.Value + ")"
+						, pStatement.entity_typeref
+						);
+
+				} 
+				
+				//flash event on the same class.
 				return new Expression(
-					left.Value + 
-					(ex.oper == CsTokenType.tkPLUS_EQ ? "addEventListener" : "removeEventListener") +
-					"(" + eventName + ", " + right.Value + ", false, 0, true)"
-					, pStatement.entity_typeref
-				);
+					//event name == left => left IS the event name. Do not add twice
+					(ev.name.Equals(left.Value, StringComparison.Ordinal) ? string.Empty : left.Value) +
+					(ex.oper == CsTokenType.tkPLUS_EQ
+					 	? ("addEventListener(" + theEvent.EventName + ", " + right.Value + ", false, 0, true)")
+					 	: ("removeEventListener(" + theEvent.EventName + ", " + right.Value + ")"))
+					,pStatement.entity_typeref);
 			}
 
 			return new Expression(string.Format("{0} {2} {1}", left.Value, right.Value, Helpers.GetTokenType(ex.oper)), pStatement.entity_typeref);
