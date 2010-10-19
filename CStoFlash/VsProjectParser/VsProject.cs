@@ -185,7 +185,12 @@
 						_items.Add(contentItem);
 						break;
 
-						case "Compile":
+					case "EmbeddedResource":
+						VsProjectItem resourceItem = readItem(pXmlReader, VsItemType.EmbeddedResource);
+						_items.Add(resourceItem);
+						break;
+
+					case "Compile":
 						VsProjectItem compileItems = readItem(pXmlReader, VsItemType.CompileItem);
 						_items.Add(compileItems);
 						break;
