@@ -10,10 +10,12 @@ namespace CStoFlash {
 	/// </summary>
 
 	public static class Program {
+		public static ArgumentsCollection Arguments { get; private set; }
+
 		public static void Main(string[] pArguments) {
 			ConverterFactory.AddParser(new As3NamespaceParser(), "as3");
 
-			Arguments commandLine = new Arguments(pArguments);
+			ArgumentsCollection commandLine = Arguments = new ArgumentsCollection(pArguments);
 			string lang = "as3";
 
 			if (!string.IsNullOrEmpty(commandLine[@"lang"])) {
@@ -41,12 +43,20 @@ namespace CStoFlash {
 			}
 
 			Project.WriteMessage = Console.WriteLine;
-			//try {
-				Project.Parse(sourceFiles, lang, commandLine["output"]);	
+			try {
+				bool debug = !string.IsNullOrEmpty(commandLine["debug"]);
+				string output = commandLine["output"];
 
-			//} catch (Exception ex) {
-			//    Console.WriteLine(ex.ToString());
-			//}
+				commandLine.Remove("output");
+				commandLine.Remove("debug");
+				commandLine.Remove("source");
+				commandLine.Remove(@"lang");
+
+				Project.Parse(sourceFiles, lang, output, debug);
+
+			} catch (Exception ex) {
+				Console.WriteLine(ex.ToString());
+			}
 		}
 	}
 }

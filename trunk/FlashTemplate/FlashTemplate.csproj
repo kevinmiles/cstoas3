@@ -5,7 +5,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>$guid1$</ProjectGuid>
+    <ProjectGuid>{CA3E4833-EF60-40F2-B8E2-BCA3B47F0AD8}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>$safeprojectname$</RootNamespace>
@@ -82,10 +82,21 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="flash, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\flash\bin\Release\flash.dll</HintPath>
+    <Reference Include="flash">
+      <HintPath>C:\Tools\CsCompiler\flash\flash.dll</HintPath>
     </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="bin\compile.bat" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="as3code\placeholder.txt" />
+    <Content Include="bin\flash.dll" />
+    <Content Include="bin\flash.XML" />
+    <Content Include="swf\placeholder.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="libraries\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
@@ -96,7 +107,6 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>
-    </PostBuildEvent>
+    <PostBuildEvent>$(ProjectPath)\bin\compile.bat $(ProjectPath) $(ProjectDir) $(ProjectName) $(ConfigurationName)</PostBuildEvent>
   </PropertyGroup>
 </Project>

@@ -28,6 +28,7 @@
 		CompileItem,
 		None,
 		ProjectReference,
-		Reference
+		Reference,
+		EmbeddedResource
 	}
 }

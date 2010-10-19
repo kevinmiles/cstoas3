@@ -1,6 +1,7 @@
 ﻿namespace CStoFlash.AS3Writer {
 	using System;
 	using System.Collections.Generic;
+	using System.Linq;
 	using System.Text;
 	using CsParser;
 	using Metaspec;
@@ -15,7 +16,7 @@
 				{"abstract", null}
 			};
 
-		public static void Parse(CsClass pCsClass, As3Builder pBuilder) {
+		public static bool Parse(CsClass pCsClass, As3Builder pBuilder) {
 			StringBuilder sb = new StringBuilder();
 			As3Builder privateClasses = new As3Builder("\t");
 
@@ -23,6 +24,7 @@
 			bool isMainClass = Helpers.HasAttribute(pCsClass.attributes, "As3MainClassAttribute");
 
 			if (isMainClass) {
+				As3NamespaceParser.MainClassName = myClass.FullName;
 				List<object> vals = Helpers.GetAttributeValue(pCsClass.attributes, "As3MainClassAttribute");
 				sb.AppendFormat(@"[SWF(width=""{0}"", height=""{1}"", frameRate=""{2}"", backgroundColor=""{3}"")]",
 				                vals[0],
@@ -54,6 +56,7 @@
 			pBuilder.AppendLineAndIndent();
 
 			if (isMainClass) {
+				ImportStatementList.List.Add("flash.events.Event");
 				pBuilder.AppendFormat(
 				                      @"public function {0}():void {{
 			if (stage) _init();
@@ -104,19 +107,21 @@
 			}
 
 			if (privateClasses.Length == 0) {
-				return;
+				return isMainClass;
 			}
 
 			pBuilder.AppendLine();
 			pBuilder.Append(As3NamespaceParser.Using);
 			pBuilder.AppendLine(imports);
 			pBuilder.Append(privateClasses);
+			return isMainClass;
 		}
 
 		private static string getImports() {
 			if (ImportStatementList.List.Count > 0) {
 				StringBuilder i = new StringBuilder();
-				foreach (string import in ImportStatementList.List) {
+				foreach (string import in
+					ImportStatementList.List.Where(pImport => !pImport.Equals("flash.*", StringComparison.Ordinal))) {
 					i.AppendLine();
 					i.AppendFormat("\timport {0};", import);
 				}

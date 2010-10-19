@@ -67,6 +67,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AS3Writer\AS3Builder.cs" />
+    <Compile Include="AS3Writer\AS3Configuration.cs" />
     <Compile Include="AS3Writer\As3Helpers.cs" />
     <Compile Include="AS3Writer\AS3NamespaceParser.cs" />
     <Compile Include="AS3Writer\BlockParser.cs" />
@@ -131,12 +132,14 @@
     <Compile Include="CsParser\TheMethodArgument.cs" />
     <Compile Include="CsParser\TheProperty.cs" />
     <Compile Include="CsParser\TheVariable.cs" />
+    <Compile Include="Tools\AbstractConfiguration.cs" />
     <Compile Include="Tools\CodeBuilder.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tools\ArgumentsCollectionDictionary.cs" />
     <Compile Include="Tools\ConverterFactory.cs" />
     <Compile Include="Tools\CsParser.cs" />
+    <Compile Include="Tools\ExecuteProcess.cs" />
     <Compile Include="Tools\Expression.cs" />
     <Compile Include="Tools\FactoryExpressionCreator.cs" />
     <Compile Include="Tools\IExpressionParser.cs" />
@@ -186,7 +189,7 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>copy "$(ProjectDir)..\flash\bin\Release\flash.*" "$(TargetDir)"
+    <PostBuildEvent>copy "$(ProjectDir)\bin\Release\CStoFlash.*" "c:\tools\CsCompiler"
 </PostBuildEvent>
   </PropertyGroup>
 </Project>
