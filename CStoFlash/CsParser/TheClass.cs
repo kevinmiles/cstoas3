@@ -52,6 +52,11 @@
 					} else if (typeRef.entity_typeref.u is CsEntityInterface) {
 						Implements.Add(Helpers.GetType(typeRef.type_name));
 
+					} else if (typeRef.entity_typeref.u is CsEntityInstanceSpecifier) {
+						Implements.Add(Helpers.GetType(typeRef.type_name));
+
+						//CsEntityInstanceSpecifier specifier = (CsEntityInstanceSpecifier)typeRef.entity_typeref.u;
+
 					} else {
 						throw new NotSupportedException();
 					}
@@ -61,102 +66,108 @@
 			Dictionary<string, int> methodNames = new Dictionary<string, int>();
 			bool constructorsDone = false;
 			bool methodsDone = false;
-			foreach (CsNode memberDeclaration in pCsClass.member_declarations) {
-				CsConstructor c = memberDeclaration as CsConstructor;
-				if (c != null) {
-					TheConstructor tm = new TheConstructor(c, this);
 
-					if (methodNames.ContainsKey(tm.RealName)) {
-						methodNames[tm.RealName]++;
-						int index = tm._index = methodNames[tm.RealName];
+			if (pCsClass.member_declarations != null) {
+				foreach (CsNode memberDeclaration in pCsClass.member_declarations) {
+					CsConstructor c = memberDeclaration as CsConstructor;
+					if (c != null) {
+						TheConstructor tm = new TheConstructor(c, this);
 
-						if (!constructorsDone) {
-							constructorsDone = true;
-							foreach (KeyValuePair<CsConstructor, TheConstructor> constructor in _constructors) {
-								constructor.Value._isUnique = false;
-								constructor.Value._index = --index;
+						if (methodNames.ContainsKey(tm.RealName)) {
+							methodNames[tm.RealName]++;
+							int index = tm._index = methodNames[tm.RealName];
+
+							if (!constructorsDone) {
+								constructorsDone = true;
+								foreach (KeyValuePair<CsConstructor, TheConstructor> constructor in _constructors) {
+									constructor.Value._isUnique = false;
+									constructor.Value._index = --index;
+								}
 							}
+
+							tm._isUnique = false;
+
+						} else {
+							methodNames[tm.RealName] = tm._index = 1;
 						}
 
-						tm._isUnique = false;
-
-					} else {
-						methodNames[tm.RealName] = tm._index = 1;
+						_constructors.Add(c, tm);
+						continue;
 					}
 
-					_constructors.Add(c, tm);
-					continue;
-				}
+					CsMethod m = memberDeclaration as CsMethod;
+					if (m != null) {
+						if (m.interface_type != null) continue;
 
-				CsMethod m = memberDeclaration as CsMethod;
-				if (m != null) {
-					TheMethod tm = new TheMethod(m, this);
-					if (methodNames.ContainsKey(tm.RealName)) {
-						methodNames[tm.RealName]++;
-						int index = tm._index = methodNames[tm.RealName];
+						TheMethod tm = new TheMethod(m, this);
+						if (methodNames.ContainsKey(tm.RealName)) {
+							methodNames[tm.RealName]++;
+							int index = tm._index = methodNames[tm.RealName];
 
-						if (!methodsDone) {
-							methodsDone = true;
-							foreach (KeyValuePair<CsMethod, TheMethod> method in _methods) {
-								method.Value._isUnique = false;
-								method.Value._index = --index;
+							if (!methodsDone) {
+								methodsDone = true;
+								foreach (KeyValuePair<CsMethod, TheMethod> method in _methods) {
+									method.Value._isUnique = false;
+									method.Value._index = --index;
+								}
 							}
+
+							tm._isUnique = false;
+
+						} else {
+							methodNames[tm.RealName] = tm._index = 1;
 						}
 
-						tm._isUnique = false;
-
-					} else {
-						methodNames[tm.RealName] = tm._index = 1;
+						_methods.Add(m, tm);
+						continue;
 					}
 
-					_methods.Add(m, tm);
-					continue;
-				}
+					CsIndexer i = memberDeclaration as CsIndexer;
+					if (i != null) {
+						_indexers.Add(i, new TheIndexer(i, this));
+						continue;
+					}
 
-				CsIndexer i = memberDeclaration as CsIndexer;
-				if (i != null) {
-					_indexers.Add(i, new TheIndexer(i, this));
-					continue;
-				}
+					CsVariableDeclaration v = memberDeclaration as CsVariableDeclaration;
+					if (v != null) {
+						_variables.Add(v, new TheVariable(v, this));
+						continue;
+					}
 
-				CsVariableDeclaration v = memberDeclaration as CsVariableDeclaration;
-				if (v != null) {
-					_variables.Add(v, new TheVariable(v, this));	
-					continue;
-				}
+					CsConstantDeclaration k = memberDeclaration as CsConstantDeclaration;
+					if (k != null) {
+						_constants.Add(k, new TheConstant(k, this));
+						continue;
+					}
 
-				CsConstantDeclaration k = memberDeclaration as CsConstantDeclaration;
-				if (k != null) {
-					_constants.Add(k, new TheConstant(k, this));
-					continue;
-				}
+					CsProperty p = memberDeclaration as CsProperty;
+					if (p != null) {
+						if (p.interface_type == null)
+							_properties.Add(p, new TheProperty(p, this));
+						continue;
+					}
 
-				CsProperty p = memberDeclaration as CsProperty;
-				if (p != null) {
-					_properties.Add(p, new TheProperty(p, this));
-					continue;
-				}
+					CsDelegate d = memberDeclaration as CsDelegate;
+					if (d != null) {
+						_delegates.Add(d, new TheDelegate(d, this));
+						continue;
+					}
 
-				CsDelegate d = memberDeclaration as CsDelegate;
-				if (d != null) {
-					_delegates.Add(d, new TheDelegate(d, this));
-					continue;
-				}
+					CsEvent e = memberDeclaration as CsEvent;
+					if (e != null) {
+						TheEvent theEvent = new TheEvent(e, this);
+						_events.Add(theEvent.RealName, theEvent);
+						continue;
+					}
 
-				CsEvent e = memberDeclaration as CsEvent;
-				if (e != null) {
-					TheEvent theEvent = new TheEvent(e, this);
-					_events.Add(theEvent.RealName, theEvent);
-					continue;
-				}
+					CsClass csClass = memberDeclaration as CsClass;
+					if (csClass != null) {
 
-				CsClass csClass = memberDeclaration as CsClass;
-				if (csClass != null) {
-					
-					continue;
-				}
+						continue;
+					}
 
-				throw new NotImplementedException("Unknown type not implemented");
+					throw new NotImplementedException("Unknown type not implemented");
+				}
 			}
 
 			Modifiers.AddRange(Helpers.GetModifiers(pCsClass.modifiers));

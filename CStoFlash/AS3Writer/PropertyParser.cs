@@ -2,6 +2,8 @@
 	using CsParser;
 	public static class PropertyParser {
 		public static void Parse(TheProperty pProperty, As3Builder pBuilder) {
+			if (pProperty == null) return;
+
 			string type = As3Helpers.Convert(pProperty.ReturnType);
 
 			if (pProperty.IsEmpty) {
@@ -9,34 +11,43 @@
 				pBuilder.AppendLine();
 			}
 
-			//Getter
-			pBuilder.AppendFormat("{0}function {1}():{2} {{",
-				As3Helpers.ConvertModifiers(pProperty.Getter.Modifiers),
-				pProperty.Getter.RealName,
-				type
-			);
+			if (pProperty.Getter != null) {
+				//Getter
+				bool isEnum = pProperty.Getter.Name.Equals("get_Current") && pProperty.MyClass.Implements.Contains("IEnumerator");
 
-			pBuilder.AppendLine();
+				pBuilder.AppendFormat("{0}function {1}():{2} {{",
+					As3Helpers.ConvertModifiers(pProperty.Getter.Modifiers),
+					pProperty.Getter.RealName,
+					isEnum ? "*" : type
+				);
 
-			if (pProperty.IsEmpty) {
-				pBuilder.Indent();
-				pBuilder.AppendFormat("return _{0};", pProperty.RealName);
-				pBuilder.Unindent();
+				pBuilder.AppendLine();
 
-			} else {
-				BlockParser.Parse(pProperty.Getter.CodeBlock, pBuilder);
+				if (pProperty.IsEmpty) {
+					pBuilder.Indent();
+					pBuilder.AppendFormat("return _{0};", pProperty.RealName);
+					pBuilder.Unindent();
+
+				} else {
+					BlockParser.Parse(pProperty.Getter.CodeBlock, pBuilder);
+				}
+
+				pBuilder.AppendLine();
+				pBuilder.AppendLine("}");
+				pBuilder.AppendLine();	
 			}
 
-			pBuilder.AppendLine();
-			pBuilder.AppendLine("}");
-			pBuilder.AppendLine();
+
+			if (pProperty.Setter == null) {
+				return;
+			}
 
 			//Setter
 			pBuilder.AppendFormat("{0}function {1}(value:{2}):{2} {{",
-				As3Helpers.ConvertModifiers(pProperty.Setter.Modifiers),
-				pProperty.Setter.RealName,
-				type
-			);
+			                      As3Helpers.ConvertModifiers(pProperty.Setter.Modifiers),
+			                      pProperty.Setter.RealName,
+			                      type
+				);
 
 			pBuilder.AppendLine();
 

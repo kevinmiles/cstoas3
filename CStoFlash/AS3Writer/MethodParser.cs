@@ -65,8 +65,10 @@
 		}
 
 		public static void Parse(TheMethod pMethod, As3Builder pBuilder) {
+			if (pMethod == null) return;
+
 			pBuilder.AppendFormat("{0}function {1}({2}):{3} {{",
-				As3Helpers.ConvertModifiers(pMethod.Modifiers, null),
+				As3Helpers.ConvertModifiers(pMethod.Modifiers),
 				pMethod.Name,
 				As3Helpers.GetParameters(pMethod.Arguments),
 				As3Helpers.Convert(pMethod.ReturnType)

@@ -239,14 +239,16 @@ namespace CStoFlash.AS3Writer {
 
 			} else {
 				_enumCount++;
+				//TheClass theClass = TheClassFactory.Get(fes.expression.entity_typeref);
+
 				string enumName = String.Format(@"__ie{0}", _enumCount);
-				pSb.AppendFormat("var {0}:IEnumerator = {1}.getEnumerator();",
+				pSb.AppendFormat("var {0}:IEnumerator = {1}.GetEnumerator();",
 				enumName, ex.Value);
 				pSb.AppendLine();
-				pSb.AppendFormat("while ({0}.moveNext()){{", enumName);
+				pSb.AppendFormat("while ({0}.MoveNext()){{", enumName);
 				pSb.AppendLine();
-				
-				pSb.AppendFormat("\tvar {1}:{2} = {0}.current as {2};",
+
+				pSb.AppendFormat("\tvar {1}:{2} = {0}.get_Current() as {2};",
 					enumName,
 					fes.identifier.identifier,
 					type
