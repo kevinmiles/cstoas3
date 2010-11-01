@@ -1,0 +1,7 @@
+﻿namespace CStoFlash.Tools {
+	using Metaspec;
+
+	public interface IExpressionParser {
+		Expression Parse(CsExpression pStatement);
+	}
+}
