@@ -50,6 +50,7 @@
 			_typeRef.Add(CsTokenType.tkIS, "is");
 
 			_typeRef.Add(CsTokenType.tkVOID, "void");
+			_typeRef.Add(CsTokenType.tkOBJECT, "object");
 			_typeRef.Add(CsTokenType.tkSTRING, "string");
 			_typeRef.Add(CsTokenType.tkBOOL, @"bool");
 
@@ -117,8 +118,7 @@
 				return _typeRef[pTokenType];
 			}
 
-			Debug.Fail(@"Unknown Typeref: " + pTokenType);
-			return "?*?*?*";
+			throw new Exception(@"Unknown Typeref: " + pTokenType);
 		}
 
 		public static string GetType(CsEntityTypeRef pDirective) {
@@ -272,6 +272,12 @@
 						if (IsClassDefinedAsObject(((CsEntityClass)parent.entity_typeref.u).attributes)) {
 							return "object";
 						}
+
+						return ((CsEntityClass)parent.entity_typeref.u).name;
+					}
+
+					if (parent.entity_typeref.type == cs_entity_type.et_generic_param) {
+						return "*";
 					}
 
 					if (parent.entity_typeref.u is CsEntityInstanceSpecifier) {

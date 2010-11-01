@@ -12,8 +12,11 @@
 			
 			ReturnType = Helpers.GetType(pCsProperty.type);
 
-			Getter = new Property(pCsProperty.getter, this);
-			Setter = new Property(pCsProperty.setter, this);
+			if (pCsProperty.getter != null)
+				Getter = new Property(pCsProperty.getter, this);
+
+			if (pCsProperty.setter != null)
+				Setter = new Property(pCsProperty.setter, this);
 		}
 
 		public TheClass MyClass { get; private set; }

@@ -5,53 +5,6 @@
 	using Tools;
 
 	public static class As3Helpers {
-		//private static readonly char[] _paramTrim = new[] { ',', ' ' };
-
-		//public static string GetParameters(CsArgumentList pList) {
-		//    if (pList == null || pList.list == null)
-		//        return string.Empty;
-
-		//    StringBuilder prms = new StringBuilder();
-		//    foreach (CsArgument param in pList.list) {
-		//        Expression ex = FactoryExpressionCreator.Parse(param.expression);
-		//        prms.Append(ex.Value);
-		//        prms.Append(", ");
-		//    }
-
-		//    return prms.ToString().TrimEnd(_paramTrim);
-		//}
-		
-		//public static string GetParameters(IEnumerable<CsFormalParameter> pLinkedList) {
-		//    if (pLinkedList == null)
-		//        return string.Empty;
-
-		//    StringBuilder prms = new StringBuilder();
-		//    foreach (CsFormalParameter param in pLinkedList) {
-		//        Expression e = param.default_argument == null ? null : FactoryExpressionCreator.Parse(param.default_argument.expression);
-	
-		//        prms.AppendFormat("{0}:{1}{2}, ",
-		//            param.identifier.identifier,
-		//            Convert(ParserHelper.GetType(param.type)),
-		//            e == null ? string.Empty : " = "+e.Value
-		//        );
-		//    }
-
-		//    return prms.ToString().TrimEnd(_paramTrim);
-		//}
-
-		//public static string GetParameters(CsEntityFormalParameter[] pLinkedList) {
-		//    StringBuilder prms = new StringBuilder();
-		//    foreach (CsEntityFormalParameter param in pLinkedList) {
-		//        prms.AppendFormat("{0}:{1}, ",
-		//            param.param == null ? param.name : param.param.identifier.identifier,
-		//            Convert(ParserHelper.GetType(param.type))
-		//            //Convert(ParserHelper.GetType(param.param.type))
-		//        );
-		//    }
-
-		//    return prms.ToString().TrimEnd(_paramTrim);
-		//}
-
 		private static readonly Dictionary<string,string> _flashModifiers = new Dictionary<string, string> {
 			{"sealed","final"},
 			{"extern",""},
@@ -130,6 +83,12 @@
 			if (pType.Equals("string", StringComparison.OrdinalIgnoreCase))
 				return "String";
 
+			if (pType.Equals("Exception", StringComparison.OrdinalIgnoreCase))
+				return "Error";
+
+			if (pType.Equals("object", StringComparison.OrdinalIgnoreCase))
+				return "Object";
+
 			if (pType.Equals(@"bool", StringComparison.OrdinalIgnoreCase))
 				return "Boolean";
 
@@ -141,7 +100,7 @@
 			foreach (TheMethodArgument methodArgument in pArguments) {
 				args.Add(string.Format("{0}:{1}{2}",
 					methodArgument.Name, 
-					methodArgument.Type,
+					Convert(methodArgument.Type),
 					methodArgument.DefaultValue == null ? string.Empty : " = "+methodArgument.DefaultValue.Value
 				));
 			}

@@ -43,7 +43,9 @@ namespace CStoFlash {
 			}
 
 			Project.WriteMessage = Console.WriteLine;
+#if !DEBUG
 			try {
+#endif
 				bool debug = !string.IsNullOrEmpty(commandLine["debug"]);
 				string output = commandLine["output"];
 
@@ -53,10 +55,12 @@ namespace CStoFlash {
 				commandLine.Remove(@"lang");
 
 				Project.Parse(sourceFiles, lang, output, debug);
-
+#if !DEBUG
 			} catch (Exception ex) {
 				Console.WriteLine(ex.ToString());
+				Environment.Exit(255);
 			}
+#endif
 		}
 	}
 }

@@ -116,32 +116,28 @@
 			string path = Path.Combine(As3Configuration.Instance.FlexSdkPath, @"bin\mxmlc.exe");
 			ExecuteProcess process = new ExecuteProcess(path);
 
-			string mainClassPath = MainClassName.Replace(".", "\\")+".as";
-
-			process.AddArgument(Path.Combine(_outputFolder, mainClassPath));
-			process.AddArgument("-source-path", _outputFolder);
+			process.AddArgument(Path.Combine(_outputFolder, MainClassName.Replace(".", "\\")+".as"));
+			process.AddArgument("source-path", _outputFolder);
 
 			foreach (FlexOption option in As3Configuration.Instance.FlexOptions) {
-				process.AddArgument("-"+option.Name, option.Value);
+				process.AddArgument(option.Name, option.Value);
 			}
 
 			if (pDebug) {
-				process.AddArgument(@"-debug", "true");
-				process.AddArgument(@"-verbose-stacktraces", "true");
+				process.AddArgument(@"debug", "true");
+				process.AddArgument(@"verbose-stacktraces", "true");
 			}
 
 			foreach (var argument in Program.Arguments) {
-				process.AddArgument("-" + argument.Key, argument.Value);	
+				process.AddArgument(argument.Key, argument.Value);	
 			}
 
-			process.AddArgument("-o");
-			process.AddArgument(Path.Combine(_outputFolder, @"..\swf\file.swf"));
+			process.AddArgument("o", Path.Combine(_outputFolder, @"..\swf\file.swf"));
 
 			process.Execute(_outputFolder);
 
 			Console.WriteLine(process.Output);
 			Console.WriteLine(process.Error);
-
 			//process.AddArgument("-library-path","%2libraries");
 		}
 
@@ -171,8 +167,8 @@
 				if (directive is CsUsingNamespaceDirective) {
 					string name = As3Helpers.Convert(Helpers.GetType(directive));
 					if (name.StartsWith("flash.Global", StringComparison.Ordinal) ||
-						name.Equals("flash.", StringComparison.Ordinal) ||
-					    name.StartsWith("System", StringComparison.Ordinal)) {
+						//name.StartsWith("System", StringComparison.Ordinal) || 
+						name.Equals("flash.", StringComparison.Ordinal)) {
 						continue;
 					}
 

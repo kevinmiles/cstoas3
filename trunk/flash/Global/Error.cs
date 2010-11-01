@@ -1,5 +1,5 @@
 ﻿namespace flash.Global {
-	public class Error {
+	public class Error  {
 		public int errorID;
 		public string message;
 		public string name;
