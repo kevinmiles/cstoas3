@@ -97,7 +97,7 @@
 		public bool visible;
 		public float width;
 		public float x;
-		public float yx;
+		public float y;
 		public float z;
 
 		/// <summary>

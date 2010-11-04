@@ -66,89 +66,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AS3Writer\AS3Builder.cs" />
-    <Compile Include="AS3Writer\AS3Configuration.cs" />
-    <Compile Include="AS3Writer\As3Helpers.cs" />
-    <Compile Include="AS3Writer\AS3NamespaceParser.cs" />
-    <Compile Include="AS3Writer\BlockParser.cs" />
-    <Compile Include="AS3Writer\ClassParser.cs" />
-    <Compile Include="AS3Writer\ConstantParser.cs" />
-    <Compile Include="AS3Writer\DelegateParser.cs" />
-    <Compile Include="AS3Writer\EventParser.cs" />
-    <Compile Include="AS3Writer\Expressions\AnonymousMethodExpression.cs" />
-    <Compile Include="AS3Writer\Expressions\AnonymousObjectCreationExpression.cs" />
-    <Compile Include="AS3Writer\Expressions\ArgListExpression.cs" />
-    <Compile Include="AS3Writer\Expressions\ArrayInitializer.cs" />
-    <Compile Include="AS3Writer\Expressions\AsIsExpression.cs" />
-    <Compile Include="AS3Writer\Expressions\AssignmentExpression.cs" />
-    <Compile Include="AS3Writer\Expressions\BaseMemberAccess.cs" />
-    <Compile Include="AS3Writer\Expressions\BinaryExpression.cs" />
-    <Compile Include="AS3Writer\Expressions\CastUnaryExpression.cs" />
-    <Compile Include="AS3Writer\Expressions\CheckedExpression.cs" />
-    <Compile Include="AS3Writer\Expressions\ConditionalExpression.cs" />
-    <Compile Include="AS3Writer\Expressions\DefaultValueExpression.cs" />
-    <Compile Include="AS3Writer\Expressions\ElementAccess.cs" />
-    <Compile Include="AS3Writer\Expressions\InvocationExpression.cs" />
-    <Compile Include="AS3Writer\Expressions\LambdaExpression.cs" />
-    <Compile Include="AS3Writer\Expressions\Literal.cs" />
-    <Compile Include="AS3Writer\Expressions\MakeRefExpression.cs" />
-    <Compile Include="AS3Writer\Expressions\NewArrayExpression.cs" />
-    <Compile Include="AS3Writer\Expressions\NewObjectExpression.cs" />
-    <Compile Include="AS3Writer\Expressions\OperatorUnaryExpression.cs" />
-    <Compile Include="AS3Writer\Expressions\ParenthesizedExpression.cs" />
-    <Compile Include="AS3Writer\Expressions\PointerMemberAccess.cs" />
-    <Compile Include="AS3Writer\Expressions\PostIncrementDecrementExpression.cs" />
-    <Compile Include="AS3Writer\Expressions\PredefinedTypeMemberAccess.cs" />
-    <Compile Include="AS3Writer\Expressions\PreIncrementDecrementExpression.cs" />
-    <Compile Include="AS3Writer\Expressions\PrimaryExpressionMemberAccess.cs" />
-    <Compile Include="AS3Writer\Expressions\QualifiedAliasMemberAccess.cs" />
-    <Compile Include="AS3Writer\Expressions\QueryExpression.cs" />
-    <Compile Include="AS3Writer\Expressions\RefTypeExpression.cs" />
-    <Compile Include="AS3Writer\Expressions\RefValueExpression.cs" />
-    <Compile Include="AS3Writer\Expressions\SimpleName.cs" />
-    <Compile Include="AS3Writer\Expressions\SizeofExpression.cs" />
-    <Compile Include="AS3Writer\Expressions\ThisAccess.cs" />
-    <Compile Include="AS3Writer\Expressions\TypeofExpression.cs" />
-    <Compile Include="AS3Writer\Expressions\UncheckedExpression.cs" />
-    <Compile Include="AS3Writer\IndexerParser.cs" />
-    <Compile Include="AS3Writer\MethodParser.cs" />
-    <Compile Include="AS3Writer\PropertyParser.cs" />
-    <Compile Include="AS3Writer\VariableParser.cs" />
-    <Compile Include="CsParser\BaseMethod.cs" />
-    <Compile Include="CsParser\BaseNode.cs" />
-    <Compile Include="CsParser\Helpers.cs" />
-    <Compile Include="CsParser\Interfaces\ICsHasCodeBlock.cs" />
-    <Compile Include="CsParser\Interfaces\ICsHasReturnType.cs" />
-    <Compile Include="CsParser\Interfaces\ICsNode.cs" />
-    <Compile Include="CsParser\Interfaces\ICsMethod.cs" />
-    <Compile Include="CsParser\TheClass.cs" />
-    <Compile Include="CsParser\TheClassFactory.cs" />
-    <Compile Include="CsParser\TheConstant.cs" />
-    <Compile Include="CsParser\TheConstructor.cs" />
-    <Compile Include="CsParser\TheDelegate.cs" />
-    <Compile Include="CsParser\TheEvent.cs" />
-    <Compile Include="CsParser\TheIndexer.cs" />
-    <Compile Include="CsParser\TheMethod.cs" />
-    <Compile Include="CsParser\TheMethodArgument.cs" />
-    <Compile Include="CsParser\TheProperty.cs" />
-    <Compile Include="CsParser\TheVariable.cs" />
-    <Compile Include="Tools\AbstractConfiguration.cs" />
-    <Compile Include="Tools\CodeBuilder.cs" />
+    <Compile Include="AbstractConfiguration.cs" />
+    <Compile Include="ArgumentsCollectionDictionary.cs" />
+    <Compile Include="AS3Configuration.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Tools\ArgumentsCollectionDictionary.cs" />
-    <Compile Include="Tools\ConverterFactory.cs" />
-    <Compile Include="Tools\CsParser.cs" />
-    <Compile Include="Tools\ExecuteProcess.cs" />
-    <Compile Include="Tools\Expression.cs" />
-    <Compile Include="Tools\FactoryExpressionCreator.cs" />
-    <Compile Include="Tools\IExpressionParser.cs" />
-    <Compile Include="Tools\ImportStatementList.cs" />
-    <Compile Include="Tools\INamespaceParser.cs" />
-    <Compile Include="Tools\Project.cs" />
-    <Compile Include="VsProjectParser\VsProject.cs" />
-    <Compile Include="VsProjectParser\VsProjectConfiguration.cs" />
-    <Compile Include="VsProjectParser\VsProjectItem.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -180,6 +102,16 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CsCompilerTask\CsCompilerTask.csproj">
+      <Project>{CA32B56A-DF18-4101-A5B5-059C8D3B019D}</Project>
+      <Name>CsCompilerTask</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CsCompiler\CsCompiler.csproj">
+      <Project>{476FDE83-3759-435F-883C-9F92C1CF7882}</Project>
+      <Name>CsCompiler</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
@@ -189,7 +121,7 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>copy "$(ProjectDir)\bin\Release\CStoFlash.*" "c:\tools\CsCompiler"
-</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
 </Project>

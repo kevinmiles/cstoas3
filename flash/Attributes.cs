@@ -42,7 +42,7 @@
 		
 	}
 
-	[AttributeUsage(AttributeTargets.Field, AllowMultiple = false)]
+	[AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
 	public sealed class As3EmbedAttribute : Attribute {
 		/// <summary>
 		/// Specifies the name and path of the asset to embed; either an absolute path or a path relative to the file containing the embed statement. The embedded asset must be a locally stored asset. Therefore, you cannot specify a URL for an asset to embed.
@@ -69,33 +69,53 @@
 		/// </summary>
 		public string mimeType;
 
-		// font
-		public string systemFont;
-		public string fontName;
+		/// <summary>
+		/// Sets the font weight. Available values are normal, bold, heavy
+		/// </summary>
 		public string fontWeight;
-		public string fontStyle;
-		public string fontFamily;
-		public string unicodeRange;
-		public string advancedAntiAliasing;
 
+		/// <summary>
+		/// Sets the font style. Available values are normal, italic, oblique
+		/// </summary>
+		public string fontStyle;
+
+		/// <summary>
+		/// String used to identify font further in code and at runtime.
+		/// </summary>
+		public string fontName;
+
+		/// <summary>
+		/// Lets you specify a subset of the font's character range, in the format "U+XXXX-U+XXXX"
+		/// </summary>
+		public string unicodeRange;
+
+		///<summary>
+		/// The advancedAntiAliasing property determines whether to include the advanced anti-aliasing information when embedding the font. This property is optional. The default value is <see langword="true"/>.
+		///</summary>
+		public bool advancedAntiAliasing;
+
+		/// <summary>
+		/// New Flash Text Engine (FTE) uses Compact Font Format (CFF) fonts. Since Flex 4 embedAsCFF is set to true by default. Classic TextFormat objects are unable to use CFF fonts.
+		/// </summary>
+		public bool embedAsCFF;
 
 		// image
 		/// <summary>
 		/// Specifies the distance, in pixels, of the upper dividing line from the top of the image in a scale-9 formatting system. The distance is relative to the original, unscaled size of the image.
 		/// </summary>
-		public string scaleGridTop;
+		public int scaleGridTop;
 		/// <summary>
 		/// Specifies the distance in pixels of the lower dividing line from the top of the image in a scale-9 formatting system. The distance is relative to the original, unscaled size of the image.
 		/// </summary>
-		public string scaleGridBottom;
+		public int scaleGridBottom;
 		/// <summary>
 		/// Specifies the distance in pixels of the left dividing line from the left side of the image in a scale-9 formatting system. The distance is relative to the original, unscaled size of the image.
 		/// </summary>
-		public string scaleGridLeft;
+		public int scaleGridLeft;
 		/// <summary>
 		/// Specifies the distance in pixels of the right dividing line from the left side of the image in a scale-9 formatting system. The distance is relative to the original, unscaled size of the image.
 		/// </summary>
-		public string scaleGridRight;
+		public int scaleGridRight;
 	}
 }
 

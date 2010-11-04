@@ -1,4 +1,6 @@
 ﻿namespace flash.Global {
+	using System;
+
 	public static class Reflection {
 		[As3Name("getDefinitionByName")]
 		[As3Namespace("flash.utils.getDefinitionByName")]
@@ -18,12 +20,12 @@
 		}
 
 		[As3Name("(new {0}())")]
-		public static object create(Class pClass) {
+		public static object create(Type pClass) {
 			return null;
 		}
 
 		[As3Name("(new {0}({1}))")]
-		public static object create(Class pClass, params object[] pParams) {
+		public static object create(Type pClass, params object[] pParams) {
 			return null;
 		}
 	}

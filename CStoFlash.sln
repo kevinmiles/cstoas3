@@ -3,6 +3,10 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CStoFlash", "CStoFlash\CStoFlash.csproj", "{AA947A9C-0AB2-4BB6-98A1-5CEE8E46A0C6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CsCompilerTask", "CsCompilerTask\CsCompilerTask.csproj", "{CA32B56A-DF18-4101-A5B5-059C8D3B019D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CsCompiler", "CsCompiler\CsCompiler.csproj", "{476FDE83-3759-435F-883C-9F92C1CF7882}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -13,6 +17,14 @@ Global
 		{AA947A9C-0AB2-4BB6-98A1-5CEE8E46A0C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AA947A9C-0AB2-4BB6-98A1-5CEE8E46A0C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AA947A9C-0AB2-4BB6-98A1-5CEE8E46A0C6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CA32B56A-DF18-4101-A5B5-059C8D3B019D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CA32B56A-DF18-4101-A5B5-059C8D3B019D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CA32B56A-DF18-4101-A5B5-059C8D3B019D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CA32B56A-DF18-4101-A5B5-059C8D3B019D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{476FDE83-3759-435F-883C-9F92C1CF7882}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{476FDE83-3759-435F-883C-9F92C1CF7882}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{476FDE83-3759-435F-883C-9F92C1CF7882}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{476FDE83-3759-435F-883C-9F92C1CF7882}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
