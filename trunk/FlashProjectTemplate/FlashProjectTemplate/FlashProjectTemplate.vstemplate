@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<VSTemplate Version="3.0.0" Type="Project" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005">
+  <TemplateData>
+    <Name>FlashProjectTemplate</Name>
+    <Description>&lt;No description available&gt;</Description>
+    <Icon>FlashProjectTemplate.ico</Icon>
+    <ProjectType>CSharp</ProjectType>
+    <RequiredFrameworkVersion>2.0</RequiredFrameworkVersion>
+    <SortOrder>1000</SortOrder>
+    <TemplateID>10a2b1a1-6071-43e3-8fab-0f87775d9356</TemplateID>
+    <CreateNewFolder>true</CreateNewFolder>
+    <DefaultName>FlashProjectTemplate</DefaultName>
+    <ProvideDefaultName>true</ProvideDefaultName>
+  </TemplateData>
+  <TemplateContent>
+    <Project File="ProjectTemplate.csproj" ReplaceParameters="true">
+      <ProjectItem ReplaceParameters="true" TargetFileName="Properties\AssemblyInfo.cs">AssemblyInfo.cs</ProjectItem>
+      <ProjectItem ReplaceParameters="true" OpenInEditor="true">Main.cs</ProjectItem>
+      <ProjectItem>as3code\placeholder.txt</ProjectItem>
+      <ProjectItem>swf\placeholder.txt</ProjectItem>
+    </Project>
+  </TemplateContent>
+</VSTemplate>

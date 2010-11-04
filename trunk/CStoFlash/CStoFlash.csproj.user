@@ -17,6 +17,6 @@
     <VerifyUploadedFiles>false</VerifyUploadedFiles>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <StartArguments>-source:D:\Work-Efx\FlashCoreCs\FlashCoreCs\FlashCoreCs.csproj -output:output -root:output</StartArguments>
+    <StartArguments>-source:D:\Work-Efx\CStoFlash\CStoFlash\CStoFlash.csproj -output:output -root:output</StartArguments>
   </PropertyGroup>
 </Project>
