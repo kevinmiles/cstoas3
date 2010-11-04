@@ -46,6 +46,7 @@
     <NoStdLib>true</NoStdLib>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <DocumentationFile>bin\Debug\flash.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>none</DebugType>
@@ -72,11 +73,11 @@
     <Compile Include="accessibility\Accessibility.cs" />
     <Compile Include="accessibility\AccessibilityProperties.cs" />
     <Compile Include="Attributes.cs" />
-    <Compile Include="EfxExtensions\System\Action.cs" />
-    <Compile Include="EfxExtensions\System\Attributes.cs" />
-    <Compile Include="EfxExtensions\System\EventArgs.cs" />
-    <Compile Include="EfxExtensions\System\Func.cs" />
-    <Compile Include="EfxExtensions\System\Object.cs" />
+    <Compile Include="CoreLib\System\Action.cs" />
+    <Compile Include="CoreLib\System\Attributes.cs" />
+    <Compile Include="CoreLib\System\EventArgs.cs" />
+    <Compile Include="CoreLib\System\Func.cs" />
+    <Compile Include="CoreLib\System\Object.cs" />
     <Compile Include="Global\String.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="VSAttrs.cs" />
@@ -122,32 +123,32 @@
     <Compile Include="display\StageDisplayState.cs" />
     <Compile Include="display\StageQuality.cs" />
     <Compile Include="display\StageScaleMode.cs" />
-    <Compile Include="EfxExtensions\System\Array.cs" />
-    <Compile Include="EfxExtensions\System\Boolean.cs" />
-    <Compile Include="EfxExtensions\System\Char.cs" />
-    <Compile Include="EfxExtensions\System\Byte.cs" />
-    <Compile Include="EfxExtensions\System\MulticastDelegate.cs" />
-    <Compile Include="EfxExtensions\System\RuntimeTypeHandle.cs" />
-    <Compile Include="EfxExtensions\System\Enum.cs" />
-    <Compile Include="EfxExtensions\System\RuntimeFieldHandle.cs" />
-    <Compile Include="EfxExtensions\System\UIntPtr.cs" />
-    <Compile Include="EfxExtensions\System\IntPtr.cs" />
-    <Compile Include="EfxExtensions\System\SByte.cs" />
-    <Compile Include="EfxExtensions\System\Delegate.cs" />
-    <Compile Include="EfxExtensions\System\Single.cs" />
-    <Compile Include="EfxExtensions\System\UInt64.cs" />
-    <Compile Include="EfxExtensions\System\UInt16.cs" />
-    <Compile Include="EfxExtensions\System\Int16.cs" />
-    <Compile Include="EfxExtensions\System\Int64.cs" />
-    <Compile Include="EfxExtensions\System\Double.cs" />
-    <Compile Include="EfxExtensions\System\Int32.cs" />
-    <Compile Include="EfxExtensions\System\ValueType.cs" />
-    <Compile Include="EfxExtensions\System\Void.cs" />
-    <Compile Include="EfxExtensions\System\Collections\IEnumerable.cs" />
-    <Compile Include="EfxExtensions\System\Collections\IEnumerator.cs" />
-    <Compile Include="EfxExtensions\System\Exception.cs" />
-    <Compile Include="EfxExtensions\System\IDisposable.cs" />
-    <Compile Include="EfxExtensions\System\Type.cs" />
+    <Compile Include="CoreLib\System\Array.cs" />
+    <Compile Include="CoreLib\System\Boolean.cs" />
+    <Compile Include="CoreLib\System\Char.cs" />
+    <Compile Include="CoreLib\System\Byte.cs" />
+    <Compile Include="CoreLib\System\MulticastDelegate.cs" />
+    <Compile Include="CoreLib\System\RuntimeTypeHandle.cs" />
+    <Compile Include="CoreLib\System\Enum.cs" />
+    <Compile Include="CoreLib\System\RuntimeFieldHandle.cs" />
+    <Compile Include="CoreLib\System\UIntPtr.cs" />
+    <Compile Include="CoreLib\System\IntPtr.cs" />
+    <Compile Include="CoreLib\System\SByte.cs" />
+    <Compile Include="CoreLib\System\Delegate.cs" />
+    <Compile Include="CoreLib\System\Single.cs" />
+    <Compile Include="CoreLib\System\UInt64.cs" />
+    <Compile Include="CoreLib\System\UInt16.cs" />
+    <Compile Include="CoreLib\System\Int16.cs" />
+    <Compile Include="CoreLib\System\Int64.cs" />
+    <Compile Include="CoreLib\System\Double.cs" />
+    <Compile Include="CoreLib\System\Int32.cs" />
+    <Compile Include="CoreLib\System\ValueType.cs" />
+    <Compile Include="CoreLib\System\Void.cs" />
+    <Compile Include="CoreLib\System\Collections\IEnumerable.cs" />
+    <Compile Include="CoreLib\System\Collections\IEnumerator.cs" />
+    <Compile Include="CoreLib\System\Exception.cs" />
+    <Compile Include="CoreLib\System\IDisposable.cs" />
+    <Compile Include="CoreLib\System\Type.cs" />
     <Compile Include="events\ActivityEvent.cs" />
     <Compile Include="events\AsyncErrorEvent.cs" />
     <Compile Include="events\ContextMenuEvent.cs" />
@@ -196,8 +197,8 @@
     <Compile Include="geom\Transform.cs" />
     <Compile Include="geom\Vector3D.cs" />
     <Compile Include="Global\Array.cs" />
-    <Compile Include="Global\Class.cs" />
-    <Compile Include="EfxExtensions\System\UInt32.cs" />
+    <None Include="Global\Class.cs" />
+    <Compile Include="CoreLib\System\UInt32.cs" />
     <Compile Include="Global\Date.cs" />
     <Compile Include="Global\EmbedAttribute.cs" />
     <Compile Include="Global\Function.cs" />
@@ -212,7 +213,7 @@
     <Compile Include="Global\EOFError.cs" />
     <Compile Include="Global\IOError.cs" />
     <Compile Include="Global\Reflection.cs" />
-    <Compile Include="EfxExtensions\System\String.cs" />
+    <Compile Include="CoreLib\System\String.cs" />
     <Compile Include="Global\Error.cs" />
     <Compile Include="Global\RangeError.cs" />
     <Compile Include="Global\TypeError.cs" />

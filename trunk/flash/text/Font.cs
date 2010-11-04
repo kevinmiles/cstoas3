@@ -1,4 +1,5 @@
 ﻿namespace flash.text {
+	using System;
 	using Global;
 
 	public class Font {
@@ -50,6 +51,6 @@
 		/// <summary>
 		/// [static] Registers a font class in the global font list.
 		/// </summary>
-		public static void registerFont(Class font) {}
+		public static void registerFont(Type font) {}
 	}
 }

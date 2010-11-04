@@ -1,7 +1,8 @@
 namespace CStoFlash {
 	using System;
-	using AS3Writer;
-	using Tools;
+	using System.Collections.Generic;
+	using CsCompiler.AS3Writer;
+	using CsCompiler.Tools;
 
 	/// <summary>
 	/// TODO: test that it actually generates good AS3 :)
@@ -10,12 +11,10 @@ namespace CStoFlash {
 	/// </summary>
 
 	public static class Program {
-		public static ArgumentsCollection Arguments { get; private set; }
-
 		public static void Main(string[] pArguments) {
 			ConverterFactory.AddParser(new As3NamespaceParser(), "as3");
 
-			ArgumentsCollection commandLine = Arguments = new ArgumentsCollection(pArguments);
+			ArgumentsCollection commandLine = new ArgumentsCollection(pArguments);
 			string lang = "as3";
 
 			if (!string.IsNullOrEmpty(commandLine[@"lang"])) {
@@ -42,25 +41,18 @@ namespace CStoFlash {
 				return;
 			}
 
-			Project.WriteMessage = Console.WriteLine;
-#if !DEBUG
-			try {
-#endif
-				bool debug = !string.IsNullOrEmpty(commandLine["debug"]);
-				string output = commandLine["output"];
+			bool debug = !string.IsNullOrEmpty(commandLine["debug"]);
+			string output = commandLine["output"];
 
-				commandLine.Remove("output");
-				commandLine.Remove("debug");
-				commandLine.Remove("source");
-				commandLine.Remove(@"lang");
+			commandLine.Remove("output");
+			commandLine.Remove("debug");
+			commandLine.Remove("source");
+			commandLine.Remove(@"lang");
 
-				Project.Parse(sourceFiles, lang, output, debug);
-#if !DEBUG
-			} catch (Exception ex) {
-				Console.WriteLine(ex.ToString());
-				Environment.Exit(255);
+			List<string> errors = Project.Parse(sourceFiles, lang, output, debug, commandLine, null);
+			foreach (string error in errors) {
+				Console.WriteLine(error);	
 			}
-#endif
 		}
 	}
 }

@@ -1,5 +1,7 @@
 ﻿namespace flash.Global {
-	public sealed class Class {
+	using System;
+
+	public sealed class Class : Type {
 		
 	}
 }
