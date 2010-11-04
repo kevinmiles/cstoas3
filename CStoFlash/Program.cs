@@ -49,7 +49,7 @@ namespace CStoFlash {
 			commandLine.Remove("source");
 			commandLine.Remove(@"lang");
 
-			List<string> errors = Project.Parse(sourceFiles, lang, output, debug, commandLine, null);
+			List<string> errors = Project.Parse(sourceFiles, lang, output, debug, commandLine, Project.Root);
 			foreach (string error in errors) {
 				Console.WriteLine(error);	
 			}

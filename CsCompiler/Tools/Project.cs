@@ -2,7 +2,6 @@
 	using System;
 	using System.Collections.Generic;
 	using System.IO;
-	using System.Linq;
 	using VsProjectParser;
 
 	public static class Project {
@@ -33,12 +32,8 @@
 
 			if (isFile && pFileOrDirectory.EndsWith(@".csproj", StringComparison.OrdinalIgnoreCase)) {
 				//it's a project file
-				VsProject p = VsProject.Load(pFileOrDirectory);
-				string rootPath = Path.GetDirectoryName(pFileOrDirectory);
-
-				return (from item in p.Items
-						where item.ItemType == VsItemType.CompileItem && !item.Item.EndsWith("AssemblyInfo.cs", StringComparison.OrdinalIgnoreCase)
-						select (rootPath + "\\" + item.Item)).ToArray();
+				Root = Path.GetDirectoryName(pFileOrDirectory);
+				return getProjectFiles(pFileOrDirectory).ToArray();
 			}
 
 			if (Directory.Exists(pFileOrDirectory)) {
@@ -47,6 +42,24 @@
 			}
 
 			return isFile ? new[] {pFileOrDirectory} : null;
+		}
+
+		private static List<string> getProjectFiles(string pProject) {
+			VsProject p = VsProject.Load(pProject);
+			string rootPath = Path.GetDirectoryName(pProject);
+
+			List<string> files = new List<string>();
+			foreach (VsProjectItem item in p.Items) {
+				if (item.ItemType == VsItemType.CompileItem && !item.Item.EndsWith("AssemblyInfo.cs", StringComparison.OrdinalIgnoreCase)) {
+					files.Add(Path.Combine(rootPath, item.Item));
+				}
+
+				if (item.ItemType == VsItemType.ProjectReference) {//another project referenced
+					files.AddRange(getProjectFiles(Path.Combine(rootPath, item.Item)));
+				}
+			}
+
+			return files;
 		}
 
 		public static List<string> Parse(string[] pSourceFiles, string pTargetLanguage, string pOutputDirectory, bool pDebug, Dictionary<string, string> pArguments, string pRoot) {
