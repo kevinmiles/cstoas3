@@ -1,0 +1,138 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{476FDE83-3759-435F-883C-9F92C1CF7882}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>CsCompiler</RootNamespace>
+    <AssemblyName>CsCompiler</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="CsTransformationParserLibrary">
+      <HintPath>..\Referenced Assemblies\CsTransformationParserLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Remoting" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AS3Writer\AS3Builder.cs" />
+    <Compile Include="AS3Writer\As3Helpers.cs" />
+    <Compile Include="AS3Writer\AS3NamespaceParser.cs" />
+    <Compile Include="AS3Writer\As3ProjectBuilder.cs" />
+    <Compile Include="AS3Writer\BlockParser.cs" />
+    <Compile Include="AS3Writer\ClassParser.cs" />
+    <Compile Include="AS3Writer\ConstantParser.cs" />
+    <Compile Include="AS3Writer\DelegateParser.cs" />
+    <Compile Include="AS3Writer\EventParser.cs" />
+    <Compile Include="AS3Writer\Expressions\AnonymousMethodExpression.cs" />
+    <Compile Include="AS3Writer\Expressions\AnonymousObjectCreationExpression.cs" />
+    <Compile Include="AS3Writer\Expressions\ArgListExpression.cs" />
+    <Compile Include="AS3Writer\Expressions\ArrayInitializer.cs" />
+    <Compile Include="AS3Writer\Expressions\AsIsExpression.cs" />
+    <Compile Include="AS3Writer\Expressions\AssignmentExpression.cs" />
+    <Compile Include="AS3Writer\Expressions\BaseMemberAccess.cs" />
+    <Compile Include="AS3Writer\Expressions\BinaryExpression.cs" />
+    <Compile Include="AS3Writer\Expressions\CastUnaryExpression.cs" />
+    <Compile Include="AS3Writer\Expressions\CheckedExpression.cs" />
+    <Compile Include="AS3Writer\Expressions\ConditionalExpression.cs" />
+    <Compile Include="AS3Writer\Expressions\DefaultValueExpression.cs" />
+    <Compile Include="AS3Writer\Expressions\ElementAccess.cs" />
+    <Compile Include="AS3Writer\Expressions\InvocationExpression.cs" />
+    <Compile Include="AS3Writer\Expressions\LambdaExpression.cs" />
+    <Compile Include="AS3Writer\Expressions\Literal.cs" />
+    <Compile Include="AS3Writer\Expressions\MakeRefExpression.cs" />
+    <Compile Include="AS3Writer\Expressions\NewArrayExpression.cs" />
+    <Compile Include="AS3Writer\Expressions\NewObjectExpression.cs" />
+    <Compile Include="AS3Writer\Expressions\OperatorUnaryExpression.cs" />
+    <Compile Include="AS3Writer\Expressions\ParenthesizedExpression.cs" />
+    <Compile Include="AS3Writer\Expressions\PointerMemberAccess.cs" />
+    <Compile Include="AS3Writer\Expressions\PostIncrementDecrementExpression.cs" />
+    <Compile Include="AS3Writer\Expressions\PredefinedTypeMemberAccess.cs" />
+    <Compile Include="AS3Writer\Expressions\PreIncrementDecrementExpression.cs" />
+    <Compile Include="AS3Writer\Expressions\PrimaryExpressionMemberAccess.cs" />
+    <Compile Include="AS3Writer\Expressions\QualifiedAliasMemberAccess.cs" />
+    <Compile Include="AS3Writer\Expressions\QueryExpression.cs" />
+    <Compile Include="AS3Writer\Expressions\RefTypeExpression.cs" />
+    <Compile Include="AS3Writer\Expressions\RefValueExpression.cs" />
+    <Compile Include="AS3Writer\Expressions\SimpleName.cs" />
+    <Compile Include="AS3Writer\Expressions\SizeofExpression.cs" />
+    <Compile Include="AS3Writer\Expressions\ThisAccess.cs" />
+    <Compile Include="AS3Writer\Expressions\TypeofExpression.cs" />
+    <Compile Include="AS3Writer\Expressions\UncheckedExpression.cs" />
+    <Compile Include="AS3Writer\FlexCompilerShell.cs" />
+    <Compile Include="AS3Writer\IndexerParser.cs" />
+    <Compile Include="AS3Writer\MethodParser.cs" />
+    <Compile Include="AS3Writer\PropertyParser.cs" />
+    <Compile Include="AS3Writer\VariableParser.cs" />
+    <Compile Include="CsParser\BaseMethod.cs" />
+    <Compile Include="CsParser\BaseNode.cs" />
+    <Compile Include="CsParser\Helpers.cs" />
+    <Compile Include="CsParser\Interfaces\ICsHasCodeBlock.cs" />
+    <Compile Include="CsParser\Interfaces\ICsHasReturnType.cs" />
+    <Compile Include="CsParser\Interfaces\ICsMethod.cs" />
+    <Compile Include="CsParser\Interfaces\ICsNode.cs" />
+    <Compile Include="CsParser\TheClass.cs" />
+    <Compile Include="CsParser\TheClassFactory.cs" />
+    <Compile Include="CsParser\TheConstant.cs" />
+    <Compile Include="CsParser\TheConstructor.cs" />
+    <Compile Include="CsParser\TheDelegate.cs" />
+    <Compile Include="CsParser\TheEvent.cs" />
+    <Compile Include="CsParser\TheIndexer.cs" />
+    <Compile Include="CsParser\TheMethod.cs" />
+    <Compile Include="CsParser\TheMethodArgument.cs" />
+    <Compile Include="CsParser\TheProperty.cs" />
+    <Compile Include="CsParser\TheVariable.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tools\CodeBuilder.cs" />
+    <Compile Include="Tools\ConverterFactory.cs" />
+    <Compile Include="Tools\CsParser.cs" />
+    <Compile Include="Tools\ExecuteProcess.cs" />
+    <Compile Include="Tools\Expression.cs" />
+    <Compile Include="Tools\FactoryExpressionCreator.cs" />
+    <Compile Include="Tools\IExpressionParser.cs" />
+    <Compile Include="Tools\ImportStatementList.cs" />
+    <Compile Include="Tools\INamespaceParser.cs" />
+    <Compile Include="Tools\ProcessRunner.cs" />
+    <Compile Include="Tools\Project.cs" />
+    <Compile Include="VsProjectParser\VsProject.cs" />
+    <Compile Include="VsProjectParser\VsProjectConfiguration.cs" />
+    <Compile Include="VsProjectParser\VsProjectItem.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
