@@ -8,7 +8,7 @@
 			string type = As3Helpers.Convert(pProperty.ReturnType);
 
 			if (pProperty.IsEmpty) {
-				pBuilder.AppendFormat("private var _{0}:{1};", pProperty.RealName, type);
+				pBuilder.AppendFormat("private var _{0}:{1};", pProperty.Name, type);
 				pBuilder.AppendLine();
 			}
 
@@ -18,7 +18,7 @@
 
 				pBuilder.AppendFormat("{0}function {1}():{2} {{",
 					As3Helpers.ConvertModifiers(pProperty.Getter.Modifiers),
-					pProperty.Getter.RealName,
+					pProperty.Getter.Name,
 					isEnum ? "*" : type
 				);
 
@@ -26,7 +26,7 @@
 
 				if (pProperty.IsEmpty) {
 					pBuilder.Indent();
-					pBuilder.AppendFormat("return _{0};", pProperty.RealName);
+					pBuilder.AppendFormat("return _{0};", pProperty.Name);
 					pBuilder.Unindent();
 
 				} else {
@@ -46,7 +46,7 @@
 			//Setter
 			pBuilder.AppendFormat("{0}function {1}(value:{2}):{2} {{",
 			                      As3Helpers.ConvertModifiers(pProperty.Setter.Modifiers),
-			                      pProperty.Setter.RealName,
+			                      pProperty.Setter.Name,
 			                      type
 				);
 
@@ -54,7 +54,7 @@
 
 			if (pProperty.IsEmpty) {
 				pBuilder.Indent();
-				pBuilder.AppendFormat("_{0} = value;", pProperty.RealName);
+				pBuilder.AppendFormat("_{0} = value;", pProperty.Name);
 				pBuilder.AppendLine();
 				pBuilder.Append("return value;");
 				pBuilder.Unindent();

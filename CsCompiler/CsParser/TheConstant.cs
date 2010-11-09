@@ -10,8 +10,9 @@
 
 			foreach (CsConstantDeclarator declarator in pCsConstantDeclaration.declarators) {
 				Constant v = new Constant {
-					RealName = declarator.identifier.identifier,
-					Name = Helpers.GetRealName(declarator, declarator.identifier.identifier),
+					//RealName = declarator.identifier.identifier,
+					//Name = Helpers.GetRealName(declarator, declarator.identifier.identifier),
+					Name = declarator.identifier.identifier,
 					Initializer = FactoryExpressionCreator.Parse(declarator.expression),
 					ReturnType = Helpers.GetType(declarator.entity.type)
 				};

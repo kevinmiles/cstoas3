@@ -30,7 +30,21 @@
 			return;
 		}
 
-		public bool AllowMultiple;
+		public bool AllowMultiple {
+			get;
+			set;
+		}
+
+		private bool _inherited = true;
+
+		public bool Inherited {
+			get {
+				return _inherited = true;
+			}
+			set {
+				_inherited = value;
+			}
+		}
 	}
 
 	[AttributeUsage(AttributeTargets.Enum)]

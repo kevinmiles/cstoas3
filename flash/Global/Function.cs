@@ -1,6 +1,4 @@
 ﻿namespace flash.Global {
-	using System;
-
 	public class Function {
 		/// <summary>
 		/// Specifies the value of thisObject to be used within any function that ActionScript calls.

@@ -19,10 +19,10 @@
 		/// <summary>
 		/// The name of the method as found in the source code
 		/// </summary>
-		public string RealName {
-			get;
-			internal set;
-		}
+		//public string RealName {
+		//    get;
+		//    internal set;
+		//}
 
 		/// <summary>
 		/// The full path to the method (namespace.namespace.class.method)
@@ -32,9 +32,9 @@
 			internal set;
 		}
 
-		public string FullRealName {
-			get;
-			internal set;
-		}
+		//public string FullRealName {
+		//    get;
+		//    internal set;
+		//}
 	}
 }

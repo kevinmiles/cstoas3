@@ -1,12 +1,25 @@
 ﻿namespace flash.Global {
+	[As3Name("trace", "")]
+	[As3Name("getTimer", "flash.utils.getTimer")]
+	[As3Name("unescape", "flash.utils.unescape")]
+	[As3Name("parseInt", "flash.utils.parseInt")]
+	[As3Name("parseInt", "flash.utils.parseInt")]
+	[As3Name("parseFloat", "flash.utils.parseFloat")]
+	[As3Name("isXMLName", "flash.utils.isXMLName")]
+	[As3Name("decodeURI", "flash.utils.decodeURI")]
+	[As3Name("decodeURIComponent", "flash.utils.decodeURIComponent")]
+	[As3Name("encodeURI", "flash.utils.encodeURI")]
+	[As3Name("encodeURIComponent", "flash.utils.encodeURIComponent")]
+	[As3Name("escape", "flash.utils.escape")]
+	[As3Name("isFinite", "flash.utils.isFinite")]
+	[As3Name("isNaN", "flash.utils.isNaN")]
 	public static class Utils {
 		/// <summary>
 		/// Decodes an encoded URI into a string. Returns a string in which all characters previously encoded by the encodeURI function are restored to their unencoded representation.
 		/// </summary>
 		/// <param name="uri">A string encoded with the <see cref="encodeURI"/> function.</param>
 		/// <returns>A string in which all characters previously escaped by the <see cref="encodeURI"/> function are restored to their unescaped representation.</returns>
-		[As3Name("decodeURI")]
-		[As3Namespace("flash.utils.decodeURI")]
+		
 		public static string decodeURI(string uri) {
 			return null;
 		}
@@ -16,8 +29,6 @@
 		/// </summary>
 		/// <param name="uri">A string encoded with the encodeURIComponent function.</param>
 		/// <returns>A string in which all characters previously escaped by the encodeURIComponent function are restored to their unescaped representation.</returns>
-		[As3Name("decodeURIComponent")]
-		[As3Namespace("flash.utils.decodeURIComponent")]
 		public static string decodeURIComponent(string uri) {
 			return null;
 		}
@@ -27,8 +38,6 @@
 		/// </summary>
 		/// <param name="uri">A string representing a complete URI.</param>
 		/// <returns>A string with certain characters encoded as UTF-8 escape sequences.</returns>
-		[As3Name("encodeURI")]
-		[As3Namespace("flash.utils.encodeURI")]
 		public static string encodeURI(string uri) {
 			return null;
 		}
@@ -38,8 +47,6 @@
 		/// </summary>
 		/// <param name="uri"></param>
 		/// <returns></returns>
-		[As3Name("encodeURIComponent")]
-		[As3Namespace("flash.utils.encodeURIComponent")]
 		public static string encodeURIComponent(string uri) {
 			return null;
 		}
@@ -49,8 +56,6 @@
 		/// </summary>
 		/// <param name="uri">The expression to convert into a string and encode in a URL-encoded format.</param>
 		/// <returns>A URL-encoded string.</returns>
-		[As3Name("escape")]
-		[As3Namespace("flash.utils.escape")]
 		public static string escape(string uri) {
 			return null;
 		}
@@ -60,8 +65,6 @@
 		/// </summary>
 		/// <param name="number">A number to evaluate as finite or infinite</param>
 		/// <returns>Returns <c>true</c> if it is a finite number or <c>false</c> if it is infinity or negative infinity  </returns>
-		[As3Name("isFinite")]
-		[As3Namespace("flash.utils.isFinite")]
 		public static bool isFinite(Number number) {
 			return false;
 		}
@@ -71,8 +74,6 @@
 		/// </summary>
 		/// <param name="number">A numeric value or mathematical expression to evaluate.</param>
 		/// <returns>Returns <c>true</c> if the value is NaN (not a number) and <c>false</c> otherwise. </returns>
-		[As3Name("isNaN")]
-		[As3Namespace("flash.utils.isNaN")]
 		public static bool isNaN(Number number) {
 			return false;
 		}
@@ -82,8 +83,6 @@
 		/// </summary>
 		/// <param name="str">A string to evaluate.</param>
 		/// <returns>Returns <c>true</c> if the <paramref name="str"/> argument is a valid XML name; <c>false</c> otherwise. </returns>
-		[As3Name("isXMLName")]
-		[As3Namespace("flash.utils.isXMLName")]
 		public static bool isXMLName(string str) {
 			return false;
 		}
@@ -93,8 +92,6 @@
 		/// </summary>
 		/// <param name="str">The string to read and convert to a floating-point number. </param>
 		/// <returns>A number or NaN (not a number).</returns>
-		[As3Name("parseFloat")]
-		[As3Namespace("flash.utils.parseFloat")]
 		public static Number parseFloat(string str) {
 			return new Number();
 		}
@@ -105,14 +102,11 @@
 		/// <param name="str">A string to convert to an integer.</param>
 		/// <param name="radix">An integer representing the radix (base) of the number to parse. Legal values are from 2 to 36.</param>
 		/// <returns>A number or NaN (not a number).</returns>
-		[As3Name("parseInt")]
-		[As3Namespace("flash.utils.parseInt")]
 		public static Number parseInt(string str, uint radix) {
 			return new Number();
 		}
 
-		[As3Name("parseInt")]
-		[As3Namespace("flash.utils.parseInt")]
+		
 		public static Number parseInt(string str) {
 			return new Number();
 		}
@@ -122,10 +116,24 @@
 		/// </summary>
 		/// <param name="str">A string with hexadecimal sequences to escape.</param>
 		/// <returns>A string decoded from a URL-encoded parameter.</returns>
-		[As3Name("unescape")]
-		[As3Namespace("flash.utils.unescape")]
 		public static string unescape(string str) {
 			return "";
+		}
+
+		/// <summary>
+		/// Returns the number of milliseconds that have elapsed since the movie started playing.
+		/// </summary>
+		/// <returns>The number of milliseconds that have elapsed since the movie started playing.</returns>
+		public static int getTimer() {
+			return 0;
+		}
+
+		/// <summary>
+		/// Returns the number of milliseconds that have elapsed since the movie started playing.
+		/// </summary>
+		/// <returns>The number of milliseconds that have elapsed since the movie started playing.</returns>
+		public static void trace(object args) {
+
 		}
 	}
 }

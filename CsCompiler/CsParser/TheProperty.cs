@@ -7,8 +7,9 @@
 		public TheProperty(CsProperty pCsProperty, TheClass pTheClass) {
 			MyClass = pTheClass;
 			Modifiers.AddRange(Helpers.GetModifiers(pCsProperty.modifiers));
-			Name = Helpers.GetRealName(pCsProperty, pCsProperty.identifier.identifier);
-			RealName = pCsProperty.identifier.identifier;
+			//Name = Helpers.GetRealName(pCsProperty, pCsProperty.identifier.identifier);
+			Name = pCsProperty.identifier.identifier;
+			//RealName = pCsProperty.identifier.identifier;
 			
 			ReturnType = Helpers.GetType(pCsProperty.type);
 
@@ -36,7 +37,7 @@
 		internal Property(CsPropertyAccessor pGetter, TheProperty pTheProperty) {
 			List<string> mods = Helpers.GetModifiers(pGetter.modifiers);
 			Modifiers.AddRange(mods.Count == 0 ? pTheProperty.Modifiers : mods);
-			Name = RealName = pGetter.entity.name;
+			Name = pGetter.entity.name;//RealName = 
 			ReturnType = pTheProperty.ReturnType;
 			CodeBlock = pGetter.definition;
 		}

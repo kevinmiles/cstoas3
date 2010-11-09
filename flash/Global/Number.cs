@@ -65,11 +65,19 @@
 			return null;
 		}
 
-		public static implicit operator Number(long pStr) {
+		public static implicit operator double (Number pStr) {
 			return null;
 		}
 
+		//public static implicit operator Number(long pStr) {
+		//    return null;
+		//}
+
 		public static implicit operator Number(float pStr) {
+			return null;
+		}
+
+		public static implicit operator float (Number pStr) {
 			return null;
 		}
 

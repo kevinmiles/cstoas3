@@ -4,6 +4,7 @@
 
 	public class TheMethod : BaseMethod, ICsMethod {
 		private readonly string _name;
+		private readonly string _realName;
 
 		internal TheMethod(CsEntityMethod pCsMethod, TheClass pMyClass, bool pIsEvent = false, bool pIsAddEvent = false) {
 			MyClass = pMyClass;
@@ -11,12 +12,13 @@
 			Arguments = getArguments(pCsMethod.parameters);
 			Signature = getSignature(Arguments);
 			
-			_name = Helpers.GetRealName(pCsMethod, pIsEvent ? 
-				pIsAddEvent ? "add" : "remove" : 
-				pCsMethod.name);
+			//_name = Helpers.GetRealName(pCsMethod, pIsEvent ? 
+			//    pIsAddEvent ? "add" : "remove" : 
+			//    pCsMethod.name);
 			
-			RealName = pCsMethod.name;
-			FullRealName = MyClass.FullRealName + "." + RealName;
+			_name = pIsEvent ? pIsAddEvent ? "add" : "remove" : pCsMethod.name;
+			_realName = pCsMethod.name;
+			//FullRealName = MyClass.FullRealName + "." + RealName;
 
 			ReturnType = Helpers.GetType(pCsMethod.specifier.return_type);
 			IsExtensionMethod = pCsMethod.isExtensionMethod();
@@ -40,7 +42,7 @@
 
 					if (MyClass.Base != null) {
 						TheClass c = MyClass.Base;
-						TheMethod m = c.FindMethod(RealName, Signature);
+						TheMethod m = c.FindMethod(_realName, Signature);
 						if (m != null)
 							_lazyName = m.Name;		
 					}
@@ -58,9 +60,9 @@
 			CodeBlock = pCsMethod.definition;
 
 			//_sig = Signature.Replace(',', '_').Replace("<", "").Replace(">", "");
-			_name = Helpers.GetRealName(pCsMethod, pCsMethod.identifier.identifier);
-			RealName = pCsMethod.identifier.identifier;
-			FullRealName = MyClass.FullRealName + "." + RealName;
+			//_name = Helpers.GetRealName(pCsMethod, pCsMethod.identifier.identifier);
+			_realName = _name = pCsMethod.identifier.identifier;
+			//FullRealName = MyClass.FullRealName + "." + RealName;
 
 			ReturnType = Helpers.GetType(pCsMethod.return_type);
 			IsExtensionMethod = pCsMethod.entity.isExtensionMethod();

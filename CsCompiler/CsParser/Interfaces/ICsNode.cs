@@ -10,7 +10,7 @@
 		/// <summary>
 		/// The real name (the name found in the source code)
 		/// </summary>
-		string RealName { get; }
+		//string RealName { get; }
 
 		/// <summary>
 		/// The name after any transformations have been applied plus the NameSpace
@@ -20,7 +20,7 @@
 		/// <summary>
 		/// The real name plus the NameSpace
 		/// </summary>
-		string FullRealName { get; }
+		//string FullRealName { get; }
 
 		/// <summary>
 		/// Any modifiers applied to the node (public, private, static, etc)

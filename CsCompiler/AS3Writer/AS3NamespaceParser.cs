@@ -98,8 +98,8 @@
 //it's a class....
 					ClassParser.Parse(csClass, builder);
 
-					File.WriteAllText(packDir + "\\" + Helpers.GetRealName(csClass, csClass.identifier.identifier) + ".as",
-					                  builder.ToString());
+					//File.WriteAllText(packDir + "\\" + Helpers.GetRealName(csClass, csClass.identifier.identifier) + ".as", builder.ToString());
+					File.WriteAllText(packDir + "\\" + csClass.identifier.identifier + ".as", builder.ToString());
 					builder.Length = 0;
 				}
 
@@ -114,6 +114,12 @@
 		public void PostBuildEvents(bool pDebug, Dictionary<string, string> pArguments, out string pOutput, out string[] pErrors) {
 			ProcessArguments process = new ProcessArguments();
 			
+			if (!pArguments.ContainsKey(@"FlexSdkPath")) {
+				pOutput = string.Empty;
+				pErrors = new string[0];
+				return;
+			}
+
 			As3ProjectBuilder builder = new As3ProjectBuilder(pArguments[@"FlexSdkPath"]);
 			pArguments.Remove(@"FlexSdkPath");
 

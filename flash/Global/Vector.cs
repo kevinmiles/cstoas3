@@ -4,12 +4,11 @@
 	using System.ComponentModel;
 
 	[As3IsGeneric(true)]
+	[As3Name("isFixed","fixed","")]
 	public class Vector<T> : IEnumerable<T> {
-
-		[As3Name("fixed")]
 		public bool isFixed;
 
-		public uint length;
+		public int length;
 
 		public delegate bool VectorFilterCallback(T pItem, int pIndex, Vector<T> pVector);
 		public delegate void VectorForEachCallback(T pItem, int pIndex, Vector<T> pVector);
@@ -34,7 +33,7 @@
 		/// Creates a Vector with the specified base type
 		/// </summary>
 		/// <param name="pLength">The initial length (number of elements) of the Vector. If this parameter is greater than zero, the specified number of Vector elements are created and populated with the default value appropriate to the base type ( null for reference types).</param>
-		public Vector(uint pLength) {
+		public Vector(int pLength) {
 			return;
 		}
 		/// <summary>
@@ -42,7 +41,7 @@
 		/// </summary>
 		/// <param name="pLength">The initial length (number of elements) of the Vector. If this parameter is greater than zero, the specified number of Vector elements are created and populated with the default value appropriate to the base type ( null for reference types).</param>
 		/// <param name="pIsFixed">Whether the Vector's length is fixed ( true ) or can be changed ( false ). This value can also be set using the <see cref="isFixed"/> property</param>
-		public Vector(uint pLength, bool pIsFixed) {
+		public Vector(int pLength, bool pIsFixed) {
 			return;
 		}
 
@@ -201,7 +200,7 @@
 		/// <returns>The length of the Vector after the new elements are added.</returns>
 		/// <exception cref="TypeError">If any argument is not an instance of the base type T of the Vector.</exception>
 		/// <exception cref="RangeError">If this method is called while <see cref="isFixed"/> is true.</exception>
-		public uint push(params T[] pElements) {
+		public int push(params T[] pElements) {
 			return 0;
 		}
 
@@ -332,13 +331,17 @@
 		/// <returns>An integer representing the new length of the Vector.</returns>
 		/// <exception cref="TypeError">If any argument is not an instance of the base type T of the Vector.</exception>
 		/// <exception cref="RangeError">If this method is called while <see cref="isFixed"/> is true.</exception>
-		public uint unshift(params T[] pElements) {
+		public int unshift(params T[] pElements) {
 			return 0;
 		}
 
-		public object this[int i] {
+		public T this[int i] {
 			get {
-				return null;
+				return default(T);
+			}
+
+			set {
+				
 			}
 		}
 

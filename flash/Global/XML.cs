@@ -1,9 +1,8 @@
 ﻿namespace flash.Global {
-	using System;
-
 	/// <summary>
 	/// The XML class contains methods and properties for working with XML objects. The XML class (along with the XMLList, Namespace, and QName classes) implements the powerful XML-handling standards defined in ECMAScript for XML (E4X) specification (ECMA-357 edition 2).
 	/// </summary>
+	[As3Name("Namespace","namespace","")]
 	public sealed class XML {
 		/// <summary>
 		/// [static] Determines whether XML comments are ignored when XML objects parse the source XML data.
@@ -244,16 +243,15 @@
 		/// <summary>
 		/// If no parameter is provided, gives the namespace associated with the qualified name of this XML object.
 		/// </summary>
-		[As3Name("namespace")]
-		public Namespace @namespace(string prefix) {
+		
+		public Namespace Namespace(string prefix) {
 			return null;
 		}
 
 		/// <summary>
 		/// If no parameter is provided, gives the namespace associated with the qualified name of this XML object.
 		/// </summary>
-		[As3Name("namespace")]
-		public Namespace @namespace() {
+		public Namespace Namespace() {
 			return null;
 		}
 

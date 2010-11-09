@@ -1,7 +1,7 @@
 ﻿namespace flash.Global {
 	using flash;
 
-	[As3Name("int")]
+	[As3Name("int","")]
 	public struct Int {
 		public const int MAX_VALUE = 0;
 		public const int MIN_VALUE = 0;

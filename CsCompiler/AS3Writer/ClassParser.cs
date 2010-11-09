@@ -28,7 +28,7 @@
 
 			if (isMainClass) {
 				As3NamespaceParser.MainClassName = myClass.FullName;
-				AttributeItem vals = Helpers.GetAttributeValue(pCsClass.attributes, "As3MainClassAttribute");
+				AttributeItem vals = Helpers.GetAttributeValue(pCsClass.attributes, "As3MainClassAttribute")[0];
 				sb.AppendFormat(@"[SWF(width=""{0}"", height=""{1}"", frameRate=""{2}"", backgroundColor=""{3}"")]",
 				                vals.Parameters[0],
 								vals.Parameters[1],
@@ -40,7 +40,7 @@
 			}
 
 			if (isResource) {
-				AttributeItem vals = Helpers.GetAttributeValue(pCsClass.attributes, "As3EmbedAttribute");
+				AttributeItem vals = Helpers.GetAttributeValue(pCsClass.attributes, "As3EmbedAttribute")[0];
 				
 				string path = vals.Parameters[0] as String;
 				if (!string.IsNullOrEmpty(path)) {

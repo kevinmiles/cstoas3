@@ -11,10 +11,11 @@
 			ReturnType = Helpers.GetType(pIndexer.entity.specifier.return_type);
 			Modifiers.AddRange(Helpers.GetModifiers(pIndexer.modifiers));
 
-			Name = Helpers.GetRealName(pIndexer, pIndexer.entity.name);
+			//Name = Helpers.GetRealName(pIndexer, pIndexer.entity.name);
+			Name = pIndexer.entity.name;
 
 			FullName = MyClass.FullName + "." + Name;
-			FullRealName = MyClass.FullRealName + "." + RealName;
+			//FullRealName = MyClass.FullRealName + "." + RealName;
 
 			string sig = Signature.Replace(',', '_').Replace("<", "").Replace(">", "");
 

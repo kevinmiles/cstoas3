@@ -25,7 +25,7 @@
 
 			string name = FactoryExpressionCreator.Parse(ex.expression).Value;
 
-			//call es de tipo super. Necesito saber cuál es la clase heredada
+			//call es de tipo super. Necesito saber cuál es la clase heredada)
 			if (name.EndsWith("super.", StringComparison.Ordinal)) {
 				c = c.Base;
 				m = c.GetMethod(method);
@@ -39,7 +39,7 @@
 
 
 				if (m.IsExtensionMethod) {
-					int fnIndex = name.IndexOf(m.RealName);
+					int fnIndex = name.IndexOf(m.Name);
 					if (fnIndex > 0)
 						fnIndex--;
 
@@ -47,7 +47,7 @@
 					name = m.FullName;
 
 				} else {
-					name = name.Replace(m.RealName, m.Name);
+					name = name.Replace(m.Name, m.Name);
 				}
 
 			} else if (entityDelegate != null) {

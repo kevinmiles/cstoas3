@@ -11,7 +11,7 @@
 
 				sb.AppendFormat(@"{0}const {1}:{2} = {3};",
 					modifiers,
-					declarator.RealName,
+					declarator.Name,
 					As3Helpers.Convert(declarator.ReturnType),
 					declarator.Initializer.Value
 				);

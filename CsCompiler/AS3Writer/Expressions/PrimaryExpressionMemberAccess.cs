@@ -7,9 +7,15 @@
 		public Expression Parse(CsExpression pStatement) {
 			//expression "." identifier (type-argument-list?)
 			CsPrimaryExpressionMemberAccess ex = (CsPrimaryExpressionMemberAccess)pStatement;
-			string name = ex.identifier.identifier;
-			if (ex.parent is CsInvocationExpression) {
-				name = Helpers.GetRealName(ex, name);
+			string name;
+			bool renamed = Helpers.GetRealName(ex, ex.identifier.identifier, out name);
+
+			//if (ex.parent is CsInvocationExpression) {
+				
+			//}
+
+			if (renamed) {
+				return new Expression(name, pStatement.entity_typeref);
 			}
 
 			if (ex.ec == expression_classification.ec_event_access) {//remove eventhandler name

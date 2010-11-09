@@ -3,8 +3,8 @@
 
 	using ui;
 
+	[As3Name("isChecked","checked","")]
 	public class NativeMenuItem : EventDispatcher {
-		[As3Name("checked")]
 		public bool isChecked;
 
 		public object data;
