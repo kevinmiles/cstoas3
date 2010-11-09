@@ -1,6 +1,48 @@
 ﻿namespace System {
+	using Collections;
+	using ComponentModel;
 
+	using flash;
+
+	[As3Name("DeleteItem", "*delete ({0}[{1}])", "")]
+	[As3Name("DeleteMe", "*delete ({0})", "")]
 	public class Object {
+		sealed class ObjectEnumerator : IEnumerator<string>{
+			object IEnumerator.Current {
+				get {
+					return Current;
+				}
+			}
+
+			public string Current {
+				get {
+					return "";
+				}
+			}
+
+			public bool MoveNext() {
+				return true;
+			}
+
+			public void Reset() {}
+		}
+
+		public bool DeleteItem(string i) {
+			return true;
+		}
+
+		public bool DeleteMe() {
+			return true;
+		}
+
+
+		[EditorBrowsable(EditorBrowsableState.Never)]
+		[Browsable(false)]
+		public IEnumerator<string> GetEnumerator() {
+			return new ObjectEnumerator();
+		}
+
+
 		/// <summary>
 		/// Indicates whether an object has a specified property defined.
 		/// </summary>
@@ -71,8 +113,5 @@
 		public static bool operator !=(object object1, object object2) {
 			return false;
 		}
-
-
 	}
-
 }

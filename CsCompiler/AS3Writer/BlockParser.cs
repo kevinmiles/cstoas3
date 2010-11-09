@@ -24,7 +24,20 @@
 			_statementWritters.Add(typeof(CsBreakStatement), parseBreakStatement);
 			_statementWritters.Add(typeof(CsReturnStatement), parseReturnStatement);
 			_statementWritters.Add(typeof(CsThrowStatement), parseThrowStatement);
+			_statementWritters.Add(typeof(CsWhileStatement), parseWhileStatement);
 		}
+
+		private static void parseWhileStatement(CsStatement pStatement, CodeBuilder pSb) {
+			CsWhileStatement whileStatement = (CsWhileStatement)pStatement;
+
+			pSb.AppendFormat("while ({0}){{", FactoryExpressionCreator.Parse(whileStatement.condition));
+			pSb.AppendLine();
+			ParseBlockOrStatementOrExpression(whileStatement.statement, pSb);
+			pSb.Append("}");
+			pSb.AppendLine();
+			pSb.AppendLine();
+		}
+
 
 		private static void parseThrowStatement(CsStatement pStatement, CodeBuilder pSb) {
 			CsThrowStatement throwStatement = (CsThrowStatement)pStatement;
@@ -171,8 +184,21 @@
 
 			StringBuilder sb = new StringBuilder("for (");
 
-			CsLocalVariableDeclaration localVariableDeclaration = (CsLocalVariableDeclaration)forStatement.initializer;
-			if (localVariableDeclaration != null && localVariableDeclaration.declarators.Count > 0) {
+			CsLocalVariableDeclaration localVariableDeclaration = forStatement.initializer as CsLocalVariableDeclaration;
+			CsStatementExpressionList expressionList;
+
+			if (localVariableDeclaration == null) {
+				expressionList = forStatement.initializer as CsStatementExpressionList;
+				foreach (CsExpression expression in expressionList.expressions) {
+					Expression ex = FactoryExpressionCreator.Parse(expression);
+					sb.Append(ex.Value);
+					sb.Append(", ");
+				}
+
+				sb.Remove(sb.Length - 2, 2);
+				sb.Append("; ");
+
+			} else if (localVariableDeclaration.declarators.Count > 0) {
 				sb.Append("var ");
 				int count = localVariableDeclaration.declarators.Count;
 				int now = 0;
@@ -201,7 +227,7 @@
 			sb.Append(FactoryExpressionCreator.Parse(forStatement.condition).Value);
 			sb.Append("; ");
 
-			CsStatementExpressionList expressionList = (CsStatementExpressionList) forStatement.iterator;
+			expressionList = (CsStatementExpressionList) forStatement.iterator;
 
 			if (expressionList != null) {
 				foreach (CsExpression expression in expressionList.expressions) {
@@ -229,8 +255,15 @@
 
 			pSb.AppendLine();
 
-			if (ex.Type.type == cs_entity_type.et_array || ex.IsAs3Generic) {//foreach
+			if (ex.Type.type == cs_entity_type.et_array ||  ex.IsAs3Generic) {//foreach
 				pSb.AppendFormat("for each(var {0}:{1} in {2}){{",
+					fes.identifier.identifier,
+					type,
+					ex.Value);
+				pSb.AppendLine();
+
+			} else if (ex.Type.type == cs_entity_type.et_object) {
+				pSb.AppendFormat("for (var {0}:{1} in {2}){{",
 					fes.identifier.identifier,
 					type,
 					ex.Value);

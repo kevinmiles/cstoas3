@@ -1,6 +1,4 @@
 ﻿namespace flash.Global {
-	using System;
-
 	/// <summary>
 	/// A data type representing an IEEE-754 double-precision floating-point number. You can manipulate primitive numeric values by using the methods and properties associated with the Number class. This class is identical to the JavaScript Number class.
 	/// </summary>
@@ -61,32 +59,28 @@
 			return "";
 		}
 
-		public static implicit operator Number(double pStr) {
-			return null;
-		}
-
-		public static implicit operator double (Number pStr) {
-			return null;
-		}
-
-		//public static implicit operator Number(long pStr) {
+		//public static implicit operator Number(double pStr) {
 		//    return null;
 		//}
 
-		public static implicit operator Number(float pStr) {
-			return null;
-		}
+		//public static implicit operator double (Number pStr) {
+		//    return null;
+		//}
 
-		public static implicit operator float (Number pStr) {
-			return null;
-		}
+		//public static implicit operator Number(float pStr) {
+		//    return null;
+		//}
 
-		public static explicit operator uint(Number val) {
-			return new uint();
-		}
+		//public static implicit operator float (Number pStr) {
+		//    return null;
+		//}
 
-		public static explicit operator int(Number val) {
-			return new int();
-		}
+		//public static explicit operator uint(Number val) {
+		//    return new uint();
+		//}
+
+		//public static explicit operator int(Number val) {
+		//    return new int();
+		//}
 	}
 }

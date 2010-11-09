@@ -23,7 +23,7 @@
 			_typeRef.Add(CsTokenType.tkMOD, "%");
 			_typeRef.Add(CsTokenType.tkMOD_EQ, "%=");
 			_typeRef.Add(CsTokenType.tkPLUS, "+");
-			//_typeRef.Add(CsTokenType.tkINC, "++");
+			_typeRef.Add(CsTokenType.tkINC, "++");
 			_typeRef.Add(CsTokenType.tkDEC, "--");
 			_typeRef.Add(CsTokenType.tkPLUS_EQ, "+=");
 			_typeRef.Add(CsTokenType.tkMINUS, "-");

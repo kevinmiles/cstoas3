@@ -34,9 +34,8 @@
 			} else if (method != null) {
 				//si es una expresión de tipo xx.yy.method(), tengo que revisar la expresión
 				//porque la invocación se da como expresión completa...
-				c = TheClassFactory.Get((CsEntityClass)method.parent);
+				c = TheClassFactory.Get(method.parent);
 				m = c.GetMethod(method);
-
 
 				if (m.IsExtensionMethod) {
 					int fnIndex = name.IndexOf(m.Name);
@@ -62,16 +61,21 @@
 					}
 
 				}
-				
-			} else {
-				throw new Exception("Unexpected data type");
-			}
+			} 
 
 			//patch
 			if (name.Contains("{0}")) {
-				string p = indexes[0];
-				indexes.RemoveAt(0);
-				name = string.Format(name, p, string.Join(", ", indexes.ToArray()));
+				//patch for "delete(object)"
+				if (name.Contains("*")) {
+					int dot = name.LastIndexOf(".");
+					int star = name.IndexOf("*", StringComparison.Ordinal) + 1;
+					name = string.Format(name.Substring(star), name.Substring(0, dot), indexes[0]);
+					
+				} else {
+					string p = indexes[0];
+					indexes.RemoveAt(0);
+					name = string.Format(name, p, string.Join(", ", indexes.ToArray()));	
+				}
 
 			} else {
 				name = name + "(" + string.Join(", ", indexes.ToArray()) + ")";

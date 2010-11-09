@@ -95,12 +95,18 @@
 				CsClass csClass = cn as CsClass;
 
 				if (csClass != null) {
-//it's a class....
 					ClassParser.Parse(csClass, builder);
-
-					//File.WriteAllText(packDir + "\\" + Helpers.GetRealName(csClass, csClass.identifier.identifier) + ".as", builder.ToString());
 					File.WriteAllText(packDir + "\\" + csClass.identifier.identifier + ".as", builder.ToString());
 					builder.Length = 0;
+					continue;
+				}
+
+				CsInterface csInterface = cn as CsInterface;
+				if (csInterface != null) {
+					InterfaceParser.Parse(csInterface, builder);
+					File.WriteAllText(packDir + "\\" + csInterface.identifier.identifier + ".as", builder.ToString());
+					builder.Length = 0;
+					continue;
 				}
 
 				if (csClass == null) {

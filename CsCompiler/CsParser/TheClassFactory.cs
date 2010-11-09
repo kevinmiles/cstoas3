@@ -5,6 +5,7 @@
 
 	public static class TheClassFactory {
 		private static readonly Dictionary<CsClass, TheClass> _classes = new Dictionary<CsClass, TheClass>();
+		private static readonly Dictionary<CsInterface, TheClass> _interfaces = new Dictionary<CsInterface, TheClass>();
 		private static readonly Dictionary<CsEntity, TheClass> _entities = new Dictionary<CsEntity, TheClass>();
 
 		public static TheClass Get(CsNode pNode) {
@@ -13,11 +14,11 @@
 
 			CsExpression csExpression = pNode as CsExpression;
 			if (csExpression != null && csExpression.ec != expression_classification.ec_nothing) {
-				return get((CsEntity)csExpression.entity);
+				return Get((CsEntity)csExpression.entity);
 			}
 
 			while (pNode != null) {
-				if (pNode is CsTypeRef || pNode is CsClass) {
+				if (pNode is CsTypeRef || pNode is CsClass || pNode is CsInterface) {
 					break;
 				}
 
@@ -34,18 +35,26 @@
 
 			CsTypeRef csTypeRef = pNode as CsTypeRef;
 			if (csTypeRef != null) {
-				return csTypeRef.entity_typeref == null ? null : get((CsEntityClass)(csTypeRef.entity_typeref.u));
+				return csTypeRef.entity_typeref == null ? null : Get((CsEntityClass)(csTypeRef.entity_typeref.u));
+			}
+
+			CsInterface csInterface = pNode as CsInterface;
+			if (csInterface != null) {
+				if (!_interfaces.ContainsKey(csInterface))
+					_interfaces[csInterface] = new TheClass(csInterface);
+
+				return _interfaces[csInterface];
 			}
 
 			throw new Exception();
 		}
 
-		private static TheClass get(CsEntity pCsEntity) {
+		public static TheClass Get(CsEntity pCsEntity) {
 			if (pCsEntity == null)
 				return null;
 
 			while (pCsEntity != null) {
-				if (pCsEntity is CsEntityClass || pCsEntity is CsEntityStruct) {
+				if (pCsEntity is CsEntityClass || pCsEntity is CsEntityStruct || pCsEntity is CsEntityInterface) {
 					break;
 				}
 
@@ -62,6 +71,11 @@
 				return Get(entityStruct.nodes.First.Value);
 			}
 
+			CsEntityInterface entityInterface = pCsEntity as CsEntityInterface;
+			if (entityInterface != null && entityInterface.nodes.Count != 0 && entityInterface.nodes.First.Value != null) {
+				return Get(entityInterface.nodes.First.Value);
+			}
+
 			if (pCsEntity != null) {
 				if (!_entities.ContainsKey(pCsEntity))
 					_entities[pCsEntity] = new TheClass(pCsEntity);
@@ -72,6 +86,25 @@
 			throw new Exception();
 		}
 
+		//public static TheClass Get(CsEntity pEntity) {
+		//    CsEntityClass typeRef = pEntity as CsEntityClass;
+		//    if (typeRef != null) {
+		//        CsClass theClass = typeRef.nodes.First.Value as CsClass;
+		//        if (theClass == null) {
+		//            return get(typeRef);
+		//        }
+
+		//        if (!_classes.ContainsKey(theClass))
+		//            _classes[theClass] = new TheClass(theClass);
+
+		//        return _classes[theClass];
+		//    }
+
+		//    CsEntityInterface entityInterface = pEntity as CsEntityInterface;
+
+
+		//}
+
 		public static TheClass Get(CsEntityTypeRef pEntityTyperef) {
 			CsEntityInstanceSpecifier entityInstanceSpecifier = pEntityTyperef.u as CsEntityInstanceSpecifier;
 			CsEntityClass entityClass = entityInstanceSpecifier == null
@@ -80,21 +113,6 @@
 
 			return Get(entityClass);
 			//return Get(entityClass.nodes.First.Value);
-		}
-
-		public static TheClass Get(CsEntityClass pNode) {
-			if (pNode == null)
-				return null;
-
-			CsClass theClass = pNode.nodes.First.Value as CsClass;
-			if (theClass == null) {
-				return get(pNode);
-			}
-
-			if (!_classes.ContainsKey(theClass))
-				_classes[theClass] = new TheClass(theClass);
-
-			return _classes[theClass];
 		}
 	}
 }

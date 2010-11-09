@@ -1,4 +1,6 @@
 ﻿namespace flash.Global {
+	using System;
+
 	/// <summary>
 	/// The XML class contains methods and properties for working with XML objects. The XML class (along with the XMLList, Namespace, and QName classes) implements the powerful XML-handling standards defined in ECMAScript for XML (E4X) specification (ECMA-357 edition 2).
 	/// </summary>

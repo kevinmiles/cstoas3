@@ -177,6 +177,98 @@
 		public bool IsPrivate {
 			get; private set; }
 
+		public TheClass(CsInterface pCsInterface) {
+			IsInterface = true;
+			List<string> name = new List<string>();
+			CsNamespace parent = pCsInterface.parent as CsNamespace;
+
+			if (parent != null) {
+				foreach (CsQualifiedIdentifierPart part in parent.qualified_identifier) {
+					name.Add(part.identifier.identifier);
+				}
+			}
+
+			NameSpace = string.Join(".", name.ToArray());
+			Name = pCsInterface.identifier.identifier;
+			FullName = NameSpace + "." + Name;
+
+			if (pCsInterface.type_base != null && pCsInterface.type_base.base_list.Count != 0) {
+				foreach (CsTypeRef typeRef in pCsInterface.type_base.base_list) {
+					if (typeRef.entity_typeref.u is CsEntityClass) {
+						Extends.Add(Helpers.GetType(typeRef.type_name));
+						_baseTyperef = typeRef;
+
+					} else if (typeRef.entity_typeref.u is CsEntityInterface) {
+						Implements.Add(Helpers.GetType(typeRef.type_name));
+
+					} else if (typeRef.entity_typeref.u is CsEntityInstanceSpecifier) {
+						Implements.Add(Helpers.GetType(typeRef.type_name));
+
+					} else {
+						throw new NotSupportedException();
+					}
+				}
+			}
+
+			Dictionary<string, int> methodNames = new Dictionary<string, int>();
+			bool methodsDone = false;
+
+			if (pCsInterface.member_declarations != null) {
+				foreach (CsNode memberDeclaration in pCsInterface.member_declarations) {
+					CsMethod m = memberDeclaration as CsMethod;
+					if (m != null) {
+						if (m.interface_type != null)
+							continue;
+
+						TheMethod tm = new TheMethod(m, this);
+						if (methodNames.ContainsKey(tm.Name)) {
+							methodNames[tm.Name]++;
+							int index = tm._index = methodNames[tm.Name];
+
+							if (!methodsDone) {
+								methodsDone = true;
+								foreach (KeyValuePair<CsMethod, TheMethod> method in _methods) {
+									method.Value._isUnique = false;
+									method.Value._index = --index;
+								}
+							}
+
+							tm._isUnique = false;
+
+						} else {
+							methodNames[tm.Name] = tm._index = 1;
+						}
+
+						_methods.Add(m, tm);
+						continue;
+					}
+
+					CsIndexer i = memberDeclaration as CsIndexer;
+					if (i != null) {
+						_indexers.Add(i, new TheIndexer(i, this));
+						continue;
+					}
+
+					CsVariableDeclaration v = memberDeclaration as CsVariableDeclaration;
+					if (v != null) {
+						_variables.Add(v, new TheVariable(v, this));
+						continue;
+					}
+
+					CsProperty p = memberDeclaration as CsProperty;
+					if (p != null) {
+						if (p.interface_type == null)
+							_properties.Add(p, new TheProperty(p, this));
+						continue;
+					}
+
+					throw new NotImplementedException("Unknown type not implemented");
+				}
+			}
+
+			Modifiers.AddRange(Helpers.GetModifiers(pCsInterface.modifiers));
+		}
+
 		public TheClass(CsEntity pCsEntity) {
 			IsEntity = true;
 			List<string> name = new List<string>();
@@ -199,54 +291,108 @@
 			//FullRealName = NameSpace + "." + RealName;
 
 			CsEntityClass klass = pCsEntity as CsEntityClass;
-			if (klass == null)
-				throw new NotImplementedException();
+			if (klass != null) {
+				_baseEntityTyperef = klass.base_type;
 
-			_baseEntityTyperef = klass.base_type;
+				if (klass.base_type.type != cs_entity_type.et_object)
+					Extends.Add(Helpers.GetType(klass.base_type));
 
-			if (klass.base_type.type != cs_entity_type.et_object)
-				Extends.Add(Helpers.GetType(klass.base_type));
+				if (klass.interfaces != null) {
+					foreach (CsEntityTypeRef @interface in klass.interfaces) {
+						Implements.Add(Helpers.GetType(@interface));
+					}
+				}
 
-			if (klass.interfaces != null) {
-				foreach (CsEntityTypeRef @interface in klass.interfaces) {
-					Implements.Add(Helpers.GetType(@interface));
-				}	
-			}
+				Dictionary<string, int> methodNames = new Dictionary<string, int>();
+				//bool constructorsDone = false;
+				bool methodsDone = false;
+				if (klass.method_implementations == null) {
+					return;
+				}
 
-			Dictionary<string, int> methodNames = new Dictionary<string, int>();
-			//bool constructorsDone = false;
-			bool methodsDone = false;
-			if (klass.method_implementations == null) {
+				foreach (CsEntityMethodImplementation methodImplementation in klass.method_implementations) {
+					CsEntityMethod m = methodImplementation.implementation_method;
+					TheMethod tm = new TheMethod(m, this);
+					if (methodNames.ContainsKey(tm.Name)) {
+						methodNames[tm.Name]++;
+						int index = tm._index = methodNames[tm.Name];
+
+						if (!methodsDone) {
+							methodsDone = true;
+							foreach (KeyValuePair<CsMethod, TheMethod> method in _methods) {
+								method.Value._isUnique = false;
+								method.Value._index = --index;
+							}
+						}
+
+						tm._isUnique = false;
+
+					} else {
+						methodNames[tm.Name] = tm._index = 1;
+					}
+
+					_entityMethods.Add(m, tm);
+				}
+
 				return;
 			}
 
-			foreach (CsEntityMethodImplementation methodImplementation in klass.method_implementations) {
-				CsEntityMethod m = methodImplementation.implementation_method;
-				TheMethod tm = new TheMethod(m, this);
-				if (methodNames.ContainsKey(tm.Name)) {
-					methodNames[tm.Name]++;
-					int index = tm._index = methodNames[tm.Name];
+			CsEntityInterface entityInterface = pCsEntity as CsEntityInterface;
 
-					if (!methodsDone) {
-						methodsDone = true;
-						foreach (KeyValuePair<CsMethod, TheMethod> method in _methods) {
-							method.Value._isUnique = false;
-							method.Value._index = --index;
-						}
+			if (entityInterface != null) {
+
+				_baseEntityTyperef = entityInterface.base_type;
+
+				if (entityInterface.base_type.type != cs_entity_type.et_object)
+					Extends.Add(Helpers.GetType(entityInterface.base_type));
+
+				if (entityInterface.interfaces != null) {
+					foreach (CsEntityTypeRef @interface in entityInterface.interfaces) {
+						Implements.Add(Helpers.GetType(@interface));
 					}
-
-					tm._isUnique = false;
-
-				} else {
-					methodNames[tm.Name] = tm._index = 1;
 				}
 
-				_entityMethods.Add(m, tm);
+				Dictionary<string, int> methodNames = new Dictionary<string, int>();
+				bool methodsDone = false;
+				if (entityInterface.method_implementations == null) {
+					return;
+				}
+
+				foreach (CsEntityMethodImplementation methodImplementation in entityInterface.method_implementations) {
+					CsEntityMethod m = methodImplementation.implementation_method;
+					TheMethod tm = new TheMethod(m, this);
+					if (methodNames.ContainsKey(tm.Name)) {
+						methodNames[tm.Name]++;
+						int index = tm._index = methodNames[tm.Name];
+
+						if (!methodsDone) {
+							methodsDone = true;
+							foreach (KeyValuePair<CsMethod, TheMethod> method in _methods) {
+								method.Value._isUnique = false;
+								method.Value._index = --index;
+							}
+						}
+
+						tm._isUnique = false;
+
+					} else {
+						methodNames[tm.Name] = tm._index = 1;
+					}
+
+					_entityMethods.Add(m, tm);
+				}
+
+				return;
 			}
+
+			throw new NotImplementedException();
 		}
 
 		private readonly CsTypeRef _baseTyperef;
 		private readonly CsEntityTypeRef _baseEntityTyperef;
+
+		
+
 		public TheClass Base {
 			get {
 				if (_baseEntityTyperef == null) {
@@ -307,6 +453,7 @@
 		}
 
 		public bool IsEntity { get; private set; }
+		public bool IsInterface { get; private set; }
 
 		public TheConstructor GetConstructor(CsConstructor pMethod) {
 			if (pMethod == null) {//no constructor...

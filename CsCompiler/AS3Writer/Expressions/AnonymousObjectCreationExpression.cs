@@ -1,15 +1,24 @@
 ﻿namespace CsCompiler.AS3Writer.Expressions {
-	using System;
+	using System.Text;
 	using Metaspec;
 	using Tools;
 
 	public class AnonymousObjectCreationExpression : IExpressionParser {
 		public Expression Parse(CsExpression pStatement) {
-			//"new" anonymous-object-initializer
-			// "{" member-declarator-list? "}"
-			//"{" member-declarator-list "," "}"
-			//
-			throw new NotImplementedException();
+			CsAnonymousObjectCreationExpression ex = (CsAnonymousObjectCreationExpression)pStatement;
+			StringBuilder builder = new StringBuilder("{");
+
+			if (ex.member_declarator_list != null) {
+				foreach (var declarator in ex.member_declarator_list) {
+					builder.AppendFormat(@"""{0}"" = {1}",
+						declarator.identifier.identifier,
+						FactoryExpressionCreator.Parse(declarator.expression).Value
+					);
+				}	
+			}
+
+			builder.Append("}");
+			return new Expression(builder.ToString(), ex.entity_typeref);
 		}
 	}
 }

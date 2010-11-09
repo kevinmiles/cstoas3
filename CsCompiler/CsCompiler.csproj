@@ -90,6 +90,7 @@
     <Compile Include="AS3Writer\Expressions\UncheckedExpression.cs" />
     <Compile Include="AS3Writer\FlexCompilerShell.cs" />
     <Compile Include="AS3Writer\IndexerParser.cs" />
+    <Compile Include="AS3Writer\InterfaceParser.cs" />
     <Compile Include="AS3Writer\MethodParser.cs" />
     <Compile Include="AS3Writer\PropertyParser.cs" />
     <Compile Include="AS3Writer\VariableParser.cs" />

@@ -4,7 +4,7 @@ namespace System {
 
 	public struct Double  {
 		public static implicit operator double(Number pStr) {
-			return new double();
+			return 0;
 		}
 
 		public static implicit operator Number(double pStr) {

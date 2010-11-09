@@ -18,7 +18,7 @@
 								 As3Helpers.ConvertModifiers(pConstructor.Modifiers, _notValidConstructorMod),
 								 pConstructor.Name,
 								 As3Helpers.GetParameters(pConstructor.Arguments),
-								 pConstructor.Name,
+								 pConstructor.MyClass.Name,
 								 pConstructor.OverridesBaseConstructor ? "override " : string.Empty
 					);
 			}
@@ -66,13 +66,19 @@
 
 		public static void Parse(TheMethod pMethod, As3Builder pBuilder) {
 			if (pMethod == null) return;
-
-			pBuilder.AppendFormat("{0}function {1}({2}):{3} {{",
+			bool isInterface = pMethod.MyClass.IsInterface;
+			pBuilder.AppendFormat("{0}function {1}({2}):{3}{4}",
 				As3Helpers.ConvertModifiers(pMethod.Modifiers),
 				pMethod.Name,
 				As3Helpers.GetParameters(pMethod.Arguments),
-				As3Helpers.Convert(pMethod.ReturnType)
+				As3Helpers.Convert(pMethod.ReturnType),
+				isInterface ? ";":" {"
 			);
+
+			pBuilder.AppendLine();
+
+			if (isInterface)
+				return;
 
 			pBuilder.AppendLine();
 			BlockParser.Parse(pMethod.CodeBlock, pBuilder);
