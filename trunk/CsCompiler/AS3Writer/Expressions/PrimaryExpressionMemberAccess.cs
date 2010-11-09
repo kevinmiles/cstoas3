@@ -10,15 +10,16 @@
 			string name;
 			bool renamed = Helpers.GetRealName(ex, ex.identifier.identifier, out name);
 
-			//if (ex.parent is CsInvocationExpression) {
-				
-			//}
-
 			if (renamed) {
 				return new Expression(name, pStatement.entity_typeref);
 			}
 
-			if (ex.ec == expression_classification.ec_event_access) {//remove eventhandler name
+			CsEntityProperty p = ex.entity as CsEntityProperty;
+			if (p != null) {
+				//getter, rename
+				name = "get_" + name + "()";
+
+			} else if (ex.ec == expression_classification.ec_event_access) {//remove eventhandler name
 				name = string.Empty;
 			}
 

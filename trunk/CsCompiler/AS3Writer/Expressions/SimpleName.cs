@@ -29,8 +29,8 @@
 
 
 			} else {
-				val = ex.identifier.identifier;
-				//val = Helpers.GetRealName(ex, ex.identifier.identifier);
+				//val = ex.identifier.identifier;
+				Helpers.GetRealName(ex, ex.identifier.identifier, out val);
 			}
 
 			return new Expression(

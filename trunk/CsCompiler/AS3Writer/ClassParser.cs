@@ -185,7 +185,7 @@
 			return isMainClass;
 		}
 
-		private static string getImports() {
+		internal static string getImports() {
 			if (ImportStatementList.List.Count > 0) {
 				StringBuilder i = new StringBuilder();
 				foreach (string import in
