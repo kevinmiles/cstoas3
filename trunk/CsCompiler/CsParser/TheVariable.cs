@@ -11,8 +11,9 @@ namespace CsCompiler.CsParser {
 
 			foreach (CsVariableDeclarator declarator in pCsVariableDeclaration.declarators) {
 				Variable v = new Variable {
-					RealName = declarator.identifier.identifier,
-					Name = Helpers.GetRealName(declarator, declarator.identifier.identifier),
+					//RealName = declarator.identifier.identifier,
+					//Name = Helpers.GetRealName(declarator, declarator.identifier.identifier),
+					Name = declarator.identifier.identifier,
 					Initializer =
 						declarator.initializer == null ? null : FactoryExpressionCreator.Parse(declarator.initializer as CsExpression),
 					ReturnType = Helpers.GetType(declarator.entity.type)

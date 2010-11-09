@@ -16,19 +16,24 @@
 	}
 
 
-	[AttributeUsage(AttributeTargets.Method | AttributeTargets.Field | AttributeTargets.Class | AttributeTargets.Enum | AttributeTargets.Struct, AllowMultiple = false)]
+	[AttributeUsage(AttributeTargets.Class | AttributeTargets.Enum | AttributeTargets.Struct, AllowMultiple = true)]
+	//[AttributeUsage(AttributeTargets.Method | AttributeTargets.Field | AttributeTargets.Class | AttributeTargets.Enum | AttributeTargets.Struct, AllowMultiple = false)]
 	internal sealed class As3NameAttribute : Attribute {
-		public As3NameAttribute(string pAs3Name) {
+		public As3NameAttribute(string pAs3Name, string pAs3Imports) {
+			return;
+		}
+
+		public As3NameAttribute(string pAs3Name, string pAs3RealName, string pAs3Imports) {
 			return;
 		}
 	}
 
-	[AttributeUsage(AttributeTargets.Method | AttributeTargets.Event, AllowMultiple = false)]
-	internal sealed class As3NamespaceAttribute : Attribute {
-		public As3NamespaceAttribute(string pAs3Namespace) {
-			return;
-		}
-	}
+	//[AttributeUsage(AttributeTargets.Method | AttributeTargets.Event, AllowMultiple = false)]
+	//internal sealed class As3NamespaceAttribute : Attribute {
+	//    public As3NamespaceAttribute(string pAs3Namespace) {
+	//        return;
+	//    }
+	//}
 
 	[AttributeUsage(AttributeTargets.Class , AllowMultiple = false)]
 	internal sealed class As3IsGenericAttribute : Attribute {

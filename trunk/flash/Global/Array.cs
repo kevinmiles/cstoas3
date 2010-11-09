@@ -6,7 +6,11 @@
 	///<summary>
 	///</summary>
 	[Flags]
-	[As3Name("Array")]
+	[As3Name("CASEINSENSITIVE", "Array.CASEINSENSITIVE","")]
+	[As3Name("DESCENDING", "Array.DESCENDING", "")]
+	[As3Name("NUMERIC", "Array.NUMERIC", "")]
+	[As3Name("RETURNINDEXEDARRAY", "Array.RETURNINDEXEDARRAY", "")]
+	[As3Name("UNIQUESORT", "Array.UNIQUESORT", "")]
 	public enum ArraySortOptions {
 		/// <summary>
 		/// [static] Specifies case-insensitive sorting for the Array class sorting methods.
@@ -35,9 +39,9 @@
 	}
 
 	public class Array  {
-		public delegate bool ArrayFilterCallback(object item, int index, Array array);
-		public delegate void ArrayForeachCallback(object item, int index, Array array);
-		public delegate float ArraySortCallback(object itemA, object itemB);
+		//public delegate bool Func<object, int, Array, bool>(object item, int index, Array array);
+		//public delegate void Action<object, int, Array>(object item, int index, Array array);
+		//public delegate float ArraySortCallback(object itemA, object itemB);
 
 		/// <summary>
 		/// A non-negative integer specifying the number of elements in the array.
@@ -64,42 +68,42 @@
 		/// <summary>
 		/// Executes a test function on each item in the array until an item is reached that returns false for the specified function.
 		/// </summary>
-		public bool every(ArrayFilterCallback callback, object thisObject) {
+		public bool every(Func<object, int, Array, bool> callback, object thisObject) {
 			return default(bool);
 		}
 
 		/// <summary>
 		/// Executes a test function on each item in the array until an item is reached that returns false for the specified function.
 		/// </summary>
-		public bool every(ArrayFilterCallback callback) {
+		public bool every(Func<object, int, Array, bool> callback) {
 			return default(bool);
 		}
 
 		/// <summary>
 		/// Executes a test function on each item in the array and constructs a new array for all items that return true for the specified function.
 		/// </summary>
-		public Array filter(ArrayFilterCallback callback, object thisObject) {
+		public Array filter(Func<object, int, Array, bool> callback, object thisObject) {
 			return default(Array);
 		}
 
 		/// <summary>
 		/// Executes a test function on each item in the array and constructs a new array for all items that return true for the specified function.
 		/// </summary>
-		public Array filter(ArrayFilterCallback callback) {
+		public Array filter(Func<object, int, Array, bool> callback) {
 			return default(Array);
 		}
 
 		/// <summary>
 		/// Executes a function on each item in the array.
 		/// </summary>
-		public void forEach(ArrayForeachCallback callback, object thisObject) {
+		public void forEach(Action<object, int, Array> callback, object thisObject) {
 			return;
 		}
 
 		/// <summary>
 		/// Executes a function on each item in the array.
 		/// </summary>
-		public void forEach(ArrayForeachCallback callback) {
+		public void forEach(Action<object, int, Array> callback) {
 			return;
 		}
 
@@ -141,14 +145,14 @@
 		/// <summary>
 		/// Executes a function on each item in an array, and constructs a new array of items corresponding to the results of the function on each item in the original array.
 		/// </summary>
-		public Array map(ArrayForeachCallback callback, object thisObject) {
+		public Array map(Action<object, int, Array> callback, object thisObject) {
 			return default(Array);
 		}
 
 		/// <summary>
 		/// Executes a function on each item in an array, and constructs a new array of items corresponding to the results of the function on each item in the original array.
 		/// </summary>
-		public Array map(ArrayForeachCallback callback) {
+		public Array map(Action<object, int, Array> callback) {
 			return default(Array);
 		}
 
@@ -211,21 +215,21 @@
 		/// <summary>
 		/// Executes a test function on each item in the array until an item is reached that returns true.
 		/// </summary>
-		public bool some(ArrayFilterCallback callback, object thisObject) {
+		public bool some(Func<object, int, Array, bool> callback, object thisObject) {
 			return default(bool);
 		}
 
 		/// <summary>
 		/// Executes a test function on each item in the array until an item is reached that returns true.
 		/// </summary>
-		public bool some(ArrayFilterCallback callback) {
+		public bool some(Func<object, int, Array, bool> callback) {
 			return default(bool);
 		}
 
 		/// <summary>
 		/// Sorts the elements in an array.
 		/// </summary>
-		public Array sort(ArraySortCallback callback) {
+		public Array sort(Func<object, object, int> callback) {
 			return default(Array);
 		}
 

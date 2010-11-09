@@ -37,11 +37,12 @@
 				name.Add(((CsClass)pCsClass.parent).identifier.identifier);
 
 			NameSpace = string.Join(".", name.ToArray());
-			RealName = pCsClass.identifier.identifier;
-			Name = Helpers.GetRealName(pCsClass, RealName);
+			//RealName = pCsClass.identifier.identifier;
+			//Name = Helpers.GetRealName(pCsClass, RealName);
+			Name = pCsClass.identifier.identifier;
 			
 			FullName = NameSpace + "." + Name;
-			FullRealName = NameSpace + "." + RealName;
+			//FullRealName = NameSpace + "." + RealName;
 
 			if (pCsClass.type_base != null && pCsClass.type_base.base_list.Count != 0) {
 				foreach (CsTypeRef typeRef in pCsClass.type_base.base_list) {
@@ -73,9 +74,9 @@
 					if (c != null) {
 						TheConstructor tm = new TheConstructor(c, this);
 
-						if (methodNames.ContainsKey(tm.RealName)) {
-							methodNames[tm.RealName]++;
-							int index = tm._index = methodNames[tm.RealName];
+						if (methodNames.ContainsKey(tm.Name)) {
+							methodNames[tm.Name]++;
+							int index = tm._index = methodNames[tm.Name];
 
 							if (!constructorsDone) {
 								constructorsDone = true;
@@ -88,7 +89,7 @@
 							tm._isUnique = false;
 
 						} else {
-							methodNames[tm.RealName] = tm._index = 1;
+							methodNames[tm.Name] = tm._index = 1;
 						}
 
 						_constructors.Add(c, tm);
@@ -100,9 +101,9 @@
 						if (m.interface_type != null) continue;
 
 						TheMethod tm = new TheMethod(m, this);
-						if (methodNames.ContainsKey(tm.RealName)) {
-							methodNames[tm.RealName]++;
-							int index = tm._index = methodNames[tm.RealName];
+						if (methodNames.ContainsKey(tm.Name)) {
+							methodNames[tm.Name]++;
+							int index = tm._index = methodNames[tm.Name];
 
 							if (!methodsDone) {
 								methodsDone = true;
@@ -115,7 +116,7 @@
 							tm._isUnique = false;
 
 						} else {
-							methodNames[tm.RealName] = tm._index = 1;
+							methodNames[tm.Name] = tm._index = 1;
 						}
 
 						_methods.Add(m, tm);
@@ -156,7 +157,7 @@
 					CsEvent e = memberDeclaration as CsEvent;
 					if (e != null) {
 						TheEvent theEvent = new TheEvent(e, this);
-						_events.Add(theEvent.RealName, theEvent);
+						_events.Add(theEvent.Name, theEvent);
 						continue;
 					}
 
@@ -190,11 +191,12 @@
 			name.Reverse();
 
 			NameSpace = string.Join(".", name.ToArray());
-			RealName = pCsEntity.name;
-			Name = Helpers.GetRealName(pCsEntity, RealName);
+			//RealName = pCsEntity.name;
+			//Name = Helpers.GetRealName(pCsEntity, RealName);
+			Name = pCsEntity.name;
 
 			FullName = NameSpace + "." + Name;
-			FullRealName = NameSpace + "." + RealName;
+			//FullRealName = NameSpace + "." + RealName;
 
 			CsEntityClass klass = pCsEntity as CsEntityClass;
 			if (klass == null)
@@ -221,9 +223,9 @@
 			foreach (CsEntityMethodImplementation methodImplementation in klass.method_implementations) {
 				CsEntityMethod m = methodImplementation.implementation_method;
 				TheMethod tm = new TheMethod(m, this);
-				if (methodNames.ContainsKey(tm.RealName)) {
-					methodNames[tm.RealName]++;
-					int index = tm._index = methodNames[tm.RealName];
+				if (methodNames.ContainsKey(tm.Name)) {
+					methodNames[tm.Name]++;
+					int index = tm._index = methodNames[tm.Name];
 
 					if (!methodsDone) {
 						methodsDone = true;
@@ -236,7 +238,7 @@
 					tm._isUnique = false;
 
 				} else {
-					methodNames[tm.RealName] = tm._index = 1;
+					methodNames[tm.Name] = tm._index = 1;
 				}
 
 				_entityMethods.Add(m, tm);

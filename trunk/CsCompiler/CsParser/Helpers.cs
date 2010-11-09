@@ -137,10 +137,10 @@
 					return ((CsEntityEnum)pDirective.u).name;
 
 				case cs_entity_type.et_generic_param:
-					//CsEntityGenericParam egp = pDirective.u as CsEntityGenericParam;
+					CsEntityGenericParam egp = pDirective.u as CsEntityGenericParam;
 					//TODO: check generics parameters
-					return "*";
-					//return egp.name;
+					//return "*";
+					return egp.parent.name;
 
 				case cs_entity_type.et_genericinst:
 					CsEntityInstanceSpecifier eis = pDirective.u as CsEntityInstanceSpecifier;
@@ -310,12 +310,14 @@
 				return;
 			}
 
-			AttributeItem vals = GetAttributeValue(pList, AS3_NAMESPACE_ATTRIBUTE);
-			if (vals.Parameters.Count == 0) {
+			List<AttributeItem> vals = GetAttributeValue(pList, AS3_NAMESPACE_ATTRIBUTE);
+
+
+			if (vals.Count == 0 || vals[0].Parameters.Count == 0) {
 				return;
 			}
 
-			ImportStatementList.AddImport((string)vals.Parameters[0]);
+			ImportStatementList.AddImport((string)vals[0].Parameters[0]);
 		}
 
 		private static void addImports(CsAttributes pList) {
@@ -323,21 +325,42 @@
 				return;
 			}
 
-			AttributeItem vals = GetAttributeValue(pList, AS3_NAMESPACE_ATTRIBUTE);
-			if (vals.Parameters.Count == 0) {
+			List<AttributeItem> vals = GetAttributeValue(pList, AS3_NAMESPACE_ATTRIBUTE);
+			if (vals.Count == 0 || vals[0].Parameters.Count == 0) {
 				return;
 			}
 
-			ImportStatementList.AddImport((string)vals.Parameters[0]);
+			ImportStatementList.AddImport((string)vals[0].Parameters[0]);
 		}
 
-		public static AttributeItem GetAttributeValue(CsAttributes pList, string pAttrName) {
-			if (pList == null) {
-				return new AttributeItem();
-			}
+		private static void addImports(string pImport) {
+			if (string.IsNullOrEmpty(pImport)) return;
+			ImportStatementList.AddImport(pImport);
+		}
 
-			if (pList.sections == null || pList.sections.Count == 0) {
-				return new AttributeItem();
+		//public static List<AttributeItem> GetAttributes(CsAttributes pList, string pAttrName) {
+		//     List<AttributeItem> list = new List<AttributeItem>();
+		//     if (pList == null || pList.sections == null || pList.sections.Count == 0)
+		//        return list;
+
+		//    foreach (var section in pList.sections) {
+		//        foreach (CsAttribute attribute in section.attribute_list) {
+		//            AttributeItem a = attribute.entities == null
+		//                                ? getAttributeValue(attribute, pAttrName)
+		//                                : GetAttributeValue(attribute.entities, pAttrName);
+
+		//            if (a.IsEmpty) continue;
+
+		//            list.Add(a);
+		//        }
+		//    }
+
+		//    return list;
+		//}
+
+		public static List<AttributeItem> GetAttributeValue(CsAttributes pList, string pAttrName) {
+			if (pList == null || pList.sections == null || pList.sections.Count == 0) {
+				return new List<AttributeItem>();
 			}
 
 			return
@@ -351,19 +374,21 @@
 				                          	(pVal => pVal != null)).FirstOrDefault();
 		}
 
-		private static AttributeItem getAttributeValue(CsAttribute pAttribute, string pAttrName) {
+		private static List<AttributeItem> getAttributeValue(CsAttribute pAttribute, string pAttrName) {
 			string s;
 			AttributeItem item = new AttributeItem();
 
 			if (pAttribute.attribute_name != null) {
 				CsNamespaceOrTypeName n = (CsNamespaceOrTypeName)pAttribute.attribute_name;
 				s = n.identifier.original_text;
+
 			} else {
 				throw new Exception();
 				//s = attribute.type.parent.name;
 			}
 
 			if (s.Equals(pAttrName, StringComparison.Ordinal) || (s + "Attribute").Equals(pAttrName, StringComparison.Ordinal)) {
+				item.IsEmpty = false;
 				foreach (var argument in pAttribute.positional_argument_list.list) {
 					item.Parameters.Add(((CsLiteral)argument).literal);
 				}
@@ -374,14 +399,14 @@
 
 			}
 
-			return item;
+			return new List<AttributeItem> { item };
 		}
 
-		public static AttributeItem GetAttributeValue(IEnumerable<CsEntityAttribute> pList, string pAttrName) {
-			AttributeItem item = new AttributeItem();
+		public static List<AttributeItem> GetAttributeValue(IEnumerable<CsEntityAttribute> pList, string pAttrName) {
+			List<AttributeItem> items = new List<AttributeItem>();
 
 			if (pList == null) {
-				return item;
+				return items;
 			}
 
 			foreach (CsEntityAttribute attribute in pList) {
@@ -401,6 +426,8 @@
 					continue;
 				}
 
+				AttributeItem item = new AttributeItem();
+
 				if (attribute.fixed_arguments != null) {
 					foreach (var argument in attribute.fixed_arguments) {
 						string strval = argument.value as string;
@@ -414,10 +441,10 @@
 					}	
 				}
 
-				return item;
+				items.Add(item);
 			}
 
-			return item;
+			return items;
 		}
 
 		private static string convertString(string pIn) {
@@ -444,107 +471,157 @@
 			return "\"" + pIn.Replace("\\", "\\\\").Replace("\"", "\\\"") + "\"";
 		}
 
-		public static string GetRealName(CsExpression pExpression, string pName) {
-			return getRealName(pExpression, pName);
+		public static bool GetRealName(CsExpression pExpression, string pName, out string pRealName) {
+			return getRealName(pExpression, pName, out pRealName);
 		}
 
-		public static string GetRealName(CsClassStruct pExpression, string pName) {
-			return getRealName(pExpression.entity, pName);
-		}
+		//public static string GetRealName(CsClassStruct pExpression, string pName) {
+		//    return getRealName(pExpression.entity, pName);
+		//}
 
-		public static string GetRealName(CsMethod pExpression, string pName) {
-			return getRealName(pExpression.attributes, pName);
-		}
+		//public static string GetRealName(CsMethod pExpression, string pName) {
+		//    return getRealName(pExpression.attributes, pName);
+		//}
 
-		public static string GetRealName(CsIndexer pIndexer, string pName) {
-			return getRealName(pIndexer.attributes, pName);
-		}
+		//public static string GetRealName(CsIndexer pIndexer, string pName) {
+		//    return getRealName(pIndexer.attributes, pName);
+		//}
 
-		public static string GetRealName(CsVariableDeclarator pExpression, string pIdentifier) {
-			return getRealName(pExpression.entity, pIdentifier);
-		}
+		//public static string GetRealName(CsVariableDeclarator pExpression, string pIdentifier) {
+		//    return getRealName(pExpression.entity, pIdentifier);
+		//}
 
-		public static string GetRealName(CsConstantDeclarator pExpression, string pIdentifier) {
-			return getRealName(pExpression.entity, pIdentifier);
-		}
+		//public static string GetRealName(CsConstantDeclarator pExpression, string pIdentifier) {
+		//    return getRealName(pExpression.entity, pIdentifier);
+		//}
 
-		public static string GetRealName(CsProperty pCsProperty, string pIdentifier) {
-			return getRealName(pCsProperty.entity, pIdentifier);
-		}
+		//public static string GetRealName(CsProperty pCsProperty, string pIdentifier) {
+		//    return getRealName(pCsProperty.entity, pIdentifier);
+		//}
 
-		public static string GetRealName(CsEntity pCsProperty, string pRealName) {
-			return getRealName(pCsProperty.e, pRealName);
-		}
+		//public static string GetRealName(CsEntity pCsProperty, string pRealName) {
+		//    return getRealName(pCsProperty.e, pRealName);
+		//}
 
-		private static string getRealName(object pEntity, string pName) {
+		private static bool getRealName(object pEntity, string pName, out string pNewName) {
 			if (pName.Equals("ToString", StringComparison.Ordinal)) {
 				pName = "toString";
 			}
 
-			if (pEntity is CsAttributes) {
-				string n = (string)GetAttributeValue((CsAttributes)pEntity, AS3_NAME_ATTRIBUTE).Parameters[0];
-				return string.IsNullOrEmpty(n) ? pName : n;
+			LinkedList<CsEntityAttribute> attrs = pEntity as LinkedList<CsEntityAttribute>;
+			if (attrs != null) {
+				List<AttributeItem> item = GetAttributeValue(attrs, AS3_NAME_ATTRIBUTE);
+
+				foreach (AttributeItem attributeItem in item) {
+					List<object> n = attributeItem.Parameters;
+
+					string lookupName, realName, ns;
+					if (n.Count == 2) {//real name, namespace
+						lookupName = realName = (string)n[0];
+						ns = (string)n[1];
+
+					} else {//old name, real name, namespace
+						lookupName = (string)n[0];
+						realName = (string)n[1];
+						ns = (string)n[2];
+					}
+
+					if (!pName.Equals(lookupName, StringComparison.Ordinal)) {
+						continue;
+					}
+
+					if (!string.IsNullOrEmpty(ns))
+						addImports(ns);
+
+					pNewName = realName;
+					return true;
+				}
+
+				pNewName = pName;
+				return false;
+			}
+
+			if (pEntity is CsPrimaryExpressionMemberAccess) {
+				CsPrimaryExpressionMemberAccess pema = ((CsPrimaryExpressionMemberAccess)pEntity);
+				return getRealName(pema.expression.entity, pName, out pNewName);
 			}
 
 			IEnumerable<CsEntityAttribute> m;
 
 			if (pEntity is CsEntityClass) {
-				return getRealNameFromAttr(((CsEntityClass)pEntity).attributes, pName);
+			    return getRealName(((CsEntityClass)pEntity).attributes, pName, out pNewName);
+			}
+
+			if (pEntity is CsEntityLocalVariable) {
+				CsLocalVariableDeclaration v = (((CsEntityLocalVariable)pEntity).decl.parent) as CsLocalVariableDeclaration;
+				if (v != null) {
+					getRealName(v.type.entity_typeref.u, pName, out pNewName);
+					//get new name but do not replace expression, as this is a local accessor...
+					return false;
+				}
 			}
 
 			if (pEntity is CsEntityVariable) {
 				m = ((CsEntityVariable)pEntity).attributes;
-				addImports(m);
-				return getRealNameFromAttr(m, pName);
+				//addImports(m);
+				return getRealName(m, pName, out pNewName);
 			}
 
 			if (pEntity is CsEntityEnum) {
-				return getRealNameFromAttr(((CsEntityEnum)pEntity).attributes, pName);
+				return getRealName(((CsEntityEnum)pEntity).attributes, pName, out pNewName);
 			}
 
 			if (pEntity is CsEntityStruct) {
-				return getRealNameFromAttr(((CsEntityStruct)pEntity).attributes, pName);
+				return getRealName(((CsEntityStruct)pEntity).attributes, pName, out pNewName);
 			}
 
 			if (pEntity is CsEntityConstant) {
-				return getRealNameFromAttr(((CsEntityConstant)pEntity).attributes, pName);
+				return getRealName(((CsEntityConstant)pEntity).attributes, pName, out pNewName);
 			}
 
 			if (pEntity is CsEntityMethod) {
 				m = ((CsEntityMethod)pEntity).attributes;
-				addImports(m);
-				return getRealNameFromAttr(m, pName);
+				//addImports(m);
+				return getRealName(m, pName, out pNewName);
 			}
 
-			return pName;
+			pNewName = pName;
+			return false;
+			//return pName;
 		}
 
-		private static string getRealNameFromAttr(IEnumerable<CsEntityAttribute> pList, string pName) {
-			if (pList == null) {
-				return pName;
-			}
+		//private static string getRealNameFromAttr(IEnumerable<CsEntityAttribute> pList, string pName) {
+		//    if (pList == null) {
+		//        return pName;
+		//    }
 
-			AttributeItem vals = GetAttributeValue(pList, AS3_NAME_ATTRIBUTE);
-			if (vals.Parameters.Count == 0) {
-				return pName;
-			}
+		//    AttributeItem vals = GetAttributeValue(pList, AS3_NAME_ATTRIBUTE);
+		//    if (vals.Parameters.Count == 0) {
+		//        return pName;
+		//    }
 
-			string n = (string)vals.Parameters[0];
-			return string.IsNullOrEmpty(n) ? pName : n;
-		}
+		//    string n = (string)vals.Parameters[0];
+		//    return string.IsNullOrEmpty(n) ? pName : n;
+		//}
 
 		public static string GetEventFromAttr(CsAttributes pList) {
 			addImports(pList);
 
-			AttributeItem vals = GetAttributeValue(pList, AS3_EVENT_ATTRIBUTE);
-			return vals.Parameters.Count == 0 ? null : (string)vals.Parameters[0];
+			List<AttributeItem> vals = GetAttributeValue(pList, AS3_EVENT_ATTRIBUTE);
+			if (vals.Count == 0)
+				return null;
+
+			return vals[0].Parameters.Count == 0 ? null : (string)vals[0].Parameters[0];
 		}
 
 		public static string GetEventFromAttr(IEnumerable<CsEntityAttribute> pList) {
 			addImports(pList);
 
-			AttributeItem vals = GetAttributeValue(pList, AS3_EVENT_ATTRIBUTE);
-			return vals.Parameters.Count == 0 ? null : (string)vals.Parameters[0];
+			List<AttributeItem> vals = GetAttributeValue(pList, AS3_EVENT_ATTRIBUTE);
+			if (vals.Count == 0)
+				return null;
+
+			return vals[0].Parameters.Count == 0 ? null : (string)vals[0].Parameters[0];
 		}
 
 		public static bool HasAttribute(IEnumerable<CsEntityAttribute> pList, string pAttrName) {
@@ -633,8 +710,10 @@
 		public AttributeItem() {
 			Parameters = new List<object>();
 			NamedArguments = new Dictionary<string, Expression>();
+			IsEmpty = true;
 		}
 
+		public bool IsEmpty { get; internal set; }
 		public List<object> Parameters { get; internal set; }
 		public Dictionary<string, Expression> NamedArguments { get; internal set; }
 	}

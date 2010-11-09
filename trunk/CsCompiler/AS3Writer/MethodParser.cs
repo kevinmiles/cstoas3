@@ -18,7 +18,7 @@
 								 As3Helpers.ConvertModifiers(pConstructor.Modifiers, _notValidConstructorMod),
 								 pConstructor.Name,
 								 As3Helpers.GetParameters(pConstructor.Arguments),
-								 pConstructor.RealName,
+								 pConstructor.Name,
 								 pConstructor.OverridesBaseConstructor ? "override " : string.Empty
 					);
 			}

@@ -17,8 +17,8 @@
 
 			_declarator = pCsEvent.declarators.First.Value;
 
-			RealName = Name = _declarator.identifier.identifier;
-			FullRealName = MyClass.FullRealName + "." + RealName;
+			Name = _declarator.identifier.identifier;//RealName = 
+			//FullRealName = MyClass.FullRealName + "." + RealName;
 			FullName = MyClass.FullName + "." + Name;
 			Modifiers.AddRange(Helpers.GetModifiers(pCsEvent.modifiers));
 

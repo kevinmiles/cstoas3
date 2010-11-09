@@ -2,7 +2,7 @@
 	using flash;
 	using flash.Global;
 
-	[As3Name("uint")]
+	[As3Name("uint","")]
 	public struct UInt {
 		public const uint MAX_VALUE=0;
 		public const uint MIN_VALUE=0;

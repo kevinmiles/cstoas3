@@ -21,7 +21,7 @@
 
 			LinkedList<CsFormalParameter> csFormalParameters = pConstructor.parameters.parameters;
 			_noFormalParams = csFormalParameters == null;
-			RealName = pConstructor.identifier.identifier;
+			//RealName = pConstructor.identifier.identifier;
 			IsStaticConstructor = (pConstructor.modifiers.flags & (uint)CsModifierEnum.mSTATIC) != 0;
 
 			if (pConstructor.basethis == CsTokenType.tkBASE || pConstructor.basethis == CsTokenType.tkTHIS) {

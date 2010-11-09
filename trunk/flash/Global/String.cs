@@ -1,6 +1,4 @@
 ﻿namespace flash.Global {
-	using System;
-
 	public sealed class String {
 		/// <param name="match">The matching portion of the string.</param>
 		/// <param name="args">Any captured parenthetical group matches are provided as the next arguments. The number of arguments passed this way will vary depending on the number of parenthetical matches. You can determine the number of parenthetical matches by checking arguments.length - 3 within the function code. Then, the index position in the string where the match begins. And last, The complete string.</param>
