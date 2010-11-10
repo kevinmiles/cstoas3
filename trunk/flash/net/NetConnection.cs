@@ -1,4 +1,6 @@
 ﻿namespace flash.net {
+	using System;
+
 	using events;
 
 	public class NetConnection : EventDispatcher {
@@ -159,24 +161,24 @@
 		/// Dispatched when an exception is thrown asynchronously — that is, from native asynchronous code.
 		/// </summary>
 		[As3Event("AsyncErrorEvent.ASYNC_ERROR")]
-		public event AsyncErrorEventDelegate asyncError;
+		public event Action<AsyncErrorEvent> asyncError;
 
 		/// <summary>
 		/// Dispatched when an input or output error occurs that causes a network operation to fail.
 		/// </summary>
 		[As3Event("IOErrorEvent.IO_ERROR")]
-		public event IOErrorEventDelegate ioError;
+		public event Action<IOErrorEvent> ioError;
 
 		/// <summary>
 		/// Dispatched when a NetConnection object is reporting its status or error condition.
 		/// </summary>
 		[As3Event("NetStatusEvent.NET_STATUS")]
-		public event NetStatusEventDelegate netStatus;
+		public event Action<NetStatusEvent> netStatus;
 
 		/// <summary>
 		/// Dispatched if a call to NetConnection.call() attempts to connect to a server outside the caller's security sandbox.
 		/// </summary>
 		[As3Event("SecurityErrorEvent.SECURITY_ERROR")]
-		public event SecurityErrorEventDelegate securityError;
+		public event Action<SecurityErrorEvent> securityError;
 	}
 }

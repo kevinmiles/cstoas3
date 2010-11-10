@@ -338,26 +338,6 @@
 			ImportStatementList.AddImport(pImport);
 		}
 
-		//public static List<AttributeItem> GetAttributes(CsAttributes pList, string pAttrName) {
-		//     List<AttributeItem> list = new List<AttributeItem>();
-		//     if (pList == null || pList.sections == null || pList.sections.Count == 0)
-		//        return list;
-
-		//    foreach (var section in pList.sections) {
-		//        foreach (CsAttribute attribute in section.attribute_list) {
-		//            AttributeItem a = attribute.entities == null
-		//                                ? getAttributeValue(attribute, pAttrName)
-		//                                : GetAttributeValue(attribute.entities, pAttrName);
-
-		//            if (a.IsEmpty) continue;
-
-		//            list.Add(a);
-		//        }
-		//    }
-
-		//    return list;
-		//}
-
 		public static List<AttributeItem> GetAttributeValue(CsAttributes pList, string pAttrName) {
 			if (pList == null || pList.sections == null || pList.sections.Count == 0) {
 				return new List<AttributeItem>();
@@ -471,46 +451,77 @@
 			return "\"" + pIn.Replace("\\", "\\\\").Replace("\"", "\\\"") + "\"";
 		}
 
-		public static bool GetRealName(CsExpression pExpression, string pName, out string pRealName) {
-			return getRealName(pExpression, pName, out pRealName);
+		public static bool GetRealName(object pExpression, string pName, out string pRealName) {
+			if (pExpression == null) {
+				pRealName = pName;
+				return false;
+			}
+
+			CsEntityClass csEntityClass = pExpression as CsEntityClass;
+			if (csEntityClass != null) {
+				return getRealName(csEntityClass.attributes, pName, out pRealName);
+			}
+
+			CsEntityEnum csEntityEnum = pExpression as CsEntityEnum;
+			if (csEntityEnum != null) {
+				return getRealName(csEntityEnum.attributes, pName, out pRealName);
+			}
+
+			CsEntityStruct csEntityStruct = pExpression as CsEntityStruct;
+			if (csEntityStruct != null) {
+				return getRealName(csEntityStruct.attributes, pName, out pRealName);
+			}
+
+			CsPrimaryExpressionMemberAccess csPrimaryExpressionMemberAccess = pExpression as CsPrimaryExpressionMemberAccess;
+			if (csPrimaryExpressionMemberAccess != null) {
+				return GetRealName(csPrimaryExpressionMemberAccess.expression.entity, pName, out pRealName);
+			}
+
+			CsEntityLocalVariable csEntityLocalVariable = pExpression as CsEntityLocalVariable;
+			if (csEntityLocalVariable != null) {
+				CsLocalVariableDeclaration v = (csEntityLocalVariable.decl.parent) as CsLocalVariableDeclaration;
+				if (v != null) {
+					GetRealName(v.type.entity_typeref.u, pName, out pRealName);
+					//get new name but do not replace expression, as this is a local accessor...
+					return false;
+				}
+			}
+
+			CsEntityVariable csEntityVariable = pExpression as CsEntityVariable;
+			if (csEntityVariable != null) {
+				return GetRealName(((CsEntityClass)csEntityVariable.type.u).attributes, pName, out pRealName);
+			}
+
+			CsEntityConstant csEntityConstant = pExpression as CsEntityConstant;
+			if (csEntityConstant != null) {
+				return GetRealName(csEntityConstant.type.u, pName, out pRealName);
+			}
+
+			CsEntityMethod csEntityMethod = pExpression as CsEntityMethod;
+			if (csEntityMethod != null) {
+				return GetRealName(csEntityMethod.parent, pName, out pRealName);
+			}
+
+			CsSimpleName csSimpleName = pExpression as CsSimpleName;
+			if (csSimpleName != null) {
+				return GetRealName(csSimpleName.entity_typeref == null ? csSimpleName.entity : csSimpleName.entity_typeref.u, pName, out pRealName);
+			}
+
+			CsPredefinedTypeMemberAccess csPredefinedTypeMemberAccess = pExpression as CsPredefinedTypeMemberAccess;
+			if (csPredefinedTypeMemberAccess != null) {
+				return GetRealName(csPredefinedTypeMemberAccess.entity_typeref == null ? csPredefinedTypeMemberAccess.entity : csPredefinedTypeMemberAccess.entity_typeref.u, pName, out pRealName);
+			}
+
+			throw new NotImplementedException();
 		}
-
-		//public static string GetRealName(CsClassStruct pExpression, string pName) {
-		//    return getRealName(pExpression.entity, pName);
-		//}
-
-		//public static string GetRealName(CsMethod pExpression, string pName) {
-		//    return getRealName(pExpression.attributes, pName);
-		//}
-
-		//public static string GetRealName(CsIndexer pIndexer, string pName) {
-		//    return getRealName(pIndexer.attributes, pName);
-		//}
-
-		//public static string GetRealName(CsVariableDeclarator pExpression, string pIdentifier) {
-		//    return getRealName(pExpression.entity, pIdentifier);
-		//}
-
-		//public static string GetRealName(CsConstantDeclarator pExpression, string pIdentifier) {
-		//    return getRealName(pExpression.entity, pIdentifier);
-		//}
-
-		//public static string GetRealName(CsProperty pCsProperty, string pIdentifier) {
-		//    return getRealName(pCsProperty.entity, pIdentifier);
-		//}
-
-		//public static string GetRealName(CsEntity pCsProperty, string pRealName) {
-		//    return getRealName(pCsProperty.e, pRealName);
-		//}
-
-		private static bool getRealName(object pEntity, string pName, out string pNewName) {
+		
+		private static bool getRealName(LinkedList<CsEntityAttribute> pEntity, string pName, out string pNewName) {
 			if (pName.Equals("ToString", StringComparison.Ordinal)) {
 				pName = "toString";
 			}
 
-			LinkedList<CsEntityAttribute> attrs = pEntity as LinkedList<CsEntityAttribute>;
-			if (attrs != null) {
-				List<AttributeItem> item = GetAttributeValue(attrs, AS3_NAME_ATTRIBUTE);
+			if (pEntity != null) {
+				List<AttributeItem> item = GetAttributeValue(pEntity, AS3_NAME_ATTRIBUTE);
 
 				foreach (AttributeItem attributeItem in item) {
 					List<object> n = attributeItem.Parameters;
@@ -541,68 +552,9 @@
 				return false;
 			}
 
-			if (pEntity is CsPrimaryExpressionMemberAccess) {
-				CsPrimaryExpressionMemberAccess pema = ((CsPrimaryExpressionMemberAccess)pEntity);
-				return getRealName(pema.expression.entity, pName, out pNewName);
-			}
-
-			IEnumerable<CsEntityAttribute> m;
-
-			if (pEntity is CsEntityClass) {
-			    return getRealName(((CsEntityClass)pEntity).attributes, pName, out pNewName);
-			}
-
-			if (pEntity is CsEntityLocalVariable) {
-				CsLocalVariableDeclaration v = (((CsEntityLocalVariable)pEntity).decl.parent) as CsLocalVariableDeclaration;
-				if (v != null) {
-					getRealName(v.type.entity_typeref.u, pName, out pNewName);
-					//get new name but do not replace expression, as this is a local accessor...
-					return false;
-				}
-			}
-
-			if (pEntity is CsEntityVariable) {
-				m = ((CsEntityClass)((CsEntityVariable)pEntity).type.u).attributes;
-				//addImports(m);
-				return getRealName(m, pName, out pNewName);
-			}
-
-			if (pEntity is CsEntityEnum) {
-				return getRealName(((CsEntityEnum)pEntity).attributes, pName, out pNewName);
-			}
-
-			if (pEntity is CsEntityStruct) {
-				return getRealName(((CsEntityStruct)pEntity).attributes, pName, out pNewName);
-			}
-
-			if (pEntity is CsEntityConstant) {
-				return getRealName(((CsEntityConstant)pEntity).attributes, pName, out pNewName);
-			}
-
-			if (pEntity is CsEntityMethod) {
-				m = ((CsEntityMethod)pEntity).attributes;
-				//addImports(m);
-				return getRealName(m, pName, out pNewName);
-			}
-
 			pNewName = pName;
 			return false;
-			//return pName;
 		}
-
-		//private static string getRealNameFromAttr(IEnumerable<CsEntityAttribute> pList, string pName) {
-		//    if (pList == null) {
-		//        return pName;
-		//    }
-
-		//    AttributeItem vals = GetAttributeValue(pList, AS3_NAME_ATTRIBUTE);
-		//    if (vals.Parameters.Count == 0) {
-		//        return pName;
-		//    }
-
-		//    string n = (string)vals.Parameters[0];
-		//    return string.IsNullOrEmpty(n) ? pName : n;
-		//}
 
 		public static string GetEventFromAttr(CsAttributes pList) {
 			addImports(pList);

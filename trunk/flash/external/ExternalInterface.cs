@@ -27,7 +27,7 @@
 		/// Registers an ActionScript method as callable from the container.
 		/// </summary>
 		/// <param name="functionName"></param>
-		/// <param name="closure"></param>
+		/// <param name="callBack"></param>
 		public static void addCallback(string functionName, ExternalInterfaceCallback callBack) {
 		}
 

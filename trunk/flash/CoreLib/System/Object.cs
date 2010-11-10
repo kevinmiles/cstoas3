@@ -4,8 +4,7 @@
 
 	using flash;
 
-	[As3Name("DeleteItem", "*delete ({0}[{1}])", "")]
-	[As3Name("DeleteMe", "*delete ({0})", "")]
+	[As3Name("delete", "delete ({0})", "")]
 	public class Object {
 		sealed class ObjectEnumerator : IEnumerator<string>{
 			object IEnumerator.Current {
@@ -27,11 +26,11 @@
 			public void Reset() {}
 		}
 
-		public bool DeleteItem(string i) {
-			return true;
-		}
+		//public bool DeleteItem(string i) {
+		//    return true;
+		//}
 
-		public bool DeleteMe() {
+		public static bool delete(object pObject) {
 			return true;
 		}
 
@@ -41,7 +40,6 @@
 		public IEnumerator<string> GetEnumerator() {
 			return new ObjectEnumerator();
 		}
-
 
 		/// <summary>
 		/// Indicates whether an object has a specified property defined.
@@ -74,7 +72,7 @@
 		/// Sets the availability of a dynamic property for loop operations. The property must exist on the target object because this method does not check the target object's prototype chain.
 		/// </summary>
 		/// <param name="pName">The property of the object.</param>
-		/// <param name="pIsEnum">If set to <c>false</c>, the dynamic property does not show up in for..in loops, and the method <see cref="PropertyIsEnumerable"/>() returns <c>false</c></param>
+		/// <param name="pIsEnum">If set to <c>false</c>, the dynamic property does not show up in for..in loops, and the method <see cref="propertyIsEnumerable"/>() returns <c>false</c></param>
 		public void setPropertyIsEnumerable(string pName, bool pIsEnum) {
 			return;
 		}

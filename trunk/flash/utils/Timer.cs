@@ -1,4 +1,6 @@
 ﻿namespace flash.utils {
+	using System;
+
 	using events;
 
 	public class Timer : EventDispatcher {
@@ -6,13 +8,13 @@
 		/// Dispatched whenever a Timer object reaches an interval specified according to the delay property.
 		/// </summary>
 		[As3Event("TimerEvent.TIMER")]
-		public event TimerEventDelegate timer;
+		public event Action<TimerEvent> timer;
 
 		/// <summary>
 		/// Dispatched whenever it has completed the number of requests set by <see cref="repeatCount"/>.
 		/// </summary>
 		[As3Event("TimerEvent.TIMER_COMPLETE")]
-		public event TimerEventDelegate timerComplete;
+		public event Action<TimerEvent> timerComplete;
 
 		/// <summary>
 		/// Stops the timer, if it is running, and sets the <see cref="currentCount"/> property back to 0, like the reset button of a stopwatch.
@@ -64,7 +66,7 @@
 		}
 
 		/// <summary>
-		/// [read-only] The timer's current state; true if the timer is running, otherwise false.
+		/// [read-only] The timer's current state; <see langword="true"/> if the timer is running, otherwise <see langword="false"/>.
 		/// </summary>
 		public bool running {
 			get;

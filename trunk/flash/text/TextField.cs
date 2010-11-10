@@ -1,4 +1,6 @@
 ﻿namespace flash.text {
+	using System;
+
 	using display;
 
 	using events;
@@ -12,25 +14,25 @@
 		/// Dispatched after a control's value is modified.
 		/// </summary>
 		[As3Event("Event.CHANGE")]
-		public event EventDelegate change;
+		public event Action<Event> change;
 
 		/// <summary>
 		/// Dispatched when a user clicks a hyperlink in an HTML-enabled text field, where the URL begins with "event:".
 		/// </summary>
 		[As3Event("TextEvent.LINK")]
-		public event TextEventDelegate link;
+		public event Action<TextEvent> link;
 
 		/// <summary>
 		/// Dispatched by a TextField object after the user scrolls.
 		/// </summary>
 		[As3Event("Event.SCROLL")]
-		public event EventDelegate scroll;
+		public event Action<Event> scroll;
 
 		/// <summary>
 		/// Flash Player dispatches the textInput event when a user enters one or more characters of text.
 		/// </summary>
 		[As3Event("TextEvent.TEXT_INPUT")]
-		public event TextEventDelegate textInput;
+		public event Action<TextEvent> textInput;
 
 		/// <summary>
 		/// When set to true and the text field is not in focus, Flash Player highlights the selection in the text field in gray.
@@ -371,7 +373,7 @@
 		}
 
 		/// <summary>
-		/// Returns a DisplayObject reference for the given id, for an image or SWF file that has been added to an HTML-formatted text field by using an <img> tag.
+		/// Returns a DisplayObject reference for the given id, for an image or SWF file that has been added to an HTML-formatted text field by using an &lt;img&gt; tag.
 		/// </summary>
 		public DisplayObject getImageReference(string id) {
 			return default(DisplayObject);

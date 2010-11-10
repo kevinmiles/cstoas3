@@ -5,7 +5,17 @@
 	/// The XML class contains methods and properties for working with XML objects. The XML class (along with the XMLList, Namespace, and QName classes) implements the powerful XML-handling standards defined in ECMAScript for XML (E4X) specification (ECMA-357 edition 2).
 	/// </summary>
 	[As3Name("Namespace","namespace","")]
+	[As3Name("isXMLName", "flash.utils.isXMLName")]
 	public sealed class XML {
+		/// <summary>
+		/// Determines whether the specified string is a valid name for an XML element or attribute.
+		/// </summary>
+		/// <param name="str">A string to evaluate.</param>
+		/// <returns>Returns <c>true</c> if the <paramref name="str"/> argument is a valid XML name; <c>false</c> otherwise. </returns>
+		public static bool isXMLName(string str) {
+			return false;
+		}
+
 		/// <summary>
 		/// [static] Determines whether XML comments are ignored when XML objects parse the source XML data.
 		/// </summary>

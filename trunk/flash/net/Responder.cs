@@ -1,18 +1,17 @@
 ﻿namespace flash.net {
-	public class Responder {
-		public delegate void ResponderResultDelegate();
-		public delegate void ResponderStatusDelegate(object status);
+	using System;
 
+	public class Responder {
 		/// <summary>
 		/// Creates a new Responder object.
 		/// </summary>
-		public Responder(ResponderResultDelegate result, ResponderStatusDelegate status) {
+		public Responder(Action result, Action<object> status) {
 		}
 
 		/// <summary>
 		/// Creates a new Responder object.
 		/// </summary>
-		public Responder(ResponderResultDelegate result) {
+		public Responder(Action result) {
 		}
 	}
 }

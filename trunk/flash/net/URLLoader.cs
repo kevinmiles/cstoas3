@@ -1,4 +1,6 @@
 ﻿namespace flash.net {
+	using System;
+
 	using events;
 
 	public class URLLoader : EventDispatcher {
@@ -46,36 +48,36 @@
 		/// Dispatched after all the received data is decoded and placed in the data property of the URLLoader object.
 		/// </summary>
 		[As3Event("Event.COMPLETE")]
-		public event EventDelegate complete;
+		public event Action<Event> complete;
 
 		/// <summary>
 		/// Dispatched if a call to URLLoader.load() attempts to access data over HTTP.
 		/// </summary>
 		[As3Event("HTTPStatusEvent.HTTP_STATUS")]
-		public event HTTPStatusEventDelegate httpStatus;
+		public event Action<HTTPStatusEvent> httpStatus;
 
 		/// <summary>
 		/// Dispatched if a call to URLLoader.load() results in a fatal error that terminates the download.
 		/// </summary>
 		[As3Event("IOErrorEvent.IO_ERROR")]
-		public event IOErrorEventDelegate ioError;
+		public event Action<IOErrorEvent> ioError;
 
 		/// <summary>
 		/// Dispatched when the download operation commences following a call to the URLLoader.load() method.
 		/// </summary>
 		[As3Event("Event.OPEN")]
-		public event EventDelegate open;
+		public event Action<Event> open;
 
 		/// <summary>
 		/// Dispatched when data is received as the download operation progresses.
 		/// </summary>
 		[As3Event("ProgressEvent.PROGRESS")]
-		public event ProgressEventDelegate progress;
+		public event Action<ProgressEvent> progress;
 
 		/// <summary>
 		/// Dispatched if a call to URLLoader.load() attempts to load data from a server outside the security sandbox.
 		/// </summary>
 		[As3Event("SecurityErrorEvent.SECURITY_ERROR")]
-		public event SecurityErrorEventDelegate securityError;
+		public event Action<SecurityErrorEvent> securityError;
 	}
 }

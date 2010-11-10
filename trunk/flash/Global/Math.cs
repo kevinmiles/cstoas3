@@ -146,7 +146,7 @@
 		}
 
 		/// <summary>
-		/// [static] Returns a pseudo-random number n, where 0 <= n < 1.
+		/// [static] Returns a pseudo-random number n, where 0 &lt;= n &lt; 1.
 		/// </summary>
 		public static double random() {
 			return default(double);

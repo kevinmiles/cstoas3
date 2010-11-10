@@ -1,8 +1,7 @@
 ﻿namespace flash.utils {
 	using System.Collections;
 	using System.ComponentModel;
-	[As3Name("DeleteItem", "*delete ({0}[{1}])", "")]
-	public class Dictionary : IEnumerable {
+	public class Dictionary : IEnumerable<object> {
 		/// <summary>
 		/// Creates a new Dictionary object.
 		/// </summary>
@@ -17,10 +16,6 @@
 		{
 		}
 
-		public bool DeleteItem(object i) {
-			return true;
-		}
-
 		public object this[object i] {
 			get {
 				return null;
@@ -33,12 +28,16 @@
 
 		[EditorBrowsable(EditorBrowsableState.Never)]
 		[Browsable(false)]
-		public IEnumerator GetEnumerator() {
+		public new IEnumerator<object> GetEnumerator() {
 			return new DictionaryEnumerator();
+		}
+
+		IEnumerator IEnumerable.GetEnumerator() {
+			return GetEnumerator();
 		}
 	}
 
-	class DictionaryEnumerator : IEnumerator {
+	class DictionaryEnumerator : IEnumerator<object> {
 		public object Current {
 			get {
 				return null;

@@ -41,10 +41,6 @@
 		//    return new flash.Global.Array();
 		//}
 	public class Array {
-		//public delegate bool Func<object, int, Array, bool>(object item, int index, Array array);
-		//public delegate void Action<object, int, Array>(object item, int index, Array array);
-		//public delegate float ArraySortCallback(object itemA, object itemB);
-
 		/// <summary>
 		/// A non-negative integer specifying the number of elements in the array.
 		/// </summary>

@@ -10,18 +10,6 @@
 
 		public int length;
 
-		public delegate bool VectorFilterCallback(T pItem, int pIndex, Vector<T> pVector);
-		public delegate void VectorForEachCallback(T pItem, int pIndex, Vector<T> pVector);
-		public delegate T VectorMapCallback(T pItem, int pIndex, Vector<T> pVector);
-
-		/// <summary>
-		/// The logic of the compareFunction function is that, given two elements x and y , the function returns one of the following three values
-		/// * a negative number, if x should appear before y in the sorted sequence
-		/// * 0, if x equals y
-		/// * positive number, if x should appear after y in the sorted sequence 
-		/// </summary>
-		public delegate int VectorSortCallback(T pItemX, T pItemY);
-
 		/// <summary>
 		/// Creates a Vector with the specified base type
 		/// </summary>
@@ -61,7 +49,7 @@
 		/// <param name="pCallback">The function to run on each item in the Vector. This function is invoked with three arguments: the current item from the Vector, the index of the item, and the Vector object</param>
 		/// <param name="pThisObject">The object that the identifer this in the callback function refers to when the function is called.</param>
 		/// <returns>A Boolean value of true if the specified function returns true when called on all items in the Vector; otherwise, false.</returns>
-		public bool every(VectorFilterCallback pCallback, object pThisObject) {
+		public bool every(Func<T, int, Vector<T>, bool> pCallback, object pThisObject) {
 			return false;
 		}
 
@@ -70,7 +58,7 @@
 		/// </summary>
 		/// <param name="pCallback">The function to run on each item in the Vector. This function is invoked with three arguments: the current item from the Vector, the index of the item, and the Vector object</param>
 		/// <returns>A Boolean value of true if the specified function returns true when called on all items in the Vector; otherwise, false.</returns>
-		public bool every(VectorFilterCallback pCallback) {
+		public bool every(Func<T, int, Vector<T>, bool> pCallback) {
 			return false;
 		}
 
@@ -80,7 +68,7 @@
 		/// <param name="pCallback">The function to run on each item in the Vector. This function is invoked with three arguments: the current item from the Vector, the index of the item, and the Vector object.</param>
 		/// <param name="pThisObject">The object that the identifer this in the callback function refers to when the function is called.</param>
 		/// <returns>A new Vector that contains all items from the original Vector for which the callback function returned true.</returns>
-		public Vector<T> filter(VectorFilterCallback pCallback, object pThisObject) {
+		public Vector<T> filter(Func<T, int, Vector<T>, bool> pCallback, object pThisObject) {
 			return null;
 		}
 
@@ -89,7 +77,7 @@
 		/// </summary>
 		/// <param name="pCallback">The function to run on each item in the Vector. This function is invoked with three arguments: the current item from the Vector, the index of the item, and the Vector object.</param>
 		/// <returns>A new Vector that contains all items from the original Vector for which the callback function returned true.</returns>
-		public Vector<T> filter(VectorFilterCallback pCallback) {
+		public Vector<T> filter(Func<T, int, Vector<T>, bool> pCallback) {
 			return null;
 		}
 
@@ -98,7 +86,7 @@
 		/// </summary>
 		/// <param name="pCallback">The function to run on each item in the Vector. This function is invoked with three arguments: the current item from the Vector, the index of the item, and the Vector object.</param>
 		/// <param name="pThisObject">The object that the identifer this in the callback function refers to when the function is called.</param>
-		public void forEach(VectorForEachCallback pCallback, object pThisObject) {
+		public void forEach(Action<T, int, Vector<T>> pCallback, object pThisObject) {
 			return;
 		}
 
@@ -106,7 +94,7 @@
 		/// Executes a function on each item in the Vector.
 		/// </summary>
 		/// <param name="pCallback">The function to run on each item in the Vector. This function is invoked with three arguments: the current item from the Vector, the index of the item, and the Vector object.</param>
-		public void forEach(VectorForEachCallback pCallback) {
+		public void forEach(Action<T, int, Vector<T>> pCallback) {
 			return;
 		}
 
@@ -171,7 +159,7 @@
 		/// <param name="pCallback">The function to run on each item in the Vector. This function is invoked with three arguments: the current item from the Vector, the index of the item, and the Vector object.</param>
 		/// <param name="pThisObject">The object that the identifer this in the callback function refers to when the function is called.</param>
 		/// <returns>A new Vector that contains the results of calling the function on each item in this Vector. The result Vector has the same base type and length as the original.</returns>
-		public Vector<T> map(VectorMapCallback pCallback, object pThisObject) {
+		public Vector<T> map(Func<T, int, Vector<T>, T> pCallback, object pThisObject) {
 			return null;
 		}
 
@@ -180,7 +168,7 @@
 		/// </summary>
 		/// <param name="pCallback">The function to run on each item in the Vector. This function is invoked with three arguments: the current item from the Vector, the index of the item, and the Vector object.</param>
 		/// <returns>A new Vector that contains the results of calling the function on each item in this Vector. The result Vector has the same base type and length as the original.</returns>
-		public Vector<T> map(VectorMapCallback pCallback) {
+		public Vector<T> map(Func<T, int, Vector<T>, T> pCallback) {
 			return null;
 		}
 
@@ -254,7 +242,7 @@
 		/// <param name="pCallback">The function to run on each item in the Vector. This function is invoked with three arguments: the current item from the Vector, the index of the item, and the Vector object.</param>
 		/// <param name="pThisObject">The object that the identifer this in the callback function refers to when the function is called.</param>
 		/// <returns>A Boolean value of true if any items in the Vector return true for the specified function; otherwise, false.</returns>
-		public bool some(VectorFilterCallback pCallback, object pThisObject) {
+		public bool some(Func<T, int, Vector<T>, bool> pCallback, object pThisObject) {
 			return false;
 		}
 
@@ -263,16 +251,20 @@
 		/// </summary>
 		/// <param name="pCallback">The function to run on each item in the Vector. This function is invoked with three arguments: the current item from the Vector, the index of the item, and the Vector object.</param>
 		/// <returns>A Boolean value of true if any items in the Vector return true for the specified function; otherwise, false.</returns>
-		public bool some(VectorFilterCallback pCallback) {
+		public bool some(Func<T, int, Vector<T>, bool> pCallback) {
 			return false;
 		}
 
 		/// <summary>
 		/// Sorts the elements in the Vector. This method sorts according to the function provided as the <paramref name="pCallback"/> parameter.
+		/// The logic of the compareFunction function is that, given two elements x and y , the function returns one of the following three values
+		/// * a negative number, if x should appear before y in the sorted sequence
+		/// * 0, if x equals y
+		/// * positive number, if x should appear after y in the sorted sequence 
 		/// </summary>
 		/// <param name="pCallback">A comparison method that determines the behavior of the sort.</param>
 		/// <returns>This Vector, with elements in the new order.</returns>
-		public Vector<T> sort(VectorSortCallback pCallback) {
+		public Vector<T> sort(Func<T, T, int> pCallback) {
 			return null;
 		}
 
@@ -369,7 +361,7 @@
 		[Obsolete("Just for compatibility with C# compiler. DO NOT USE")]
 		[Browsable(false)]
 		[EditorBrowsable(EditorBrowsableState.Never)]
-		public IEnumerator<T> GetEnumerator() {
+		public new IEnumerator<T> GetEnumerator() {
 			return new VectorEnumerator<T>();
 		}
 
@@ -384,7 +376,7 @@
 	[Obsolete("Just for compatibility with C# compiler. DO NOT USE")]
 	[Browsable(false)]
 	[EditorBrowsable(EditorBrowsableState.Never)]
-	public class VectorEnumerator<T> : IEnumerator<T> {
+	class VectorEnumerator<T> : IEnumerator<T> {
 		object IEnumerator.Current {
 			get {
 				return Current;

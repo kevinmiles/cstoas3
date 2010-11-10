@@ -6,7 +6,7 @@
 		/// Specifies the value of thisObject to be used within any function that ActionScript calls.
 		/// </summary>
 		/// <param name="thisObject">An object that specifies the value of thisObject within the function body. </param>
-		/// <param name="argArray"></param>
+		/// <param name="arguments"></param>
 		/// <returns></returns>
 		public object apply(object thisObject, object[] arguments) {
 			return default(object);

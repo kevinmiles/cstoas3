@@ -1,4 +1,6 @@
 ﻿namespace flash.media {
+	using System;
+
 	using events;
 
 	public class SoundChannel : EventDispatcher {
@@ -43,6 +45,6 @@
 		/// Dispatched when a sound has finished playing.
 		/// </summary>
 		[As3Event("Event.ACTIVATE")]
-		public event EventDelegate soundComplete;
+		public event Action<Event> soundComplete;
 	}
 }

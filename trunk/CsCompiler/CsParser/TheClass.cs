@@ -183,9 +183,7 @@
 			CsNamespace parent = pCsInterface.parent as CsNamespace;
 
 			if (parent != null) {
-				foreach (CsQualifiedIdentifierPart part in parent.qualified_identifier) {
-					name.Add(part.identifier.identifier);
-				}
+				name.AddRange(parent.qualified_identifier.Select(pArt => pArt.identifier.identifier));
 			}
 
 			NameSpace = string.Join(".", name.ToArray());
@@ -385,6 +383,52 @@
 				return;
 			}
 
+			CsEntityStruct entityStruct = pCsEntity as CsEntityStruct;
+			if (entityStruct != null) {
+				_baseEntityTyperef = entityStruct.base_type;
+
+				if (entityStruct.base_type.type != cs_entity_type.et_object)
+					Extends.Add(Helpers.GetType(entityStruct.base_type));
+
+				if (entityStruct.interfaces != null) {
+					foreach (CsEntityTypeRef @interface in entityStruct.interfaces) {
+						Implements.Add(Helpers.GetType(@interface));
+					}
+				}
+
+				Dictionary<string, int> methodNames = new Dictionary<string, int>();
+				bool methodsDone = false;
+				if (entityStruct.method_implementations == null) {
+					return;
+				}
+
+				foreach (CsEntityMethodImplementation methodImplementation in entityStruct.method_implementations) {
+					CsEntityMethod m = methodImplementation.implementation_method;
+					TheMethod tm = new TheMethod(m, this);
+					if (methodNames.ContainsKey(tm.Name)) {
+						methodNames[tm.Name]++;
+						int index = tm._index = methodNames[tm.Name];
+
+						if (!methodsDone) {
+							methodsDone = true;
+							foreach (KeyValuePair<CsMethod, TheMethod> method in _methods) {
+								method.Value._isUnique = false;
+								method.Value._index = --index;
+							}
+						}
+
+						tm._isUnique = false;
+
+					} else {
+						methodNames[tm.Name] = tm._index = 1;
+					}
+
+					_entityMethods.Add(m, tm);
+				}
+
+				return;
+			}
+
 			throw new NotImplementedException();
 		}
 
@@ -440,10 +484,8 @@
 			c = new TheMethod(pMethod, this);
 			Dictionary<string, bool> methodNames = new Dictionary<string, bool>();
 
-			foreach (KeyValuePair<CsEntityMethod, TheMethod> entityMethod in _entityMethods) {
-				if (!methodNames.ContainsKey(entityMethod.Value.Name)) {
-					continue;
-				}
+			foreach (KeyValuePair<CsEntityMethod, TheMethod> entityMethod in
+				_entityMethods.Where(pEntityMethod => methodNames.ContainsKey(pEntityMethod.Value.Name))) {
 				entityMethod.Value._isUnique = false;
 				c._isUnique = false;
 			}
