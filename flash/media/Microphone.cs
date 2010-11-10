@@ -1,4 +1,6 @@
 ﻿namespace flash.media {
+	using System;
+
 	using events;
 
 	public sealed class Microphone : EventDispatcher {
@@ -133,12 +135,12 @@
 		/// Dispatched when a microphone begins or ends a session.
 		/// </summary>
 		[As3Event("ActivityEvent.ACTIVITY")]
-		public event ActivityEventDelegate activity;
+		public event Action<ActivityEvent> activity;
 
 		/// <summary>
 		/// Dispatched when a microphone reports its status.
 		/// </summary>
 		[As3Event("StatusEvent.STATUS")]
-		public event StatusEventDelegate status;
+		public event Action<StatusEvent> status;
 	}
 }

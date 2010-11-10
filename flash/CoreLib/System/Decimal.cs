@@ -1,32 +1,74 @@
-﻿namespace flash.Global {
-	/// <summary>
-	/// A data type representing an IEEE-754 double-precision floating-point number. You can manipulate primitive numeric values by using the methods and properties associated with the Number class. This class is identical to the JavaScript Number class.
-	/// </summary>
-	public sealed class Number {
+﻿namespace System {
+	using flash;
+	using flash.Global;
+
+	[As3Name("parse", "parseFloat", "flash.utils.parseFloat")]
+	[As3Name("isFinite", "flash.utils.isFinite")]
+	[As3Name("isNaN", "flash.utils.isNaN")]
+	public struct Decimal {
+		private const Decimal d = 0;
+
+		public Decimal(int lo, int mid, int hi, bool isNegative, byte scale) {}
+		public Decimal (int value) {}
+		public Decimal (uint value) {}
+		public Decimal (long value)  {}
+		public Decimal (ulong value) {}
+		public Decimal (float value) {}
+		public Decimal (double value) {}
+		public Decimal (int[] bits) {}
+
+
+		/// <summary>
+		/// Converts a string to a floating-point number. The function reads, or parses , and returns the numbers in a string until it reaches a character that is not a part of the initial number. If the string does not begin with a number that can be parsed, parseFloat() returns NaN . White space preceding valid integers is ignored, as are trailing non-numeric characters.
+		/// </summary>
+		/// <param name="str">The string to read and convert to a floating-point number. </param>
+		/// <returns>A number or NaN (not a number).</returns>
+		public static Decimal parse(string str) {
+		    return d;
+		}
+
+		/// <summary>
+		/// Returns <c>true</c> if the value is a finite number, or <c>false</c> if the value is Infinity or -Infinity . The presence of Infinity or -Infinity indicates a mathematical error condition such as division by 0. 
+		/// </summary>
+		/// <param name="number">A number to evaluate as finite or infinite</param>
+		/// <returns>Returns <c>true</c> if it is a finite number or <c>false</c> if it is infinity or negative infinity  </returns>
+		public static bool isFinite(Decimal number) {
+			return false;
+		}
+
+		/// <summary>
+		/// Returns <c>true</c> if the value is NaN (not a number). The isNaN() function is useful for checking whether a mathematical expression evaluates successfully to a number. The most common use of isNaN() is to check the value returned from the parseInt() and parseFloat() functions. The NaN value is a special member of the Number data type that represents a value that is "not a number." 
+		/// </summary>
+		/// <param name="number">A numeric value or mathematical expression to evaluate.</param>
+		/// <returns>Returns <c>true</c> if the value is NaN (not a number) and <c>false</c> otherwise. </returns>
+		public static bool isNaN(Decimal number) {
+			return false;
+		}
+
 		/// <summary>
 		/// The largest representable number (double-precision IEEE-754).
 		/// </summary>
-		public const Number MAX_VALUE = null;
+		public const Decimal MAX_VALUE = 0;
 
 		/// <summary>
 		/// The smallest representable non-negative, non-zero, number (double-precision IEEE-754).
 		/// </summary>
-		public const Number MIN_VALUE = null;
+		public const Decimal MIN_VALUE = 0;
 
 		/// <summary>
 		/// The IEEE-754 value representing Not a Number (NaN).
 		/// </summary>
-		public const Number NaN = null;
+		public const Decimal NaN = 0;
 
 		/// <summary>
 		/// Specifies the IEEE-754 value representing negative infinity.
 		/// </summary>
-		public const Number NEGATIVE_INFINITY = null;
+		public const Decimal NEGATIVE_INFINITY = 0;
 
 		/// <summary>
 		/// Specifies the IEEE-754 value representing positive infinity.
 		/// </summary>
-		public const Number POSITIVE_INFINITY = null;
+		public const Decimal POSITIVE_INFINITY = 0;
 
 
 		/// <summary>
@@ -58,29 +100,5 @@
 		public string toPrecision(uint precision) {
 			return "";
 		}
-
-		//public static implicit operator Number(double pStr) {
-		//    return null;
-		//}
-
-		//public static implicit operator double (Number pStr) {
-		//    return null;
-		//}
-
-		//public static implicit operator Number(float pStr) {
-		//    return null;
-		//}
-
-		//public static implicit operator float (Number pStr) {
-		//    return null;
-		//}
-
-		//public static explicit operator uint(Number val) {
-		//    return new uint();
-		//}
-
-		//public static explicit operator int(Number val) {
-		//    return new int();
-		//}
 	}
 }

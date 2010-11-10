@@ -1,4 +1,6 @@
 ﻿namespace flash.desktop {
+	using System;
+
 	using Global;
 
 	public class Clipboard {
@@ -66,8 +68,6 @@
 			return false;
 		}
 
-		public delegate object ClipboardHandler();
-
 
 		/// <summary>
 		/// Adds a reference to a handler function that produces the data for the specified format on demand. Use this method to defer creation or rendering of the data until it is actually accessed. Flash Player requires a user event (such as a key press or mouse click) before using setDataHandler() . In AIR, this restriction only applies to content outside of the application security sandbox.
@@ -79,7 +79,7 @@
 		/// <exception cref="TypeError">format or handler is <see langword="null"/>.</exception>
 		/// <exception cref="IllegalOperationError">The Clipboard object requested is no longer in scope (AIR only).</exception>
 		/// <exception cref="SecurityError">Reading from or writing to the clipboard is not permitted in this context. In Flash Player, you can only call this method successfully during the processing of a user event (such as a key press or mouse click). In AIR, this restriction only applies to content outside of the application security sandbox.</exception>
-		public bool setDataHandler(ClipboardFormats pFormat, ClipboardHandler pHandler, bool pSerializable) {
+		public bool setDataHandler(ClipboardFormats pFormat, Func<object> pHandler, bool pSerializable) {
 			return false;
 		}
 	}

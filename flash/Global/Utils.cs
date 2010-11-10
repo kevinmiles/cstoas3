@@ -1,18 +1,12 @@
 ﻿namespace flash.Global {
 	[As3Name("trace", "")]
 	[As3Name("getTimer", "flash.utils.getTimer")]
-	[As3Name("unescape", "flash.utils.unescape")]
-	[As3Name("parseInt", "flash.utils.parseInt")]
-	[As3Name("parseInt", "flash.utils.parseInt")]
-	[As3Name("parseFloat", "flash.utils.parseFloat")]
-	[As3Name("isXMLName", "flash.utils.isXMLName")]
+	[As3Name(@"unescape", @"flash.utils.unescape")]
 	[As3Name("decodeURI", "flash.utils.decodeURI")]
 	[As3Name("decodeURIComponent", "flash.utils.decodeURIComponent")]
 	[As3Name("encodeURI", "flash.utils.encodeURI")]
 	[As3Name("encodeURIComponent", "flash.utils.encodeURIComponent")]
 	[As3Name("escape", "flash.utils.escape")]
-	[As3Name("isFinite", "flash.utils.isFinite")]
-	[As3Name("isNaN", "flash.utils.isNaN")]
 	public static class Utils {
 		/// <summary>
 		/// Decodes an encoded URI into a string. Returns a string in which all characters previously encoded by the encodeURI function are restored to their unencoded representation.
@@ -60,56 +54,7 @@
 			return null;
 		}
 
-		/// <summary>
-		/// Returns <c>true</c> if the value is a finite number, or <c>false</c> if the value is Infinity or -Infinity . The presence of Infinity or -Infinity indicates a mathematical error condition such as division by 0. 
-		/// </summary>
-		/// <param name="number">A number to evaluate as finite or infinite</param>
-		/// <returns>Returns <c>true</c> if it is a finite number or <c>false</c> if it is infinity or negative infinity  </returns>
-		public static bool isFinite(Number number) {
-			return false;
-		}
-
-		/// <summary>
-		/// Returns <c>true</c> if the value is NaN (not a number). The isNaN() function is useful for checking whether a mathematical expression evaluates successfully to a number. The most common use of isNaN() is to check the value returned from the parseInt() and parseFloat() functions. The NaN value is a special member of the Number data type that represents a value that is "not a number." 
-		/// </summary>
-		/// <param name="number">A numeric value or mathematical expression to evaluate.</param>
-		/// <returns>Returns <c>true</c> if the value is NaN (not a number) and <c>false</c> otherwise. </returns>
-		public static bool isNaN(Number number) {
-			return false;
-		}
-
-		/// <summary>
-		/// Determines whether the specified string is a valid name for an XML element or attribute.
-		/// </summary>
-		/// <param name="str">A string to evaluate.</param>
-		/// <returns>Returns <c>true</c> if the <paramref name="str"/> argument is a valid XML name; <c>false</c> otherwise. </returns>
-		public static bool isXMLName(string str) {
-			return false;
-		}
-
-		/// <summary>
-		/// Converts a string to a floating-point number. The function reads, or parses , and returns the numbers in a string until it reaches a character that is not a part of the initial number. If the string does not begin with a number that can be parsed, parseFloat() returns NaN . White space preceding valid integers is ignored, as are trailing non-numeric characters.
-		/// </summary>
-		/// <param name="str">The string to read and convert to a floating-point number. </param>
-		/// <returns>A number or NaN (not a number).</returns>
-		public static Number parseFloat(string str) {
-			return new Number();
-		}
-
-		/// <summary>
-		/// Converts a string to an integer. If the specified string in the parameters cannot be converted to a number, the function returns NaN . Strings beginning with 0x are interpreted as hexadecimal numbers. Unlike in previous versions of ActionScript, integers beginning with 0 are not interpreted as octal numbers. You must specify a radix of 8 for octal numbers. White space and zeroes preceding valid integers are ignored, as are trailing non-numeric characters.
-		/// </summary>
-		/// <param name="str">A string to convert to an integer.</param>
-		/// <param name="radix">An integer representing the radix (base) of the number to parse. Legal values are from 2 to 36.</param>
-		/// <returns>A number or NaN (not a number).</returns>
-		public static Number parseInt(string str, uint radix) {
-			return new Number();
-		}
-
 		
-		public static Number parseInt(string str) {
-			return new Number();
-		}
 
 		/// <summary>
 		/// Evaluates the parameter stir as a string, decodes the string from URL-encoded format (converting all hexadecimal sequences to ASCII characters), and returns the string. 

@@ -23,36 +23,36 @@
 
 
 		/// <summary>
-		/// Clears the contents of the byte array and resets the length and position properties to 0. Calling this method explicitly frees up the memory used by the ByteArray instance. 
+		/// Clears the contents of the byte array and resets the length and position properties to 0. Calling this method explicitly frees up the memory used by the ByteArray instance.
 		/// </summary>
 		public void clear() {
 			return;
 		}
 
 		/// <summary>
-		/// Compresses the byte array. The entire byte array is compressed. For content running in Adobe AIR, you can specify a compression algorithm by passing a value (defined in the CompressionAlgorithm class) as the algorithm parameter. Flash Player supports only the default algorithm, zlib. 
+		/// Compresses the byte array. The entire byte array is compressed. For content running in Adobe AIR, you can specify a compression algorithm by passing a value (defined in the CompressionAlgorithm class) as the algorithm parameter. Flash Player supports only the default algorithm, zlib.
 		/// </summary>
-		/// <param name="pAlgorithm">The compression algorithm to use when compressing. Valid values are defined as constants in the <see cref="CompressionAlgorithm"/> class. The default is to use zlib format. This parameter is only recognized for content running in Adobe AIR. Flash Player supports only the default algorithm, zlib, and throws an exception if you attempt to pass a value for this parameter. Calling compress( <see cref="CompressionAlgorithm"/>.DEFLATE) has the same effect as calling the deflate() method.</param>
-		public void compress(CompressionAlgorithm pAlgorithm) {
+		/// <param name="algorithm">The compression algorithm to use when compressing. Valid values are defined as constants in the <see cref="CompressionAlgorithm"/> class. The default is to use zlib format. This parameter is only recognized for content running in Adobe AIR. Flash Player supports only the default algorithm, zlib, and throws an exception if you attempt to pass a value for this parameter. Calling compress( <see cref="CompressionAlgorithm"/>.DEFLATE) has the same effect as calling the deflate() method.</param>
+		public void compress(CompressionAlgorithm algorithm) {
 			return;
 		}
 
 		/// <summary>
-		/// Compresses the byte array. The entire byte array is compressed. For content running in Adobe AIR, you can specify a compression algorithm by passing a value (defined in the CompressionAlgorithm class) as the algorithm parameter. Flash Player supports only the default algorithm, zlib. 
+		/// Compresses the byte array. The entire byte array is compressed. For content running in Adobe AIR, you can specify a compression algorithm by passing a value (defined in the CompressionAlgorithm class) as the algorithm parameter. Flash Player supports only the default algorithm, zlib.
 		/// </summary>
 		public void compress() {
 			return;
 		}
 
 		/// <summary>
-		/// Compresses the byte array using the deflate compression algorithm. The entire byte array is compressed. 
+		/// Compresses the byte array using the deflate compression algorithm. The entire byte array is compressed.
 		/// </summary>
 		public void deflate() {
 			return;
 		}
 
 		/// <summary>
-		/// Decompresses the byte array using the deflate compression algorithm. The byte array must have been compressed using the same algorithm. 
+		/// Decompresses the byte array using the deflate compression algorithm. The byte array must have been compressed using the same algorithm.
 		/// </summary>
 		/// <exception cref="IOError">The data is not valid compressed data; it was not compressed with the same compression algorithm used to compress.</exception>
 		public void inflate() {
@@ -60,7 +60,7 @@
 		}
 
 		/// <summary>
-		/// Reads a Boolean value from the byte stream. A single byte is read, and true is returned if the byte is nonzero, false otherwise. 
+		/// Reads a Boolean value from the byte stream. A single byte is read, and true is returned if the byte is nonzero, false otherwise.
         /// </summary>
 		/// <returns>Returns true if the byte is nonzero, false otherwise. </returns>
 		/// <exception cref="EOFError"></exception>
@@ -78,7 +78,7 @@
 		}
 
 		/// <summary>
-		/// Reads the number of data bytes, specified by the length parameter, from the byte stream. The bytes are read into the <see cref="ByteArray"/> object specified by the bytes parameter, and the bytes are written into the destination ByteArray starting at the position specified by offset . 
+		/// Reads the number of data bytes, specified by the length parameter, from the byte stream. The bytes are read into the <see cref="ByteArray"/> object specified by the bytes parameter, and the bytes are written into the destination ByteArray starting at the position specified by offset .
 		/// </summary>
 		/// <param name="pByteArray">The <see cref="ByteArray"/> object to read data into.</param>
 		/// <param name="pOffset">The offset (position) in bytes at which the read data should be written. </param>
@@ -89,7 +89,7 @@
 		}
 
 		/// <summary>
-		/// Reads the number of data bytes, specified by the length parameter, from the byte stream. The bytes are read into the <see cref="ByteArray"/> object specified by the bytes parameter, and the bytes are written into the destination ByteArray starting at the position specified by offset . 
+		/// Reads the number of data bytes, specified by the length parameter, from the byte stream. The bytes are read into the <see cref="ByteArray"/> object specified by the bytes parameter, and the bytes are written into the destination ByteArray starting at the position specified by offset .
 		/// </summary>
 		/// <param name="pByteArray">The <see cref="ByteArray"/> object to read data into.</param>
 		/// <param name="pOffset">The offset (position) in bytes at which the read data should be written. </param>
@@ -99,7 +99,7 @@
 		}
 
 		/// <summary>
-		/// Reads the number of data bytes, specified by the length parameter, from the byte stream. The bytes are read into the <see cref="ByteArray"/> object specified by the bytes parameter, and the bytes are written into the destination ByteArray starting at the position specified by offset . 
+		/// Reads the number of data bytes, specified by the length parameter, from the byte stream. The bytes are read into the <see cref="ByteArray"/> object specified by the bytes parameter, and the bytes are written into the destination ByteArray starting at the position specified by offset .
 		/// </summary>
 		/// <param name="pByteArray">The <see cref="ByteArray"/> object to read data into.</param>
 		/// <exception cref="EOFError">There is not sufficient data available to read.</exception>
@@ -182,7 +182,7 @@
 		}
 
 		/// <summary>
-		/// Reads a sequence of UTF-8 bytes specified by the length parameter from the byte stream and returns a string. 
+		/// Reads a sequence of UTF-8 bytes specified by the length parameter from the byte stream and returns a string.
 		/// </summary>
 		/// <param name="pLength">An unsigned short indicating the length of the UTF-8 bytes.</param>
 		/// <returns>A string composed of the UTF-8 bytes of the specified length.</returns>
@@ -202,9 +202,9 @@
 		/// <summary>
 		/// Decompresses the byte array. For content running in Adobe AIR, you can specify a compression algorithm by passing a value (defined in the CompressionAlgorithm class) as the algorithm parameter. The byte array must have been compressed using the same algorithm. Flash Player supports only the default algorithm, <c>zlib</c>.
 		/// </summary>
-		/// <param name="pAlgorithm">The compression algorithm to use when decompressing. This must be the same compression algorithm used to compress the data. Valid values are defined as constants in the CompressionAlgorithm class. The default is to use zlib format. This parameter is only recognized for content running in Adobe AIR. Flash Player supports only the default algorithm, zlib, and throws an exception if you attempt to pass a value for this parameter.</param>
+		/// <param name="algorithm">The compression algorithm to use when decompressing. This must be the same compression algorithm used to compress the data. Valid values are defined as constants in the CompressionAlgorithm class. The default is to use zlib format. This parameter is only recognized for content running in Adobe AIR. Flash Player supports only the default algorithm, zlib, and throws an exception if you attempt to pass a value for this parameter.</param>
 		/// <exception cref="IOError">The data is not valid compressed data; it was not compressed with the same compression algorithm used to compress.</exception>
-		public void uncompress(CompressionAlgorithm pAlgorithm) {
+		public void uncompress(CompressionAlgorithm algorithm) {
 			return;
 		}
 
@@ -219,8 +219,8 @@
 		/// <summary>
 		/// Writes a Boolean value. A single byte is written according to the value parameter, either 1 if true or 0 if false .
 		/// </summary>
-		/// <param name="pBoolean">A Boolean value determining which byte is written. If the parameter is true , the method writes a 1; if false , the method writes a 0.</param>
-		public void writeBoolean(bool pBoolean) {
+		/// <param name="boolean">A Boolean value determining which byte is written. If the parameter is true , the method writes a 1; if false , the method writes a 0.</param>
+		public void writeBoolean(bool boolean) {
 			return;
 		}
 
@@ -291,7 +291,7 @@
 		}
 
 		/// <summary>
-		/// Writes a UTF-8 string to the byte stream. Similar to the <see cref="writeUTF"/>() method, but writeUTFBytes() does not prefix the string with a 16-bit length word. 
+		/// Writes a UTF-8 string to the byte stream. Similar to the <see cref="writeUTF"/>() method, but writeUTFBytes() does not prefix the string with a 16-bit length word.
 		/// </summary>
 		/// <param name="pString">The string value to be written.</param>
 		public void writeUTFBytes(string pString) {
@@ -391,7 +391,7 @@
 		/// <summary>
 		/// Writes a byte to the byte stream. The low 8 bits of the parameter are used. The high 24 bits are ignored.
 		/// </summary>
-		/// <param name="pByte">A 32-bit integer. The low 8 bits are written to the byte stream.</param>
+		/// <param name="value">A 32-bit integer. The low 8 bits are written to the byte stream.</param>
 		public void writeByte(byte value) {
 			return;
 		}
@@ -401,9 +401,9 @@
 		/// <para>If the length parameter is omitted, the default length of 0 is used; the method writes the entire buffer starting at offset . If the offset parameter is also omitted, the entire buffer is written. </para>
 		/// <para>If offset or length is out of range, they are clamped to the beginning and end of the bytes array. </para>
 		/// </summary>
-		/// <param name="pByteArray">The <see cref="ByteArray"/> object.</param>
-		/// <param name="pOffset">A zero-based index indicating the position into the array to begin writing.</param>
-		/// <param name="pLength">An unsigned integer indicating how far into the buffer to write.</param>
+		/// <param name="bytes">The <see cref="ByteArray"/> object.</param>
+		/// <param name="offset">A zero-based index indicating the position into the array to begin writing.</param>
+		/// <param name="length">An unsigned integer indicating how far into the buffer to write.</param>
 		public void writeBytes(ByteArray bytes, uint offset, uint length) {
 			return;
 		}

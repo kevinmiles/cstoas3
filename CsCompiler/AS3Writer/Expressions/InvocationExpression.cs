@@ -64,20 +64,9 @@
 
 			//patch
 			if (name.Contains("{0}")) {
-				//patch for "delete(object)"
-				if (name.Contains("*")) {
-					int dot = name.LastIndexOf(".");
-					int star = name.IndexOf("*", StringComparison.Ordinal) + 1;
-
-					string arg0 = dot == -1 ? string.Empty : name.Substring(0, dot);
-
-					name = string.Format(name.Substring(star), arg0, indexes[0]);
-					
-				} else {
-					string p = indexes[0];
-					indexes.RemoveAt(0);
-					name = string.Format(name, p, string.Join(", ", indexes.ToArray()));	
-				}
+				string p = indexes[0];
+				indexes.RemoveAt(0);
+				name = string.Format(name, p, string.Join(", ", indexes.ToArray()));
 
 			} else {
 				name = name + "(" + string.Join(", ", indexes.ToArray()) + ")";

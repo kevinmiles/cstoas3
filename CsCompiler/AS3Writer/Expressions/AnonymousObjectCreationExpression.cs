@@ -10,11 +10,13 @@
 
 			if (ex.member_declarator_list != null) {
 				foreach (var declarator in ex.member_declarator_list) {
-					builder.AppendFormat(@"""{0}"" = {1}",
+					builder.AppendFormat(@"""{0}"" = {1}, ",
 						declarator.identifier.identifier,
 						FactoryExpressionCreator.Parse(declarator.expression).Value
 					);
-				}	
+				}
+
+				builder.Remove(builder.Length - 2, 2);
 			}
 
 			builder.Append("}");

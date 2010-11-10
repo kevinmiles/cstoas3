@@ -36,7 +36,7 @@
 		/// Dispatched when a user first generates a context menu but before the contents of the context menu are displayed.
 		/// </summary>
 		[As3Event("ContextMenuEvent.MENU_SELECT")]
-		public event ContextMenuEventDelegate menuSelect;
+		public event Action<ContextMenuEvent> menuSelect;
 
 		
 	}

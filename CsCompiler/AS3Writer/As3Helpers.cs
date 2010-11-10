@@ -69,6 +69,7 @@
 
 			if (pType.Equals("long", StringComparison.OrdinalIgnoreCase) ||
 				pType.Equals("float", StringComparison.OrdinalIgnoreCase) ||
+				pType.Equals("decimal", StringComparison.OrdinalIgnoreCase) ||
 				pType.Equals("double", StringComparison.OrdinalIgnoreCase))
 				return "Number";
 			

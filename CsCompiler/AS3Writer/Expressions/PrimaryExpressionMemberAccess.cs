@@ -10,7 +10,7 @@
 			string name;
 			bool renamed = Helpers.GetRealName(ex, ex.identifier.identifier, out name);
 
-			if (renamed && !name.Contains("*")) {
+			if (renamed) {
 				return new Expression(name, pStatement.entity_typeref);
 			}
 

@@ -1,4 +1,6 @@
 ﻿namespace flash.ui {
+	using System;
+
 	using events;
 
 	public class ContextMenuItem : EventDispatcher {
@@ -30,7 +32,7 @@
 		/// Dispatched when a user selects an item from a context menu.
 		/// </summary>
 		[As3Event("ContextMenuEvent.MENU_ITEM_SELECT")]
-		public event ContextMenuEventDelegate menuItemSelect;
+		public event Action<ContextMenuEvent> menuItemSelect;
 
 		/// <summary>
 		/// Creates a new ContextMenuItem object that can be added to the <see cref="ContextMenu"/>.customItems array.

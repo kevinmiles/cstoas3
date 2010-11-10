@@ -1,6 +1,8 @@
 ﻿namespace flash.system {
 	using events;
 
+	using global::System;
+
 	public class IME : EventDispatcher {
 		public static IMEConversionMode conversionMode;
 		public static bool enabled;
@@ -16,6 +18,6 @@
 		}
 
 		[As3Event("IMEEvent.IME_COMPOSITION")]
-		public event IMEEventDelegate imeComposition;
+		public event Action<IMEEvent> imeComposition;
 	}
 }
