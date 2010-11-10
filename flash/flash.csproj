@@ -78,7 +78,6 @@
     <Compile Include="CoreLib\System\Decimal.cs" />
     <Compile Include="CoreLib\System\Func.cs" />
     <Compile Include="CoreLib\System\Object.cs" />
-    <None Include="Global\String.cs" />
     <Compile Include="CoreLib\System\Runtime\CompilerServices\AccessedThroughPropertyAttribute.cs" />
     <Compile Include="CoreLib\System\Runtime\CompilerServices\CallConvCdecl.cs" />
     <Compile Include="CoreLib\System\Runtime\CompilerServices\CallConvFastcall.cs" />
@@ -246,11 +245,9 @@
     <Compile Include="geom\Rectangle.cs" />
     <Compile Include="geom\Transform.cs" />
     <Compile Include="geom\Vector3D.cs" />
-    <None Include="Global\Class.cs" />
     <Compile Include="CoreLib\System\UInt32.cs" />
     <Compile Include="Global\Date.cs" />
     <Compile Include="Global\EmbedAttribute.cs" />
-    <Compile Include="Global\Function.cs" />
     <Compile Include="Global\Math.cs" />
     <Compile Include="Global\Namespace.cs" />
     <Compile Include="Global\QName.cs" />
