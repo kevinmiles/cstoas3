@@ -562,7 +562,7 @@
 			}
 
 			if (pEntity is CsEntityVariable) {
-				m = ((CsEntityVariable)pEntity).attributes;
+				m = ((CsEntityClass)((CsEntityVariable)pEntity).type.u).attributes;
 				//addImports(m);
 				return getRealName(m, pName, out pNewName);
 			}

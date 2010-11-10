@@ -64,7 +64,7 @@
 
 		public static List<string> Parse(string[] pSourceFiles, string pTargetLanguage, string pOutputDirectory, bool pDebug, Dictionary<string, string> pArguments, string pRoot) {
 			INamespaceParser parser = ConverterFactory.GetConverter(pTargetLanguage);
-			Root = pRoot;
+			Root = pRoot ?? string.Empty;
 			_parser = new CsParser(pOutputDirectory, parser);
 
 			return _parser.Parse(pSourceFiles, pDebug, pArguments);
