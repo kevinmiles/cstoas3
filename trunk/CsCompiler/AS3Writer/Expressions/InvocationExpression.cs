@@ -59,7 +59,6 @@
 					} else {
 						name += ".fire";
 					}
-
 				}
 			} 
 
@@ -69,7 +68,10 @@
 				if (name.Contains("*")) {
 					int dot = name.LastIndexOf(".");
 					int star = name.IndexOf("*", StringComparison.Ordinal) + 1;
-					name = string.Format(name.Substring(star), name.Substring(0, dot), indexes[0]);
+
+					string arg0 = dot == -1 ? string.Empty : name.Substring(0, dot);
+
+					name = string.Format(name.Substring(star), arg0, indexes[0]);
 					
 				} else {
 					string p = indexes[0];
