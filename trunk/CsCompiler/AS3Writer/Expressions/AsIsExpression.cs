@@ -6,11 +6,12 @@
 	public class AsIsExpression : IExpressionParser {
 		public Expression Parse(CsExpression pStatement) {
 			CsAsIsExpression ex = (CsAsIsExpression)pStatement;
-
+			
 			return new Expression(
 				FactoryExpressionCreator.Parse(ex.expression).Value 
 				+ " "
-				+ Helpers.GetTokenType(ex.oper) + " " + Helpers.GetType(ex.entity_typeref),
+				+ Helpers.GetTokenType(ex.oper) + " " + Helpers.GetType(ex.type),
+				//+ Helpers.GetTokenType(ex.oper) + " " + Helpers.GetType(ex.entity_typeref),
 				ex.entity_typeref
 			);
 		}

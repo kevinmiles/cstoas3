@@ -118,13 +118,13 @@
 		public static string MainClassName { get; internal set; }
 
 		public void PostBuildEvents(bool pDebug, Dictionary<string, string> pArguments, out string pOutput, out string[] pErrors) {
-			ProcessArguments process = new ProcessArguments();
-			
 			if (!pArguments.ContainsKey(@"FlexSdkPath")) {
 				pOutput = string.Empty;
 				pErrors = new string[0];
 				return;
 			}
+
+			ProcessArguments process = new ProcessArguments();
 
 			As3ProjectBuilder builder = new As3ProjectBuilder(pArguments[@"FlexSdkPath"]);
 			pArguments.Remove(@"FlexSdkPath");

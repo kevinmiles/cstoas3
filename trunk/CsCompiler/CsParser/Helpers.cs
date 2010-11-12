@@ -472,6 +472,11 @@
 				return getRealName(csEntityStruct.attributes, pName, out pRealName);
 			}
 
+			CsEntityInterface csEntityInterface = pExpression as CsEntityInterface;
+			if (csEntityInterface != null) {
+				return getRealName(csEntityInterface.attributes, pName, out pRealName);
+			}
+
 			CsPrimaryExpressionMemberAccess csPrimaryExpressionMemberAccess = pExpression as CsPrimaryExpressionMemberAccess;
 			if (csPrimaryExpressionMemberAccess != null) {
 				return GetRealName(csPrimaryExpressionMemberAccess.expression.entity, pName, out pRealName);
@@ -489,7 +494,7 @@
 
 			CsEntityVariable csEntityVariable = pExpression as CsEntityVariable;
 			if (csEntityVariable != null) {
-				return GetRealName(((CsEntityClass)csEntityVariable.type.u).attributes, pName, out pRealName);
+				return GetRealName(csEntityVariable.type.u, pName, out pRealName);
 			}
 
 			CsEntityConstant csEntityConstant = pExpression as CsEntityConstant;
@@ -510,6 +515,17 @@
 			CsPredefinedTypeMemberAccess csPredefinedTypeMemberAccess = pExpression as CsPredefinedTypeMemberAccess;
 			if (csPredefinedTypeMemberAccess != null) {
 				return GetRealName(csPredefinedTypeMemberAccess.entity_typeref == null ? csPredefinedTypeMemberAccess.entity : csPredefinedTypeMemberAccess.entity_typeref.u, pName, out pRealName);
+			}
+
+			CsEntityInstanceSpecifier csEntityInstanceSpecifier = pExpression as CsEntityInstanceSpecifier;
+			if (csEntityInstanceSpecifier != null) {
+				return GetRealName(csEntityInstanceSpecifier.type.u, pName, out pRealName);
+			}
+
+			CsEntityDelegate csEntityDelegate = pExpression as CsEntityDelegate;
+			if (csEntityDelegate != null) {
+				pRealName = pName;
+				return false;
 			}
 
 			throw new NotImplementedException();

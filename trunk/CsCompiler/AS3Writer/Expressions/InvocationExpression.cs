@@ -57,7 +57,8 @@
 						name = "dispatchEvent";
 
 					} else {
-						name += ".fire";
+						name = string.Format(@"if (_e{0}) _e{0}.fire", name);
+						//name += ".fire";
 					}
 				}
 			} 
