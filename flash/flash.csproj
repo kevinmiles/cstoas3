@@ -38,8 +38,7 @@
     <DebugType>none</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>
-    </DefineConstants>
+    <DefineConstants>NET_2_0, NET_4_0, BOOTSTRAP_NET_4_0</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
@@ -50,13 +49,13 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>none</DebugType>
-    <Optimize>true</Optimize>
+    <Optimize>false</Optimize>
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>NET_2_0, NET_4_0, BOOTSTRAP_NET_4_0</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
+    <ErrorReport>send</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Release\flash.XML</DocumentationFile>
-    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
     <NoStdLib>true</NoStdLib>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -73,63 +72,103 @@
     <Compile Include="accessibility\Accessibility.cs" />
     <Compile Include="accessibility\AccessibilityProperties.cs" />
     <Compile Include="Attributes.cs" />
+    <Compile Include="CoreLib\StringBuilder.cs" />
     <Compile Include="CoreLib\System\Action.cs" />
-    <Compile Include="CoreLib\System\Attributes.cs" />
+    <Compile Include="CoreLib\System\Attributes\ComponentModel\BrowsableAttribute.cs" />
+    <Compile Include="CoreLib\System\Attributes\ComponentModel\EditorBrowsableState.cs" />
+    <Compile Include="CoreLib\System\Attributes\AttributeUsageAttribute.cs" />
+    <Compile Include="CoreLib\System\Attributes\ObsoleteAttribute.cs" />
+    <Compile Include="CoreLib\System\Attributes\ParamArrayAttribute.cs" />
+    <Compile Include="CoreLib\System\Attributes\FlagsAttribute.cs" />
+    <Compile Include="CoreLib\System\Attributes\Diagnostics\ConditionalAttribute.cs" />
+    <Compile Include="CoreLib\System\Attributes\GeneratedCodeAttribute.cs" />
+    <Compile Include="CoreLib\System\Attributes\Reflection\AssemblyVersionAttribute.cs" />
+    <Compile Include="CoreLib\System\Attributes\Reflection\AssemblyProductAttribute.cs" />
+    <Compile Include="CoreLib\System\Attributes\Reflection\AssemblyTitleAttribute.cs" />
+    <Compile Include="CoreLib\System\Attributes\Reflection\AssemblyDescriptionAttribute.cs" />
+    <Compile Include="CoreLib\System\Attributes\Reflection\AssemblyConfigurationAttribute.cs" />
+    <Compile Include="CoreLib\System\Attributes\Reflection\AssemblyCompanyAttribute.cs" />
+    <Compile Include="CoreLib\System\Attributes\Reflection\AssemblyCopyrightAttribute.cs" />
+    <Compile Include="CoreLib\System\Attributes\Reflection\AssemblyCultureAttribute.cs" />
+    <Compile Include="CoreLib\System\Attributes\Reflection\AssemblyTrademarkAttribute.cs" />
+    <Compile Include="CoreLib\System\Attributes\Reflection\AssemblyFileVersionAttribute.cs" />
+    <Compile Include="CoreLib\System\Attributes\Reflection\DefaultMemberAttribute.cs" />
+    <Compile Include="CoreLib\System\Attributes\Runtime\InteropServices\ComVisibleAttribute.cs" />
+    <Compile Include="CoreLib\System\Attributes\Runtime\InteropServices\GuidAttribute.cs" />
+    <Compile Include="CoreLib\System\Attributes\Runtime\InteropServices\OutAttribute.cs" />
+    <Compile Include="CoreLib\System\Attributes\Runtime\Versioning\TargetFrameworkAttribute.cs" />
+    <Compile Include="CoreLib\System\Attribute.cs" />
+    <Compile Include="CoreLib\System\AttributeTargets.cs" />
+    <Compile Include="CoreLib\System\Collections\Generic\IEnumerable.cs" />
+    <Compile Include="CoreLib\System\Collections\Generic\IEnumerator.cs" />
+    <Compile Include="CoreLib\System\Collections\Generic\IEqualityComparer.cs" />
+    <Compile Include="CoreLib\System\Collections\Generic\EqualityComparer.cs" />
+    <Compile Include="CoreLib\System\Collections\IEqualityComparer.cs" />
     <Compile Include="CoreLib\System\Decimal.cs" />
+    <Compile Include="CoreLib\System\Attributes\Diagnostics\SuppressMessageAttribute.cs" />
+    <Compile Include="CoreLib\System\Attributes\Diagnostics\DebuggableAttribute.cs" />
+    <Compile Include="CoreLib\System\Attributes\Diagnostics\DebuggerBrowsableAttribute.cs" />
+    <Compile Include="CoreLib\System\Attributes\Diagnostics\DebuggerDisplayAttribute.cs" />
+    <Compile Include="CoreLib\System\Attributes\Diagnostics\DebuggerHiddenAttribute.cs" />
+    <Compile Include="CoreLib\System\Attributes\Diagnostics\DebuggerNonUserCodeAttribute.cs" />
+    <Compile Include="CoreLib\System\Attributes\Diagnostics\DebuggerStepperBoundaryAttribute.cs" />
+    <Compile Include="CoreLib\System\Attributes\Diagnostics\DebuggerStepThroughAttribute.cs" />
+    <Compile Include="CoreLib\System\Attributes\Diagnostics\DebuggerTypeProxyAttribute.cs" />
+    <Compile Include="CoreLib\System\Attributes\Diagnostics\DebuggerVisualizerAttribute.cs" />
     <Compile Include="CoreLib\System\Func.cs" />
     <Compile Include="CoreLib\System\Object.cs" />
-    <Compile Include="CoreLib\System\Runtime\CompilerServices\AccessedThroughPropertyAttribute.cs" />
-    <Compile Include="CoreLib\System\Runtime\CompilerServices\CallConvCdecl.cs" />
-    <Compile Include="CoreLib\System\Runtime\CompilerServices\CallConvFastcall.cs" />
-    <Compile Include="CoreLib\System\Runtime\CompilerServices\CallConvStdcall.cs" />
-    <Compile Include="CoreLib\System\Runtime\CompilerServices\CallConvThiscall.cs" />
-    <Compile Include="CoreLib\System\Runtime\CompilerServices\CompilationRelaxations.cs" />
-    <Compile Include="CoreLib\System\Runtime\CompilerServices\CompilationRelaxationsAttribute.cs" />
-    <Compile Include="CoreLib\System\Runtime\CompilerServices\CompilerGeneratedAttribute.cs" />
-    <Compile Include="CoreLib\System\Runtime\CompilerServices\CompilerGlobalScopeAttribute.cs" />
-    <Compile Include="CoreLib\System\Runtime\CompilerServices\CompilerMarshalOverride.cs" />
-    <Compile Include="CoreLib\System\Runtime\CompilerServices\ConditionalWeakTable.cs" />
-    <Compile Include="CoreLib\System\Runtime\CompilerServices\CustomConstantAttribute.cs" />
-    <Compile Include="CoreLib\System\Runtime\CompilerServices\DateTimeConstantAttribute.cs" />
-    <Compile Include="CoreLib\System\Runtime\CompilerServices\DecimalConstantAttribute.cs" />
-    <Compile Include="CoreLib\System\Runtime\CompilerServices\DefaultDependencyAttribute.cs" />
-    <Compile Include="CoreLib\System\Runtime\CompilerServices\DependencyAttribute.cs" />
-    <Compile Include="CoreLib\System\Runtime\CompilerServices\DiscardableAttribute.cs" />
-    <Compile Include="CoreLib\System\Runtime\CompilerServices\FixedAddressValueTypeAttribute.cs" />
-    <Compile Include="CoreLib\System\Runtime\CompilerServices\FixedBufferAttribute.cs" />
-    <Compile Include="CoreLib\System\Runtime\CompilerServices\HasCopySemanticsAttribute.cs" />
-    <Compile Include="CoreLib\System\Runtime\CompilerServices\IDispatchConstantAttribute.cs" />
-    <Compile Include="CoreLib\System\Runtime\CompilerServices\IndexerNameAttribute.cs" />
-    <Compile Include="CoreLib\System\Runtime\CompilerServices\InternalsVisibleToAttribute.cs" />
-    <Compile Include="CoreLib\System\Runtime\CompilerServices\IsBoxed.cs" />
-    <Compile Include="CoreLib\System\Runtime\CompilerServices\IsByValue.cs" />
-    <Compile Include="CoreLib\System\Runtime\CompilerServices\IsConst.cs" />
-    <Compile Include="CoreLib\System\Runtime\CompilerServices\IsCopyConstructed.cs" />
-    <Compile Include="CoreLib\System\Runtime\CompilerServices\IsExplicitlyDereferenced.cs" />
-    <Compile Include="CoreLib\System\Runtime\CompilerServices\IsImplicitlyDereferenced.cs" />
-    <Compile Include="CoreLib\System\Runtime\CompilerServices\IsJitIntrinsic.cs" />
-    <Compile Include="CoreLib\System\Runtime\CompilerServices\IsLong.cs" />
-    <Compile Include="CoreLib\System\Runtime\CompilerServices\IsPinned.cs" />
-    <Compile Include="CoreLib\System\Runtime\CompilerServices\IsSignUnspecifiedByte.cs" />
-    <Compile Include="CoreLib\System\Runtime\CompilerServices\IsUdtReturn.cs" />
-    <Compile Include="CoreLib\System\Runtime\CompilerServices\IsVolatile.cs" />
-    <Compile Include="CoreLib\System\Runtime\CompilerServices\IUnknownConstantAttribute.cs" />
-    <Compile Include="CoreLib\System\Runtime\CompilerServices\LoadHint.cs" />
-    <Compile Include="CoreLib\System\Runtime\CompilerServices\MethodCodeType.cs" />
-    <Compile Include="CoreLib\System\Runtime\CompilerServices\MethodImplAttribute.cs" />
-    <Compile Include="CoreLib\System\Runtime\CompilerServices\MethodImplOptions.cs" />
-    <Compile Include="CoreLib\System\Runtime\CompilerServices\NativeCppClassAttribute.cs" />
-    <Compile Include="CoreLib\System\Runtime\CompilerServices\RequiredAttributeAttribute.cs" />
-    <Compile Include="CoreLib\System\Runtime\CompilerServices\RuntimeCompatibilityAttribute.cs" />
-    <Compile Include="CoreLib\System\Runtime\CompilerServices\RuntimeHelpers.cs" />
-    <Compile Include="CoreLib\System\Runtime\CompilerServices\RuntimeWrappedException.cs" />
-    <Compile Include="CoreLib\System\Runtime\CompilerServices\ScopelessEnumAttribute.cs" />
-    <Compile Include="CoreLib\System\Runtime\CompilerServices\SpecialNameAttribute.cs" />
-    <Compile Include="CoreLib\System\Runtime\CompilerServices\StringFreezingAttribute.cs" />
-    <Compile Include="CoreLib\System\Runtime\CompilerServices\SuppressIldasmAttribute.cs" />
-    <Compile Include="CoreLib\System\Runtime\CompilerServices\TypeForwardedFromAttribute.cs" />
-    <Compile Include="CoreLib\System\Runtime\CompilerServices\TypeForwardedToAttribute.cs" />
-    <Compile Include="CoreLib\System\Runtime\CompilerServices\UnsafeValueTypeAttribute.cs" />
+    <Compile Include="CoreLib\System\Attributes\Runtime\CompilerServices\AccessedThroughPropertyAttribute.cs" />
+    <Compile Include="CoreLib\System\Attributes\Runtime\CompilerServices\CallConvCdecl.cs" />
+    <Compile Include="CoreLib\System\Attributes\Runtime\CompilerServices\CallConvFastcall.cs" />
+    <Compile Include="CoreLib\System\Attributes\Runtime\CompilerServices\CallConvStdcall.cs" />
+    <Compile Include="CoreLib\System\Attributes\Runtime\CompilerServices\CallConvThiscall.cs" />
+    <Compile Include="CoreLib\System\Attributes\Runtime\CompilerServices\CompilationRelaxations.cs" />
+    <Compile Include="CoreLib\System\Attributes\Runtime\CompilerServices\CompilationRelaxationsAttribute.cs" />
+    <Compile Include="CoreLib\System\Attributes\Runtime\CompilerServices\CompilerGeneratedAttribute.cs" />
+    <Compile Include="CoreLib\System\Attributes\Runtime\CompilerServices\CompilerGlobalScopeAttribute.cs" />
+    <Compile Include="CoreLib\System\Attributes\Runtime\CompilerServices\CompilerMarshalOverride.cs" />
+    <Compile Include="CoreLib\System\Attributes\Runtime\CompilerServices\ConditionalWeakTable.cs" />
+    <Compile Include="CoreLib\System\Attributes\Runtime\CompilerServices\CustomConstantAttribute.cs" />
+    <Compile Include="CoreLib\System\Attributes\Runtime\CompilerServices\DateTimeConstantAttribute.cs" />
+    <Compile Include="CoreLib\System\Attributes\Runtime\CompilerServices\DecimalConstantAttribute.cs" />
+    <Compile Include="CoreLib\System\Attributes\Runtime\CompilerServices\DefaultDependencyAttribute.cs" />
+    <Compile Include="CoreLib\System\Attributes\Runtime\CompilerServices\DependencyAttribute.cs" />
+    <Compile Include="CoreLib\System\Attributes\Runtime\CompilerServices\DiscardableAttribute.cs" />
+    <Compile Include="CoreLib\System\Attributes\Runtime\CompilerServices\FixedAddressValueTypeAttribute.cs" />
+    <Compile Include="CoreLib\System\Attributes\Runtime\CompilerServices\FixedBufferAttribute.cs" />
+    <Compile Include="CoreLib\System\Attributes\Runtime\CompilerServices\HasCopySemanticsAttribute.cs" />
+    <Compile Include="CoreLib\System\Attributes\Runtime\CompilerServices\IDispatchConstantAttribute.cs" />
+    <Compile Include="CoreLib\System\Attributes\Runtime\CompilerServices\IndexerNameAttribute.cs" />
+    <Compile Include="CoreLib\System\Attributes\Runtime\CompilerServices\InternalsVisibleToAttribute.cs" />
+    <Compile Include="CoreLib\System\Attributes\Runtime\CompilerServices\IsBoxed.cs" />
+    <Compile Include="CoreLib\System\Attributes\Runtime\CompilerServices\IsByValue.cs" />
+    <Compile Include="CoreLib\System\Attributes\Runtime\CompilerServices\IsConst.cs" />
+    <Compile Include="CoreLib\System\Attributes\Runtime\CompilerServices\IsCopyConstructed.cs" />
+    <Compile Include="CoreLib\System\Attributes\Runtime\CompilerServices\IsExplicitlyDereferenced.cs" />
+    <Compile Include="CoreLib\System\Attributes\Runtime\CompilerServices\IsImplicitlyDereferenced.cs" />
+    <Compile Include="CoreLib\System\Attributes\Runtime\CompilerServices\IsJitIntrinsic.cs" />
+    <Compile Include="CoreLib\System\Attributes\Runtime\CompilerServices\IsLong.cs" />
+    <Compile Include="CoreLib\System\Attributes\Runtime\CompilerServices\IsPinned.cs" />
+    <Compile Include="CoreLib\System\Attributes\Runtime\CompilerServices\IsSignUnspecifiedByte.cs" />
+    <Compile Include="CoreLib\System\Attributes\Runtime\CompilerServices\IsUdtReturn.cs" />
+    <Compile Include="CoreLib\System\Attributes\Runtime\CompilerServices\IsVolatile.cs" />
+    <Compile Include="CoreLib\System\Attributes\Runtime\CompilerServices\IUnknownConstantAttribute.cs" />
+    <Compile Include="CoreLib\System\Attributes\Runtime\CompilerServices\LoadHint.cs" />
+    <Compile Include="CoreLib\System\Attributes\Runtime\CompilerServices\MethodCodeType.cs" />
+    <Compile Include="CoreLib\System\Attributes\Runtime\CompilerServices\MethodImplAttribute.cs" />
+    <Compile Include="CoreLib\System\Attributes\Runtime\CompilerServices\MethodImplOptions.cs" />
+    <Compile Include="CoreLib\System\Attributes\Runtime\CompilerServices\NativeCppClassAttribute.cs" />
+    <Compile Include="CoreLib\System\Attributes\Runtime\CompilerServices\RequiredAttributeAttribute.cs" />
+    <Compile Include="CoreLib\System\Attributes\Runtime\CompilerServices\RuntimeCompatibilityAttribute.cs" />
+    <Compile Include="CoreLib\System\Attributes\Runtime\CompilerServices\RuntimeHelpers.cs" />
+    <Compile Include="CoreLib\System\Attributes\Runtime\CompilerServices\RuntimeWrappedException.cs" />
+    <Compile Include="CoreLib\System\Attributes\Runtime\CompilerServices\ScopelessEnumAttribute.cs" />
+    <Compile Include="CoreLib\System\Attributes\Runtime\CompilerServices\SpecialNameAttribute.cs" />
+    <Compile Include="CoreLib\System\Attributes\Runtime\CompilerServices\StringFreezingAttribute.cs" />
+    <Compile Include="CoreLib\System\Attributes\Runtime\CompilerServices\SuppressIldasmAttribute.cs" />
+    <Compile Include="CoreLib\System\Attributes\Runtime\CompilerServices\TypeForwardedFromAttribute.cs" />
+    <Compile Include="CoreLib\System\Attributes\Runtime\CompilerServices\TypeForwardedToAttribute.cs" />
+    <Compile Include="CoreLib\System\Attributes\Runtime\CompilerServices\UnsafeValueTypeAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="desktop\Clipboard.cs" />
     <Compile Include="desktop\ClipboardFormats.cs" />
@@ -295,6 +334,7 @@
     <Compile Include="system\Security.cs" />
     <Compile Include="system\SecurityDomain.cs" />
     <Compile Include="system\System.cs" />
+    <Compile Include="test.cs" />
     <Compile Include="text\AntiAliasType.cs" />
     <Compile Include="text\Font.cs" />
     <Compile Include="text\GridFitType.cs" />

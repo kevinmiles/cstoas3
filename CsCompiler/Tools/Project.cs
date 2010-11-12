@@ -28,6 +28,9 @@
 		}
 
 		public static string[] GetSourceFiles(string pFileOrDirectory) {
+			if (string.IsNullOrEmpty(pFileOrDirectory))
+				return null;
+
 			bool isFile = File.Exists(pFileOrDirectory);
 
 			if (isFile && pFileOrDirectory.EndsWith(@".csproj", StringComparison.OrdinalIgnoreCase)) {

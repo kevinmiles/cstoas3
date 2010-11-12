@@ -1,7 +1,13 @@
 ﻿namespace CsCompiler.AS3Writer {
+	using System.Collections.Generic;
 	using CsParser;
 
 	public static class PropertyParser {
+		private static readonly Dictionary<string, string> _notValidPropertyMod =
+			new Dictionary<string, string> {
+				{ @"readonly", "" }
+			};
+
 		public static void Parse(TheProperty pProperty, As3Builder pBuilder) {
 			if (pProperty == null) return;
 
@@ -17,7 +23,7 @@
 				bool isEnum = pProperty.Getter.Name.Equals("get_Current") && pProperty.MyClass.Implements.Contains("IEnumerator");
 
 				pBuilder.AppendFormat("{0}function {1}():{2} {{",
-					As3Helpers.ConvertModifiers(pProperty.Getter.Modifiers),
+					As3Helpers.ConvertModifiers(pProperty.Getter.Modifiers, _notValidPropertyMod),
 					pProperty.Getter.Name,
 					isEnum ? "*" : type
 				);
@@ -45,7 +51,7 @@
 
 			//Setter
 			pBuilder.AppendFormat("{0}function {1}(value:{2}):{2} {{",
-			                      As3Helpers.ConvertModifiers(pProperty.Setter.Modifiers),
+								  As3Helpers.ConvertModifiers(pProperty.Setter.Modifiers, _notValidPropertyMod),
 			                      pProperty.Setter.Name,
 			                      type
 				);

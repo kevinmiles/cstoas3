@@ -32,7 +32,7 @@
 		}
 
 		private string _lazyName;
-		const string NAME = "_init";
+		const string NAME = @"$ctor";
 
 		public override string Name {
 			get {

@@ -124,14 +124,14 @@
 			if (isMainClass) {
 				ImportStatementList.List.Add("flash.events.Event");
 				pBuilder.AppendFormat(
-				                      @"public function {0}():void {{
-			if (stage) _init();
+									  @"public function {0}():void {{
+			if (stage) $ctor();
 			else addEventListener(Event.ADDED_TO_STAGE, __loaded);
 		}}
 
 		private function __loaded(e:Event = null):void {{
 			removeEventListener(Event.ADDED_TO_STAGE, __loaded);
-			_init();
+			$ctor();
 		}}
 ",
 				                      myClass.Name);
