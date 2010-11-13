@@ -2,9 +2,9 @@
 	using flash;
 	using flash.Global;
 
-	[As3Name("parse", "parseFloat", "flash.utils.parseFloat")]
-	[As3Name("isFinite", "flash.utils.isFinite")]
-	[As3Name("isNaN", "flash.utils.isNaN")]
+	[As3Name("parse", "parseFloat", "")]
+	[As3Name("isFinite", "")]
+	[As3Name("isNaN", "")]
 	public struct Double {
 		/// <summary>
 		/// Converts a string to a floating-point number. The function reads, or parses , and returns the numbers in a string until it reaches a character that is not a part of the initial number. If the string does not begin with a number that can be parsed, parseFloat() returns NaN . White space preceding valid integers is ignored, as are trailing non-numeric characters.

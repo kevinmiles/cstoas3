@@ -2,8 +2,8 @@ namespace System.Diagnostics {
 	using Runtime.InteropServices;
 
 	[AttributeUsage(AttributeTargets.Assembly | AttributeTargets.Module), ComVisible(true)]
-	
-	public sealed class DebuggableAttribute : Attribute {
+
+	internal sealed class DebuggableAttribute : Attribute {
 		#region DebuggingModes enum
 		[Flags, ComVisible(true)]
 		

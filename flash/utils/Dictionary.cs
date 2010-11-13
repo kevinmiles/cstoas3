@@ -1,7 +1,7 @@
 ﻿namespace flash.utils {
 	using System.Collections;
 	using System.ComponentModel;
-	public class Dictionary : IEnumerable<object> {
+	public class Dictionary : IEnumerable {
 		/// <summary>
 		/// Creates a new Dictionary object.
 		/// </summary>
@@ -28,16 +28,12 @@
 
 		[EditorBrowsable(EditorBrowsableState.Never)]
 		[Browsable(false)]
-		public new IEnumerator<object> GetEnumerator() {
+		public new IEnumerator GetEnumerator() {
 			return new DictionaryEnumerator();
-		}
-
-		IEnumerator IEnumerable.GetEnumerator() {
-			return GetEnumerator();
 		}
 	}
 
-	class DictionaryEnumerator : IEnumerator<object> {
+	class DictionaryEnumerator : IEnumerator {
 		public object Current {
 			get {
 				return null;

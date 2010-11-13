@@ -104,14 +104,6 @@
 			}
 		}
 
-		public static bool operator ==(object object1, object object2) {
-			return true;
-		}
-
-		public static bool operator !=(object object1, object object2) {
-			return false;
-		}
-
 		[Obsolete("Just for compatibility with C# compiler. DO NOT USE")]
 		[EditorBrowsable(EditorBrowsableState.Never)]
 		[Browsable(false)]

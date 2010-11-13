@@ -12,8 +12,6 @@ namespace CStoFlash {
 
 	public static class Program {
 		public static void Main(string[] pArguments) {
-			object test = new { x = 4, pepe = "marcelo", otro = new {} };
-
 			ConverterFactory.AddParser(new As3NamespaceParser(), "as3");
 
 			ArgumentsCollection commandLine = new ArgumentsCollection(pArguments);

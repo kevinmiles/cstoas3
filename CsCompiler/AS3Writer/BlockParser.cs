@@ -255,14 +255,16 @@
 
 			pSb.AppendLine();
 
-			if (ex.Type.type == cs_entity_type.et_array ||  ex.IsAs3Generic) {//foreach
+			TheClass theClass = TheClassFactory.Get(ex.Type);
+
+			if (ex.Type.type == cs_entity_type.et_array || ex.IsAs3Generic) {//foreach
 				pSb.AppendFormat("for each(var {0}:{1} in {2}){{",
 					fes.identifier.identifier,
 					type,
 					ex.Value);
 				pSb.AppendLine();
 
-			} else if (ex.Type.type == cs_entity_type.et_object) {
+			} else if (ex.Type.type == cs_entity_type.et_object || (theClass != null && @"flash.utils.Dictionary".Equals(theClass.FullName))) {
 				pSb.AppendFormat("for (var {0}:{1} in {2}){{",
 					fes.identifier.identifier,
 					type,

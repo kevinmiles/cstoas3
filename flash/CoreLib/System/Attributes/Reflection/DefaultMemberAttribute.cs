@@ -2,7 +2,7 @@
 	using ComponentModel;
 
 	[EditorBrowsable(EditorBrowsableState.Never)]
-	public sealed class DefaultMemberAttribute {
+	internal sealed class DefaultMemberAttribute {
 		// Fields
 		private string _memberName;
 

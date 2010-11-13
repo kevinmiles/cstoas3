@@ -69,7 +69,7 @@
 		/// Returns the number of milliseconds that have elapsed since the movie started playing.
 		/// </summary>
 		/// <returns>The number of milliseconds that have elapsed since the movie started playing.</returns>
-		public static int getTimer() {
+		public static double getTimer() {
 			return 0;
 		}
 

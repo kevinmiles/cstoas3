@@ -4,9 +4,9 @@ namespace System.Diagnostics {
 	[AttributeUsageAttribute(
 		AttributeTargets.Class | AttributeTargets.Struct | AttributeTargets.Enum | AttributeTargets.Field |
 		AttributeTargets.Delegate | AttributeTargets.Property | AttributeTargets.Assembly, AllowMultiple = true),
-	 ComVisible(true)]	
-	
-	public sealed class DebuggerDisplayAttribute : Attribute {
+	 ComVisible(true)]
+
+	internal sealed class DebuggerDisplayAttribute : Attribute {
 		public DebuggerDisplayAttribute(string value) {
 			if (value == null) {
 				value = "";

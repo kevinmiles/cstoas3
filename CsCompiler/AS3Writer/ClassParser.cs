@@ -14,7 +14,8 @@
 		private static readonly Dictionary<string, string> _notValidClassMod =
 			new Dictionary<string, string> {
 				{"private", null},
-				{"abstract", null}
+				{"abstract", null},
+				{"static", "final"}
 			};
 
 		public static bool Parse(CsClass pCsClass, As3Builder pBuilder) {

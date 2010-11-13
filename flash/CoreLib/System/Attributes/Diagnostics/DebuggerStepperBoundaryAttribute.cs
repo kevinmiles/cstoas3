@@ -3,7 +3,8 @@ namespace System.Diagnostics {
 
 	[ComVisible(true),
 	 AttributeUsage(AttributeTargets.Constructor | AttributeTargets.Method, Inherited = false)]
-	 
-	
-	public sealed class DebuggerStepperBoundaryAttribute : Attribute {}
+
+
+	internal sealed class DebuggerStepperBoundaryAttribute : Attribute {
+	}
 }

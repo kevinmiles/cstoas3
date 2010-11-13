@@ -262,6 +262,7 @@
 
 				g = g.TrimEnd(_paramTrim) + ">";
 			}
+			string ret = "";
 
 			if (pDirective.namespace_or_type_name == null) {
 				if (pDirective.parent is CsTypeRef) {
@@ -283,13 +284,24 @@
 						//if (IsClassDefinedAsObject(((CsEntityInstanceSpecifier)parent.entity_typeref.u)))
 						//return "Object";
 					}
-				}
+				} else if (pDirective.parent is CsUsingNamespaceDirective) {
+					CsUsingNamespaceDirective parent = (CsUsingNamespaceDirective)pDirective.parent;
+					if (parent.namespace_or_type_entity != null) {
+						ret = "." + parent.namespace_or_type_entity.name;
+						CsEntityNamespace p = parent.namespace_or_type_entity.parent as CsEntityNamespace;
+						while (p != null) {
+							ret = "." + p.name +ret;
+							p = p.parent as CsEntityNamespace;
+						}
 
-				return pDirective.identifier.identifier + g;
+						ret = ret.TrimStart('.');
+						return ret + g;
+					}
+				}
 			}
 
 
-			string ret = GetType(pDirective.namespace_or_type_name);
+			ret = GetType(pDirective.namespace_or_type_name);
 			if (!string.IsNullOrEmpty(ret)) {
 				ret += ".";
 			}
@@ -448,7 +460,7 @@
 		}
 
 		public static string EscapeString(string pIn) {
-			return "\"" + pIn.Replace("\\", "\\\\").Replace("\"", "\\\"") + "\"";
+			return "\"" + pIn.Replace("\\", "\\\\").Replace("\"", "\\\"").Replace("\n", "\\n").Replace("\r", "\\r").Replace("\t", "\\t") + "\"";
 		}
 
 		public static bool GetRealName(object pExpression, string pName, out string pRealName) {
@@ -522,13 +534,17 @@
 				return GetRealName(csEntityInstanceSpecifier.type.u, pName, out pRealName);
 			}
 
-			CsEntityDelegate csEntityDelegate = pExpression as CsEntityDelegate;
-			if (csEntityDelegate != null) {
-				pRealName = pName;
-				return false;
-			}
 
-			throw new NotImplementedException();
+			pRealName = pName;
+			return false;
+
+			//CsEntityDelegate csEntityDelegate = pExpression as CsEntityDelegate;
+			//if (csEntityDelegate != null) {
+			//    pRealName = pName;
+			//    return false;
+			//}
+
+			//throw new NotImplementedException();
 		}
 		
 		private static bool getRealName(LinkedList<CsEntityAttribute> pEntity, string pName, out string pNewName) {

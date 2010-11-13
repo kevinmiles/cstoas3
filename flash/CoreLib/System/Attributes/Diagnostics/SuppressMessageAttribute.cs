@@ -1,6 +1,6 @@
 namespace System.Diagnostics.CodeAnalysis {
 	[AttributeUsage(AttributeTargets.All, Inherited = false, AllowMultiple = true)]
-	public sealed class SuppressMessageAttribute : Attribute {
+	internal sealed class SuppressMessageAttribute : Attribute {
 		public SuppressMessageAttribute(string category, string checkId) {
 			Category = category;
 			CheckId = checkId;

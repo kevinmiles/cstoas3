@@ -1,5 +1,5 @@
 ﻿namespace System.Collections {
-	internal interface IEqualityComparer {
+	public interface IEqualityComparer {
 		// Methods
 		bool Equals(object x, object y);
 		int GetHashCode(object obj);

@@ -3,8 +3,8 @@ namespace System.Diagnostics {
 
 	[AttributeUsageAttribute(AttributeTargets.Class | AttributeTargets.Struct | AttributeTargets.Assembly,
 		AllowMultiple = true), ComVisible(true)]
-	
-	public sealed class DebuggerTypeProxyAttribute : Attribute {
+
+	internal sealed class DebuggerTypeProxyAttribute : Attribute {
 		private readonly string proxy_type_name;
 		private Type target_type;
 		private string target_type_name;
