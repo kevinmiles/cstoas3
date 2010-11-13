@@ -4,7 +4,7 @@ namespace System.Diagnostics {
 	[AttributeUsageAttribute(AttributeTargets.Class | AttributeTargets.Struct | AttributeTargets.Assembly,
 		AllowMultiple = true), ComVisible(true)]
 	
-	public sealed class DebuggerVisualizerAttribute : Attribute {
+	internal sealed class DebuggerVisualizerAttribute : Attribute {
 		private readonly string visualizerName;
 		private readonly string visualizerSourceName;
 		private string description;

@@ -3,7 +3,8 @@ namespace System.Diagnostics {
 
 	[AttributeUsage(AttributeTargets.Constructor | AttributeTargets.Method | AttributeTargets.Property, Inherited = false),
 	 ComVisible(true)]
-	
-	
-	public sealed class DebuggerHiddenAttribute : Attribute {}
+
+
+	internal sealed class DebuggerHiddenAttribute : Attribute {
+	}
 }

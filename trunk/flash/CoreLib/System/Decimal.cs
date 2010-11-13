@@ -2,9 +2,9 @@
 	using flash;
 	using flash.Global;
 
-	[As3Name("parse", "parseFloat", "flash.utils.parseFloat")]
-	[As3Name("isFinite", "flash.utils.isFinite")]
-	[As3Name("isNaN", "flash.utils.isNaN")]
+	[As3Name("parse", "parseFloat","")]
+	[As3Name("isFinite", "")]
+	[As3Name("isNaN", "")]
 	public struct Decimal {
 		private const Decimal d = 0;
 

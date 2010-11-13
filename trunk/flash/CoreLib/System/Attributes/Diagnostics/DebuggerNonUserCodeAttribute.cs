@@ -3,8 +3,9 @@ namespace System.Diagnostics {
 
 	[AttributeUsageAttribute(
 		AttributeTargets.Class | AttributeTargets.Struct | AttributeTargets.Constructor | AttributeTargets.Method |
-		AttributeTargets.Property, Inherited = false), ComVisible(true)] 
-	 
-	
-	public sealed class DebuggerNonUserCodeAttribute : Attribute {}
+		AttributeTargets.Property, Inherited = false), ComVisible(true)]
+
+
+	internal sealed class DebuggerNonUserCodeAttribute : Attribute {
+	}
 }

@@ -1,8 +1,8 @@
 namespace System.Diagnostics {
 	using Runtime.InteropServices;
 
-	[AttributeUsageAttribute(AttributeTargets.Field | AttributeTargets.Property), ComVisible(true)]	
-	public sealed class DebuggerBrowsableAttribute : Attribute {
+	[AttributeUsageAttribute(AttributeTargets.Field | AttributeTargets.Property), ComVisible(true)]
+	internal sealed class DebuggerBrowsableAttribute : Attribute {
 		private readonly DebuggerBrowsableState state;
 
 		public DebuggerBrowsableAttribute(DebuggerBrowsableState state) {
@@ -18,7 +18,7 @@ namespace System.Diagnostics {
 
 	// XXX make sure this matches MS's enum
 	[ComVisible(true)]
-	public enum DebuggerBrowsableState {
+	internal enum DebuggerBrowsableState {
 		Never = 0,
 		Collapsed = 2,
 		RootHidden = 3

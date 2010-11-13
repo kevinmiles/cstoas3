@@ -1,5 +1,5 @@
 ﻿namespace System.Collections.Generic {
-	internal abstract class EqualityComparer<T> : IEqualityComparer, IEqualityComparer<T> {
+	public abstract class EqualityComparer<T> : IEqualityComparer, IEqualityComparer<T> {
 		private static EqualityComparer<T> defaultComparer;
 
 		private static EqualityComparer<T> CreateComparer() {
