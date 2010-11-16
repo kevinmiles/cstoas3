@@ -17,27 +17,27 @@
 			CsNewObjectExpression node = (CsNewObjectExpression)pStatement;
 
 			StringBuilder sb = new StringBuilder();
-			TheClass c = TheClassFactory.Get(pStatement.entity_typeref);
+			//TheClass c = TheClassFactory.Get(pStatement.entity_typeref);
 
 			sb.Append("(new ");
-			bool addP = false;
-			if (c == null || c.IsEntity) {
+			//bool addP = false;
+			//if (c == null || c.IsEntity) {
 				sb.AppendFormat("{0}(",As3Helpers.Convert(Helpers.GetType(node.type)));
-				addP = true;
+				//addP = true;
 
-			} else {
-				TheConstructor constructor = c.GetConstructor(node);
-				if (constructor == null) {
-					//sb.AppendFormat("{0}())(", c.Name);	
-					return new Expression(
-						string.Format("new {0}()", c.Name),
-						pStatement.entity_typeref
-					);
+			//} else {
+			//    TheConstructor constructor = c.GetConstructor(node);
+			//    if (constructor == null) {
+			//        //sb.AppendFormat("{0}())(", c.Name);	
+			//        return new Expression(
+			//            string.Format("new {0}()", c.Name),
+			//            pStatement.entity_typeref
+			//        );
 
-				}
+			//    }
 
-				sb.AppendFormat("{0}()).{1}(", c.Name, constructor.Name);
-			}
+			//    sb.AppendFormat("{0}()).{1}(", c.Name, constructor.Name);
+			//}
 
 			if (node.argument_list != null) {
 				List<string> args = new List<string>();
@@ -49,7 +49,7 @@
 			}
 
 			sb.Append(")");
-			if (addP)
+			//if (addP)
 				sb.Append(")");
 
 			return new Expression(

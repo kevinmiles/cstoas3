@@ -18,16 +18,27 @@
 			bool isInternal = false;
 			if (p != null && p.decl != null) {
 				TheClass theClass = TheClassFactory.Get(p);
-				TheProperty theProperty = theClass.GetProperty((CsProperty)p.decl);
-				if (theProperty != null) {
-					if (ex.parent is CsAssignmentExpression) {
-						//setter
-						isInternal = true;
-						name = "set_" + name + "({0})";
-					} else {
-						//getter, rename
-						name = "get_" + name + "()";
-					}	
+				TheClass parent = theClass;
+
+				//Am I extending a standard flash class? Do not rename then...
+				bool isStandardGetSet = false;
+				while (parent.Base != null) {
+					isStandardGetSet |= parent.FullName.StartsWith("flash.");
+					parent = parent.Base;
+				}
+
+				if (!isStandardGetSet) {
+					TheProperty theProperty = theClass.GetProperty((CsProperty)p.decl);
+					if (theProperty != null) {
+						if (ex.parent is CsAssignmentExpression) {
+							//setter
+							isInternal = true;
+							name = "set_" + name + "({0})";
+						} else {
+							//getter, rename
+							name = "get_" + name + "()";
+						}
+					}
 				}
 
 			} else if (ex.ec == expression_classification.ec_event_access) {//remove eventhandler name

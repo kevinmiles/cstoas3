@@ -125,6 +125,20 @@
 		}
 
 		/// <summary>
+		/// [static] Evaluates val1 and val2 (or more values) and returns the largest value.
+		/// </summary>
+		public static int max(int val1, int val2) {
+			return 0;
+		}
+
+		/// <summary>
+		/// [static] Evaluates val1 and val2 (or more values) and returns the largest value.
+		/// </summary>
+		public static uint max(uint val1, uint val2) {
+			return 0;
+		}
+
+		/// <summary>
 		/// [static] Evaluates val1 and val2 (or more values) and returns the smallest value.
 		/// </summary>
 		public static double min(double val1, double val2, /* params */ object rest) {
@@ -136,6 +150,20 @@
 		/// </summary>
 		public static double min(double val1, double val2) {
 			return default(double);
+		}
+
+		/// <summary>
+		/// [static] Evaluates val1 and val2 (or more values) and returns the smallest value.
+		/// </summary>
+		public static int min(int val1, int val2) {
+			return 0;
+		}
+
+		/// <summary>
+		/// [static] Evaluates val1 and val2 (or more values) and returns the smallest value.
+		/// </summary>
+		public static uint min(uint val1, uint val2) {
+			return 0;
 		}
 
 		/// <summary>

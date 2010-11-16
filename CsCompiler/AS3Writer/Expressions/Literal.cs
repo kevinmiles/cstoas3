@@ -22,13 +22,17 @@
 						case CsLiteralType.literal_int:
 							return new Expression(li.literal, pStatement.entity_typeref);
 
-						case CsLiteralType.literal_uint:
 						case CsLiteralType.literal_uint_U:
+							return new Expression(li.literal.Substring(0, li.literal.Length-1), pStatement.entity_typeref);
+
+						case CsLiteralType.literal_uint:
 							return new Expression(li.literal, pStatement.entity_typeref);
 
 						case CsLiteralType.literal_long:
-						case CsLiteralType.literal_long_L:
 							return new Expression(li.literal, pStatement.entity_typeref);
+
+						case CsLiteralType.literal_long_L:
+							return new Expression(li.literal.Substring(0, li.literal.Length - 1), pStatement.entity_typeref);
 
 						case CsLiteralType.literal_decimal_M:
 							return new Expression(li.literal, pStatement.entity_typeref);

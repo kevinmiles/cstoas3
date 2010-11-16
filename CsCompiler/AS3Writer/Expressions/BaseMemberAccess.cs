@@ -4,8 +4,9 @@
 
 	public class BaseMemberAccess : IExpressionParser {
 		public Expression Parse(CsExpression pStatement) {
+			CsBaseMemberAccess baseMemberAccess = (CsBaseMemberAccess)pStatement;
 			// "base" "." identifier (type-argument-list)?
-			return new Expression("super.", pStatement.entity_typeref);
+			return new Expression("super." + baseMemberAccess.identifier.identifier, pStatement.entity_typeref);
 		}
 	}
 }

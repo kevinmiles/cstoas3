@@ -5,7 +5,8 @@
 	public static class PropertyParser {
 		private static readonly Dictionary<string, string> _notValidPropertyMod =
 			new Dictionary<string, string> {
-				{ @"readonly", "" }
+				{ @"readonly", "" },
+				{ @"new", "override" }
 			};
 
 		public static void Parse(TheProperty pProperty, As3Builder pBuilder) {
@@ -18,15 +19,30 @@
 				pBuilder.AppendLine();
 			}
 
-			if (pProperty.Getter != null) {
-				//Getter
-				bool isEnum = pProperty.Getter.Name.Equals("get_Current") && pProperty.MyClass.Implements.Contains("IEnumerator");
+			TheClass parent = pProperty.MyClass;
+			bool isStandardGetSet = false;
+			while (parent.Base != null) {
+				isStandardGetSet |= parent.FullName.StartsWith("flash.");
+				parent = parent.Base;
+			}
 
-				pBuilder.AppendFormat("{0}function {1}():{2} {{",
-					As3Helpers.ConvertModifiers(pProperty.Getter.Modifiers, _notValidPropertyMod),
-					pProperty.Getter.Name,
-					isEnum ? "*" : type
-				);
+			if (pProperty.Getter != null) {//Getter
+				if (isStandardGetSet) {//base is flash, use standard setter/getter
+					pBuilder.AppendFormat("{0}function get {1}():{2} {{",
+						As3Helpers.ConvertModifiers(pProperty.Getter.Modifiers, _notValidPropertyMod),
+						pProperty.Name,
+						type
+					);	
+
+				} else {
+					bool isEnum = pProperty.Getter.Name.Equals("get_Current") && pProperty.MyClass.Implements.Contains("IEnumerator");
+
+					pBuilder.AppendFormat("{0}function {1}():{2} {{",
+						As3Helpers.ConvertModifiers(pProperty.Getter.Modifiers, _notValidPropertyMod),
+						pProperty.Getter.Name,
+						isEnum ? "*" : type
+					);	
+				}
 
 				pBuilder.AppendLine();
 
@@ -49,12 +65,20 @@
 				return;
 			}
 
-			//Setter
-			pBuilder.AppendFormat("{0}function {1}(value:{2}):{2} {{",
-								  As3Helpers.ConvertModifiers(pProperty.Setter.Modifiers, _notValidPropertyMod),
-			                      pProperty.Setter.Name,
-			                      type
-				);
+			if (isStandardGetSet) {//Setter
+//base is flash, use standard setter/getter
+				pBuilder.AppendFormat("{0}function set {1}(value:{2}):void {{",
+				                      As3Helpers.ConvertModifiers(pProperty.Setter.Modifiers, _notValidPropertyMod),
+				                      pProperty.Name,
+				                      type
+					);
+			} else {
+				pBuilder.AppendFormat("{0}function {1}(value:{2}):{2} {{",
+				                      As3Helpers.ConvertModifiers(pProperty.Setter.Modifiers, _notValidPropertyMod),
+				                      pProperty.Setter.Name,
+				                      type
+					);
+			}
 
 			pBuilder.AppendLine();
 
@@ -66,10 +90,11 @@
 				pBuilder.Unindent();
 
 			} else {
-				BlockParser.InsideSetter = true;
+				BlockParser.InsideSetter = !isStandardGetSet;
 				BlockParser.Parse(pProperty.Setter.CodeBlock, pBuilder);
 				BlockParser.InsideSetter = false;
-				pBuilder.AppendLine("	return value;");
+				if (!isStandardGetSet)
+					pBuilder.AppendLine("	return value;");
 			}
 
 			pBuilder.AppendLine();

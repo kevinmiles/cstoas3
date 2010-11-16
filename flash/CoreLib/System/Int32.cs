@@ -43,7 +43,6 @@
 			return null;
 		}
 
-
 		/// <summary>
 		/// Returns a string representation of the number either in exponential notation or in fixed-point notation
 		/// </summary>
@@ -54,12 +53,12 @@
 			return null;
 		}
 
-		//public static implicit operator Int(Int32 pStr) {
-		//    return new Int();
-		//}
+		public static implicit operator uint(int pStr) {
+			return new uint();
+		}
 
-		//public static implicit operator Int32(Int pStr) {
-		//    return new Int32();
-		//}
+		public static implicit operator int(uint pStr) {
+			return 0;
+		}
 	}
 }
