@@ -21,7 +21,7 @@
 
 			LinkedList<CsFormalParameter> csFormalParameters = pConstructor.parameters.parameters;
 			_noFormalParams = csFormalParameters == null;
-			//RealName = pConstructor.identifier.identifier;
+			_name = pConstructor.identifier.identifier;
 			IsStaticConstructor = (pConstructor.modifiers.flags & (uint)CsModifierEnum.mSTATIC) != 0;
 
 			if (pConstructor.basethis == CsTokenType.tkBASE || pConstructor.basethis == CsTokenType.tkTHIS) {
@@ -32,12 +32,14 @@
 		}
 
 		private string _lazyName;
-		const string NAME = @"$ctor";
+		//const string NAME = @"$ctor";
+		private readonly string _name;
 
 		public override string Name {
 			get {
 				if (_lazyName == null) {
-					_lazyName = (_noFormalParams || _isUnique) ? NAME : NAME + _index;
+					_lazyName = _name;
+					//(_noFormalParams || _isUnique) ? NAME : NAME + _index;
 
 					if (MyClass.Base != null) {
 						TheClass c = MyClass.Base;

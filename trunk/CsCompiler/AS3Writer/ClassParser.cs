@@ -10,6 +10,7 @@
 
 	public static class ClassParser {
 		public const string IMPORT_MARKER = "*-MoreImportsHere-*";
+		public static bool IsMainClass;
 
 		private static readonly Dictionary<string, string> _notValidClassMod =
 			new Dictionary<string, string> {
@@ -24,10 +25,10 @@
 
 			TheClass myClass = TheClassFactory.Get(pCsClass);
 
-			bool isMainClass = Helpers.HasAttribute(pCsClass.attributes, "As3MainClassAttribute");
+			IsMainClass = Helpers.HasAttribute(pCsClass.attributes, "As3MainClassAttribute");
 			bool isResource = Helpers.HasAttribute(pCsClass.attributes, "As3EmbedAttribute");
 
-			if (isMainClass) {
+			if (IsMainClass) {
 				As3NamespaceParser.MainClassName = myClass.FullName;
 				AttributeItem vals = Helpers.GetAttributeValue(pCsClass.attributes, "As3MainClassAttribute")[0];
 				sb.AppendFormat(@"[SWF(width=""{0}"", height=""{1}"", frameRate=""{2}"", backgroundColor=""{3}"")]",
@@ -122,10 +123,10 @@
 			pBuilder.Append(sb.ToString());
 			pBuilder.AppendLineAndIndent();
 
-			if (isMainClass) {
+			if (IsMainClass) {
 				ImportStatementList.List.Add("flash.events.Event");
 				pBuilder.AppendFormat(
-									  @"public function {0}():void {{
+									  @"public function {0}() {{
 			if (stage) $ctor();
 			else addEventListener(Event.ADDED_TO_STAGE, __loaded);
 		}}
@@ -176,14 +177,14 @@
 			}
 
 			if (privateClasses.Length == 0) {
-				return isMainClass;
+				return IsMainClass;
 			}
 
 			pBuilder.AppendLine();
 			pBuilder.Append(As3NamespaceParser.Using);
 			pBuilder.AppendLine(imports);
 			pBuilder.Append(privateClasses);
-			return isMainClass;
+			return IsMainClass;
 		}
 
 		internal static string getImports() {

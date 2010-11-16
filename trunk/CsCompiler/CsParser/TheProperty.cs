@@ -7,9 +7,8 @@
 		public TheProperty(CsProperty pCsProperty, TheClass pTheClass) {
 			MyClass = pTheClass;
 			Modifiers.AddRange(Helpers.GetModifiers(pCsProperty.modifiers));
-			//Name = Helpers.GetRealName(pCsProperty, pCsProperty.identifier.identifier);
 			Name = pCsProperty.identifier.identifier;
-			//RealName = pCsProperty.identifier.identifier;
+			FullName = MyClass.FullName + "." + Name;
 			
 			ReturnType = Helpers.GetType(pCsProperty.type);
 
@@ -29,7 +28,9 @@
 			get; private set; }
 
 		public bool IsEmpty {
-			get { return Getter.CodeBlock == null && Setter.CodeBlock == null; }
+			get {
+				return (Getter != null && Getter.CodeBlock == null) && (Setter != null && Setter.CodeBlock == null);
+			}
 		}
 	}
 

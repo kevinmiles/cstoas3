@@ -12,7 +12,7 @@
 
 		static readonly Dictionary<Type, Action<CsStatement, CodeBuilder>> _statementWritters = new Dictionary<Type, Action<CsStatement, CodeBuilder>>();
 		public static bool InsideSetter;
-		public static bool InsideConstructor;
+		//public static bool InsideConstructor;
 
 		static BlockParser() {
 			_statementWritters.Add(typeof(CsDeclarationStatement), parseLocalVariable);
@@ -344,7 +344,8 @@
 		private static void parseReturnStatement(CsStatement pStatement, CodeBuilder pSb) {
 			CsReturnStatement returnStatement = (CsReturnStatement) pStatement;
 			if (returnStatement.expression == null) {
-				pSb.AppendLine(InsideConstructor ? "return this" : InsideSetter ? "return value;" : "return;");
+				//pSb.AppendLine(InsideConstructor ? "return this" : InsideSetter ? "return value;" : "return;");
+				pSb.AppendLine(InsideSetter ? "return value;" : "return;");
 
 			} else {
 				pSb.AppendFormat("return {0};", FactoryExpressionCreator.Parse(returnStatement.expression).Value);
