@@ -15,7 +15,7 @@
 			
 			if (ex.initializer != null) {
 				//builder.AppendFormat("Vector.<{0}>([", Helpers.GetType(((CsEntityArraySpecifier)ex.entity_typeref.u).type));
-				builder.AppendFormat("new <{0}>[", Helpers.GetType(((CsEntityArraySpecifier)ex.entity_typeref.u).type));
+				builder.AppendFormat("new <{0}>[", As3Helpers.Convert(Helpers.GetType(((CsEntityArraySpecifier)ex.entity_typeref.u).type)));
 				List<string> initializers = new List<string>();
 
 				foreach (CsNode node in ex.initializer.initializers) {

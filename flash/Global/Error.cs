@@ -10,15 +10,12 @@
 		/// <param name="pMessage">A string associated with the Error object; this parameter is optional</param>
 		/// <param name="pId">A reference number to associate with the specific error message</param>
 		public Error(string pMessage, int pId) {
-			return;
 		}
 
 		public Error(string pMessage) {
-			return;
 		}
 
 		public Error() {
-			return;
 		}
 
 		/// <summary>

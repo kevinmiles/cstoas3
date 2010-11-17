@@ -76,8 +76,14 @@
 		public static void Parse(TheMethod pMethod, As3Builder pBuilder) {
 			if (pMethod == null) return;
 			bool isInterface = pMethod.MyClass.IsInterface;
+
+			Dictionary<string,string> nonValidMethod = new Dictionary<string, string>(_notValidMethodMod);
+			if (ClassParser.IsExtension) {
+				nonValidMethod.Add("static",string.Empty);
+			}
+
 			pBuilder.AppendFormat("{0}function {1}({2}):{3}{4}",
-				As3Helpers.ConvertModifiers(pMethod.Modifiers, _notValidMethodMod),
+				As3Helpers.ConvertModifiers(pMethod.Modifiers, nonValidMethod),
 				pMethod.Name,
 				As3Helpers.GetParameters(pMethod.Arguments),
 				As3Helpers.Convert(pMethod.ReturnType),

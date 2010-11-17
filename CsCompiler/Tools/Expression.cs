@@ -31,7 +31,8 @@
 
 		public bool IsAs3Generic {
 			get {
-				return Helpers.HasAttribute(Type.getType().attributes, "As3IsGenericAttribute");
+				CsEntityType t = Type.getType();
+				return t != null && Helpers.HasAttribute(t.attributes, "As3IsGenericAttribute");
 			}
 		}
 
