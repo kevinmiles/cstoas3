@@ -1,4 +1,5 @@
 ﻿namespace CsCompiler.AS3Writer.Expressions {
+	using System;
 	using CsParser;
 	using Metaspec;
 	using Tools;
@@ -58,7 +59,9 @@
 
 						case CsLiteralType.literal_verbatim_string:
 							string l = li.literal.Substring(2, li.literal.Length - 3);
-							return new Expression(Helpers.EscapeString(l), pStatement.entity_typeref);
+							return l.StartsWith(@"rx:", StringComparison.Ordinal) ? 
+										new Expression(l.Substring(3, l.Length - 3), pStatement.entity_typeref) : 
+										new Expression(Helpers.EscapeString(l), pStatement.entity_typeref);
 
 						default:
 							return new Expression(Helpers.EscapeString(li.literal), pStatement.entity_typeref);

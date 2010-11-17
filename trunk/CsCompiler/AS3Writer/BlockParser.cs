@@ -264,7 +264,10 @@
 					ex.Value);
 				pSb.AppendLine();
 
-			} else if (ex.Type.type == cs_entity_type.et_object || (theClass != null && @"flash.utils.Dictionary".Equals(theClass.FullName))) {
+			} else if (ex.Type.type == cs_entity_type.et_object ||
+						ex.Type.type == cs_entity_type.et_generic_param || 
+					(theClass != null && @"flash.utils.Dictionary".Equals(theClass.FullName))) {
+
 				pSb.AppendFormat("for (var {0}:{1} in {2}){{",
 					fes.identifier.identifier,
 					type,

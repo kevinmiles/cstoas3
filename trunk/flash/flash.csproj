@@ -93,6 +93,7 @@
     <Compile Include="CoreLib\System\Attributes\Reflection\AssemblyTrademarkAttribute.cs" />
     <Compile Include="CoreLib\System\Attributes\Reflection\AssemblyFileVersionAttribute.cs" />
     <Compile Include="CoreLib\System\Attributes\Reflection\DefaultMemberAttribute.cs" />
+    <Compile Include="CoreLib\System\Attributes\Runtime\CompilerServices\ExtensionAttribute.cs" />
     <Compile Include="CoreLib\System\Attributes\Runtime\InteropServices\ComVisibleAttribute.cs" />
     <Compile Include="CoreLib\System\Attributes\Runtime\InteropServices\GuidAttribute.cs" />
     <Compile Include="CoreLib\System\Attributes\Runtime\InteropServices\OutAttribute.cs" />
@@ -334,7 +335,6 @@
     <Compile Include="system\Security.cs" />
     <Compile Include="system\SecurityDomain.cs" />
     <Compile Include="system\System.cs" />
-    <Compile Include="test.cs" />
     <Compile Include="text\AntiAliasType.cs" />
     <Compile Include="text\Font.cs" />
     <Compile Include="text\GridFitType.cs" />

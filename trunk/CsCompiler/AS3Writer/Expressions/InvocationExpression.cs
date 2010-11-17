@@ -43,7 +43,17 @@
 						fnIndex--;
 
 					indexes.Insert(0, name.Substring(0, fnIndex));
-					name = m.FullName;
+
+					if (Helpers.HasAttribute(((CsEntityClass)method.parent).attributes, "As3ExtensionAttribute")) {
+						name = m.MyClass.FullName;
+						name = name.Substring(0, name.LastIndexOf('.'));
+						name = name + "."+m.Name;
+						ImportStatementList.AddImport(name);
+						name = m.Name;
+
+					} else {
+						name = m.FullName;	
+					}
 
 				} else {
 					name = name.Replace(m.Name, m.Name);
@@ -53,13 +63,9 @@
 				//es un evento?
 				if (ex.expression.ec == expression_classification.ec_event_access) {
 					TheEvent theEvent = c.GetEvent(name);
-					if (theEvent.IsFlashEvent) {
-						name = "dispatchEvent";
-
-					} else {
-						name = string.Format(@"if (_e{0}) _e{0}.fire", name);
-						//name += ".fire";
-					}
+					name = theEvent.IsFlashEvent ? 
+								"dispatchEvent" : 
+								string.Format(@"if (_e{0}) _e{0}.fire", name);
 				}
 			} 
 

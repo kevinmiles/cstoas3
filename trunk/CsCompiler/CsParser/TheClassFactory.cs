@@ -106,7 +106,15 @@
 		//}
 
 		public static TheClass Get(CsEntityTypeRef pEntityTyperef) {
+			if (pEntityTyperef == null)
+				return null;
+
 			CsEntityInstanceSpecifier entityInstanceSpecifier = pEntityTyperef.u as CsEntityInstanceSpecifier;
+			CsEntityGenericParam entityGenericParam = pEntityTyperef.u as CsEntityGenericParam;
+
+			if (entityGenericParam != null)
+				return null;
+
 			CsEntityClass entityClass = entityInstanceSpecifier == null
 											? (CsEntityClass)pEntityTyperef.u
 											: (CsEntityClass)entityInstanceSpecifier.type.u;

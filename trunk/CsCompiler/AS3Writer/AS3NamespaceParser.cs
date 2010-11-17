@@ -96,7 +96,13 @@
 
 				if (csClass != null) {
 					ClassParser.Parse(csClass, builder);
-					File.WriteAllText(packDir + "\\" + csClass.identifier.identifier + ".as", builder.ToString());
+					if (ClassParser.IsExtension) {
+						File.WriteAllText(packDir + "\\" + ClassParser.ExtensionName + ".as", builder.ToString());
+
+					} else {
+						File.WriteAllText(packDir + "\\" + csClass.identifier.identifier + ".as", builder.ToString());	
+					}
+					
 					builder.Length = 0;
 					continue;
 				}

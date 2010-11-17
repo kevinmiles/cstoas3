@@ -11,6 +11,8 @@
 	public static class ClassParser {
 		public const string IMPORT_MARKER = "*-MoreImportsHere-*";
 		public static bool IsMainClass;
+		public static bool IsExtension;
+		public static string ExtensionName;
 
 		private static readonly Dictionary<string, string> _notValidClassMod =
 			new Dictionary<string, string> {
@@ -19,7 +21,9 @@
 				{"static", "final"}
 			};
 
-		public static bool Parse(CsClass pCsClass, As3Builder pBuilder) {
+		public static void Parse(CsClass pCsClass, As3Builder pBuilder) {
+			ExtensionName = null;
+
 			StringBuilder sb = new StringBuilder();
 			As3Builder privateClasses = new As3Builder("\t");
 
@@ -27,6 +31,7 @@
 
 			IsMainClass = Helpers.HasAttribute(pCsClass.attributes, "As3MainClassAttribute");
 			bool isResource = Helpers.HasAttribute(pCsClass.attributes, "As3EmbedAttribute");
+			IsExtension = Helpers.HasAttribute(pCsClass.attributes, "As3ExtensionAttribute");
 
 			if (IsMainClass) {
 				As3NamespaceParser.MainClassName = myClass.FullName;
@@ -99,29 +104,31 @@
 				}
 			}
 
-			sb.AppendFormat("{1}class {0}",
-			                myClass.Name,
-			                As3Helpers.ConvertModifiers(myClass.Modifiers, _notValidClassMod));
+			if (!IsExtension) {
+				sb.AppendFormat("{1}class {0}",
+							myClass.Name,
+							As3Helpers.ConvertModifiers(myClass.Modifiers, _notValidClassMod));
 
-			if (myClass.Extends.Count != 0) {
-				sb.AppendFormat(" extends {0}", As3Helpers.Convert(myClass.Extends[0]));
-			}
-
-			if (myClass.Implements.Count != 0) {
-				sb.Append(" implements ");
-				foreach (string s in myClass.Implements) {
-					sb.Append(As3Helpers.Convert(s));
-					sb.Append(", ");
+				if (myClass.Extends.Count != 0) {
+					sb.AppendFormat(" extends {0}", As3Helpers.Convert(myClass.Extends[0]));
 				}
 
-				sb.Remove(sb.Length - 2, 2);
+				if (myClass.Implements.Count != 0) {
+					sb.Append(" implements ");
+					foreach (string s in myClass.Implements) {
+						sb.Append(As3Helpers.Convert(s));
+						sb.Append(", ");
+					}
+
+					sb.Remove(sb.Length - 2, 2);
+				}
+
+				sb.Append(" {");
+				sb.AppendLine();
+
+				pBuilder.Append(sb.ToString());
+				pBuilder.AppendLineAndIndent();
 			}
-
-			sb.Append(" {");
-			sb.AppendLine();
-
-			pBuilder.Append(sb.ToString());
-			pBuilder.AppendLineAndIndent();
 
 			if (IsMainClass) {
 				ImportStatementList.List.Add("flash.events.Event");
@@ -144,23 +151,34 @@
 				foreach (CsNode memberDeclaration in pCsClass.member_declarations) {
 					if (memberDeclaration is CsConstructor) {
 						MethodParser.Parse(myClass.GetConstructor((CsConstructor)memberDeclaration), pBuilder);
+
 					} else if (memberDeclaration is CsMethod) {
 						MethodParser.Parse(myClass.GetMethod((CsMethod)memberDeclaration), pBuilder);
+						if (IsExtension && string.IsNullOrEmpty(ExtensionName)) {
+							ExtensionName = ((CsMethod)memberDeclaration).identifier.identifier;
+						}
+
 					} else if (memberDeclaration is CsIndexer) {
 						IndexerParser.Parse(myClass.GetIndexer((CsIndexer)memberDeclaration), pBuilder);
+
 					} else if (memberDeclaration is CsVariableDeclaration) {
 						VariableParser.Parse(myClass.GetVariable((CsVariableDeclaration)memberDeclaration), pBuilder);
+
 					} else if (memberDeclaration is CsConstantDeclaration) {
 						ConstantParser.Parse(myClass.GetConstant((CsConstantDeclaration)memberDeclaration), pBuilder);
+
 					} else if (memberDeclaration is CsDelegate) {
 						DelegateParser.Parse(myClass.GetDelegate((CsDelegate)memberDeclaration), pBuilder);
+
 					} else if (memberDeclaration is CsEvent) {
-						EventParser.Parse(myClass.GetEvent(((CsEvent)memberDeclaration).declarators.First.Value.identifier.identifier),
-										  pBuilder);
+						EventParser.Parse(myClass.GetEvent(((CsEvent)memberDeclaration).declarators.First.Value.identifier.identifier), pBuilder);
+
 					} else if (memberDeclaration is CsProperty) {
 						PropertyParser.Parse(myClass.GetProperty((CsProperty)memberDeclaration), pBuilder);
+
 					} else if (memberDeclaration is CsClass) {
 						Parse((CsClass)memberDeclaration, privateClasses);
+
 					} else {
 						throw new NotSupportedException();
 					}
@@ -172,19 +190,22 @@
 
 			pBuilder.AppendLineAndUnindent("}");
 
+			if (IsExtension) {
+				return;
+			}
+
 			if (!myClass.IsPrivate) {
 				pBuilder.AppendLineAndUnindent("}");
 			}
 
 			if (privateClasses.Length == 0) {
-				return IsMainClass;
+				return;
 			}
 
 			pBuilder.AppendLine();
 			pBuilder.Append(As3NamespaceParser.Using);
 			pBuilder.AppendLine(imports);
 			pBuilder.Append(privateClasses);
-			return IsMainClass;
 		}
 
 		internal static string getImports() {
