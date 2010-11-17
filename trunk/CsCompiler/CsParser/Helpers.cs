@@ -1,7 +1,9 @@
 ﻿namespace CsCompiler.CsParser {
 	using System;
 	using System.Collections.Generic;
+	using System.Globalization;
 	using System.Linq;
+	using System.Text;
 	using Metaspec;
 	using Tools;
 
@@ -290,7 +292,7 @@
 						ret = "." + parent.namespace_or_type_entity.name;
 						CsEntityNamespace p = parent.namespace_or_type_entity.parent as CsEntityNamespace;
 						while (p != null) {
-							ret = "." + p.name +ret;
+							ret = "." + p.name + ret;
 							p = p.parent as CsEntityNamespace;
 						}
 
@@ -346,7 +348,9 @@
 		}
 
 		private static void addImports(string pImport) {
-			if (string.IsNullOrEmpty(pImport)) return;
+			if (string.IsNullOrEmpty(pImport)) {
+				return;
+			}
 			ImportStatementList.AddImport(pImport);
 		}
 
@@ -373,7 +377,6 @@
 			if (pAttribute.attribute_name != null) {
 				CsNamespaceOrTypeName n = (CsNamespaceOrTypeName)pAttribute.attribute_name;
 				s = n.identifier.original_text;
-
 			} else {
 				throw new Exception();
 				//s = attribute.type.parent.name;
@@ -388,10 +391,9 @@
 				foreach (var argument in pAttribute.named_argument_list) {
 					item.NamedArguments.Add(argument.identifier.identifier, FactoryExpressionCreator.Parse(argument.expression));
 				}
-
 			}
 
-			return new List<AttributeItem> { item };
+			return new List<AttributeItem> {item};
 		}
 
 		public static List<AttributeItem> GetAttributeValue(IEnumerable<CsEntityAttribute> pList, string pAttrName) {
@@ -406,10 +408,8 @@
 				if (attribute.decl != null) {
 					CsNamespaceOrTypeName n = (CsNamespaceOrTypeName)attribute.decl.attribute_name;
 					s = n.identifier.original_text;
-
 				} else if (attribute.type.parent != null && attribute.type.parent is CsEntityClass) {
 					s = attribute.type.parent.name;
-
 				} else {
 					continue;
 				}
@@ -429,8 +429,9 @@
 
 				if (attribute.named_arguments != null) {
 					foreach (var argument in attribute.named_arguments) {
-						item.NamedArguments.Add(argument.entity.name, new Expression(convertString(argument.value.ToString()), argument.type));
-					}	
+						item.NamedArguments.Add(argument.entity.name,
+						                        new Expression(convertString(argument.value.ToString()), argument.type));
+					}
 				}
 
 				items.Add(item);
@@ -440,8 +441,9 @@
 		}
 
 		private static string convertString(string pIn) {
-			if (string.IsNullOrEmpty(pIn) || !pIn.StartsWith("@\""))
+			if (string.IsNullOrEmpty(pIn) || !pIn.StartsWith("@\"")) {
 				return pIn;
+			}
 			return pIn.Substring(2, pIn.Length - 3);
 		}
 
@@ -460,7 +462,65 @@
 		}
 
 		public static string EscapeString(string pIn) {
-			return "\"" + pIn.Replace("\\", "\\\\").Replace("\"", "\\\"").Replace("\n", "\\n").Replace("\r", "\\r").Replace("\t", "\\t") + "\"";
+			//return "\"" + pIn.Replace("\\", "\\\\").Replace("\"", "\\\"").Replace("\n", "\\n").Replace("\r", "\\r").Replace("\t", "\\t") + "\"";
+
+			if (string.IsNullOrEmpty(pIn)) {
+				return "''";
+			}
+			StringBuilder builder = new StringBuilder(pIn.Length + 6);
+			builder.Append("\"");
+			int startIndex = 0;
+			int count = 0;
+			for (int i = 0; i < pIn.Length; i++) {
+				char ch = pIn[i];
+				if ((((ch == '\r') || (ch == '\t')) || ((ch == '"') || (ch == '\''))) ||
+				    (((ch == '\\') || (ch == '\r')) || ((ch < ' ') || (ch > '\x007f')))) {
+					if (count > 0) {
+						builder.Append(pIn, startIndex, count);
+					}
+					startIndex = i + 1;
+					count = 0;
+				}
+
+				switch (ch) {
+					case '\'': {
+						builder.Append(@"\'");
+						continue;
+					}
+					case '\\': {
+						builder.Append(@"\\");
+						continue;
+					}
+					case '\t': {
+						builder.Append(@"\t");
+						continue;
+					}
+					case '\n': {
+						builder.Append(@"\n");
+						continue;
+					}
+					case '\r': {
+						builder.Append(@"\r");
+						continue;
+					}
+					case '"': {
+						builder.Append("\\\"");
+						continue;
+					}
+				}
+				if ((ch < ' ') || (ch > '\x007f')) {
+					builder.AppendFormat(CultureInfo.InvariantCulture, @"\u{0:x4}", new object[] {(int)ch});
+				} else {
+					count++;
+				}
+			}
+
+			if (count > 0) {
+				builder.Append(pIn, startIndex, count);
+			}
+
+			builder.Append("\"");
+			return builder.ToString();
 		}
 
 		public static bool GetRealName(object pExpression, string pName, out string pRealName) {
@@ -521,12 +581,20 @@
 
 			CsSimpleName csSimpleName = pExpression as CsSimpleName;
 			if (csSimpleName != null) {
-				return GetRealName(csSimpleName.entity_typeref == null ? csSimpleName.entity : csSimpleName.entity_typeref.u, pName, out pRealName);
+				return GetRealName(csSimpleName.entity_typeref == null ? csSimpleName.entity : csSimpleName.entity_typeref.u,
+				                   pName,
+				                   out pRealName);
 			}
 
 			CsPredefinedTypeMemberAccess csPredefinedTypeMemberAccess = pExpression as CsPredefinedTypeMemberAccess;
 			if (csPredefinedTypeMemberAccess != null) {
-				return GetRealName(csPredefinedTypeMemberAccess.entity_typeref == null ? csPredefinedTypeMemberAccess.entity : csPredefinedTypeMemberAccess.entity_typeref.u, pName, out pRealName);
+				return
+					GetRealName(
+					            csPredefinedTypeMemberAccess.entity_typeref == null
+					            	? csPredefinedTypeMemberAccess.entity
+					            	: csPredefinedTypeMemberAccess.entity_typeref.u,
+					            pName,
+					            out pRealName);
 			}
 
 			CsEntityInstanceSpecifier csEntityInstanceSpecifier = pExpression as CsEntityInstanceSpecifier;
@@ -546,7 +614,7 @@
 
 			//throw new NotImplementedException();
 		}
-		
+
 		private static bool getRealName(LinkedList<CsEntityAttribute> pEntity, string pName, out string pNewName) {
 			if (pName.Equals("ToString", StringComparison.Ordinal)) {
 				pName = "toString";
@@ -559,11 +627,12 @@
 					List<object> n = attributeItem.Parameters;
 
 					string lookupName, realName, ns;
-					if (n.Count == 2) {//real name, namespace
+					if (n.Count == 2) {
+//real name, namespace
 						lookupName = realName = (string)n[0];
 						ns = (string)n[1];
-
-					} else {//old name, real name, namespace
+					} else {
+//old name, real name, namespace
 						lookupName = (string)n[0];
 						realName = (string)n[1];
 						ns = (string)n[2];
@@ -573,8 +642,9 @@
 						continue;
 					}
 
-					if (!string.IsNullOrEmpty(ns))
+					if (!string.IsNullOrEmpty(ns)) {
 						addImports(ns);
+					}
 
 					pNewName = realName;
 					return true;
@@ -592,8 +662,9 @@
 			addImports(pList);
 
 			List<AttributeItem> vals = GetAttributeValue(pList, AS3_EVENT_ATTRIBUTE);
-			if (vals.Count == 0)
+			if (vals.Count == 0) {
 				return null;
+			}
 
 			return vals[0].Parameters.Count == 0 ? null : (string)vals[0].Parameters[0];
 		}
@@ -602,8 +673,9 @@
 			addImports(pList);
 
 			List<AttributeItem> vals = GetAttributeValue(pList, AS3_EVENT_ATTRIBUTE);
-			if (vals.Count == 0)
+			if (vals.Count == 0) {
 				return null;
+			}
 
 			return vals[0].Parameters.Count == 0 ? null : (string)vals[0].Parameters[0];
 		}
