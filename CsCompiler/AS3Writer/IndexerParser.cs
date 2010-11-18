@@ -1,13 +1,20 @@
 ﻿namespace CsCompiler.AS3Writer {
+	using System.Collections.Generic;
 	using CsParser;
 
 	public static class IndexerParser {
+		private static readonly Dictionary<string, string> _notValidMod =
+			new Dictionary<string, string> {
+				{"new", null},
+				{"abstract", null}
+			};
+
 		public static void Parse(TheIndexer pGetIndexer, As3Builder pBuilder) {
 			bool isInterface = pGetIndexer.MyClass.IsInterface;
 
 			if (pGetIndexer.Getter != null) {
 				pBuilder.AppendFormat("{0}function {1}({2}):{3}{4}",
-					As3Helpers.ConvertModifiers(pGetIndexer.Getter.Modifiers),
+					As3Helpers.ConvertModifiers(pGetIndexer.Getter.Modifiers, _notValidMod),
 					pGetIndexer.Getter.Name,
 					As3Helpers.GetParameters(pGetIndexer.Getter.Arguments),
 					As3Helpers.Convert(pGetIndexer.ReturnType),
@@ -28,8 +35,8 @@
 			}
 
 			pBuilder.AppendFormat(
-				"{0}function {1}({2}):void{4}",
-				  As3Helpers.ConvertModifiers(pGetIndexer.Setter.Modifiers),
+				"{0}function {1}({2}):void{3}",
+				  As3Helpers.ConvertModifiers(pGetIndexer.Setter.Modifiers, _notValidMod),
 				  pGetIndexer.Setter.Name,
 				  As3Helpers.GetParameters(pGetIndexer.Setter.Arguments),
 				  isInterface ? ";" : " {{"

@@ -12,22 +12,27 @@
 			CsNewArrayExpression ex = (CsNewArrayExpression) pStatement;
 
 			StringBuilder builder = new StringBuilder();
-			
+
 			if (ex.initializer != null) {
-				//builder.AppendFormat("Vector.<{0}>([", Helpers.GetType(((CsEntityArraySpecifier)ex.entity_typeref.u).type));
-				builder.AppendFormat("new <{0}>[", As3Helpers.Convert(Helpers.GetType(((CsEntityArraySpecifier)ex.entity_typeref.u).type)));
-				List<string> initializers = new List<string>();
+				builder.Append("[");
+				//builder.AppendFormat("new <{0}>[", As3Helpers.Convert(Helpers.GetType(((CsEntityArraySpecifier)ex.entity_typeref.u).type)));
+				
 
-				foreach (CsNode node in ex.initializer.initializers) {
-					Expression expression = FactoryExpressionCreator.Parse(node as CsExpression);
-					initializers.Add(expression.Value);
+				if (ex.initializer.initializers != null) {
+					List<string> initializers = new List<string>();
+
+					foreach (CsNode node in ex.initializer.initializers) {
+						Expression expression = FactoryExpressionCreator.Parse(node as CsExpression);
+						initializers.Add(expression.Value);
+					}
+
+					if (initializers.Count != 0) {
+						builder.Append(string.Join(", ", initializers.ToArray()));
+					}	
 				}
-
-				if (initializers.Count != 0) {
-					builder.Append(string.Join(", ", initializers.ToArray()));
-				}
-
+				
 				builder.Append("]");
+				//builder.Append("]");
 
 			} else if (ex.expressions != null && ex.expressions.list != null && ex.expressions.list.Count == 1) {
 				builder.Append("new Array(");
