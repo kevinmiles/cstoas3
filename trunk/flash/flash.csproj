@@ -117,6 +117,7 @@
     <Compile Include="CoreLib\System\Attributes\Diagnostics\DebuggerTypeProxyAttribute.cs" />
     <Compile Include="CoreLib\System\Attributes\Diagnostics\DebuggerVisualizerAttribute.cs" />
     <Compile Include="CoreLib\System\Func.cs" />
+    <Compile Include="CoreLib\System\Nullable.cs" />
     <Compile Include="CoreLib\System\Object.cs" />
     <Compile Include="CoreLib\System\Attributes\Runtime\CompilerServices\AccessedThroughPropertyAttribute.cs" />
     <Compile Include="CoreLib\System\Attributes\Runtime\CompilerServices\CallConvCdecl.cs" />

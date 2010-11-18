@@ -13,12 +13,12 @@
 		/// <param name="str">A string to convert to an integer.</param>
 		/// <param name="radix">An integer representing the radix (base) of the number to parse. Legal values are from 2 to 36.</param>
 		/// <returns>A number or NaN (not a number).</returns>
-		public static uint parse(string str, uint radix) {
+		public static uint? parse(string str, uint radix) {
 			return 0;
 		}
 
 
-		public static uint parse(string str) {
+		public static uint? parse(string str) {
 			return 0;
 		}
 

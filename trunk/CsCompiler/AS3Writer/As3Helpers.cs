@@ -15,6 +15,13 @@
 			{"abstract",""}
 		};
 
+		public static string ConvertTokens(string pIn) {
+			if (pIn.Equals("??"))
+				return "||";
+
+			return pIn;
+		}
+
 		public static string ConvertModifiers(List<string> pModifiers, Dictionary<string , string> pReplaceable = null) {
 			List<string> mods = new List<string>();
 			foreach (string modifier in pModifiers) {

@@ -11,7 +11,7 @@
 		/// </summary>
 		/// <param name="str">The string to read and convert to a floating-point number. </param>
 		/// <returns>A number or NaN (not a number).</returns>
-		public static Double parse(string str) {
+		public static Double? parse(string str) {
 			return new Double();
 		}
 

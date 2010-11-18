@@ -21,7 +21,7 @@
 					case CsTokenType.tkDIV_EQ:
 					case CsTokenType.tkMUL_EQ:
 						string getter = ElementAccessHelper.parseElementAccess(ex.lhs, true, false).Value;
-						return new Expression(string.Format(left.Value, getter + Helpers.GetTokenType(convertToken(ex.oper)) + right.Value), pStatement.entity_typeref);
+						return new Expression(string.Format(left.Value, getter + As3Helpers.ConvertTokens(Helpers.GetTokenType(convertToken(ex.oper))) + right.Value), pStatement.entity_typeref);
 				}
 			}
 
@@ -35,7 +35,7 @@
 					case CsTokenType.tkDIV_EQ:
 					case CsTokenType.tkMUL_EQ:
 						string getter = SimpleNameHelper.ParseSimpleName(ex.lhs, true, false).Value;
-						return new Expression(string.Format(left.Value, getter + Helpers.GetTokenType(convertToken(ex.oper)) + right.Value), pStatement.entity_typeref);
+						return new Expression(string.Format(left.Value, getter + As3Helpers.ConvertTokens(Helpers.GetTokenType(convertToken(ex.oper))) + right.Value), pStatement.entity_typeref);
 				}
 			}
 
@@ -91,7 +91,7 @@
 
 			
 
-			return new Expression(string.Format("{0} {2} {1}", left.Value, right.Value, Helpers.GetTokenType(ex.oper)), pStatement.entity_typeref);
+			return new Expression(string.Format("{0} {2} {1}", left.Value, right.Value, As3Helpers.ConvertTokens(Helpers.GetTokenType(ex.oper))), pStatement.entity_typeref);
 		}
 
 		private static CsTokenType convertToken(CsTokenType pInToken) {
