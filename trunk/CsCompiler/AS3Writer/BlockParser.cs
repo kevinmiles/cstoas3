@@ -12,7 +12,7 @@
 
 		static readonly Dictionary<Type, Action<CsStatement, CodeBuilder>> _statementWritters = new Dictionary<Type, Action<CsStatement, CodeBuilder>>();
 		public static bool InsideSetter;
-		//public static bool InsideConstructor;
+		private static bool _insideEnumerator;
 
 		static BlockParser() {
 			_statementWritters.Add(typeof(CsDeclarationStatement), parseLocalVariable);
@@ -25,6 +25,15 @@
 			_statementWritters.Add(typeof(CsReturnStatement), parseReturnStatement);
 			_statementWritters.Add(typeof(CsThrowStatement), parseThrowStatement);
 			_statementWritters.Add(typeof(CsWhileStatement), parseWhileStatement);
+			_statementWritters.Add(typeof(CsContinueStatement), parseContinueStatement);
+		}
+
+		private static void parseContinueStatement(CsStatement pStatement, CodeBuilder pSb) {
+			//CsContinueStatement continueStatement = (CsContinueStatement)pStatement;
+
+			pSb.Append("continue");
+			pSb.AppendLine();
+			pSb.AppendLine();
 		}
 
 		private static void parseWhileStatement(CsStatement pStatement, CodeBuilder pSb) {
@@ -272,6 +281,15 @@
 					fes.identifier.identifier,
 					type,
 					ex.Value);
+
+				pSb.AppendLine();
+				if (ex.Type.type == cs_entity_type.et_object) {
+					pSb.AppendFormat("	if (!{1}.hasOwnProperty({0})) continue;",
+						fes.identifier.identifier,
+						ex.Value
+					);
+				}
+
 				pSb.AppendLine();
 
 			} else {
@@ -291,7 +309,9 @@
 					type
 				);
 
+				_insideEnumerator = true;
 				pSb.AppendLine();
+				_insideEnumerator = false;
 			}
 			
 			ParseBlockOrStatementOrExpression(fes.statement, pSb);

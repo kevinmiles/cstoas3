@@ -17,40 +17,37 @@
 			CsNewObjectExpression node = (CsNewObjectExpression)pStatement;
 
 			StringBuilder sb = new StringBuilder();
-			//TheClass c = TheClassFactory.Get(pStatement.entity_typeref);
-
 			sb.Append("(new ");
-			//bool addP = false;
-			//if (c == null || c.IsEntity) {
-				sb.AppendFormat("{0}(",As3Helpers.Convert(Helpers.GetType(node.type)));
-				//addP = true;
 
-			//} else {
-			//    TheConstructor constructor = c.GetConstructor(node);
-			//    if (constructor == null) {
-			//        //sb.AppendFormat("{0}())(", c.Name);	
-			//        return new Expression(
-			//            string.Format("new {0}()", c.Name),
-			//            pStatement.entity_typeref
-			//        );
+			string name = As3Helpers.Convert(Helpers.GetType(node.type));
+			bool isVector = name.StartsWith("Vector.<", StringComparison.Ordinal) && node.initializer != null;
+			if (isVector) {
+				int lb = name.IndexOf("<")+1;
+				sb.AppendFormat("<{0}>[", name.Substring(lb, name.IndexOf(">") - lb));
 
-			//    }
-
-			//    sb.AppendFormat("{0}()).{1}(", c.Name, constructor.Name);
-			//}
-
-			if (node.argument_list != null) {
-				List<string> args = new List<string>();
-				foreach (CsArgument argument in node.argument_list.list) {
-					args.Add(FactoryExpressionCreator.Parse(argument.expression).Value);
+				CsCollectionInitializer initializer = (CsCollectionInitializer)node.initializer;
+				if (initializer.element_initializer_list != null) {
+					List<string> args = new List<string>();
+					foreach (var csNode in initializer.element_initializer_list) {
+						args.Add(FactoryExpressionCreator.Parse(csNode).Value);
+					}
+					sb.Append(String.Join(", ", args.ToArray()));
 				}
 
-				sb.Append(String.Join(", ", args.ToArray()));
+			} else {
+				sb.AppendFormat("{0}(", name);
+				if (node.argument_list != null) {
+					List<string> args = new List<string>();
+					foreach (CsArgument argument in node.argument_list.list) {
+						args.Add(FactoryExpressionCreator.Parse(argument.expression).Value);
+					}
+
+					sb.Append(String.Join(", ", args.ToArray()));
+				}
 			}
 
+			sb.Append(isVector ? "]" : ")");
 			sb.Append(")");
-			//if (addP)
-				sb.Append(")");
 
 			return new Expression(
 				sb.ToString(),

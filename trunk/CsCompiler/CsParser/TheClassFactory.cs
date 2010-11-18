@@ -110,10 +110,11 @@
 				return null;
 
 			CsEntityInstanceSpecifier entityInstanceSpecifier = pEntityTyperef.u as CsEntityInstanceSpecifier;
-			CsEntityGenericParam entityGenericParam = pEntityTyperef.u as CsEntityGenericParam;
 
-			if (entityGenericParam != null)
-				return null;
+			if (
+				pEntityTyperef.u is CsEntityGenericParam ||
+				pEntityTyperef.u is CsEntityArraySpecifier
+			) return null;
 
 			CsEntityClass entityClass = entityInstanceSpecifier == null
 											? (CsEntityClass)pEntityTyperef.u

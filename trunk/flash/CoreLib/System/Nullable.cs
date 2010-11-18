@@ -1,7 +1,6 @@
 ﻿namespace System {
 	using ComponentModel;
 
-	[Obsolete("Just for compatibility with C# compiler. DO NOT USE")]
 	[EditorBrowsable(EditorBrowsableState.Never)]
 	[Browsable(false)]
 	public struct Nullable<T> where T : struct {
@@ -9,7 +8,6 @@
 			
 		}
 
-		[Obsolete("Just for compatibility with C# compiler. DO NOT USE")]
 		[EditorBrowsable(EditorBrowsableState.Never)]
 		[Browsable(false)]
 		public bool HasValue {
@@ -18,7 +16,6 @@
 			}
 		}
 
-		[Obsolete("Just for compatibility with C# compiler. DO NOT USE")]
 		[EditorBrowsable(EditorBrowsableState.Never)]
 		[Browsable(false)]
 		public T Value {
@@ -27,14 +24,12 @@
 			}
 		}
 
-		[Obsolete("Just for compatibility with C# compiler. DO NOT USE")]
 		[EditorBrowsable(EditorBrowsableState.Never)]
 		[Browsable(false)]
 		public T GetValueOrDefault() {
 			return default(T);
 		}
 
-		[Obsolete("Just for compatibility with C# compiler. DO NOT USE")]
 		[EditorBrowsable(EditorBrowsableState.Never)]
 		[Browsable(false)]
 		public T GetValueOrDefault(T defaultValue) {

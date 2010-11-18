@@ -107,14 +107,14 @@
 		[Obsolete("Just for compatibility with C# compiler. DO NOT USE")]
 		[EditorBrowsable(EditorBrowsableState.Never)]
 		[Browsable(false)]
-		public virtual bool Equals(object value) {
+		public bool Equals(object value) {
 			return false;
 		}
 
 		[Obsolete("Just for compatibility with C# compiler. DO NOT USE")]
 		[EditorBrowsable(EditorBrowsableState.Never)]
 		[Browsable(false)]
-		public virtual int GetHashCode() {
+		public int GetHashCode() {
 			return 0;
 		}
 

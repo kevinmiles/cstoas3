@@ -69,9 +69,9 @@
 			int brackets = pType.IndexOf("[]", StringComparison.Ordinal);
 			
 			if (brackets != -1 && brackets == pType.Length - 2) {
-				pType = pType.Substring(0, pType.Length - 2);
-				return "Vector.<"+Convert(pType)+">";
-				//return "Array";
+				//pType = pType.Substring(0, pType.Length - 2);
+				//return "Vector.<"+Convert(pType)+">";
+				return "Array";
 			}
 
 			if (pType.Equals("long", StringComparison.OrdinalIgnoreCase) ||

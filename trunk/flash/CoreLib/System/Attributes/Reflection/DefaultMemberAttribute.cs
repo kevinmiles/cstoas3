@@ -2,20 +2,20 @@
 	using ComponentModel;
 
 	[EditorBrowsable(EditorBrowsableState.Never)]
-	internal sealed class DefaultMemberAttribute {
+	public sealed class DefaultMemberAttribute {
 		// Fields
-		private string _memberName;
 
 		// Methods
 		public DefaultMemberAttribute(string memberName) {
-			this._memberName = memberName;
+			MemberName = memberName;
 		}
+
+		public DefaultMemberAttribute() {}
 
 		// Properties
 		public string MemberName {
-			get {
-				return this._memberName;
-			}
+			get;
+			private set;
 		}
 	}
 }

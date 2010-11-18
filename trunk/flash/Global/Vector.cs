@@ -14,7 +14,12 @@
 		/// Creates a Vector with the specified base type
 		/// </summary>
 		public Vector() {
-			return;
+		}
+
+		[Browsable(false)]
+		[EditorBrowsable(EditorBrowsableState.Never)]
+		public void Add(T pValue) {
+			
 		}
 
 		/// <summary>
