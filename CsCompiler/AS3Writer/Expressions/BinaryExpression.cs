@@ -10,7 +10,7 @@
 			Expression left = FactoryExpressionCreator.Parse(li.lhs);
 			Expression right = FactoryExpressionCreator.Parse(li.rhs);
 
-			return new Expression(left.Value + " " + Helpers.GetTokenType(li.oper) + " " + right.Value, pStatement.entity_typeref);
+			return new Expression(left.Value + " " + As3Helpers.ConvertTokens(Helpers.GetTokenType(li.oper)) + " " + right.Value, pStatement.entity_typeref);
 		}
 	}
 }

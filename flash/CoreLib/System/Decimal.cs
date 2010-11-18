@@ -23,7 +23,7 @@
 		/// </summary>
 		/// <param name="str">The string to read and convert to a floating-point number. </param>
 		/// <returns>A number or NaN (not a number).</returns>
-		public static Decimal parse(string str) {
+		public static Decimal? parse(string str) {
 		    return d;
 		}
 

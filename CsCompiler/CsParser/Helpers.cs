@@ -132,6 +132,9 @@
 			}
 
 			switch (pDirective.type) {
+				case cs_entity_type.et_valuetype:
+					return null;
+
 				case cs_entity_type.et_array:
 					return GetType(((CsEntityArraySpecifier)pDirective.u).type) + "[]";
 

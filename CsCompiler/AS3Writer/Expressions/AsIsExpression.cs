@@ -10,7 +10,7 @@
 			return new Expression(
 				FactoryExpressionCreator.Parse(ex.expression).Value 
 				+ " "
-				+ Helpers.GetTokenType(ex.oper) + " " + As3Helpers.Convert(Helpers.GetType(ex.type)),
+				+ As3Helpers.ConvertTokens(Helpers.GetTokenType(ex.oper)) + " " + As3Helpers.Convert(Helpers.GetType(ex.type)),
 				ex.entity_typeref
 			);
 		}
