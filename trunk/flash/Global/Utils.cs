@@ -1,13 +1,22 @@
 ﻿namespace flash.Global {
 	[As3Name("trace", "")]
 	[As3Name("getTimer", "flash.utils.getTimer")]
-	[As3Name(@"unescape", @"flash.utils.unescape")]
-	[As3Name("decodeURI", "flash.utils.decodeURI")]
-	[As3Name("decodeURIComponent", "flash.utils.decodeURIComponent")]
-	[As3Name("encodeURI", "flash.utils.encodeURI")]
-	[As3Name("encodeURIComponent", "flash.utils.encodeURIComponent")]
-	[As3Name("escape", "flash.utils.escape")]
+	[As3Name(@"unescape", "")]
+	[As3Name("decodeURI", "")]
+	[As3Name("decodeURIComponent", "")]
+	[As3Name("encodeURI", "")]
+	[As3Name("encodeURIComponent", "")]
+	[As3Name("escape", "")]
+	[As3Name("PositiveInfinity", "Infinity", "")]
+	[As3Name("NegativeInfinity", "-Infinity", "")]
+	[As3Name("NaN", "")]
 	public static class Utils {
+		public static readonly double PositiveInfinity = 0;
+		public static readonly double NegativeInfinity = 0;
+		public static readonly double NaN = 0;
+		//public static readonly void undefined = 0;
+
+
 		/// <summary>
 		/// Decodes an encoded URI into a string. Returns a string in which all characters previously encoded by the encodeURI function are restored to their unencoded representation.
 		/// </summary>

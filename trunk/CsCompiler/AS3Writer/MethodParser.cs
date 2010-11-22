@@ -35,39 +35,8 @@
 				pBuilder.AppendFormat("\tsuper({0});", As3Helpers.GetCallingArguments(pConstructor.BaseArguments));
 				pBuilder.AppendLine();
 			}
-
-			//TheConstructor constructor = pConstructor.BaseConstructor;
-			//TheConstructor parentConstructor = pConstructor.ParentConstructor;
-			//if (constructor != null) {
-			//    if (!pConstructor.HasBaseCall && parentConstructor != null) {
-			//        pBuilder.AppendFormat("\tsuper.{0}();",
-			//            parentConstructor.Name
-			//        );
-
-			//        pBuilder.AppendLine();
-			//    }
-
-			//    pBuilder.AppendFormat("\t{0}{1}({2});",
-			//        pConstructor.HasBaseCall ? "super." : string.Empty,
-			//        constructor.Name,
-			//        As3Helpers.GetCallingArguments(pConstructor.BaseArguments)
-			//    );
-
-			//    pBuilder.AppendLine();
-				
-			//} else if (parentConstructor != null){
-			//    pBuilder.AppendFormat("\tsuper.{0}();",
-			//        parentConstructor.Name
-			//    );
-			//    pBuilder.AppendLine();
-			//}
-
-			//BlockParser.InsideConstructor = !pConstructor.IsStaticConstructor;
+		
 			BlockParser.Parse(pConstructor.CodeBlock, pBuilder);
-			//BlockParser.InsideConstructor = false;
-
-			//if (!pConstructor.IsStaticConstructor)
-			//    pBuilder.AppendLine("\treturn this;");
 
 			pBuilder.AppendLine("}");
 			pBuilder.AppendLine();

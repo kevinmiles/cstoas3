@@ -39,7 +39,7 @@
 				  As3Helpers.ConvertModifiers(pGetIndexer.Setter.Modifiers, _notValidMod),
 				  pGetIndexer.Setter.Name,
 				  As3Helpers.GetParameters(pGetIndexer.Setter.Arguments),
-				  isInterface ? ";" : " {{"
+				  isInterface ? ";" : " {"
 			);
 
 			pBuilder.AppendLine();

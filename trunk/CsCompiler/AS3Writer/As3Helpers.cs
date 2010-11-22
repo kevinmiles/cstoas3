@@ -63,6 +63,10 @@
 			}
 
 			if ((l != -1 && r != -1 && l < r)) {//remove generics
+				if (l == 0 && r == (pType.Length-1)) {
+					return "*";
+				}
+
 				pType = pType.Substring(0, l);
 			}
 

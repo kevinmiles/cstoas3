@@ -144,8 +144,7 @@
 				case cs_entity_type.et_generic_param:
 					CsEntityGenericParam egp = pDirective.u as CsEntityGenericParam;
 					//TODO: check generics parameters
-					//return "*";
-					return egp.parent.name;
+					return "<"+egp.name+">";
 
 				case cs_entity_type.et_genericinst:
 					CsEntityInstanceSpecifier eis = pDirective.u as CsEntityInstanceSpecifier;
@@ -188,11 +187,11 @@
 
 					CsEntityClass cls = pDirective.u as CsEntityClass;
 					if (cls != null) {
-						if (cls.indexers != null) {
-							foreach (CsEntityProperty indexer in cls.indexers) {
-								return GetType(indexer.type);
-							}
-						}
+						//if (cls.indexers != null) {
+						//    foreach (CsEntityProperty indexer in cls.indexers) {
+						//        return GetType(indexer.type);
+						//    }
+						//}
 
 						return cls.name;
 					}
@@ -214,7 +213,11 @@
 					return GetTokenType(pDirective.predefined_type) + "[]";
 
 				case cs_entity_type.et_genericinst:
-					return GetType(pDirective.type_name);
+					string baseName = GetType(pDirective.type_name);
+
+					return baseName.Equals("var", StringComparison.Ordinal)
+					       	? GetType(((CsEntityInstanceSpecifier)pDirective.entity_typeref.u).type)
+					       	: baseName;
 
 				default:
 					return pDirective.predefined_type == CsTokenType.tkEOF
@@ -282,7 +285,8 @@
 					}
 
 					if (parent.entity_typeref.type == cs_entity_type.et_generic_param) {
-						return "*";
+						return "<"+pDirective.identifier.identifier+">";
+						//return "*";
 					}
 
 					if (parent.entity_typeref.u is CsEntityInstanceSpecifier) {
