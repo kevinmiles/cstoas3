@@ -23,7 +23,7 @@ namespace CsCompiler.AS3Writer {
 							As3Helpers.ConvertModifiers(myClass.Modifiers, _notValidClassMod));
 
 			if (myClass.Implements.Count != 0) {
-				sb.Append(" implements ");
+				sb.Append(" extends ");
 				foreach (string s in myClass.Implements) {
 					sb.Append(As3Helpers.Convert(s));
 					sb.Append(", ");
@@ -45,8 +45,10 @@ namespace CsCompiler.AS3Writer {
 					//} else 
 				if (memberDeclaration is CsMethod) {
 						MethodParser.Parse(myClass.GetMethod((CsMethod)memberDeclaration), pBuilder);
+
 					} else if (memberDeclaration is CsIndexer) {
 						IndexerParser.Parse(myClass.GetIndexer((CsIndexer)memberDeclaration), pBuilder);
+
 					} else if (memberDeclaration is CsVariableDeclaration) {
 						VariableParser.Parse(myClass.GetVariable((CsVariableDeclaration)memberDeclaration), pBuilder);
 					} else 

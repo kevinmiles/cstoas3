@@ -109,16 +109,16 @@
 			if (pEntityTyperef == null)
 				return null;
 
-			CsEntityInstanceSpecifier entityInstanceSpecifier = pEntityTyperef.u as CsEntityInstanceSpecifier;
-
 			if (
 				pEntityTyperef.u is CsEntityGenericParam ||
 				pEntityTyperef.u is CsEntityArraySpecifier
 			) return null;
 
-			CsEntityClass entityClass = entityInstanceSpecifier == null
-											? (CsEntityClass)pEntityTyperef.u
-											: (CsEntityClass)entityInstanceSpecifier.type.u;
+			CsEntityInstanceSpecifier entityInstanceSpecifier = pEntityTyperef.u as CsEntityInstanceSpecifier;
+
+			CsEntity entityClass = entityInstanceSpecifier == null
+											? (CsEntity)pEntityTyperef.u
+											: (CsEntity)entityInstanceSpecifier.type.u;
 
 			return Get(entityClass);
 			//return Get(entityClass.nodes.First.Value);

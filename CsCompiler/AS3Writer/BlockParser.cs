@@ -12,7 +12,6 @@
 
 		static readonly Dictionary<Type, Action<CsStatement, CodeBuilder>> _statementWritters = new Dictionary<Type, Action<CsStatement, CodeBuilder>>();
 		public static bool InsideSetter;
-		private static bool _insideEnumerator;
 
 		static BlockParser() {
 			_statementWritters.Add(typeof(CsDeclarationStatement), parseLocalVariable);
@@ -51,6 +50,7 @@
 		private static void parseThrowStatement(CsStatement pStatement, CodeBuilder pSb) {
 			CsThrowStatement throwStatement = (CsThrowStatement)pStatement;
 			pSb.AppendFormat("throw {0};", parseNode(throwStatement.expression));
+			pSb.AppendLine();
 		}
 
 		public static void Parse(CsBlock pCsBlock, CodeBuilder pSb) {
@@ -309,9 +309,7 @@
 					type
 				);
 
-				_insideEnumerator = true;
 				pSb.AppendLine();
-				_insideEnumerator = false;
 			}
 			
 			ParseBlockOrStatementOrExpression(fes.statement, pSb);

@@ -148,6 +148,9 @@
 			}
 
 			if (pCsClass.member_declarations != null) {
+				if (!myClass.IsPrivate)
+					ImportStatementList.List.Add(myClass.NameSpace+".*");
+
 				foreach (CsNode memberDeclaration in pCsClass.member_declarations) {
 					if (memberDeclaration is CsConstructor) {
 						MethodParser.Parse(myClass.GetConstructor((CsConstructor)memberDeclaration), pBuilder);
