@@ -1,8 +1,6 @@
 ﻿namespace CsCompilerTask {
 	using System;
 	using System.Collections.Generic;
-	using System.IO;
-	using System.Linq;
 	using CsCompiler.AS3Writer;
 	using CsCompiler.Tools;
 	using Microsoft.Build.Framework;
