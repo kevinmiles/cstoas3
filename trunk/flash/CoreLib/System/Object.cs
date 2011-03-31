@@ -64,6 +64,7 @@
 		/// </summary>
 		/// <param name="pName">The property of the object.</param>
 		/// <returns>If the property specified by the name parameter is enumerable this value is <c>true</c>, otherwise <c>false</c>.</returns>
+		[Browsable(false), EditorBrowsable(EditorBrowsableState.Never)]
 		public bool propertyIsEnumerable(string pName) {
 			return false;
 		}
@@ -73,6 +74,7 @@
 		/// </summary>
 		/// <param name="pName">The property of the object.</param>
 		/// <param name="pIsEnum">If set to <c>false</c>, the dynamic property does not show up in for..in loops, and the method <see cref="propertyIsEnumerable"/>() returns <c>false</c></param>
+		[Browsable(false), EditorBrowsable(EditorBrowsableState.Never)]
 		public void setPropertyIsEnumerable(string pName, bool pIsEnum) {
 			return;
 		}

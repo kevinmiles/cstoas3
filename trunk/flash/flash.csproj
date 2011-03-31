@@ -393,6 +393,6 @@
   -->
   <PropertyGroup>
     <PostBuildEvent>copy "$(TargetDir)flash.*" "c:\tools\CsCompiler\flash"
-copy "$(TargetDir)flash.*" "d:\Work-Efx\CStoFlash\CStoFlash\bin\Debug\flash"</PostBuildEvent>
+copy "$(TargetDir)flash.*" "d:\Work-Efx\Flash\CStoFlash\CStoFlash\bin\Debug\flash"</PostBuildEvent>
   </PropertyGroup>
 </Project>

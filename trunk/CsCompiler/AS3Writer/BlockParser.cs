@@ -25,6 +25,63 @@
 			_statementWritters.Add(typeof(CsThrowStatement), parseThrowStatement);
 			_statementWritters.Add(typeof(CsWhileStatement), parseWhileStatement);
 			_statementWritters.Add(typeof(CsContinueStatement), parseContinueStatement);
+			_statementWritters.Add(typeof(CsUsingStatement), parseUsingStatement);
+		}
+
+		private static void parseUsingStatement(CsStatement pArg1, CodeBuilder pSb) {
+			CsUsingStatement statement = (CsUsingStatement)pArg1;
+			CsLocalVariableDeclaration declaration = statement.resource as CsLocalVariableDeclaration;
+
+			string varname;
+
+			if (declaration == null) {
+				varname = "$$using$$";
+				Expression e = FactoryExpressionCreator.Parse(statement.resource);
+
+				pSb.AppendFormat("var {0}:{1} = {2};", 
+					varname,
+					As3Helpers.Convert(Helpers.GetType(e.Type)),
+					e.Value
+				);
+
+				pSb.AppendLine();
+
+			} else {
+				CsLocalVariableDeclarator declarator = declaration.declarators.First.Value;
+				StringBuilder sb = new StringBuilder();
+
+				sb.AppendFormat("var {0}:{1}",
+					declarator.identifier.identifier,
+					As3Helpers.Convert(Helpers.GetType(declaration.type))
+				);
+
+				varname = declarator.identifier.identifier;
+
+				if (declarator.initializer == null) {
+					sb.Append(";");
+
+				} else {
+					sb.AppendFormat(" = {0};", parseNode(declarator.initializer));
+				}
+
+				pSb.Append(sb.ToString());
+				pSb.AppendLine();
+
+			}
+
+			pSb.Append("try {");
+			pSb.AppendLine();
+
+			ParseBlockOrStatementOrExpression(statement.statement, pSb);
+
+			pSb.Append("} finally {");
+			pSb.AppendLine();
+			pSb.AppendFormat("	if ({0} != null) {0}.Dispose();", varname);
+			pSb.AppendLine();
+
+			pSb.Append("}");
+			pSb.AppendLine();
+			pSb.AppendLine();
 		}
 
 		private static void parseContinueStatement(CsStatement pStatement, CodeBuilder pSb) {
@@ -146,7 +203,7 @@
 				parseLocalConstantDeclaration(pStatement, pSb);
 				return;
 			}
-			
+
 			foreach (var declarator in localVariableDeclaration.declarators) {
 				StringBuilder sb = new StringBuilder();
 
