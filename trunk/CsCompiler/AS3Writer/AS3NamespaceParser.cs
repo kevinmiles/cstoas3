@@ -73,7 +73,7 @@
 			string name = getNamespace(pNameSpace);
 			string packDir = pOutputFolder + name.Replace('.', '\\');
 			Directory.CreateDirectory(packDir);
-			As3Builder builder = new As3Builder("\t");
+			CodeBuilder builder = new CodeBuilder("\t");
 
 			foreach (CsNode cn in pNameSpace.member_declarations) {
 				builder.Append("package ");

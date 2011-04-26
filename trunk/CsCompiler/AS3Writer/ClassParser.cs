@@ -21,11 +21,11 @@
 				{"static", "final"}
 			};
 
-		public static void Parse(CsClass pCsClass, As3Builder pBuilder) {
+		public static void Parse(CsClass pCsClass, CodeBuilder pBuilder) {
 			ExtensionName = null;
 
 			StringBuilder sb = new StringBuilder();
-			As3Builder privateClasses = new As3Builder("\t");
+			CodeBuilder privateClasses = new CodeBuilder("\t");
 
 			TheClass myClass = TheClassFactory.Get(pCsClass);
 

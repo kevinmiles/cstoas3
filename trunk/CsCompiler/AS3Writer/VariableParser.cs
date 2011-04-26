@@ -2,6 +2,7 @@
 	using System.Collections.Generic;
 	using System.Text;
 	using CsParser;
+	using Tools;
 
 	public static class VariableParser {
 		private static readonly Dictionary<string, string> _notValidVariableMod =
@@ -9,7 +10,7 @@
 				{ @"readonly", "" }
 			};
 
-		public static void Parse(TheVariable pVariable, As3Builder pBuilder) {
+		public static void Parse(TheVariable pVariable, CodeBuilder pBuilder) {
 			foreach (Variable declarator in pVariable.Variables) {
 				StringBuilder sb = new StringBuilder();
 

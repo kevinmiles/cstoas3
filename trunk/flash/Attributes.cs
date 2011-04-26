@@ -1,35 +1,39 @@
 ﻿namespace flash {
 	using System;
 
+	[AttributeUsage(AttributeTargets.Event, AllowMultiple = false)]
+	public sealed class EventAttribute : Attribute {
+		public EventAttribute(string eventName) {
+		}
+	}
+
+	[AttributeUsage(AttributeTargets.Class | AttributeTargets.Enum | AttributeTargets.Struct, AllowMultiple = true)]
+	public sealed class NameAttribute : Attribute {
+		public NameAttribute(string pAs3Name, string pAs3Imports) {
+		}
+		public NameAttribute(string pAs3Name, string pAs3RealName, string pAs3Imports) {
+		}
+	}
+
+	[AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
+	public sealed class IsGenericAttribute : Attribute {
+		public IsGenericAttribute(bool pIsGeneric) {
+		}
+	}
+
+	[AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
+	public sealed class AsObjectAttribute : Attribute {
+	}
+
 	[AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
 	public sealed class As3ExtensionAttribute : Attribute {
 		public As3ExtensionAttribute() {}
-	}
-
-	[AttributeUsage(AttributeTargets.Event, AllowMultiple = false)]
-	public sealed class As3EventAttribute : Attribute {
-		public As3EventAttribute(string eventName) {}
 	}
 
 	[AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
 	public sealed class As3MainClassAttribute : Attribute {
 		public As3MainClassAttribute(int pWidth, int pHeight, int pFrameRate, uint pBackgroundColor) {}
 	}
-
-
-	[AttributeUsage(AttributeTargets.Class | AttributeTargets.Enum | AttributeTargets.Struct, AllowMultiple = true)]
-	internal sealed class As3NameAttribute : Attribute {
-		public As3NameAttribute(string pAs3Name, string pAs3Imports) {}
-		public As3NameAttribute(string pAs3Name, string pAs3RealName, string pAs3Imports) {}
-	}
-
-	[AttributeUsage(AttributeTargets.Class , AllowMultiple = false)]
-	internal sealed class As3IsGenericAttribute : Attribute {
-		public As3IsGenericAttribute(bool pIsGeneric) {}
-	}
-
-	[AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
-	internal sealed class As3AsObjectAttribute : Attribute {}
 
 	[AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
 	public sealed class As3EmbedAttribute : Attribute {

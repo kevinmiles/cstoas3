@@ -6,6 +6,7 @@ using System.Text;
 namespace CsCompiler.AS3Writer {
 	using CsParser;
 	using Metaspec;
+	using Tools;
 
 	sealed class InterfaceParser {
 		private static readonly Dictionary<string, string> _notValidClassMod =
@@ -14,7 +15,7 @@ namespace CsCompiler.AS3Writer {
 				{"abstract", null}
 			};
 
-		public static void Parse(CsInterface pCsInterface, As3Builder pBuilder) {
+		public static void Parse(CsInterface pCsInterface, CodeBuilder pBuilder) {
 			StringBuilder sb = new StringBuilder();
 			TheClass myClass = TheClassFactory.Get(pCsInterface);
 

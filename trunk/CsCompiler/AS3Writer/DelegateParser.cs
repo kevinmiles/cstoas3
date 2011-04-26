@@ -1,8 +1,9 @@
 ﻿namespace CsCompiler.AS3Writer {
 	using CsParser;
+	using Tools;
 
 	public static class DelegateParser {
-		public static void Parse(TheDelegate pDelegate, As3Builder pBuilder) {
+		public static void Parse(TheDelegate pDelegate, CodeBuilder pBuilder) {
 		}
 	}
 }

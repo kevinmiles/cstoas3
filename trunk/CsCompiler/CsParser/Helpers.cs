@@ -8,10 +8,10 @@
 	using Tools;
 
 	internal static class Helpers {
-		private const string AS3_AS_OBJECT = "As3AsObject";
-		private const string AS3_EVENT_ATTRIBUTE = "As3EventAttribute";
-		private const string AS3_NAME_ATTRIBUTE = "As3NameAttribute";
-		private const string AS3_NAMESPACE_ATTRIBUTE = "As3NamespaceAttribute";
+		private const string AS_OBJECT = "AsObjectAttribute";
+		private const string EVENT_ATTRIBUTE = "EventAttribute";
+		private const string NAME_ATTRIBUTE = "NameAttribute";
+		private const string NAMESPACE_ATTRIBUTE = "NamespaceAttribute";
 		private static readonly Dictionary<cs_entity_type, string> _entityTypeRef = new Dictionary<cs_entity_type, string>();
 		private static readonly Dictionary<CsTokenType, string> _typeRef = new Dictionary<CsTokenType, string>();
 		private static readonly char[] _paramTrim = new[] {',', ' '};
@@ -319,11 +319,11 @@
 		}
 
 		public static bool IsClassDefinedAsObject(CsAttributes pList) {
-			return HasAttribute(pList, AS3_AS_OBJECT);
+			return HasAttribute(pList, AS_OBJECT);
 		}
 
 		public static bool IsClassDefinedAsObject(IEnumerable<CsEntityAttribute> pList) {
-			return HasAttribute(pList, AS3_AS_OBJECT);
+			return HasAttribute(pList, AS_OBJECT);
 		}
 
 		private static void addImports(IEnumerable<CsEntityAttribute> pList) {
@@ -331,7 +331,7 @@
 				return;
 			}
 
-			List<AttributeItem> vals = GetAttributeValue(pList, AS3_NAMESPACE_ATTRIBUTE);
+			List<AttributeItem> vals = GetAttributeValue(pList, NAMESPACE_ATTRIBUTE);
 
 
 			if (vals.Count == 0 || vals[0].Parameters.Count == 0) {
@@ -346,7 +346,7 @@
 				return;
 			}
 
-			List<AttributeItem> vals = GetAttributeValue(pList, AS3_NAMESPACE_ATTRIBUTE);
+			List<AttributeItem> vals = GetAttributeValue(pList, NAMESPACE_ATTRIBUTE);
 			if (vals.Count == 0 || vals[0].Parameters.Count == 0) {
 				return;
 			}
@@ -628,7 +628,7 @@
 			}
 
 			if (pEntity != null) {
-				List<AttributeItem> item = GetAttributeValue(pEntity, AS3_NAME_ATTRIBUTE);
+				List<AttributeItem> item = GetAttributeValue(pEntity, NAME_ATTRIBUTE);
 
 				foreach (AttributeItem attributeItem in item) {
 					List<object> n = attributeItem.Parameters;
@@ -668,7 +668,7 @@
 		public static string GetEventFromAttr(CsAttributes pList) {
 			addImports(pList);
 
-			List<AttributeItem> vals = GetAttributeValue(pList, AS3_EVENT_ATTRIBUTE);
+			List<AttributeItem> vals = GetAttributeValue(pList, EVENT_ATTRIBUTE);
 			if (vals.Count == 0) {
 				return null;
 			}
@@ -679,7 +679,7 @@
 		public static string GetEventFromAttr(IEnumerable<CsEntityAttribute> pList) {
 			addImports(pList);
 
-			List<AttributeItem> vals = GetAttributeValue(pList, AS3_EVENT_ATTRIBUTE);
+			List<AttributeItem> vals = GetAttributeValue(pList, EVENT_ATTRIBUTE);
 			if (vals.Count == 0) {
 				return null;
 			}

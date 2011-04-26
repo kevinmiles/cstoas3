@@ -1,6 +1,7 @@
 ﻿namespace CsCompiler.AS3Writer {
 	using System.Collections.Generic;
 	using CsParser;
+	using Tools;
 
 	public static class IndexerParser {
 		private static readonly Dictionary<string, string> _notValidMod =
@@ -9,7 +10,7 @@
 				{"abstract", null}
 			};
 
-		public static void Parse(TheIndexer pGetIndexer, As3Builder pBuilder) {
+		public static void Parse(TheIndexer pGetIndexer, CodeBuilder pBuilder) {
 			bool isInterface = pGetIndexer.MyClass.IsInterface;
 
 			if (pGetIndexer.Getter != null) {

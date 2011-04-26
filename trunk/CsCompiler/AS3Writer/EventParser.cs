@@ -9,7 +9,7 @@
 				{ "static", null }
 			};
 
-		public static void Parse(TheEvent pEvent, As3Builder pBuilder) {
+		public static void Parse(TheEvent pEvent, CodeBuilder pBuilder) {
 			if (pEvent.IsFlashEvent) return;
 
 			ImportStatementList.AddImport(@"System.EventHandler");

@@ -3,18 +3,18 @@ namespace CsCompiler.Tools {
 	using System.Text;
 
 	/// <summary>
-	/// Builds code in a specific language. This abstract class is the root. Wraps around the
+	/// Builds code in a specific language. This class is the root. Wraps around the
 	/// <c>builder</c> and provides useful features besides. Intended for sub classing.
 	/// </summary>
 	/// <remarks>
 	/// Parts of this class were auto-generated automatically from <c>builder</c>.
 	/// </remarks>
-	public abstract class CodeBuilder {
+	public class CodeBuilder {
 		protected readonly StringBuilder _builder;
 		protected int _indentLevel;
 		protected string _indentString = string.Empty;
 
-		protected CodeBuilder(string pIndentString) {
+		public CodeBuilder(string pIndentString) {
 			_builder = new StringBuilder();
 			_indentString = pIndentString;
 		}
@@ -375,7 +375,7 @@ namespace CsCompiler.Tools {
 		}
 
 		public override string ToString() {
-			return _builder.ToString();
+			return _builder.ToString().Trim();
 		}
 
 		public string ToString(int startIndex, int length) {

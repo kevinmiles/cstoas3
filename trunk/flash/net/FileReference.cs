@@ -133,55 +133,55 @@ namespace flash.net {
 		/// <summary>
 		/// Dispatched when a file upload or download is canceled through the file-browsing dialog box by the user.
 		/// </summary>
-		[As3Event("Event.CANCEL")]
+		[EventAttribute("Event.CANCEL")]
 		public event Action<Event> cancelled;
 
 		/// <summary>
 		/// Dispatched when download is complete or when upload generates an HTTP status code of 200.
 		/// </summary>
-		[As3Event("Event.COMPLETE")]
+		[EventAttribute("Event.COMPLETE")]
 		public event Action<Event> complete;
 
 		/// <summary>
 		/// Dispatched when an upload fails and an HTTP status code is available to describe the failure.
 		/// </summary>
-		[As3Event("HTTPStatusEvent.HTTP_STATUS")]
+		[EventAttribute("HTTPStatusEvent.HTTP_STATUS")]
 		public event Action<HTTPStatusEvent> httpStatus;
 
 		/// <summary>
 		/// Dispatched when the upload or download fails.
 		/// </summary>
-		[As3Event("IOErrorEvent.IO_ERROR")]
+		[EventAttribute("IOErrorEvent.IO_ERROR")]
 		public event Action<IOErrorEvent> ioError;
 
 		/// <summary>
 		/// Dispatched when an upload or download operation starts.
 		/// </summary>
-		[As3Event("Event.OPEN")]
+		[EventAttribute("Event.OPEN")]
 		public event Action<Event> open;
 
 		/// <summary>
 		/// Dispatched periodically during the file upload or download operation.
 		/// </summary>
-		[As3Event("ProgressEvent.PROGRESS")]
+		[EventAttribute("ProgressEvent.PROGRESS")]
 		public event Action<ProgressEvent> progress;
 
 		/// <summary>
 		/// Dispatched when a call to the FileReference.upload() or FileReference.download() method tries to upload a file to a server or get a file from a server that is outside the caller's security sandbox.
 		/// </summary>
-		[As3Event("SecurityErrorEvent.SECURITY_ERROR")]
+		[EventAttribute("SecurityErrorEvent.SECURITY_ERROR")]
 		public event Action<SecurityErrorEvent> securityError;
 
 		/// <summary>
 		/// Dispatched when the user selects a file for upload or download from the file-browsing dialog box.
 		/// </summary>
-		[As3Event("Event.SELECT")]
+		[EventAttribute("Event.SELECT")]
 		public event Action<Event> select;
 
 		/// <summary>
 		/// Dispatched after data is received from the server after a successful upload.
 		/// </summary>
-		[As3Event("DataEvent.UPLOAD_COMPLETE_DATA")]
+		[EventAttribute("DataEvent.UPLOAD_COMPLETE_DATA")]
 		public event Action<DataEvent> uploadCompleteData;
 	}
 }

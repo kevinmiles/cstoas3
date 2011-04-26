@@ -7,7 +7,7 @@
 
 	using utils;
 
-	[As3Name("lockData","lock","")]
+	[NameAttribute("lockData","lock","")]
 	public class BitmapData : IBitmapDrawable {
 		public readonly int height;
 

@@ -1,6 +1,7 @@
 ﻿namespace CsCompiler.AS3Writer {
 	using System.Collections.Generic;
 	using CsParser;
+	using Tools;
 
 	public static class MethodParser {
 		private static readonly Dictionary<string, string> _notValidConstructorMod =
@@ -15,7 +16,7 @@
 				{ "new", ""}
 			};
 
-		public static void Parse(TheConstructor pConstructor, As3Builder pBuilder) {
+		public static void Parse(TheConstructor pConstructor, CodeBuilder pBuilder) {
 			if (pConstructor.IsStaticConstructor) {
 				pBuilder.Append("{");
 
@@ -42,7 +43,7 @@
 			pBuilder.AppendLine();
 		}
 
-		public static void Parse(TheMethod pMethod, As3Builder pBuilder) {
+		public static void Parse(TheMethod pMethod, CodeBuilder pBuilder) {
 			if (pMethod == null) return;
 			bool isInterface = pMethod.MyClass.IsInterface;
 

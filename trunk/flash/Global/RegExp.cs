@@ -64,7 +64,7 @@
 		}
 	}
 
-	[As3AsObject]
+	[AsObjectAttribute]
 	public sealed class RegExpMatch {
 		/// <summary>
 		/// The character position of the matched substring within the string

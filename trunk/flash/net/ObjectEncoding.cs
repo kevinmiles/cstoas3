@@ -1,5 +1,5 @@
 ﻿namespace flash.net {
-	[As3Name("ObjectEncoding","")]
+	[NameAttribute("ObjectEncoding","")]
 	public enum ObjectEncodingType {
 		AMF0,
 		AMF3,

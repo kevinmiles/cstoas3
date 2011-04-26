@@ -1,10 +1,12 @@
 ﻿namespace System {
 	using Collections;
+	using Collections.Generic;
+
 	using ComponentModel;
 
 	using flash;
 
-	[As3Name("delete", "delete ({0})", "")]
+	[NameAttribute("delete", "delete ({0})", "")]
 	public class Object {
 		sealed class ObjectEnumerator : IEnumerator<string>{
 			object IEnumerator.Current {
