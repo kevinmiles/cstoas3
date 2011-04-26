@@ -1,0 +1,5 @@
+<Configuration>
+  <NamespaceFolders>
+    <SkipFolder>996DB095-9B7E-4B49-B217-E13C70E1C56D/d:Global/d:Html</SkipFolder>
+  </NamespaceFolders>
+</Configuration>

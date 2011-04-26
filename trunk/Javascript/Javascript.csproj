@@ -1,0 +1,326 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{996DB095-9B7E-4B49-B217-E13C70E1C56D}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Javascript</RootNamespace>
+    <AssemblyName>Javascript</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <UpgradeBackupLocation />
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>false</DebugSymbols>
+    <DebugType>none</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>NET_2_0, NET_4_0, BOOTSTRAP_NET_4_0</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+    <NoStdLib>true</NoStdLib>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <DocumentationFile>bin\Debug\Javascript.xml</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>none</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>NET_2_0, NET_4_0, BOOTSTRAP_NET_4_0</DefineConstants>
+    <ErrorReport>send</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Release\Javascript.xml</DocumentationFile>
+    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
+    <NoStdLib>true</NoStdLib>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <NoWarn>1591, 0660, 0661, 0067</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>ExtremeFXKeyFile.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Attributes.cs" />
+    <Compile Include="CoreLib\StringBuilder.cs" />
+    <Compile Include="CoreLib\System\Action.cs" />
+    <Compile Include="CoreLib\System\Attributes\ComponentModel\BrowsableAttribute.cs" />
+    <Compile Include="CoreLib\System\Attributes\ComponentModel\EditorBrowsableState.cs" />
+    <Compile Include="CoreLib\System\Attributes\AttributeUsageAttribute.cs" />
+    <Compile Include="CoreLib\System\Attributes\ObsoleteAttribute.cs" />
+    <Compile Include="CoreLib\System\Attributes\ParamArrayAttribute.cs" />
+    <Compile Include="CoreLib\System\Attributes\FlagsAttribute.cs" />
+    <Compile Include="CoreLib\System\Attributes\Diagnostics\ConditionalAttribute.cs" />
+    <Compile Include="CoreLib\System\Attributes\GeneratedCodeAttribute.cs" />
+    <Compile Include="CoreLib\System\Attributes\Reflection\AssemblyVersionAttribute.cs" />
+    <Compile Include="CoreLib\System\Attributes\Reflection\AssemblyProductAttribute.cs" />
+    <Compile Include="CoreLib\System\Attributes\Reflection\AssemblyTitleAttribute.cs" />
+    <Compile Include="CoreLib\System\Attributes\Reflection\AssemblyDescriptionAttribute.cs" />
+    <Compile Include="CoreLib\System\Attributes\Reflection\AssemblyConfigurationAttribute.cs" />
+    <Compile Include="CoreLib\System\Attributes\Reflection\AssemblyCompanyAttribute.cs" />
+    <Compile Include="CoreLib\System\Attributes\Reflection\AssemblyCopyrightAttribute.cs" />
+    <Compile Include="CoreLib\System\Attributes\Reflection\AssemblyCultureAttribute.cs" />
+    <Compile Include="CoreLib\System\Attributes\Reflection\AssemblyTrademarkAttribute.cs" />
+    <Compile Include="CoreLib\System\Attributes\Reflection\AssemblyFileVersionAttribute.cs" />
+    <Compile Include="CoreLib\System\Attributes\Reflection\DefaultMemberAttribute.cs" />
+    <Compile Include="CoreLib\System\Attributes\Runtime\CompilerServices\ExtensionAttribute.cs" />
+    <Compile Include="CoreLib\System\Attributes\Runtime\InteropServices\ComVisibleAttribute.cs" />
+    <Compile Include="CoreLib\System\Attributes\Runtime\InteropServices\GuidAttribute.cs" />
+    <Compile Include="CoreLib\System\Attributes\Runtime\InteropServices\OutAttribute.cs" />
+    <Compile Include="CoreLib\System\Attributes\Runtime\Versioning\TargetFrameworkAttribute.cs" />
+    <Compile Include="CoreLib\System\Attribute.cs" />
+    <Compile Include="CoreLib\System\AttributeTargets.cs" />
+    <Compile Include="CoreLib\System\Byte.cs" />
+    <Compile Include="CoreLib\System\Collections\Generic\IEnumerable.cs" />
+    <Compile Include="CoreLib\System\Collections\Generic\IEnumerator.cs" />
+    <Compile Include="CoreLib\System\Collections\IEqualityComparer.cs" />
+    <Compile Include="CoreLib\System\Decimal.cs" />
+    <Compile Include="CoreLib\System\Attributes\Diagnostics\SuppressMessageAttribute.cs" />
+    <Compile Include="CoreLib\System\Attributes\Diagnostics\DebuggableAttribute.cs" />
+    <Compile Include="CoreLib\System\Attributes\Diagnostics\DebuggerBrowsableAttribute.cs" />
+    <Compile Include="CoreLib\System\Attributes\Diagnostics\DebuggerDisplayAttribute.cs" />
+    <Compile Include="CoreLib\System\Attributes\Diagnostics\DebuggerHiddenAttribute.cs" />
+    <Compile Include="CoreLib\System\Attributes\Diagnostics\DebuggerNonUserCodeAttribute.cs" />
+    <Compile Include="CoreLib\System\Attributes\Diagnostics\DebuggerStepperBoundaryAttribute.cs" />
+    <Compile Include="CoreLib\System\Attributes\Diagnostics\DebuggerStepThroughAttribute.cs" />
+    <Compile Include="CoreLib\System\Attributes\Diagnostics\DebuggerTypeProxyAttribute.cs" />
+    <Compile Include="CoreLib\System\Attributes\Diagnostics\DebuggerVisualizerAttribute.cs" />
+    <Compile Include="CoreLib\System\Func.cs" />
+    <Compile Include="CoreLib\System\Nullable.cs" />
+    <Compile Include="CoreLib\System\Object.cs" />
+    <Compile Include="CoreLib\System\Attributes\Runtime\CompilerServices\AccessedThroughPropertyAttribute.cs" />
+    <Compile Include="CoreLib\System\Attributes\Runtime\CompilerServices\CallConvCdecl.cs" />
+    <Compile Include="CoreLib\System\Attributes\Runtime\CompilerServices\CallConvFastcall.cs" />
+    <Compile Include="CoreLib\System\Attributes\Runtime\CompilerServices\CallConvStdcall.cs" />
+    <Compile Include="CoreLib\System\Attributes\Runtime\CompilerServices\CallConvThiscall.cs" />
+    <Compile Include="CoreLib\System\Attributes\Runtime\CompilerServices\CompilationRelaxations.cs" />
+    <Compile Include="CoreLib\System\Attributes\Runtime\CompilerServices\CompilationRelaxationsAttribute.cs" />
+    <Compile Include="CoreLib\System\Attributes\Runtime\CompilerServices\CompilerGeneratedAttribute.cs" />
+    <Compile Include="CoreLib\System\Attributes\Runtime\CompilerServices\CompilerGlobalScopeAttribute.cs" />
+    <Compile Include="CoreLib\System\Attributes\Runtime\CompilerServices\CompilerMarshalOverride.cs" />
+    <Compile Include="CoreLib\System\Attributes\Runtime\CompilerServices\ConditionalWeakTable.cs" />
+    <Compile Include="CoreLib\System\Attributes\Runtime\CompilerServices\CustomConstantAttribute.cs" />
+    <Compile Include="CoreLib\System\Attributes\Runtime\CompilerServices\DateTimeConstantAttribute.cs" />
+    <Compile Include="CoreLib\System\Attributes\Runtime\CompilerServices\DecimalConstantAttribute.cs" />
+    <Compile Include="CoreLib\System\Attributes\Runtime\CompilerServices\DefaultDependencyAttribute.cs" />
+    <Compile Include="CoreLib\System\Attributes\Runtime\CompilerServices\DependencyAttribute.cs" />
+    <Compile Include="CoreLib\System\Attributes\Runtime\CompilerServices\DiscardableAttribute.cs" />
+    <Compile Include="CoreLib\System\Attributes\Runtime\CompilerServices\FixedAddressValueTypeAttribute.cs" />
+    <Compile Include="CoreLib\System\Attributes\Runtime\CompilerServices\FixedBufferAttribute.cs" />
+    <Compile Include="CoreLib\System\Attributes\Runtime\CompilerServices\HasCopySemanticsAttribute.cs" />
+    <Compile Include="CoreLib\System\Attributes\Runtime\CompilerServices\IDispatchConstantAttribute.cs" />
+    <Compile Include="CoreLib\System\Attributes\Runtime\CompilerServices\IndexerNameAttribute.cs" />
+    <Compile Include="CoreLib\System\Attributes\Runtime\CompilerServices\InternalsVisibleToAttribute.cs" />
+    <Compile Include="CoreLib\System\Attributes\Runtime\CompilerServices\IsBoxed.cs" />
+    <Compile Include="CoreLib\System\Attributes\Runtime\CompilerServices\IsByValue.cs" />
+    <Compile Include="CoreLib\System\Attributes\Runtime\CompilerServices\IsConst.cs" />
+    <Compile Include="CoreLib\System\Attributes\Runtime\CompilerServices\IsCopyConstructed.cs" />
+    <Compile Include="CoreLib\System\Attributes\Runtime\CompilerServices\IsExplicitlyDereferenced.cs" />
+    <Compile Include="CoreLib\System\Attributes\Runtime\CompilerServices\IsImplicitlyDereferenced.cs" />
+    <Compile Include="CoreLib\System\Attributes\Runtime\CompilerServices\IsJitIntrinsic.cs" />
+    <Compile Include="CoreLib\System\Attributes\Runtime\CompilerServices\IsLong.cs" />
+    <Compile Include="CoreLib\System\Attributes\Runtime\CompilerServices\IsPinned.cs" />
+    <Compile Include="CoreLib\System\Attributes\Runtime\CompilerServices\IsSignUnspecifiedByte.cs" />
+    <Compile Include="CoreLib\System\Attributes\Runtime\CompilerServices\IsUdtReturn.cs" />
+    <Compile Include="CoreLib\System\Attributes\Runtime\CompilerServices\IsVolatile.cs" />
+    <Compile Include="CoreLib\System\Attributes\Runtime\CompilerServices\IUnknownConstantAttribute.cs" />
+    <Compile Include="CoreLib\System\Attributes\Runtime\CompilerServices\LoadHint.cs" />
+    <Compile Include="CoreLib\System\Attributes\Runtime\CompilerServices\MethodCodeType.cs" />
+    <Compile Include="CoreLib\System\Attributes\Runtime\CompilerServices\MethodImplAttribute.cs" />
+    <Compile Include="CoreLib\System\Attributes\Runtime\CompilerServices\MethodImplOptions.cs" />
+    <Compile Include="CoreLib\System\Attributes\Runtime\CompilerServices\NativeCppClassAttribute.cs" />
+    <Compile Include="CoreLib\System\Attributes\Runtime\CompilerServices\RequiredAttributeAttribute.cs" />
+    <Compile Include="CoreLib\System\Attributes\Runtime\CompilerServices\RuntimeCompatibilityAttribute.cs" />
+    <Compile Include="CoreLib\System\Attributes\Runtime\CompilerServices\RuntimeHelpers.cs" />
+    <Compile Include="CoreLib\System\Attributes\Runtime\CompilerServices\RuntimeWrappedException.cs" />
+    <Compile Include="CoreLib\System\Attributes\Runtime\CompilerServices\ScopelessEnumAttribute.cs" />
+    <Compile Include="CoreLib\System\Attributes\Runtime\CompilerServices\SpecialNameAttribute.cs" />
+    <Compile Include="CoreLib\System\Attributes\Runtime\CompilerServices\StringFreezingAttribute.cs" />
+    <Compile Include="CoreLib\System\Attributes\Runtime\CompilerServices\SuppressIldasmAttribute.cs" />
+    <Compile Include="CoreLib\System\Attributes\Runtime\CompilerServices\TypeForwardedFromAttribute.cs" />
+    <Compile Include="CoreLib\System\Attributes\Runtime\CompilerServices\TypeForwardedToAttribute.cs" />
+    <Compile Include="CoreLib\System\Attributes\Runtime\CompilerServices\UnsafeValueTypeAttribute.cs" />
+    <Compile Include="Global\Context.cs" />
+    <Compile Include="Global\Html\ActiveXObject.cs" />
+    <Compile Include="Global\Html\History.cs" />
+    <Compile Include="Global\Html\HtmlAnchor.cs" />
+    <Compile Include="Global\Html\HtmlAppletElement.cs" />
+    <Compile Include="Global\Html\HtmlAttribute.cs" />
+    <Compile Include="Global\Html\HtmlAttributeCollection.cs" />
+    <Compile Include="Global\Html\HtmlAttributeSearch.cs" />
+    <Compile Include="Global\Html\HtmlBaseElement.cs" />
+    <Compile Include="Global\Html\HtmlBaseFontElement.cs" />
+    <Compile Include="Global\Html\HtmlBody.cs" />
+    <Compile Include="Global\Html\HtmlBr.cs" />
+    <Compile Include="Global\Html\HtmlButton.cs" />
+    <Compile Include="Global\Html\HtmlCaption.cs" />
+    <Compile Include="Global\Html\HtmlClipboardData.cs" />
+    <Compile Include="Global\Html\HtmlContext.cs" />
+    <Compile Include="Global\Html\HtmlCssRule.cs" />
+    <Compile Include="Global\Html\HtmlDiv.cs" />
+    <Compile Include="Global\Html\HtmlDocument.cs" />
+    <Compile Include="Global\Html\HtmlDocumentElement.cs" />
+    <Compile Include="Global\Html\HtmlDocumentFragment.cs" />
+    <Compile Include="Global\Html\HtmlDomEventArgs.cs" />
+    <Compile Include="Global\Html\HtmlDomImplementation.cs" />
+    <Compile Include="Global\Html\HtmlElement.cs" />
+    <Compile Include="Global\Html\HtmlElementStyle.cs" />
+    <Compile Include="Global\Html\HtmlEmbedElement.cs" />
+    <Compile Include="Global\Html\HtmlFieldSet.cs" />
+    <Compile Include="Global\Html\HtmlFontElement.cs" />
+    <Compile Include="Global\Html\HtmlForm.cs" />
+    <Compile Include="Global\Html\HtmlFrameElement.cs" />
+    <Compile Include="Global\Html\HtmlFrameSetElement.cs" />
+    <Compile Include="Global\Html\HtmlGenericCollection.cs" />
+    <Compile Include="Global\Html\HtmlHead.cs" />
+    <Compile Include="Global\Html\HtmlHeadingElement.cs" />
+    <Compile Include="Global\Html\HtmlHorizontalRule.cs" />
+    <Compile Include="Global\Html\HtmlHtmlElement.cs" />
+    <Compile Include="Global\Html\HtmlIFrame.cs" />
+    <Compile Include="Global\Html\HtmlImage.cs" />
+    <Compile Include="Global\Html\HtmlInput.cs" />
+    <Compile Include="Global\Html\HtmlInputCheckBox.cs" />
+    <Compile Include="Global\Html\HtmlLabelElement.cs" />
+    <Compile Include="Global\Html\HtmlLegend.cs" />
+    <Compile Include="Global\Html\HtmlLineBreak.cs" />
+    <Compile Include="Global\Html\HtmlLink.cs" />
+    <Compile Include="Global\Html\HtmlListItem.cs" />
+    <Compile Include="Global\Html\HtmlMapElement.cs" />
+    <Compile Include="Global\Html\HtmlMarqueeElement.cs" />
+    <Compile Include="Global\Html\HtmlMetaElement.cs" />
+    <Compile Include="Global\Html\HtmlNode.cs" />
+    <Compile Include="Global\Html\HtmlNodeCollection.cs" />
+    <Compile Include="Global\Html\HtmlObjectElement.cs" />
+    <Compile Include="Global\Html\HtmlOptGroupElement.cs" />
+    <Compile Include="Global\Html\HtmlOption.cs" />
+    <Compile Include="Global\Html\HtmlOrderedList.cs" />
+    <Compile Include="Global\Html\HtmlParagraph.cs" />
+    <Compile Include="Global\Html\HtmlPre.cs" />
+    <Compile Include="Global\Html\HtmlQuoteElement.cs" />
+    <Compile Include="Global\Html\HtmlScreen.cs" />
+    <Compile Include="Global\Html\HtmlScript.cs" />
+    <Compile Include="Global\Html\HtmlScriptElement.cs" />
+    <Compile Include="Global\Html\HtmlSelect.cs" />
+    <Compile Include="Global\Html\HtmlSelection.cs" />
+    <Compile Include="Global\Html\HtmlSpan.cs" />
+    <Compile Include="Global\Html\HtmlStyleElement.cs" />
+    <Compile Include="Global\Html\HtmlStyleSheetPage.cs" />
+    <Compile Include="Global\Html\HtmlTable.cs" />
+    <Compile Include="Global\Html\HtmlTableBody.cs" />
+    <Compile Include="Global\Html\HtmlTableCaptionElement.cs" />
+    <Compile Include="Global\Html\HtmlTableCell.cs" />
+    <Compile Include="Global\Html\HtmlTableCol.cs" />
+    <Compile Include="Global\Html\HtmlTableColGroup.cs" />
+    <Compile Include="Global\Html\HtmlTableFoot.cs" />
+    <Compile Include="Global\Html\HtmlTableHead.cs" />
+    <Compile Include="Global\Html\HtmlTableHeadCell.cs" />
+    <Compile Include="Global\Html\HtmlTableRow.cs" />
+    <Compile Include="Global\Html\HtmlTextArea.cs" />
+    <Compile Include="Global\Html\HtmlTextNode.cs" />
+    <Compile Include="Global\Html\HtmlTextRange.cs" />
+    <Compile Include="Global\Html\HtmlTextRectangle.cs" />
+    <Compile Include="Global\Html\HtmlTextRectangleCollection.cs" />
+    <Compile Include="Global\Html\HtmlTitle.cs" />
+    <Compile Include="Global\Html\HtmlUnorderedList.cs" />
+    <Compile Include="Global\Html\HtmlWindow.cs" />
+    <Compile Include="Global\Html\HtmlWindowLocation.cs" />
+    <Compile Include="Global\Html\HtmlWindowNavigator.cs" />
+    <Compile Include="Global\Html\StyleFilter.cs" />
+    <Compile Include="Global\Html\StyleFilterCollection.cs" />
+    <Compile Include="Global\Html\XMLHttpRequest.cs" />
+    <Compile Include="Global\JsArguments.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="CoreLib\System\Array.cs" />
+    <Compile Include="CoreLib\System\Boolean.cs" />
+    <Compile Include="CoreLib\System\Char.cs" />
+    <Compile Include="CoreLib\System\MulticastDelegate.cs" />
+    <Compile Include="CoreLib\System\RuntimeTypeHandle.cs" />
+    <Compile Include="CoreLib\System\Enum.cs" />
+    <Compile Include="CoreLib\System\RuntimeFieldHandle.cs" />
+    <Compile Include="CoreLib\System\UIntPtr.cs" />
+    <Compile Include="CoreLib\System\IntPtr.cs" />
+    <Compile Include="CoreLib\System\SByte.cs" />
+    <Compile Include="CoreLib\System\Delegate.cs" />
+    <Compile Include="CoreLib\System\Single.cs" />
+    <Compile Include="CoreLib\System\UInt64.cs" />
+    <Compile Include="CoreLib\System\UInt16.cs" />
+    <Compile Include="CoreLib\System\Int16.cs" />
+    <Compile Include="CoreLib\System\Int64.cs" />
+    <Compile Include="CoreLib\System\Double.cs" />
+    <Compile Include="CoreLib\System\Int32.cs" />
+    <Compile Include="CoreLib\System\ValueType.cs" />
+    <Compile Include="CoreLib\System\Void.cs" />
+    <Compile Include="CoreLib\System\Collections\IEnumerable.cs" />
+    <Compile Include="CoreLib\System\Collections\IEnumerator.cs" />
+    <Compile Include="CoreLib\System\Exception.cs" />
+    <Compile Include="CoreLib\System\IDisposable.cs" />
+    <Compile Include="CoreLib\System\Type.cs" />
+    <Compile Include="CoreLib\System\UInt32.cs" />
+    <Compile Include="Global\Date.cs" />
+    <Compile Include="Global\Math.cs" />
+    <Compile Include="Global\RegExp.cs" />
+    <Compile Include="CoreLib\System\String.cs" />
+    <Compile Include="Global\Error.cs" />
+    <Compile Include="Global\Utils.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ExtremeFXKeyFile.snk" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+</Project>
