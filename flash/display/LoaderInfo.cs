@@ -42,43 +42,43 @@
 		/// <summary>
 		/// Dispatched when data has loaded successfully.
 		/// </summary>
-		[As3Event("Event.COMPLETE")]
+		[EventAttribute("Event.COMPLETE")]
 		public event Action<Event> complete;
 
 		/// <summary>
 		/// Dispatched when a network request is made over HTTP and an HTTP status code can be detected.
 		/// </summary>
-		[As3Event("HTTPStatusEvent.HTTP_STATUS")]
+		[EventAttribute("HTTPStatusEvent.HTTP_STATUS")]
 		public event Action<HTTPStatusEvent> httpStatus;
 
 		/// <summary>
 		/// Dispatched when the properties and methods of a loaded SWF file are accessible.
 		/// </summary>
-		[As3Event("Event.INIT")]
+		[EventAttribute("Event.INIT")]
 		public event Action<Event> init;
 
 		/// <summary>
 		/// Dispatched when an input or output error occurs that causes a load operation to fail.
 		/// </summary>
-		[As3Event("IOErrorEvent.IO_ERROR")]
+		[EventAttribute("IOErrorEvent.IO_ERROR")]
 		public event Action<IOErrorEvent> ioError;
 
 		/// <summary>
 		/// Dispatched when a load operation starts.
 		/// </summary>
-		[As3Event("Event.OPEN")]
+		[EventAttribute("Event.OPEN")]
 		public event Action<Event> open;
 
 		/// <summary>
 		/// Dispatched when data is received as the download operation progresses.
 		/// </summary>
-		[As3Event("ProgressEvent.PROGRESS")]
+		[EventAttribute("ProgressEvent.PROGRESS")]
 		public event Action<ProgressEvent> progress;
 
 		/// <summary>
 		/// Dispatched by a <see cref="LoaderInfo"/> object whenever a loaded object is removed by using the unload() method of the Loader object, or when a second load is performed by the same Loader object and the original content is removed prior to the load beginning.
 		/// </summary>
-		[As3Event("Event.UNLOAD")]
+		[EventAttribute("Event.UNLOAD")]
 		public event Action<Event> unload;
 	}
 }

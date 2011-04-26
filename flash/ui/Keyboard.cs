@@ -8,7 +8,7 @@
 		}
 	}
 
-	[As3Name("Keyboard","")]
+	[NameAttribute("Keyboard","")]
 	public enum KeyboardKey {
 		ALTERNATE,
 		BACKQUOTE,

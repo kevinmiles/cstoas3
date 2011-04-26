@@ -44,7 +44,7 @@
 		/// <summary>
 		/// Dispatched when a sound has finished playing.
 		/// </summary>
-		[As3Event("Event.ACTIVATE")]
+		[EventAttribute("Event.ACTIVATE")]
 		public event Action<Event> soundComplete;
 	}
 }

@@ -1,11 +1,11 @@
 ﻿namespace System {
 	using flash;
 	[Flags]
-	[As3Name("CASEINSENSITIVE", "Array.CASEINSENSITIVE", "")]
-	[As3Name("DESCENDING", "Array.DESCENDING", "")]
-	[As3Name("NUMERIC", "Array.NUMERIC", "")]
-	[As3Name("RETURNINDEXEDARRAY", "Array.RETURNINDEXEDARRAY", "")]
-	[As3Name("UNIQUESORT", "Array.UNIQUESORT", "")]
+	[NameAttribute("CASEINSENSITIVE", "Array.CASEINSENSITIVE", "")]
+	[NameAttribute("DESCENDING", "Array.DESCENDING", "")]
+	[NameAttribute("NUMERIC", "Array.NUMERIC", "")]
+	[NameAttribute("RETURNINDEXEDARRAY", "Array.RETURNINDEXEDARRAY", "")]
+	[NameAttribute("UNIQUESORT", "Array.UNIQUESORT", "")]
 	public enum ArraySortOptions {
 		/// <summary>
 		/// [static] Specifies case-insensitive sorting for the Array class sorting methods.

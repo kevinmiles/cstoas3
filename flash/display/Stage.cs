@@ -143,19 +143,19 @@
 		/// <summary>
 		/// Dispatched when the Stage object enters, or leaves, full-screen mode.
 		/// </summary>
-		[As3Event("FullScreenEvent.FULL_SCREEN")]
+		[EventAttribute("FullScreenEvent.FULL_SCREEN")]
 		public event Action<FullScreenEvent> fullScreen;
 
 		/// <summary>
 		/// Dispatched by the Stage object when the mouse pointer moves out of the stage area.
 		/// </summary>
-		[As3Event("Event.MOUSE_LEAVE")]
+		[EventAttribute("Event.MOUSE_LEAVE")]
 		public event Action<Event> mouseLeave;
 
 		/// <summary>
 		/// Dispatched when the <see cref="scaleMode"/> property of the Stage object is set to <see cref="StageScaleMode"/>.NO_SCALE and the SWF file is resized.
 		/// </summary>
-		[As3Event("Event.RESIZE")]
+		[EventAttribute("Event.RESIZE")]
 		public event Action<Event> resize;
 	}
 }

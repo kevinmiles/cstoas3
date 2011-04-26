@@ -3,10 +3,10 @@ namespace System {
 	using ComponentModel;
 
 	using flash;
-	[As3Name("createWithParameters", "(new {0}({1}))", "")]
-	[As3Name("create", "(new {0}())", "")]
-	[As3Name("getDefinitionByName", "flash.utils.getDefinitionByName")]
-	[As3Name("getQualifiedClassName", "flash.utils.getQualifiedClassName")]
+	[NameAttribute("createWithParameters", "(new {0}({1}))", "")]
+	[NameAttribute("create", "(new {0}())", "")]
+	[NameAttribute("getDefinitionByName", "flash.utils.getDefinitionByName")]
+	[NameAttribute("getQualifiedClassName", "flash.utils.getQualifiedClassName")]
 	public abstract class Type {
 		public static object getDefinitionByName(string pName) {
 			return null;

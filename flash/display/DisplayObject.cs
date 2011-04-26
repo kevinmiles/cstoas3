@@ -13,37 +13,37 @@
 		/// <summary>
 		/// Dispatched when a display object is added to the display list.
 		/// </summary>
-		[As3Event("Event.ADDED")]
+		[EventAttribute("Event.ADDED")]
 		public event Action<Event> added;
 
 		/// <summary>
 		/// Dispatched when a display object is added to the on stage display list, either directly or through the addition of a sub tree in which the display object is contained.
 		/// </summary>
-		[As3Event("Event.ADDED_TO_STAGE")]
+		[EventAttribute("Event.ADDED_TO_STAGE")]
 		public event Action<Event> addedToStage;
 
 		/// <summary>
 		/// Dispatched when the playhead is entering a new frame.
 		/// </summary>
-		[As3Event("Event.ENTER_FRAME")]
+		[EventAttribute("Event.ENTER_FRAME")]
 		public event Action<Event> enterFrame;
 
 		/// <summary>
 		/// Dispatched when a display object is about to be removed from the display list.
 		/// </summary>
-		[As3Event("Event.REMOVED")]
+		[EventAttribute("Event.REMOVED")]
 		public event Action<Event> removed;
 
 		/// <summary>
 		/// Dispatched when a display object is about to be removed from the display list, either directly or through the removal of a sub tree in which the display object is contained.
 		/// </summary>
-		[As3Event("Event.REMOVED_FROM_STAGE")]
+		[EventAttribute("Event.REMOVED_FROM_STAGE")]
 		public event Action<Event> removedFromStage;
 
 		/// <summary>
 		/// Dispatched when the display list is about to be updated and rendered.
 		/// </summary>
-		[As3Event("Event.RENDER")]
+		[EventAttribute("Event.RENDER")]
 		public event Action<Event> render;
 
 		public readonly LoaderInfo loaderInfo;

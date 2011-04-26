@@ -2,6 +2,7 @@
 	using System;
 	using System.Collections.Generic;
 	using CsParser;
+	using Tools;
 
 	public static class PropertyParser {
 		private static readonly Dictionary<string, string> _notValidPropertyMod =
@@ -10,7 +11,7 @@
 				{ @"new", "override" }
 			};
 
-		public static void Parse(TheProperty pProperty, As3Builder pBuilder) {
+		public static void Parse(TheProperty pProperty, CodeBuilder pBuilder) {
 			if (pProperty == null) return;
 			bool isInterface = pProperty.MyClass.IsInterface;
 			string type = As3Helpers.Convert(pProperty.ReturnType);

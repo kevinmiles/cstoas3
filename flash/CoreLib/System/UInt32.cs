@@ -2,7 +2,7 @@
 	using flash;
 	using flash.Global;
 
-	[As3Name("parse", "parseInt", "")]
+	[NameAttribute("parse", "parseInt", "")]
 	public struct UInt32 {
 		public const uint MAX_VALUE = 0;
 		public const uint MIN_VALUE = 0;

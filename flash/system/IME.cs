@@ -17,7 +17,7 @@
 			
 		}
 
-		[As3Event("IMEEvent.IME_COMPOSITION")]
+		[EventAttribute("IMEEvent.IME_COMPOSITION")]
 		public event Action<IMEEvent> imeComposition;
 	}
 }

@@ -1,10 +1,11 @@
 ﻿namespace flash.Global {
 	using System;
 	using System.Collections;
+	using System.Collections.Generic;
 	using System.ComponentModel;
 
-	[As3IsGeneric(true)]
-	[As3Name("isFixed","fixed","")]
+	[IsGeneric(true)]
+	[NameAttribute("isFixed","fixed","")]
 	public class Vector<T> : IEnumerable<T> {
 		public bool isFixed;
 

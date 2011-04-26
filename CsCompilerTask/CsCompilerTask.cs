@@ -2,6 +2,7 @@
 	using System;
 	using System.Collections.Generic;
 	using CsCompiler.AS3Writer;
+	using CsCompiler.JsWriter;
 	using CsCompiler.Tools;
 	using Microsoft.Build.Framework;
 	using Microsoft.Build.Utilities;
@@ -9,6 +10,7 @@
 	public sealed class CsCompilerTask : Task {
 		public CsCompilerTask() {
 			ConverterFactory.AddParser(new As3NamespaceParser(), "as3");
+			ConverterFactory.AddParser(new JsNamespaceParser(), "js");
 		}
 
 		[Required]

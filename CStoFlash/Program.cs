@@ -2,6 +2,7 @@ namespace CStoFlash {
 	using System;
 	using System.Collections.Generic;
 	using CsCompiler.AS3Writer;
+	using CsCompiler.JsWriter;
 	using CsCompiler.Tools;
 
 	/// <summary>
@@ -13,6 +14,7 @@ namespace CStoFlash {
 	public static class Program {
 		public static void Main(string[] pArguments) {
 			ConverterFactory.AddParser(new As3NamespaceParser(), "as3");
+			ConverterFactory.AddParser(new JsNamespaceParser(), "js");
 
 			ArgumentsCollection commandLine = new ArgumentsCollection(pArguments);
 			string lang = "as3";

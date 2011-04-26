@@ -1,15 +1,15 @@
 ﻿namespace flash.Global {
-	[As3Name("trace", "")]
-	[As3Name("getTimer", "flash.utils.getTimer")]
-	[As3Name(@"unescape", "")]
-	[As3Name("decodeURI", "")]
-	[As3Name("decodeURIComponent", "")]
-	[As3Name("encodeURI", "")]
-	[As3Name("encodeURIComponent", "")]
-	[As3Name("escape", "")]
-	[As3Name("PositiveInfinity", "Infinity", "")]
-	[As3Name("NegativeInfinity", "-Infinity", "")]
-	[As3Name("NaN", "")]
+	[NameAttribute("trace", "")]
+	[NameAttribute("getTimer", "flash.utils.getTimer")]
+	[NameAttribute(@"unescape", "")]
+	[NameAttribute("decodeURI", "")]
+	[NameAttribute("decodeURIComponent", "")]
+	[NameAttribute("encodeURI", "")]
+	[NameAttribute("encodeURIComponent", "")]
+	[NameAttribute("escape", "")]
+	[NameAttribute("PositiveInfinity", "Infinity", "")]
+	[NameAttribute("NegativeInfinity", "-Infinity", "")]
+	[NameAttribute("NaN", "")]
 	public static class Utils {
 		public static readonly double PositiveInfinity = 0;
 		public static readonly double NegativeInfinity = 0;

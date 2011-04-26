@@ -181,13 +181,13 @@
 		/// <summary>
 		/// Dispatched when a camera begins or ends a session.
 		/// </summary>
-		[As3Event("ActivityEvent.ACTIVITY")]
+		[EventAttribute("ActivityEvent.ACTIVITY")]
 		public event Action<ActivityEvent> activity;
 
 		/// <summary>
 		/// Dispatched when a camera reports its status.
 		/// </summary>
-		[As3Event("StatusEvent.STATUS")]
+		[EventAttribute("StatusEvent.STATUS")]
 		public event Action<StatusEvent> status;
 	}
 }
