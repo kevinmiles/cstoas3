@@ -2,6 +2,6 @@
 	using Metaspec;
 
 	public interface IExpressionParser {
-		Expression Parse(CsExpression pStatement);
+		Expression Parse(CsExpression pStatement, FactoryExpressionCreator pCreator);
 	}
 }

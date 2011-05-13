@@ -7,13 +7,15 @@
 		private readonly CsEntityClass _baseConstructor;
 		private readonly CsConstructor _constructor;
 		private readonly bool _noFormalParams;
+		private FactoryExpressionCreator _creator;
 
-		internal TheConstructor(CsConstructor pConstructor, TheClass pMyClass) {
+		internal TheConstructor(CsConstructor pConstructor, TheClass pMyClass, FactoryExpressionCreator pCreator) {
 			_constructor = pConstructor;
+			_creator = pCreator;
 			MyClass = pMyClass;
 			Modifiers.AddRange(Helpers.GetModifiers(pConstructor.modifiers));
-			Arguments = getArguments(pConstructor.parameters.parameters);
-			BaseArguments = Helpers.GetCallingArguments(pConstructor.argument_list);
+			Arguments = getArguments(pConstructor.parameters.parameters, pCreator);
+			BaseArguments = Helpers.GetCallingArguments(pConstructor.argument_list, pCreator);
 
 			Signature = getSignature(Arguments);
 			CodeBlock = pConstructor.definition;
@@ -66,7 +68,7 @@
 					return null;
 				}
 
-				TheClass baseClass = TheClassFactory.Get(_baseConstructor);
+				TheClass baseClass = TheClassFactory.Get(_baseConstructor, _creator);
 
 				return baseClass.GetConstructor(_constructor.invoked_method.decl as CsConstructor);
 			}
@@ -74,7 +76,7 @@
 
 		public TheConstructor ParentConstructor {
 			get {
-				TheClass baseClass = TheClassFactory.Get(_constructor).Base;
+				TheClass baseClass = TheClassFactory.Get(_constructor, _creator).Base;
 				return baseClass == null ? null : baseClass.GetDefaultConstructor();
 			}
 		}

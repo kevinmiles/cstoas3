@@ -1,4 +1,5 @@
 ﻿namespace CsCompiler.AS3Writer {
+	using System;
 	using System.Collections.Generic;
 	using CsParser;
 	using Tools;
@@ -16,7 +17,7 @@
 				{ "new", ""}
 			};
 
-		public static void Parse(TheConstructor pConstructor, CodeBuilder pBuilder) {
+		public static void Parse(TheConstructor pConstructor, CodeBuilder pBuilder, FactoryExpressionCreator pCreator) {
 			if (pConstructor.IsStaticConstructor) {
 				pBuilder.Append("{");
 
@@ -37,13 +38,13 @@
 				pBuilder.AppendLine();
 			}
 		
-			BlockParser.Parse(pConstructor.CodeBlock, pBuilder);
+			BlockParser.Parse(pConstructor.CodeBlock, pBuilder, pCreator);
 
 			pBuilder.AppendLine("}");
 			pBuilder.AppendLine();
 		}
 
-		public static void Parse(TheMethod pMethod, CodeBuilder pBuilder) {
+		public static void Parse(TheMethod pMethod, CodeBuilder pBuilder, FactoryExpressionCreator pCreator) {
 			if (pMethod == null) return;
 			bool isInterface = pMethod.MyClass.IsInterface;
 
@@ -66,7 +67,7 @@
 				return;
 
 			pBuilder.AppendLine();
-			BlockParser.Parse(pMethod.CodeBlock, pBuilder);
+			BlockParser.Parse(pMethod.CodeBlock, pBuilder, pCreator);
 			pBuilder.AppendLine();
 			pBuilder.AppendLine("}");
 			pBuilder.AppendLine();

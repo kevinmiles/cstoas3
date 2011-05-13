@@ -21,13 +21,13 @@
 				{"static", "final"}
 			};
 
-		public static void Parse(CsClass pCsClass, CodeBuilder pBuilder) {
+		public static void Parse(CsClass pCsClass, CodeBuilder pBuilder, FactoryExpressionCreator pCreator) {
 			ExtensionName = null;
 
 			StringBuilder sb = new StringBuilder();
-			CodeBuilder privateClasses = new CodeBuilder("\t");
+			CodeBuilder privateClasses = new CodeBuilder();
 
-			TheClass myClass = TheClassFactory.Get(pCsClass);
+			TheClass myClass = TheClassFactory.Get(pCsClass, pCreator);
 
 			IsMainClass = Helpers.HasAttribute(pCsClass.attributes, "JsMainClassAttribute");
 			bool isResource = Helpers.HasAttribute(pCsClass.attributes, "JsEmbedAttribute");
@@ -35,7 +35,7 @@
 
 			if (IsMainClass) {
 				JsNamespaceParser.MainClassName = myClass.FullName;
-				AttributeItem vals = Helpers.GetAttributeValue(pCsClass.attributes, "JsMainClassAttribute")[0];
+				AttributeItem vals = Helpers.GetAttributeValue(pCsClass.attributes, "JsMainClassAttribute", pCreator)[0];
 				sb.AppendFormat(@"[SWF(width=""{0}"", height=""{1}"", frameRate=""{2}"", backgroundColor=""{3}"")]",
 				                vals.Parameters[0],
 								vals.Parameters[1],
@@ -47,7 +47,7 @@
 			}
 
 			if (isResource) {
-				AttributeItem vals = Helpers.GetAttributeValue(pCsClass.attributes, "JsEmbedAttribute")[0];
+				AttributeItem vals = Helpers.GetAttributeValue(pCsClass.attributes, "JsEmbedAttribute", pCreator)[0];
 
 				string path = vals.Parameters[0] as String;
 				if (!string.IsNullOrEmpty(path)) {
@@ -153,16 +153,16 @@
 
 				foreach (CsNode memberDeclaration in pCsClass.member_declarations) {
 					if (memberDeclaration is CsConstructor) {
-						MethodParser.Parse(myClass.GetConstructor((CsConstructor)memberDeclaration), pBuilder);
+						MethodParser.Parse(myClass.GetConstructor((CsConstructor)memberDeclaration), pBuilder, pCreator);
 
 					} else if (memberDeclaration is CsMethod) {
-						MethodParser.Parse(myClass.GetMethod((CsMethod)memberDeclaration), pBuilder);
+						MethodParser.Parse(myClass.GetMethod((CsMethod)memberDeclaration), pBuilder, pCreator);
 						if (IsExtension && string.IsNullOrEmpty(ExtensionName)) {
 							ExtensionName = ((CsMethod)memberDeclaration).identifier.identifier;
 						}
 
 					} else if (memberDeclaration is CsIndexer) {
-						IndexerParser.Parse(myClass.GetIndexer((CsIndexer)memberDeclaration), pBuilder);
+						IndexerParser.Parse(myClass.GetIndexer((CsIndexer)memberDeclaration), pBuilder, pCreator);
 
 					} else if (memberDeclaration is CsVariableDeclaration) {
 						VariableParser.Parse(myClass.GetVariable((CsVariableDeclaration)memberDeclaration), pBuilder);
@@ -177,10 +177,10 @@
 						EventParser.Parse(myClass.GetEvent(((CsEvent)memberDeclaration).declarators.First.Value.identifier.identifier), pBuilder);
 
 					} else if (memberDeclaration is CsProperty) {
-						PropertyParser.Parse(myClass.GetProperty((CsProperty)memberDeclaration), pBuilder);
+						PropertyParser.Parse(myClass.GetProperty((CsProperty)memberDeclaration), pBuilder, pCreator);
 
 					} else if (memberDeclaration is CsClass) {
-						Parse((CsClass)memberDeclaration, privateClasses);
+						Parse((CsClass)memberDeclaration, privateClasses, pCreator);
 
 					} else {
 						throw new NotSupportedException();

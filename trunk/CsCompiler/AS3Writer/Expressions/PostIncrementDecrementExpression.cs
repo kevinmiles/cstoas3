@@ -4,13 +4,13 @@
 	using Tools;
 
 	public class PostIncrementDecrementExpression : IExpressionParser {
-		public Expression Parse(CsExpression pStatement) {
+		public Expression Parse(CsExpression pStatement, FactoryExpressionCreator pCreator) {
 			CsPostIncrementDecrementExpression ex = (CsPostIncrementDecrementExpression)pStatement;
 
-			Expression exp = FactoryExpressionCreator.Parse(ex.expression);
+			Expression exp = pCreator.Parse(ex.expression);
 			if (exp.InternalType) {
 				if (ex.expression is CsElementAccess) {
-					string setter = ElementAccessHelper.parseElementAccess(ex.expression, true, true).Value;
+					string setter = ElementAccessHelper.parseElementAccess(ex.expression, true, true, pCreator).Value;
 
 					switch (ex.oper) {
 						case CsTokenType.tkINC:

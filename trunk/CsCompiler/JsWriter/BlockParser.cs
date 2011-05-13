@@ -10,7 +10,7 @@
 		private static int _enumCount;
 		//private static readonly char[] _trimEnd = new[] {',', ' ',';'};
 
-		static readonly Dictionary<Type, Action<CsStatement, CodeBuilder>> _statementWritters = new Dictionary<Type, Action<CsStatement, CodeBuilder>>();
+		static readonly Dictionary<Type, Action<CsStatement, CodeBuilder, FactoryExpressionCreator>> _statementWritters = new Dictionary<Type, Action<CsStatement, CodeBuilder, FactoryExpressionCreator>>();
 		public static bool InsideSetter;
 
 		static BlockParser() {
@@ -28,7 +28,7 @@
 			_statementWritters.Add(typeof(CsUsingStatement), parseUsingStatement);
 		}
 
-		private static void parseUsingStatement(CsStatement pArg1, CodeBuilder pSb) {
+		private static void parseUsingStatement(CsStatement pArg1, CodeBuilder pSb, FactoryExpressionCreator pCreator) {
 			CsUsingStatement statement = (CsUsingStatement)pArg1;
 			CsLocalVariableDeclaration declaration = statement.resource as CsLocalVariableDeclaration;
 
@@ -36,7 +36,7 @@
 
 			if (declaration == null) {
 				varname = "$$using$$";
-				Expression e = FactoryExpressionCreator.Parse(statement.resource);
+				Expression e = pCreator.Parse(statement.resource);
 
 				pSb.AppendFormat("var {0}:{1} = {2};",
 					varname,
@@ -61,7 +61,7 @@
 					sb.Append(";");
 
 				} else {
-					sb.AppendFormat(" = {0};", parseNode(declarator.initializer));
+					sb.AppendFormat(" = {0};", parseNode(declarator.initializer, pCreator));
 				}
 
 				pSb.Append(sb.ToString());
@@ -72,7 +72,7 @@
 			pSb.Append("try {");
 			pSb.AppendLine();
 
-			ParseBlockOrStatementOrExpression(statement.statement, pSb);
+			ParseBlockOrStatementOrExpression(statement.statement, pSb, pCreator);
 
 			pSb.Append("} finally {");
 			pSb.AppendLine();
@@ -84,7 +84,7 @@
 			pSb.AppendLine();
 		}
 
-		private static void parseContinueStatement(CsStatement pStatement, CodeBuilder pSb) {
+		private static void parseContinueStatement(CsStatement pStatement, CodeBuilder pSb, FactoryExpressionCreator pCreator) {
 			//CsContinueStatement continueStatement = (CsContinueStatement)pStatement;
 
 			pSb.Append("continue");
@@ -92,25 +92,25 @@
 			pSb.AppendLine();
 		}
 
-		private static void parseWhileStatement(CsStatement pStatement, CodeBuilder pSb) {
+		private static void parseWhileStatement(CsStatement pStatement, CodeBuilder pSb, FactoryExpressionCreator pCreator) {
 			CsWhileStatement whileStatement = (CsWhileStatement)pStatement;
 
-			pSb.AppendFormat("while ({0}){{", FactoryExpressionCreator.Parse(whileStatement.condition));
+			pSb.AppendFormat("while ({0}){{", pCreator.Parse(whileStatement.condition));
 			pSb.AppendLine();
-			ParseBlockOrStatementOrExpression(whileStatement.statement, pSb);
+			ParseBlockOrStatementOrExpression(whileStatement.statement, pSb, pCreator);
 			pSb.Append("}");
 			pSb.AppendLine();
 			pSb.AppendLine();
 		}
 
 
-		private static void parseThrowStatement(CsStatement pStatement, CodeBuilder pSb) {
+		private static void parseThrowStatement(CsStatement pStatement, CodeBuilder pSb, FactoryExpressionCreator pCreator) {
 			CsThrowStatement throwStatement = (CsThrowStatement)pStatement;
-			pSb.AppendFormat("throw {0};", parseNode(throwStatement.expression));
+			pSb.AppendFormat("throw {0};", parseNode(throwStatement.expression, pCreator));
 			pSb.AppendLine();
 		}
 
-		public static void Parse(CsBlock pCsBlock, CodeBuilder pSb) {
+		public static void Parse(CsBlock pCsBlock, CodeBuilder pSb, FactoryExpressionCreator pCreator) {
 			if (pCsBlock == null)
 				return;
 
@@ -118,31 +118,31 @@
 
 			if (pCsBlock.statements != null) {
 				foreach (CsStatement statement in pCsBlock.statements) {
-					parseStatement(statement, pSb);
+					parseStatement(statement, pSb, pCreator);
 				}
 			}
 
 			pSb.Unindent();
 		}
 
-		public static void ParseNode(CsNode pNode, CodeBuilder pSb) {
+		public static void ParseNode(CsNode pNode, CodeBuilder pSb, FactoryExpressionCreator pCreator) {
 			CsBlock block = pNode as CsBlock;
 			if (block != null) {
-				Parse(block, pSb);
+				Parse(block, pSb, pCreator);
 				return;
 			}
 
 			CsStatement statement = pNode as CsStatement;
 			if (statement != null) {
 				pSb.Indent();
-				parseStatement(statement, pSb);
+				parseStatement(statement, pSb, pCreator);
 				pSb.Unindent();
 				return;
 			}
 
 			CsExpression expression = pNode as CsExpression;
 			if (expression != null) {
-				Expression ex = FactoryExpressionCreator.Parse(pNode as CsExpression);
+				Expression ex = pCreator.Parse(pNode as CsExpression);
 				pSb.Append(ex.Value + ";");
 				pSb.AppendLine();
 				return;
@@ -151,32 +151,32 @@
 			throw new Exception();
 		}
 
-		public static void ParseBlockOrStatementOrExpression(CsNode pNode, CodeBuilder pSb) {
+		public static void ParseBlockOrStatementOrExpression(CsNode pNode, CodeBuilder pSb, FactoryExpressionCreator pCreator) {
 			CsBlock block = pNode as CsBlock;
 			if (block != null) {
-				Parse(block, pSb);
+				Parse(block, pSb, pCreator);
 				return;
 			}
 
 			CsStatement statement = pNode as CsStatement;
 			if (statement != null) {
 				pSb.Indent();
-				parseStatement(statement, pSb);
+				parseStatement(statement, pSb, pCreator);
 				pSb.Unindent();
 				return;
 			}
 
-			Expression ex = FactoryExpressionCreator.Parse(pNode as CsExpression);
+			Expression ex = pCreator.Parse(pNode as CsExpression);
 			pSb.Append(ex.Value+";");
 			pSb.AppendLine();
 		}
 
-		private static string parseNode(CsNode pNode){
-			Expression ex = FactoryExpressionCreator.Parse(pNode as CsExpression);
+		private static string parseNode(CsNode pNode, FactoryExpressionCreator pCreator) {
+			Expression ex = pCreator.Parse(pNode as CsExpression);
 			return ex.Value;
 		}
 
-		private static void parseLocalConstantDeclaration(CsStatement pStatement, CodeBuilder pSb) {
+		private static void parseLocalConstantDeclaration(CsStatement pStatement, CodeBuilder pSb, FactoryExpressionCreator pCreator) {
 			CsDeclarationStatement declarationStatement = (CsDeclarationStatement)pStatement;
 
 			CsLocalConstantDeclaration lcd = (CsLocalConstantDeclaration)declarationStatement.declaration;
@@ -187,7 +187,7 @@
 				sb.AppendFormat(@"const {0}:{1} = {2};",
 					declarator.identifier.identifier,
 					JsHelpers.Convert(Helpers.GetType(lcd.type)),
-					FactoryExpressionCreator.Parse(declarator.expression).Value
+					pCreator.Parse(declarator.expression).Value
 				);
 
 				pSb.Append(sb.ToString());
@@ -195,12 +195,12 @@
 			}
 		}
 
-		private static void parseLocalVariable(CsStatement pStatement, CodeBuilder pSb) {
+		private static void parseLocalVariable(CsStatement pStatement, CodeBuilder pSb, FactoryExpressionCreator pCreator) {
 			CsDeclarationStatement declarationStatement = (CsDeclarationStatement)pStatement;
 
 			CsLocalVariableDeclaration localVariableDeclaration = declarationStatement.declaration as CsLocalVariableDeclaration;
 			if (localVariableDeclaration == null) {
-				parseLocalConstantDeclaration(pStatement, pSb);
+				parseLocalConstantDeclaration(pStatement, pSb, pCreator);
 				return;
 			}
 
@@ -216,7 +216,7 @@
 					sb.Append(";");
 
 				} else {
-					sb.AppendFormat(" = {0};", parseNode(declarator.initializer));
+					sb.AppendFormat(" = {0};", parseNode(declarator.initializer, pCreator));
 				}
 
 				pSb.Append(sb.ToString());
@@ -224,20 +224,20 @@
 			}
 		}
 
-		private static void parseIfStatement(CsStatement pStatement, CodeBuilder pSb) {
+		private static void parseIfStatement(CsStatement pStatement, CodeBuilder pSb, FactoryExpressionCreator pCreator) {
 			CsIfStatement ifStatement = (CsIfStatement)pStatement;
 
-			pSb.AppendFormat("if ({0}){{", FactoryExpressionCreator.Parse(ifStatement.condition));
+			pSb.AppendFormat("if ({0}){{", pCreator.Parse(ifStatement.condition));
 			pSb.AppendLine();
 
-			ParseBlockOrStatementOrExpression(ifStatement.if_statement, pSb);
+			ParseBlockOrStatementOrExpression(ifStatement.if_statement, pSb, pCreator);
 
 			if (ifStatement.else_statement != null) {
 				pSb.AppendLine();
 				pSb.Append("} else {");
 				pSb.AppendLine();
 				pSb.AppendLine();
-				ParseBlockOrStatementOrExpression(ifStatement.else_statement, pSb);
+				ParseBlockOrStatementOrExpression(ifStatement.else_statement, pSb, pCreator);
 			}
 
 			pSb.Append("}");
@@ -245,7 +245,7 @@
 			pSb.AppendLine();
 		}
 
-		private static void parseForStatement(CsStatement pStatement, CodeBuilder pSb) {
+		private static void parseForStatement(CsStatement pStatement, CodeBuilder pSb, FactoryExpressionCreator pCreator) {
 			CsForStatement forStatement = (CsForStatement)pStatement;
 
 			StringBuilder sb = new StringBuilder("for (");
@@ -256,7 +256,7 @@
 			if (localVariableDeclaration == null) {
 				expressionList = forStatement.initializer as CsStatementExpressionList;
 				foreach (CsExpression expression in expressionList.expressions) {
-					Expression ex = FactoryExpressionCreator.Parse(expression);
+					Expression ex = pCreator.Parse(expression);
 					sb.Append(ex.Value);
 					sb.Append(", ");
 				}
@@ -279,7 +279,7 @@
 					now++;
 
 					if (declarator.initializer != null) {
-						sb.AppendFormat(" = {0}", parseNode(declarator.initializer));
+						sb.AppendFormat(" = {0}", parseNode(declarator.initializer, pCreator));
 					}
 
 					if (now < count) {
@@ -290,14 +290,14 @@
 				sb.Append("; ");
 			}
 
-			sb.Append(FactoryExpressionCreator.Parse(forStatement.condition).Value);
+			sb.Append(pCreator.Parse(forStatement.condition).Value);
 			sb.Append("; ");
 
 			expressionList = (CsStatementExpressionList) forStatement.iterator;
 
 			if (expressionList != null) {
 				foreach (CsExpression expression in expressionList.expressions) {
-					Expression ex = FactoryExpressionCreator.Parse(expression);
+					Expression ex = pCreator.Parse(expression);
 					sb.Append(ex.Value);
 					sb.Append(", ");
 				}
@@ -307,16 +307,16 @@
 
 			sb.Append("){");
 			pSb.AppendLine(sb.ToString());
-			ParseBlockOrStatementOrExpression(forStatement.statement, pSb);
+			ParseBlockOrStatementOrExpression(forStatement.statement, pSb, pCreator);
 			pSb.AppendLine("}");
 			pSb.AppendLine();
 
 		}
 
-		private static void parseForeachStatement(CsStatement pStatement, CodeBuilder pSb) {
+		private static void parseForeachStatement(CsStatement pStatement, CodeBuilder pSb, FactoryExpressionCreator pCreator) {
 			CsForeachStatement fes = (CsForeachStatement)pStatement;
 
-			Expression ex = FactoryExpressionCreator.Parse(fes.expression);
+			Expression ex = pCreator.Parse(fes.expression);
 			string type = JsHelpers.Convert(Helpers.GetType(fes.type));
 
 			pSb.AppendLine();
@@ -336,17 +336,17 @@
 			);
 
 			pSb.AppendLine();
-			
 
-			ParseBlockOrStatementOrExpression(fes.statement, pSb);
+
+			ParseBlockOrStatementOrExpression(fes.statement, pSb, pCreator);
 			pSb.AppendLine("}");
 			pSb.AppendLine();
 		}
 
-		private static void parseSwitchStatement(CsStatement pStatement, CodeBuilder pSb) {
+		private static void parseSwitchStatement(CsStatement pStatement, CodeBuilder pSb, FactoryExpressionCreator pCreator) {
 			CsSwitchStatement switchStatement = (CsSwitchStatement)pStatement;
 
-			pSb.AppendFormat("switch ({0}){{", FactoryExpressionCreator.Parse(switchStatement.expression).Value);
+			pSb.AppendFormat("switch ({0}){{", pCreator.Parse(switchStatement.expression).Value);
 			pSb.AppendLine();
 			pSb.Indent();
 
@@ -358,7 +358,7 @@
 						pSb.AppendLine();
 
 					} else {
-						Expression txt = FactoryExpressionCreator.Parse(label.expression);
+						Expression txt = pCreator.Parse(label.expression);
 						pSb.AppendFormat("case {0}:", txt.Value);
 						pSb.AppendLine();
 					}
@@ -366,7 +366,7 @@
 
 				foreach (CsStatement statementNode in caseNode.statements) {
 					pSb.Indent();
-					parseStatement(statementNode, pSb);
+					parseStatement(statementNode, pSb, pCreator);
 					pSb.Unindent();
 				}
 			}
@@ -376,36 +376,36 @@
 			pSb.AppendLine();
 		}
 
-		private static void parseBreakStatement(CsStatement pStatement, CodeBuilder pSb) {
+		private static void parseBreakStatement(CsStatement pStatement, CodeBuilder pSb, FactoryExpressionCreator pCreator) {
 			pSb.Append("break;");
 			pSb.AppendLine();
 			pSb.AppendLine();
 		}
 
-		private static void parseExpressionStatement(CsStatement pStatement, CodeBuilder pSb) {
-			Expression ex = FactoryExpressionCreator.Parse(((CsExpressionStatement)pStatement).expression);
+		private static void parseExpressionStatement(CsStatement pStatement, CodeBuilder pSb, FactoryExpressionCreator pCreator) {
+			Expression ex = pCreator.Parse(((CsExpressionStatement)pStatement).expression);
 			pSb.Append(ex.Value+";");
 			pSb.AppendLine();
 		}
 
-		private static void parseReturnStatement(CsStatement pStatement, CodeBuilder pSb) {
+		private static void parseReturnStatement(CsStatement pStatement, CodeBuilder pSb, FactoryExpressionCreator pCreator) {
 			CsReturnStatement returnStatement = (CsReturnStatement) pStatement;
 			if (returnStatement.expression == null) {
 				//pSb.AppendLine(InsideConstructor ? "return this" : InsideSetter ? "return value;" : "return;");
 				pSb.AppendLine(InsideSetter ? "return value;" : "return;");
 
 			} else {
-				pSb.AppendFormat("return {0};", FactoryExpressionCreator.Parse(returnStatement.expression).Value);
+				pSb.AppendFormat("return {0};", pCreator.Parse(returnStatement.expression).Value);
 				pSb.AppendLine();
 			}
 		}
 
 
-		private static void parseStatement(CsStatement pStatement, CodeBuilder pSb) {
+		private static void parseStatement(CsStatement pStatement, CodeBuilder pSb, FactoryExpressionCreator pCreator) {
 			Type type = pStatement.GetType();
 
 			if (_statementWritters.ContainsKey(type)) {
-				_statementWritters[type](pStatement, pSb);
+				_statementWritters[type](pStatement, pSb, pCreator);
 
 			} else {
 				throw new NotImplementedException("Statement of type: " + pStatement + " not implemented");

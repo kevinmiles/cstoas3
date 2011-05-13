@@ -4,7 +4,7 @@
 	using Tools;
 
 	public class SimpleName : IExpressionParser {
-		public Expression Parse(CsExpression pStatement) {
+		public Expression Parse(CsExpression pStatement, FactoryExpressionCreator pCreator) {
 			return SimpleNameHelper.ParseSimpleName(pStatement, false, false);
 		}
 	}

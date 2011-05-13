@@ -12,9 +12,9 @@ namespace CsCompiler.Tools {
 	public class CodeBuilder {
 		protected readonly StringBuilder _builder;
 		protected int _indentLevel;
-		protected string _indentString = string.Empty;
+		private readonly string _indentString;
 
-		public CodeBuilder(string pIndentString) {
+		public CodeBuilder(string pIndentString = "\t") {
 			_builder = new StringBuilder();
 			_indentString = pIndentString;
 		}

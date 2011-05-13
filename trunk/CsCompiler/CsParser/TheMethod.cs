@@ -1,15 +1,16 @@
 ﻿namespace CsCompiler.CsParser {
 	using Interfaces;
 	using Metaspec;
+	using Tools;
 
-	public class TheMethod : BaseMethod, ICsMethod {
+	public sealed class TheMethod : BaseMethod, ICsMethod {
 		private readonly string _name;
 		private readonly string _realName;
 
-		internal TheMethod(CsEntityMethod pCsMethod, TheClass pMyClass, bool pIsEvent = false, bool pIsAddEvent = false) {
+		internal TheMethod(CsEntityMethod pCsMethod, TheClass pMyClass, FactoryExpressionCreator pCreator, bool pIsEvent = false, bool pIsAddEvent = false) {
 			MyClass = pMyClass;
 			//Modifiers.AddRange(Helpers.GetModifiers(pCsMethod.access));
-			Arguments = getArguments(pCsMethod.parameters);
+			Arguments = getArguments(pCsMethod.parameters, pCreator);
 			Signature = getSignature(Arguments);
 			
 			//_name = Helpers.GetRealName(pCsMethod, pIsEvent ? 
@@ -18,6 +19,7 @@
 			
 			_name = pIsEvent ? pIsAddEvent ? "add" : "remove" : pCsMethod.name;
 			_realName = pCsMethod.name;
+
 			//FullRealName = MyClass.FullRealName + "." + RealName;
 
 			ReturnType = Helpers.GetType(pCsMethod.specifier.return_type);
@@ -52,10 +54,10 @@
 			}
 		}
 
-		internal TheMethod(CsMethod pCsMethod, TheClass pMyClass) {
+		internal TheMethod(CsMethod pCsMethod, TheClass pMyClass, FactoryExpressionCreator pCreator) {
 			MyClass = pMyClass;
 			Modifiers.AddRange(Helpers.GetModifiers(pCsMethod.modifiers));
-			Arguments = getArguments(pCsMethod.parameters.parameters);
+			Arguments = getArguments(pCsMethod.parameters.parameters, pCreator);
 			Signature = getSignature(Arguments);
 			CodeBlock = pCsMethod.definition;
 

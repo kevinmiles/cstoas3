@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 
 namespace CsCompiler.JsWriter {
@@ -8,16 +7,16 @@ namespace CsCompiler.JsWriter {
 	using Metaspec;
 	using Tools;
 
-	sealed class InterfaceParser {
+	static class InterfaceParser {
 		private static readonly Dictionary<string, string> _notValidClassMod =
 			new Dictionary<string, string> {
 				{"private", null},
 				{"abstract", null}
 			};
 
-		public static void Parse(CsInterface pCsInterface, CodeBuilder pBuilder) {
+		public static void Parse(CsInterface pCsInterface, CodeBuilder pBuilder, FactoryExpressionCreator pCreator) {
 			StringBuilder sb = new StringBuilder();
-			TheClass myClass = TheClassFactory.Get(pCsInterface);
+			TheClass myClass = TheClassFactory.Get(pCsInterface, pCreator);
 
 			sb.AppendFormat("{1}interface {0}",
 							myClass.Name,
@@ -45,10 +44,10 @@ namespace CsCompiler.JsWriter {
 					//    MethodParser.Parse(myClass.GetConstructor((CsConstructor)memberDeclaration), pBuilder);
 					//} else
 				if (memberDeclaration is CsMethod) {
-						MethodParser.Parse(myClass.GetMethod((CsMethod)memberDeclaration), pBuilder);
+					MethodParser.Parse(myClass.GetMethod((CsMethod)memberDeclaration), pBuilder, pCreator);
 
 					} else if (memberDeclaration is CsIndexer) {
-						IndexerParser.Parse(myClass.GetIndexer((CsIndexer)memberDeclaration), pBuilder);
+						IndexerParser.Parse(myClass.GetIndexer((CsIndexer)memberDeclaration), pBuilder, pCreator);
 
 					} else if (memberDeclaration is CsVariableDeclaration) {
 						VariableParser.Parse(myClass.GetVariable((CsVariableDeclaration)memberDeclaration), pBuilder);
@@ -64,7 +63,7 @@ namespace CsCompiler.JsWriter {
 					//                      pBuilder);
 					//} else
 					if (memberDeclaration is CsProperty) {
-						PropertyParser.Parse(myClass.GetProperty((CsProperty)memberDeclaration), pBuilder);
+						PropertyParser.Parse(myClass.GetProperty((CsProperty)memberDeclaration), pBuilder, pCreator);
 					//} else if (memberDeclaration is CsInterface) {
 					//    Parse((CsInterface)memberDeclaration, privateClasses);
 					} else {

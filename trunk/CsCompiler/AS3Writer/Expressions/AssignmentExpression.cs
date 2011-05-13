@@ -5,11 +5,11 @@
 	using Tools;
 
 	public class AssignmentExpression : IExpressionParser {
-		public Expression Parse(CsExpression pStatement) {
+		public Expression Parse(CsExpression pStatement, FactoryExpressionCreator pCreator) {
 			CsAssignmentExpression ex = (CsAssignmentExpression)pStatement;
 
-			Expression left = FactoryExpressionCreator.Parse(ex.lhs);
-			Expression right = FactoryExpressionCreator.Parse(ex.rhs);
+			Expression left = pCreator.Parse(ex.lhs);
+			Expression right = pCreator.Parse(ex.rhs);
 
 			if (((ex.lhs is CsElementAccess) || (ex.lhs is CsPrimaryExpressionMemberAccess)) && left.InternalType) {
 				switch (ex.oper) {
@@ -20,7 +20,7 @@
 					case CsTokenType.tkMINUS_EQ:
 					case CsTokenType.tkDIV_EQ:
 					case CsTokenType.tkMUL_EQ:
-						string getter = ElementAccessHelper.parseElementAccess(ex.lhs, true, false).Value;
+						string getter = ElementAccessHelper.parseElementAccess(ex.lhs, true, false, pCreator).Value;
 						return new Expression(string.Format(left.Value, getter + As3Helpers.ConvertTokens(Helpers.GetTokenType(convertToken(ex.oper))) + right.Value), pStatement.entity_typeref);
 				}
 			}
@@ -43,7 +43,7 @@
 				if (ex.lhs.ec == expression_classification.ec_event_access) {
 					CsEntityEvent ev = (CsEntityEvent)ex.lhs.entity;
 
-					TheClass theClass = TheClassFactory.Get(ev.parent);
+					TheClass theClass = TheClassFactory.Get(ev.parent, pCreator);
 					string eventName;
 					//flash event on flash.xxxx
 					if (theClass == null) {

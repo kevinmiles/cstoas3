@@ -10,7 +10,7 @@
 				{"abstract", null}
 			};
 
-		public static void Parse(TheIndexer pGetIndexer, CodeBuilder pBuilder) {
+		public static void Parse(TheIndexer pGetIndexer, CodeBuilder pBuilder, FactoryExpressionCreator pCreator) {
 			bool isInterface = pGetIndexer.MyClass.IsInterface;
 
 			if (pGetIndexer.Getter != null) {
@@ -24,7 +24,7 @@
 				pBuilder.AppendLine();
 
 				if (!isInterface) {
-					BlockParser.Parse(pGetIndexer.Getter.CodeBlock, pBuilder);
+					BlockParser.Parse(pGetIndexer.Getter.CodeBlock, pBuilder, pCreator);
 					pBuilder.AppendLine();
 					pBuilder.AppendLine("}");
 					pBuilder.AppendLine();	
@@ -47,7 +47,7 @@
 			if (isInterface)
 				return;
 			//BlockParser.InsideSetter = true;
-			BlockParser.Parse(pGetIndexer.Setter.CodeBlock, pBuilder);
+			BlockParser.Parse(pGetIndexer.Setter.CodeBlock, pBuilder, pCreator);
 			//BlockParser.InsideSetter = false;
 			pBuilder.AppendLine();
 			pBuilder.AppendLine("}");

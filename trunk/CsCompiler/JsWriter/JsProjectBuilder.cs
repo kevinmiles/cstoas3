@@ -2,6 +2,7 @@
 using System.Runtime.Remoting.Channels;
 
 namespace CsCompiler.JsWriter {
+	using System.Collections.Generic;
 	using System.IO;
 	using System.Runtime.Remoting;
 	using System.Runtime.Remoting.Channels.Ipc;
@@ -49,31 +50,10 @@ namespace CsCompiler.JsWriter {
 										@"ipc://" + _ipcName + "/FlexCompilerShell") as FlexCompilerShell;
 		}
 
-		public string[] Compile(string pWorkingdir, string pArguments, bool pConfigChanged, out string pOutput) {
+		public ICollection<Error> Compile(string pWorkingdir, string pArguments, bool pConfigChanged, out string pOutput) {
 			string[] errors;
-
-			if (_fcsh != null) {
-				string jvmarg1 = VMARGS + @" -Dapplication.home=""" + _sdkPath + @""" -jar """ + _fcshPath + @"""";
-
-				Console.WriteLine(@"Compiling with fcsh...");
-				_fcsh.Compile(pWorkingdir, pConfigChanged, pArguments, out pOutput, out errors, jvmarg1);
-
-				return errors;
-
-			}
-
-			string jvmarg2 = VMARGS + " -jar \"" + _mxmlcPath + @""" +flexlib=""" + Path.Combine(_sdkPath, "frameworks") + "\" ";
-			Console.WriteLine(@"Compiling with mxmlc...");
-			string[] output;
-
-			if (!ProcessRunner.Run(@"java.exe", jvmarg2 + pArguments, false, out output, out errors)) {
-				pOutput = string.Join("\n", output);
-				return new[] { @"Build halted with errors (mxmlc)." };
-			}
-
-			pOutput = string.Empty;
-			return new string[0];
-
+			pOutput = null;
+			return new List<Error>();
 		}
 	}
 }

@@ -4,7 +4,7 @@
 	using Tools;
 
 	public class PrimaryExpressionMemberAccess : IExpressionParser {
-		public Expression Parse(CsExpression pStatement) {
+		public Expression Parse(CsExpression pStatement, FactoryExpressionCreator pCreator) {
 			//expression "." identifier (type-argument-list?)
 			CsPrimaryExpressionMemberAccess ex = (CsPrimaryExpressionMemberAccess)pStatement;
 			string name;
@@ -17,7 +17,7 @@
 			CsEntityProperty p = ex.entity as CsEntityProperty;
 			bool isInternal = false;
 			if (p != null && p.decl != null) {
-				TheClass theClass = TheClassFactory.Get(p);
+				TheClass theClass = TheClassFactory.Get(p, pCreator);
 				TheClass parent = theClass;
 
 				//Am I extending a standard flash class? Do not rename then...
@@ -46,7 +46,7 @@
 			}
 
 			return new Expression(
-				FactoryExpressionCreator.Parse(ex.expression).Value + "." + name,
+				pCreator.Parse(ex.expression).Value + "." + name,
 				pStatement.entity_typeref,
 				isInternal
 			);

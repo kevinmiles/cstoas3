@@ -2,9 +2,10 @@
 	using System.Collections.Generic;
 	using Interfaces;
 	using Metaspec;
+	using Tools;
 
 	public class TheProperty : BaseNode, ICsHasReturnType {
-		public TheProperty(CsProperty pCsProperty, TheClass pTheClass) {
+		public TheProperty(CsProperty pCsProperty, TheClass pTheClass, FactoryExpressionCreator pCreator) {
 			MyClass = pTheClass;
 			Modifiers.AddRange(Helpers.GetModifiers(pCsProperty.modifiers));
 			Name = pCsProperty.identifier.identifier;

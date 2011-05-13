@@ -6,36 +6,36 @@
 	using Tools;
 
 	public class InvocationExpression : IExpressionParser {
-		public Expression Parse(CsExpression pStatement) {
+		public Expression Parse(CsExpression pStatement, FactoryExpressionCreator pCreator) {
 			CsInvocationExpression ex = (CsInvocationExpression)pStatement;
 
 			List<string> indexes = new List<string>();
 
 			if (ex.argument_list != null) {
 				foreach (CsArgument argument in ex.argument_list.list) {
-					indexes.Add(FactoryExpressionCreator.Parse(argument.expression).Value);
+					indexes.Add(pCreator.Parse(argument.expression).Value);
 				}
 			}
 
-			TheClass c = TheClassFactory.Get(pStatement);
+			TheClass c = TheClassFactory.Get(pStatement, pCreator);
 			TheMethod m;
 
 			CsEntityMethod method = ex.entity as CsEntityMethod;
 			CsEntityDelegate entityDelegate = ex.entity as CsEntityDelegate;
 
-			string name = FactoryExpressionCreator.Parse(ex.expression).Value;
+			string name = pCreator.Parse(ex.expression).Value;
 
 			//call es de tipo super. Necesito saber cuál es la clase heredada)
 			if (name.EndsWith("super.", StringComparison.Ordinal)) {
 				c = c.Base;
-				m = c.GetMethod(method);
+				m = c.GetMethod(method, pCreator);
 				name = name + m.Name;
 
 			} else if (method != null) {
 				//si es una expresión de tipo xx.yy.method(), tengo que revisar la expresión
 				//porque la invocación se da como expresión completa...
-				c = TheClassFactory.Get(method.parent);
-				m = c.GetMethod(method);
+				c = TheClassFactory.Get(method.parent, pCreator);
+				m = c.GetMethod(method, pCreator);
 
 				if (m.IsExtensionMethod) {
 					int fnIndex = name.IndexOf(m.Name);

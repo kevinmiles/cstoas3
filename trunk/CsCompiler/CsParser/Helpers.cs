@@ -90,7 +90,7 @@
 			_entityTypeRef.Add(cs_entity_type.et_unknown, "*UnknownEntityRef*");
 		}
 
-		public static List<Expression> GetCallingArguments(CsArgumentList pCsEntityFormalParameter) {
+		public static List<Expression> GetCallingArguments(CsArgumentList pCsEntityFormalParameter, FactoryExpressionCreator pCreator) {
 			List<Expression> arguments = new List<Expression>();
 
 			if (pCsEntityFormalParameter == null || pCsEntityFormalParameter.list == null) {
@@ -100,7 +100,7 @@
 			arguments.AddRange(
 			                   pCsEntityFormalParameter.list.Select(
 			                                                        pCsArgument =>
-			                                                        FactoryExpressionCreator.Parse(pCsArgument.expression)));
+			                                                        pCreator.Parse(pCsArgument.expression)));
 
 			return arguments;
 		}
@@ -341,12 +341,12 @@
 			ImportStatementList.AddImport((string)vals[0].Parameters[0]);
 		}
 
-		private static void addImports(CsAttributes pList) {
+		private static void addImports(CsAttributes pList, FactoryExpressionCreator pCreator) {
 			if (pList == null) {
 				return;
 			}
 
-			List<AttributeItem> vals = GetAttributeValue(pList, NAMESPACE_ATTRIBUTE);
+			List<AttributeItem> vals = GetAttributeValue(pList, NAMESPACE_ATTRIBUTE, pCreator);
 			if (vals.Count == 0 || vals[0].Parameters.Count == 0) {
 				return;
 			}
@@ -361,7 +361,7 @@
 			ImportStatementList.AddImport(pImport);
 		}
 
-		public static List<AttributeItem> GetAttributeValue(CsAttributes pList, string pAttrName) {
+		public static List<AttributeItem> GetAttributeValue(CsAttributes pList, string pAttrName, FactoryExpressionCreator pCreator) {
 			if (pList == null || pList.sections == null || pList.sections.Count == 0) {
 				return new List<AttributeItem>();
 			}
@@ -372,12 +372,12 @@
 				                          pSection.attribute_list.Select(
 				                                                         pAttribute =>
 				                                                         pAttribute.entities == null
-				                                                         	? getAttributeValue(pAttribute, pAttrName)
+				                                                         	? getAttributeValue(pAttribute, pAttrName, pCreator)
 				                                                         	: GetAttributeValue(pAttribute.entities, pAttrName)).Where
 				                          	(pVal => pVal != null)).FirstOrDefault();
 		}
 
-		private static List<AttributeItem> getAttributeValue(CsAttribute pAttribute, string pAttrName) {
+		private static List<AttributeItem> getAttributeValue(CsAttribute pAttribute, string pAttrName, FactoryExpressionCreator pCreator) {
 			string s;
 			AttributeItem item = new AttributeItem();
 
@@ -396,7 +396,7 @@
 				}
 
 				foreach (var argument in pAttribute.named_argument_list) {
-					item.NamedArguments.Add(argument.identifier.identifier, FactoryExpressionCreator.Parse(argument.expression));
+					item.NamedArguments.Add(argument.identifier.identifier, pCreator.Parse(argument.expression));
 				}
 			}
 
@@ -665,10 +665,10 @@
 			return false;
 		}
 
-		public static string GetEventFromAttr(CsAttributes pList) {
-			addImports(pList);
+		public static string GetEventFromAttr(CsAttributes pList, FactoryExpressionCreator pCreator) {
+			addImports(pList, pCreator);
 
-			List<AttributeItem> vals = GetAttributeValue(pList, EVENT_ATTRIBUTE);
+			List<AttributeItem> vals = GetAttributeValue(pList, EVENT_ATTRIBUTE, pCreator);
 			if (vals.Count == 0) {
 				return null;
 			}

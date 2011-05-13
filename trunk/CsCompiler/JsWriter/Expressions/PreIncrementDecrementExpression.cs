@@ -4,10 +4,10 @@
 	using Tools;
 
 	public class PreIncrementDecrementExpression : IExpressionParser {
-		public Expression Parse(CsExpression pStatement) {
+		public Expression Parse(CsExpression pStatement, FactoryExpressionCreator pCreator) {
 			CsPreIncrementDecrementExpression ex = (CsPreIncrementDecrementExpression)pStatement;
 
-			Expression exp = FactoryExpressionCreator.Parse(ex.unary_expression);
+			Expression exp = pCreator.Parse(ex.unary_expression);
 
 			return new Expression(
 				JsHelpers.ConvertTokens(Helpers.GetTokenType(ex.oper)) + exp.Value,

@@ -62,6 +62,9 @@
 				return "Vector.<" + Convert(pType) + ">";
 			}
 
+			if (pType.StartsWith("Action<", StringComparison.Ordinal) || pType.StartsWith("Func<", StringComparison.Ordinal))
+				return "Function";
+
 			if ((l != -1 && r != -1 && l < r)) {//remove generics
 				if (l == 0 && r == (pType.Length-1)) {
 					return "*";

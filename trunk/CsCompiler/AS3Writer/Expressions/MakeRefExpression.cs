@@ -4,7 +4,7 @@
 	using Tools;
 
 	public class MakeRefExpression : IExpressionParser {
-		public Expression Parse(CsExpression pStatement) {
+		public Expression Parse(CsExpression pStatement, FactoryExpressionCreator pCreator) {
 			// __makeref "(" expresion ")"
 			throw new NotImplementedException();
 		}

@@ -4,7 +4,7 @@
 	using Tools;
 
 	public class QueryExpression : IExpressionParser {
-		public Expression Parse(CsExpression pStatement) {
+		public Expression Parse(CsExpression pStatement, FactoryExpressionCreator pCreator) {
 			//from-clause query-body
 			throw new NotImplementedException();
 		}

@@ -4,7 +4,7 @@
 	using Tools;
 
 	public class ArrayInitializer : IExpressionParser {
-		public Expression Parse(CsExpression pStatement) {
+		public Expression Parse(CsExpression pStatement, FactoryExpressionCreator pCreator) {
 
 			throw new NotImplementedException();
 		}

@@ -2,19 +2,20 @@
 	using System;
 	using System.Collections.Generic;
 	using Metaspec;
+	using Tools;
 
 	public static class TheClassFactory {
 		private static readonly Dictionary<CsClass, TheClass> _classes = new Dictionary<CsClass, TheClass>();
 		private static readonly Dictionary<CsInterface, TheClass> _interfaces = new Dictionary<CsInterface, TheClass>();
 		private static readonly Dictionary<CsEntity, TheClass> _entities = new Dictionary<CsEntity, TheClass>();
 
-		public static TheClass Get(CsNode pNode) {
+		public static TheClass Get(CsNode pNode, FactoryExpressionCreator pCreator) {
 			if (pNode == null)
 				return null;
 
 			CsExpression csExpression = pNode as CsExpression;
 			if (csExpression != null && csExpression.ec != expression_classification.ec_nothing) {
-				return Get((CsEntity)csExpression.entity);
+				return Get((CsEntity)csExpression.entity, pCreator);
 			}
 
 			while (pNode != null) {
@@ -28,20 +29,20 @@
 			CsClass klass = pNode as CsClass;
 			if (klass != null) {
 				if (!_classes.ContainsKey(klass))
-					_classes[klass] = new TheClass(klass);
+					_classes[klass] = new TheClass(klass, pCreator);
 
 				return _classes[klass];
 			}
 
 			CsTypeRef csTypeRef = pNode as CsTypeRef;
 			if (csTypeRef != null) {
-				return csTypeRef.entity_typeref == null ? null : Get((CsEntityClass)(csTypeRef.entity_typeref.u));
+				return csTypeRef.entity_typeref == null ? null : Get((CsEntityClass)(csTypeRef.entity_typeref.u), pCreator);
 			}
 
 			CsInterface csInterface = pNode as CsInterface;
 			if (csInterface != null) {
 				if (!_interfaces.ContainsKey(csInterface))
-					_interfaces[csInterface] = new TheClass(csInterface);
+					_interfaces[csInterface] = new TheClass(csInterface, pCreator);
 
 				return _interfaces[csInterface];
 			}
@@ -49,7 +50,7 @@
 			throw new Exception();
 		}
 
-		public static TheClass Get(CsEntity pCsEntity) {
+		public static TheClass Get(CsEntity pCsEntity, FactoryExpressionCreator pCreator) {
 			if (pCsEntity == null)
 				return null;
 
@@ -63,22 +64,22 @@
 
 			CsEntityClass entityKlass = pCsEntity as CsEntityClass;
 			if (entityKlass != null && entityKlass.nodes.Count != 0 && entityKlass.nodes.First.Value != null) {
-				return Get(entityKlass.nodes.First.Value);
+				return Get(entityKlass.nodes.First.Value, pCreator);
 			}
 
 			CsEntityStruct entityStruct = pCsEntity as CsEntityStruct;
 			if (entityStruct != null && entityStruct.nodes.Count != 0 && entityStruct.nodes.First.Value != null) {
-				return Get(entityStruct.nodes.First.Value);
+				return Get(entityStruct.nodes.First.Value, pCreator);
 			}
 
 			CsEntityInterface entityInterface = pCsEntity as CsEntityInterface;
 			if (entityInterface != null && entityInterface.nodes.Count != 0 && entityInterface.nodes.First.Value != null) {
-				return Get(entityInterface.nodes.First.Value);
+				return Get(entityInterface.nodes.First.Value, pCreator);
 			}
 
 			if (pCsEntity != null) {
 				if (!_entities.ContainsKey(pCsEntity))
-					_entities[pCsEntity] = new TheClass(pCsEntity);
+					_entities[pCsEntity] = new TheClass(pCsEntity, pCreator);
 
 				return _entities[pCsEntity];
 			}
@@ -105,7 +106,7 @@
 
 		//}
 
-		public static TheClass Get(CsEntityTypeRef pEntityTyperef) {
+		public static TheClass Get(CsEntityTypeRef pEntityTyperef, FactoryExpressionCreator pCreator) {
 			if (pEntityTyperef == null)
 				return null;
 
@@ -120,7 +121,7 @@
 											? (CsEntity)pEntityTyperef.u
 											: (CsEntity)entityInstanceSpecifier.type.u;
 
-			return Get(entityClass);
+			return Get(entityClass, pCreator);
 			//return Get(entityClass.nodes.First.Value);
 		}
 	}

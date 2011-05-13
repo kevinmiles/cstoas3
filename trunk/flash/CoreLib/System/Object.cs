@@ -1,6 +1,5 @@
 ﻿namespace System {
 	using Collections;
-	using Collections.Generic;
 
 	using ComponentModel;
 
@@ -28,17 +27,11 @@
 			public void Reset() {}
 		}
 
-		//public bool DeleteItem(string i) {
-		//    return true;
-		//}
-
 		public static bool delete(object pObject) {
 			return true;
 		}
 
-
-		[EditorBrowsable(EditorBrowsableState.Never)]
-		[Browsable(false)]
+		[Browsable(false), EditorBrowsable(EditorBrowsableState.Never)]
 		public IEnumerator<string> GetEnumerator() {
 			return new ObjectEnumerator();
 		}

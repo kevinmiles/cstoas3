@@ -55,7 +55,7 @@
 				args.Add("FlexSdkPath", FlexSdkPath);
 
 				//Resources.Select(pTaskItem => pTaskItem.ItemSpec).ToList()
-				List<string> errors = Project.Parse(
+				ICollection<Error> errors = Project.Parse(
 					sourceFiles,
 					Language,
 					OutputPath,
@@ -64,9 +64,20 @@
 					RootPath
 				);
 
-			
-				foreach (string error in errors) {
-					Log.LogError(error);
+				foreach (Error error in errors) {
+					switch (error.ErrorType) {
+						case ErrorType.Error:
+							Log.LogError(null, null, null, error.File, error.Line, error.Column, 0, 0, error.Message, error.AdditionalInfo);
+							break;
+
+						case ErrorType.Warning:
+							Log.LogWarning(null, null, null, error.File, error.Line, error.Column, 0, 0, error.Message, error.AdditionalInfo);
+							break;
+
+						default:
+							Log.LogMessage(error.Message, error.AdditionalInfo);
+							break;
+					}
 				}
 
 				if (errors.Count > 0) {
