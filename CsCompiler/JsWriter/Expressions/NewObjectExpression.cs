@@ -7,7 +7,7 @@
 	using Tools;
 
 	public class NewObjectExpression : IExpressionParser {
-		public Expression Parse(CsExpression pStatement) {
+		public Expression Parse(CsExpression pStatement, FactoryExpressionCreator pCreator) {
 			//object-creation-expression:
 			//"new" type "(" ( argument_list )? ")" object-or-collection-initializer?
 			//"new" type object-or-collection-initializer
@@ -29,7 +29,7 @@
 				if (initializer.element_initializer_list != null) {
 					List<string> args = new List<string>();
 					foreach (var csNode in initializer.element_initializer_list) {
-						args.Add(FactoryExpressionCreator.Parse(csNode).Value);
+						args.Add(pCreator.Parse(csNode).Value);
 					}
 					sb.Append(String.Join(", ", args.ToArray()));
 				}
@@ -39,7 +39,7 @@
 				if (node.argument_list != null) {
 					List<string> args = new List<string>();
 					foreach (CsArgument argument in node.argument_list.list) {
-						args.Add(FactoryExpressionCreator.Parse(argument.expression).Value);
+						args.Add(pCreator.Parse(argument.expression).Value);
 					}
 
 					sb.Append(String.Join(", ", args.ToArray()));

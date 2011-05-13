@@ -5,7 +5,7 @@
 	using Tools;
 
 	public class Literal : IExpressionParser {
-		public Expression Parse(CsExpression pStatement) {
+		public Expression Parse(CsExpression pStatement, FactoryExpressionCreator pCreator) {
 			CsLiteral li = (CsLiteral)pStatement;
 			
 			switch (li.type) {

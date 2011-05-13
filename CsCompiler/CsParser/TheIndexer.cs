@@ -2,11 +2,14 @@
 	using System.Collections.Generic;
 	using Interfaces;
 	using Metaspec;
+	using Tools;
 
 	public class TheIndexer : BaseMethod, ICsMethod {
-		internal TheIndexer(CsIndexer pIndexer, TheClass pMyClass) {
+		private FactoryExpressionCreator _creator;
+		internal TheIndexer(CsIndexer pIndexer, TheClass pMyClass, FactoryExpressionCreator pCreator) {
 			MyClass = pMyClass;
-			Arguments = getArguments(pIndexer.parameters.parameters);
+			_creator = pCreator;
+			Arguments = getArguments(pIndexer.parameters.parameters, pCreator);
 			Signature = getSignature(Arguments);
 			ReturnType = Helpers.GetType(pIndexer.entity.specifier.return_type);
 			Modifiers.AddRange(Helpers.GetModifiers(pIndexer.modifiers));
@@ -39,7 +42,7 @@
 
 			List<string> mods = Helpers.GetModifiers(pCsPropertyAccessor.modifiers);
 			i.Modifiers.AddRange(mods.Count < 1 ? Modifiers : mods);
-			i.Arguments.AddRange(getArguments(pCsPropertyAccessor.entity.parameters));
+			i.Arguments.AddRange(getArguments(pCsPropertyAccessor.entity.parameters, _creator));
 			return i;
 		}
 

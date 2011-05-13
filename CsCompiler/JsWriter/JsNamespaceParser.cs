@@ -10,48 +10,49 @@
 	using Metaspec;
 	using Tools;
 
-	public class JsNamespaceParser : INamespaceParser {
+	public sealed class JsNamespaceParser : INamespaceParser {
 		private string _outputFolder;
+		private readonly FactoryExpressionCreator _creator = new FactoryExpressionCreator();
 
-		static JsNamespaceParser() {
-			FactoryExpressionCreator.AddParser(typeof (CsBinaryExpression), new BinaryExpression());
-			FactoryExpressionCreator.AddParser(typeof (CsArrayInitializer), new ArrayInitializer());
-			FactoryExpressionCreator.AddParser(typeof (CsAsIsExpression), new AsIsExpression());
-			FactoryExpressionCreator.AddParser(typeof (CsAssignmentExpression), new AssignmentExpression());
-			FactoryExpressionCreator.AddParser(typeof (CsConditionalExpression), new ConditionalExpression());
-			FactoryExpressionCreator.AddParser(typeof (CsLambdaExpression), new LambdaExpression());
+		public JsNamespaceParser() {
+			_creator.AddParser(typeof (CsBinaryExpression), new BinaryExpression());
+			_creator.AddParser(typeof (CsArrayInitializer), new ArrayInitializer());
+			_creator.AddParser(typeof (CsAsIsExpression), new AsIsExpression());
+			_creator.AddParser(typeof (CsAssignmentExpression), new AssignmentExpression());
+			_creator.AddParser(typeof (CsConditionalExpression), new ConditionalExpression());
+			_creator.AddParser(typeof (CsLambdaExpression), new LambdaExpression());
 
-			FactoryExpressionCreator.AddParser(typeof (CsTypeofExpression), new TypeofExpression());
-			FactoryExpressionCreator.AddParser(typeof (CsThisAccess), new ThisAccess());
-			FactoryExpressionCreator.AddParser(typeof (CsSizeofExpression), new SizeofExpression());
-			FactoryExpressionCreator.AddParser(typeof (CsSimpleName), new SimpleName());
-			FactoryExpressionCreator.AddParser(typeof (CsRefValueExpression), new RefTypeExpression());
-			FactoryExpressionCreator.AddParser(typeof (CsRefTypeExpression), new RefTypeExpression());
-			FactoryExpressionCreator.AddParser(typeof (CsQueryExpression), new QueryExpression());
-			FactoryExpressionCreator.AddParser(typeof (CsQualifiedAliasMemberAccess), new QualifiedAliasMemberAccess());
-			FactoryExpressionCreator.AddParser(typeof (CsPrimaryExpressionMemberAccess), new PrimaryExpressionMemberAccess());
-			FactoryExpressionCreator.AddParser(typeof (CsPredefinedTypeMemberAccess), new PredefinedTypeMemberAccess());
-			FactoryExpressionCreator.AddParser(typeof (CsPostIncrementDecrementExpression),
+			_creator.AddParser(typeof (CsTypeofExpression), new TypeofExpression());
+			_creator.AddParser(typeof (CsThisAccess), new ThisAccess());
+			_creator.AddParser(typeof (CsSizeofExpression), new SizeofExpression());
+			_creator.AddParser(typeof (CsSimpleName), new SimpleName());
+			_creator.AddParser(typeof (CsRefValueExpression), new RefTypeExpression());
+			_creator.AddParser(typeof (CsRefTypeExpression), new RefTypeExpression());
+			_creator.AddParser(typeof (CsQueryExpression), new QueryExpression());
+			_creator.AddParser(typeof (CsQualifiedAliasMemberAccess), new QualifiedAliasMemberAccess());
+			_creator.AddParser(typeof (CsPrimaryExpressionMemberAccess), new PrimaryExpressionMemberAccess());
+			_creator.AddParser(typeof (CsPredefinedTypeMemberAccess), new PredefinedTypeMemberAccess());
+			_creator.AddParser(typeof (CsPostIncrementDecrementExpression),
 			                                   new PostIncrementDecrementExpression());
-			FactoryExpressionCreator.AddParser(typeof (CsPointerMemberAccess), new PointerMemberAccess());
-			FactoryExpressionCreator.AddParser(typeof (CsParenthesizedExpression), new ParenthesizedExpression());
-			FactoryExpressionCreator.AddParser(typeof (CsNewObjectExpression), new NewObjectExpression());
-			FactoryExpressionCreator.AddParser(typeof (CsNewArrayExpression), new NewArrayExpression());
-			FactoryExpressionCreator.AddParser(typeof (CsMakeRefExpression), new MakeRefExpression());
-			FactoryExpressionCreator.AddParser(typeof (CsLiteral), new Literal());
-			FactoryExpressionCreator.AddParser(typeof (CsInvocationExpression), new InvocationExpression());
-			FactoryExpressionCreator.AddParser(typeof (CsElementAccess), new ElementAccess());
-			FactoryExpressionCreator.AddParser(typeof (CsDefaultValueExpression), new DefaultValueExpression());
-			FactoryExpressionCreator.AddParser(typeof (CsCheckedExpression), new CheckedExpression());
-			FactoryExpressionCreator.AddParser(typeof (CsBaseMemberAccess), new BaseMemberAccess());
-			FactoryExpressionCreator.AddParser(typeof (CsBaseIndexerAccess), new BaseIndexerAccess());
-			FactoryExpressionCreator.AddParser(typeof (CsArgListExpression), new ArgListExpression());
-			FactoryExpressionCreator.AddParser(typeof (CsAnonymousObjectCreationExpression),
+			_creator.AddParser(typeof (CsPointerMemberAccess), new PointerMemberAccess());
+			_creator.AddParser(typeof (CsParenthesizedExpression), new ParenthesizedExpression());
+			_creator.AddParser(typeof (CsNewObjectExpression), new NewObjectExpression());
+			_creator.AddParser(typeof (CsNewArrayExpression), new NewArrayExpression());
+			_creator.AddParser(typeof (CsMakeRefExpression), new MakeRefExpression());
+			_creator.AddParser(typeof (CsLiteral), new Literal());
+			_creator.AddParser(typeof (CsInvocationExpression), new InvocationExpression());
+			_creator.AddParser(typeof (CsElementAccess), new ElementAccess());
+			_creator.AddParser(typeof (CsDefaultValueExpression), new DefaultValueExpression());
+			_creator.AddParser(typeof (CsCheckedExpression), new CheckedExpression());
+			_creator.AddParser(typeof (CsBaseMemberAccess), new BaseMemberAccess());
+			_creator.AddParser(typeof (CsBaseIndexerAccess), new BaseIndexerAccess());
+			_creator.AddParser(typeof (CsArgListExpression), new ArgListExpression());
+			_creator.AddParser(typeof (CsAnonymousObjectCreationExpression),
 			                                   new AnonymousObjectCreationExpression());
-			FactoryExpressionCreator.AddParser(typeof (CsAnonymousMethodExpression), new AnonymousMethodExpression());
-			FactoryExpressionCreator.AddParser(typeof (CsCastUnaryExpression), new CastUnaryExpression());
-			FactoryExpressionCreator.AddParser(typeof (CsOperatorUnaryExpression), new OperatorUnaryExpression());
-			FactoryExpressionCreator.AddParser(typeof (CsPreIncrementDecrementExpression), new PreIncrementDecrementExpression());
+			_creator.AddParser(typeof (CsAnonymousMethodExpression), new AnonymousMethodExpression());
+			_creator.AddParser(typeof (CsCastUnaryExpression), new CastUnaryExpression());
+			_creator.AddParser(typeof (CsOperatorUnaryExpression), new OperatorUnaryExpression());
+			_creator.AddParser(typeof (CsPreIncrementDecrementExpression), new PreIncrementDecrementExpression());
 		}
 
 		public static string Using { get; private set; }
@@ -73,7 +74,7 @@
 			string name = getNamespace(pNameSpace);
 			string packDir = pOutputFolder + name.Replace('.', '\\');
 			Directory.CreateDirectory(packDir);
-			CodeBuilder builder = new CodeBuilder("\t");
+			CodeBuilder builder = new CodeBuilder();
 
 			foreach (CsNode cn in pNameSpace.member_declarations) {
 				builder.Append("package ");
@@ -95,7 +96,7 @@
 				CsClass csClass = cn as CsClass;
 
 				if (csClass != null) {
-					ClassParser.Parse(csClass, builder);
+					ClassParser.Parse(csClass, builder, _creator);
 					if (ClassParser.IsExtension) {
 						File.WriteAllText(packDir + "\\" + ClassParser.ExtensionName + ".as", builder.ToString());
 
@@ -109,7 +110,7 @@
 
 				CsInterface csInterface = cn as CsInterface;
 				if (csInterface != null) {
-					InterfaceParser.Parse(csInterface, builder);
+					InterfaceParser.Parse(csInterface, builder, _creator);
 					File.WriteAllText(packDir + "\\" + csInterface.identifier.identifier + ".as", builder.ToString());
 					builder.Length = 0;
 					continue;
@@ -123,10 +124,10 @@
 
 		public static string MainClassName { get; internal set; }
 
-		public void PostBuildEvents(bool pDebug, Dictionary<string, string> pArguments, out string pOutput, out string[] pErrors) {
+		public void PostBuildEvents(bool pDebug, Dictionary<string, string> pArguments, out string pOutput, out ICollection<Error> pErrors) {
 			if (!pArguments.ContainsKey(@"FlexSdkPath")) {
 				pOutput = string.Empty;
-				pErrors = new string[0];
+				pErrors = new List<Error>();
 				return;
 			}
 

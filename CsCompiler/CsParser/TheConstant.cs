@@ -4,8 +4,8 @@
 	using Metaspec;
 	using Tools;
 
-	public class TheConstant : BaseNode {
-		public TheConstant(CsConstantDeclaration pCsConstantDeclaration, TheClass pTheClass) {
+	public sealed class TheConstant : BaseNode {
+		public TheConstant(CsConstantDeclaration pCsConstantDeclaration, TheClass pTheClass, FactoryExpressionCreator pCreator) {
 			Modifiers.AddRange(Helpers.GetModifiers(pCsConstantDeclaration.modifiers));
 
 			foreach (CsConstantDeclarator declarator in pCsConstantDeclaration.declarators) {
@@ -13,7 +13,7 @@
 					//RealName = declarator.identifier.identifier,
 					//Name = Helpers.GetRealName(declarator, declarator.identifier.identifier),
 					Name = declarator.identifier.identifier,
-					Initializer = FactoryExpressionCreator.Parse(declarator.expression),
+					Initializer = pCreator.Parse(declarator.expression),
 					ReturnType = Helpers.GetType(declarator.entity.type)
 				};
 

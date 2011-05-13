@@ -2,7 +2,7 @@
 	using System.Collections.Generic;
 	using System.Text;
 
-	internal class ProcessArguments {
+	internal sealed class ProcessArguments {
 		private readonly Dictionary<string, List<string>> _arguments = new Dictionary<string, List<string>>();
 		private readonly List<string> _defaultValues = new List<string>();
 

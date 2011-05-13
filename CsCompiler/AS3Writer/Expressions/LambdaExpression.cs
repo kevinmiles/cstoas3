@@ -1,13 +1,39 @@
 ﻿namespace CsCompiler.AS3Writer.Expressions {
-	using System;
+	using CsParser;
 	using Metaspec;
 	using Tools;
 
-	public class LambdaExpression : IExpressionParser {
-		public Expression Parse(CsExpression pStatement) {
+	public sealed class LambdaExpression : IExpressionParser {
+		#region IExpressionParser Members
+		public Expression Parse(CsExpression pStatement, FactoryExpressionCreator pCreator) {
 			CsLambdaExpression ex = (CsLambdaExpression)pStatement;
 
-			throw new NotImplementedException();
+			LambdaMethodExpression lambda = new LambdaMethodExpression((CsLambdaExpression)pStatement, pCreator);
+
+			CodeBuilder b = new CodeBuilder();
+			b.AppendFormat("function ({0}):{1} {{",
+			               As3Helpers.GetParameters(lambda.Arguments),
+			               (lambda.ReturnType == null) ? "void" : As3Helpers.Convert(lambda.ReturnType)
+				);
+
+			b.Indent();
+			b.Indent();
+			b.Indent();
+			b.AppendLine();
+
+			if (!(lambda.CodeBlock is CsBlock)) {
+				b.Append("return ");
+			}
+
+			BlockParser.ParseNode(lambda.CodeBlock, b, pCreator);
+
+			b.AppendLine("}");
+			b.AppendLine();
+			b.Unindent();
+			b.Unindent();
+			b.Unindent();
+			return new Expression(b.ToString(), ex.entity_typeref);
 		}
+		#endregion
 	}
 }

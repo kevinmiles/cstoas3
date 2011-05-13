@@ -8,4 +8,10 @@
 
 		void Reset();
 	}
+
+	public interface IEnumerator<out T> : IEnumerator {//IDisposable, 
+		new T Current {
+			get;
+		}
+	}
 }

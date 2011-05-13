@@ -7,8 +7,8 @@ namespace CsCompiler.Tools {
 	using System.IO;
 	using System.Threading;
 
-	public class ProcessRunner {
-		public static bool Run(string pFileName, string pArguments, bool pIgnoreExitCode, out string[] pMessages, out string[] pErrors) {
+	public static class ProcessRunner {
+		public static bool Run(string pFileName, string pArguments, bool pIgnoreExitCode, out string[] pMessages, out ICollection<Error> pErrors) {
 			Process process = new Process {
 				StartInfo = {
 					UseShellExecute = false,
@@ -41,12 +41,17 @@ namespace CsCompiler.Tools {
 			errThread.Join(1000);
 
 			pMessages = stdoutFilter.Lines.ToArray();
-			pErrors = stderrFilter.Lines.ToArray();
+
+			pErrors = new List<Error>();
+			foreach (string line in stderrFilter.Lines) {
+				pErrors.Add(new Error{Message = line});
+			}
+
 			return (pIgnoreExitCode) ? stderrFilter.Lines.Count == 0 : process.ExitCode == 0;
 		}
 	}
 
-	class LineFilter {
+	sealed class LineFilter {
 		readonly TextReader _reader;
 		
 		public LineFilter(TextReader pReader) {

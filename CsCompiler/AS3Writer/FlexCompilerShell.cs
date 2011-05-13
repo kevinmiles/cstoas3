@@ -5,20 +5,21 @@
 	using System.Text;
 	using System.Text.RegularExpressions;
 	using System.Threading;
+	using Tools;
 
-	internal class FlexCompilerShell : MarshalByRefObject {
+	internal sealed class FlexCompilerShell : MarshalByRefObject {
 		private static Process _process;
 		private static string _workingDir;
 
 		private static Thread _errorThread;
-		private static List<string> _errorList;
+		private static List<Error> _errorList;
 		private static volatile bool _foundErrors;
 
 		private static string _lastArguments;
 		private static int _lastCompileID;
 
 		private static string initialize(string pJvmarg, string pProjectPath) {
-			_errorList = new List<string>();
+			_errorList = new List<Error>();
 
 			if (pJvmarg == null) {
 				//  || !File.Exists(fcshPath)
@@ -48,7 +49,12 @@
 
 			} catch (Exception ex) {
 				_process = null;
-				_errorList.Add(@"Unable to start java.exe: " + ex.Message);
+				_errorList.Add(new Error {
+					Message = @"Unable to start java.exe: {0}",
+					AdditionalInfo = ex.Message,
+					ErrorType = ErrorType.Error
+				});
+
 				return "Failed, unable to run compiler";
 			}
 
@@ -62,7 +68,7 @@
 		                    bool pConfigChanged,
 		                    string pArguments,
 		                    out string pOutput,
-		                    out string[] pErrors,
+							out ICollection<Error> pErrors,
 		                    string pJvmarg) {
 			StringBuilder o = new StringBuilder();
 
@@ -82,7 +88,11 @@
 			// success?
 			if (_process == null) {
 				pOutput = o.ToString();
-				_errorList.Add("Could not compile because the fcsh process could not be started.");
+				_errorList.Add(new Error {
+					Message = @"Could not compile because the fcsh process could not be started.",
+					ErrorType = ErrorType.Error
+				});
+
 				pErrors = _errorList.ToArray();
 				return;
 			}
@@ -115,7 +125,7 @@
 
 			pOutput = o.ToString();
 
-			if (Regex.IsMatch(pOutput, "fcsh: Target " + _lastCompileID + " not found")) {
+			if (Regex.IsMatch(pOutput, string.Format("fcsh: Target {0} not found", _lastCompileID))) {
 				// force a fresh compile
 				_lastCompileID = 0;
 				_lastArguments = null;
@@ -135,13 +145,27 @@
 		}
 
 		// Run in a separate thread to read errors as they accumulate
+
+		static Regex _errorMessage = new Regex(@".*?\((\d+)\)\:\W+col\:\W+(\d+)\W+(\w+):\W+(.*)", RegexOptions.Compiled | RegexOptions.CultureInvariant);
+
 		private static void readErrors() {
 			while (_process != null && !_process.StandardError.EndOfStream) {
-				string line = _process.StandardError.ReadLine().Trim();
+				string line = _process.StandardError.ReadLine();
 				lock (_errorList) {
-					if (line.Length > 0) {
-						_errorList.Add(line);
+					if (string.IsNullOrEmpty(line)) {
+						continue;
 					}
+
+					Match m = _errorMessage.Match(line);
+					if (m.Success) {
+						//parse error message
+					}
+
+
+
+					//if (line.Trim().Equals("^", StringComparison.Ordinal)) continue;
+
+					_errorList.Add(line);
 					_foundErrors = true;
 				}
 			}

@@ -5,22 +5,22 @@
 	using Tools;
 
 	public class BaseIndexerAccess : IExpressionParser {
-		public Expression Parse(CsExpression pStatement) {
+		public Expression Parse(CsExpression pStatement, FactoryExpressionCreator pCreator) {
 			// "base" "[" expression-list "]"
 			CsBaseIndexerAccess indexerAccess = (CsBaseIndexerAccess) pStatement;
 
-			return ElementAccessHelper.getIndexerExpression(indexerAccess, indexerAccess.expression_list.list, null, false, false);
+			return ElementAccessHelper.getIndexerExpression(indexerAccess, indexerAccess.expression_list.list, null, false, false, pCreator);
 		}
 	}
 
 	public class ElementAccess : IExpressionParser {
-		public Expression Parse(CsExpression pStatement) {
-			return ElementAccessHelper.parseElementAccess(pStatement, false, false);
+		public Expression Parse(CsExpression pStatement, FactoryExpressionCreator pCreator) {
+			return ElementAccessHelper.parseElementAccess(pStatement, false, false, pCreator);
 		}
 	}
 
 	internal static class ElementAccessHelper {
-		internal static Expression parseElementAccess(CsExpression pStatement, bool pForce, bool pGetSetter) {
+		internal static Expression parseElementAccess(CsExpression pStatement, bool pForce, bool pGetSetter, FactoryExpressionCreator pCreator) {
 			//expression "[" expression-list "]"
 			CsElementAccess stat = (CsElementAccess)pStatement;
 
@@ -30,18 +30,18 @@
 			}
 
 			return getIndexerExpression(stat, l,
-															FactoryExpressionCreator.Parse(stat.expression), pForce, pGetSetter);
+															pCreator.Parse(stat.expression), pForce, pGetSetter, pCreator);
 		}
 
 		internal static Expression getIndexerExpression(CsExpression pStatement, IEnumerable<CsExpression> pList,
-		                                                Expression pIndexer, bool pForce, bool pGetSetter) {
-			TheClass k = TheClassFactory.Get(pStatement);
+														Expression pIndexer, bool pForce, bool pGetSetter, FactoryExpressionCreator pCreator) {
+			TheClass k = TheClassFactory.Get(pStatement, pCreator);
 
 			List<string> indexes = new List<string>();
 			List<CsEntityTypeRef> param = new List<CsEntityTypeRef>();
 
 			foreach (CsExpression ex in pList) {
-				Expression te = FactoryExpressionCreator.Parse(ex);
+				Expression te = pCreator.Parse(ex);
 				indexes.Add(te.Value);
 				param.Add(te.Type);
 			}

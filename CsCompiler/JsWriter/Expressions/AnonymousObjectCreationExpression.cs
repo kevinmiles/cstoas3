@@ -4,7 +4,7 @@
 	using Tools;
 
 	public class AnonymousObjectCreationExpression : IExpressionParser {
-		public Expression Parse(CsExpression pStatement) {
+		public Expression Parse(CsExpression pStatement, FactoryExpressionCreator pCreator) {
 			CsAnonymousObjectCreationExpression ex = (CsAnonymousObjectCreationExpression)pStatement;
 			StringBuilder builder = new StringBuilder("{");
 
@@ -12,7 +12,7 @@
 				foreach (var declarator in ex.member_declarator_list) {
 					builder.AppendFormat(@"""{0}"": {1}, ",
 						declarator.identifier.identifier,
-						FactoryExpressionCreator.Parse(declarator.expression).Value
+						pCreator.Parse(declarator.expression).Value
 					);
 				}
 

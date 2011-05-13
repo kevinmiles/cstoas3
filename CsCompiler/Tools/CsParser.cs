@@ -7,20 +7,20 @@
 	public sealed class CsParser {
 		private readonly string _output;
 		private readonly INamespaceParser _parser;
-		private static List<string> _errors;
+		private static List<Error> _errors;
 
 		public CsParser(string pOutDir, INamespaceParser pParser) {
 			_parser = pParser;
 			_output = pOutDir.TrimEnd(Path.DirectorySeparatorChar) + Path.DirectorySeparatorChar;
 		}
 
-		public List<string> Parse(string[] pFiles, bool pDebug, Dictionary<string, string> pArguments) {
-			_errors = new List<string>();
+		public ICollection<Error> Parse(IEnumerable<string> pFiles, bool pDebug, Dictionary<string, string> pArguments) {
+			_errors = new List<Error>();
 
 			ICsProject project = ICsProjectFactory.create(project_namespace.pn_project_namespace);
 			project.setBuildEntityModel(true);
 			project.setErrorMessageCallback(addError);
-			project.addFiles();
+			//project.addFiles();
 
 			_parser.PreBuildEvents(project, pDebug);
 
@@ -30,7 +30,8 @@
 				project.addFiles(file);
 			}
 
-			project.parse(true, false);
+			project.parse(true, false);// not sure of the difference....
+			//project.parse(true, true);
 
 			foreach (ICsFile file in project.getFiles()) {
 				CsCompilationUnit cu = file.getCompilationUnit();
@@ -42,7 +43,7 @@
 
 			if (_errors.Count == 0) {
 				string output;
-				string[] errors;
+				ICollection<Error> errors;
 				_parser.PostBuildEvents(pDebug, pArguments, out output, out errors);
 
 				_errors.AddRange(errors);
@@ -52,7 +53,9 @@
 		}
 
 		private static void addError(string pError) {
-			_errors.Add(pError);
+			_errors.Add(new Error {
+				Message = pError
+			});
 		}
 	}
 }

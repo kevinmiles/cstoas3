@@ -102,6 +102,7 @@
     <Compile Include="CsParser\Interfaces\ICsHasReturnType.cs" />
     <Compile Include="CsParser\Interfaces\ICsMethod.cs" />
     <Compile Include="CsParser\Interfaces\ICsNode.cs" />
+    <Compile Include="CsParser\LambdaMethodExpression.cs" />
     <Compile Include="CsParser\TheClass.cs" />
     <Compile Include="CsParser\TheClassFactory.cs" />
     <Compile Include="CsParser\TheConstant.cs" />
@@ -166,6 +167,7 @@
     <Compile Include="Tools\CodeBuilder.cs" />
     <Compile Include="Tools\ConverterFactory.cs" />
     <Compile Include="Tools\CsParser.cs" />
+    <Compile Include="Tools\Error.cs" />
     <Compile Include="Tools\ExecuteProcess.cs" />
     <Compile Include="Tools\Expression.cs" />
     <Compile Include="Tools\FactoryExpressionCreator.cs" />

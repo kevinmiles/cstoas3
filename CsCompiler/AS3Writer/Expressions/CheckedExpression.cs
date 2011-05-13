@@ -4,7 +4,7 @@
 	using Tools;
 
 	public class CheckedExpression : IExpressionParser {
-		public Expression Parse(CsExpression pStatement) {
+		public Expression Parse(CsExpression pStatement, FactoryExpressionCreator pCreator) {
 			//"checked" "(" expression ")"
 			throw new NotImplementedException();
 		}

@@ -4,7 +4,7 @@
 	using Tools;
 
 	public class QualifiedAliasMemberAccess : IExpressionParser {
-		public Expression Parse(CsExpression pStatement) {
+		public Expression Parse(CsExpression pStatement, FactoryExpressionCreator pCreator) {
 			//identifier "::" identifier (type-argument-list)? "." identifier (type-argument-list)?
 			throw new NotImplementedException();
 		}

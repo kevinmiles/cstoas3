@@ -11,7 +11,7 @@
 				{ @"new", "override" }
 			};
 
-		public static void Parse(TheProperty pProperty, CodeBuilder pBuilder) {
+		public static void Parse(TheProperty pProperty, CodeBuilder pBuilder, FactoryExpressionCreator pCreator) {
 			if (pProperty == null) return;
 			bool isInterface = pProperty.MyClass.IsInterface;
 			string type = As3Helpers.Convert(pProperty.ReturnType);
@@ -72,7 +72,7 @@
 						pBuilder.Unindent();
 
 					} else {
-						BlockParser.Parse(pProperty.Getter.CodeBlock, pBuilder);
+						BlockParser.Parse(pProperty.Getter.CodeBlock, pBuilder, pCreator);
 					}
 
 					pBuilder.AppendLine();
@@ -114,7 +114,7 @@
 
 				} else {
 					BlockParser.InsideSetter = !isStandardGetSet;
-					BlockParser.Parse(pProperty.Setter.CodeBlock, pBuilder);
+					BlockParser.Parse(pProperty.Setter.CodeBlock, pBuilder, pCreator);
 					BlockParser.InsideSetter = false;
 					if (!isStandardGetSet)
 						pBuilder.AppendLine("	return value;");

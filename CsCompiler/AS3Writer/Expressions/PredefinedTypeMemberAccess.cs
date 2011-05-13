@@ -5,7 +5,7 @@
 	using Tools;
 
 	public class PredefinedTypeMemberAccess : IExpressionParser {
-		public Expression Parse(CsExpression pStatement) {
+		public Expression Parse(CsExpression pStatement, FactoryExpressionCreator pCreator) {
 			//embedded-type "." identifier
 			CsPredefinedTypeMemberAccess ex = pStatement as CsPredefinedTypeMemberAccess;
 			string name;

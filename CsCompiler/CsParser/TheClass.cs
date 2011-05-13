@@ -3,6 +3,7 @@
 	using System.Collections.Generic;
 	using System.Linq;
 	using Metaspec;
+	using Tools;
 
 	public sealed class TheClass : BaseNode {
 		private readonly Dictionary<CsMethod, TheMethod> _methods = new Dictionary<CsMethod, TheMethod>();
@@ -17,9 +18,11 @@
 
 		readonly List<string> _extends = new List<string>();
 		private readonly List<string> _implements = new List<string>();
+		private readonly FactoryExpressionCreator _creator;
 
-		public TheClass(CsClassStruct pCsClass) {
+		public TheClass(CsClassStruct pCsClass, FactoryExpressionCreator pCreator) {
 			CsNamespace csNamespace;
+			_creator = pCreator;
 			List<string> name = new List<string>();
 			if (pCsClass.parent is CsClass) {
 				IsPrivate = true;
@@ -46,14 +49,17 @@
 
 			if (pCsClass.type_base != null && pCsClass.type_base.base_list.Count != 0) {
 				foreach (CsTypeRef typeRef in pCsClass.type_base.base_list) {
-					if (typeRef.entity_typeref.u is CsEntityClass) {
+					object u = typeRef.entity_typeref.u;
+					if (u == null) continue;
+
+					if (u is CsEntityClass) {
 						Extends.Add(Helpers.GetType(typeRef.type_name));
 						_baseTyperef = typeRef;
 
-					} else if (typeRef.entity_typeref.u is CsEntityInterface) {
+					} else if (u is CsEntityInterface) {
 						Implements.Add(Helpers.GetType(typeRef.type_name));
 
-					} else if (typeRef.entity_typeref.u is CsEntityInstanceSpecifier) {
+					} else if (u is CsEntityInstanceSpecifier) {
 						Implements.Add(Helpers.GetType(typeRef.type_name));
 
 						//CsEntityInstanceSpecifier specifier = (CsEntityInstanceSpecifier)typeRef.entity_typeref.u;
@@ -72,7 +78,7 @@
 				foreach (CsNode memberDeclaration in pCsClass.member_declarations) {
 					CsConstructor c = memberDeclaration as CsConstructor;
 					if (c != null) {
-						TheConstructor tm = new TheConstructor(c, this);
+						TheConstructor tm = new TheConstructor(c, this, pCreator);
 
 						if (methodNames.ContainsKey(tm.Name)) {
 							methodNames[tm.Name]++;
@@ -100,7 +106,7 @@
 					if (m != null) {
 						if (m.interface_type != null) continue;
 
-						TheMethod tm = new TheMethod(m, this);
+						TheMethod tm = new TheMethod(m, this, pCreator);
 						if (methodNames.ContainsKey(tm.Name)) {
 							methodNames[tm.Name]++;
 							int index = tm._index = methodNames[tm.Name];
@@ -125,38 +131,38 @@
 
 					CsIndexer i = memberDeclaration as CsIndexer;
 					if (i != null) {
-						_indexers.Add(i, new TheIndexer(i, this));
+						_indexers.Add(i, new TheIndexer(i, this, pCreator));
 						continue;
 					}
 
 					CsVariableDeclaration v = memberDeclaration as CsVariableDeclaration;
 					if (v != null) {
-						_variables.Add(v, new TheVariable(v, this));
+						_variables.Add(v, new TheVariable(v, this, pCreator));
 						continue;
 					}
 
 					CsConstantDeclaration k = memberDeclaration as CsConstantDeclaration;
 					if (k != null) {
-						_constants.Add(k, new TheConstant(k, this));
+						_constants.Add(k, new TheConstant(k, this, pCreator));
 						continue;
 					}
 
 					CsProperty p = memberDeclaration as CsProperty;
 					if (p != null) {
 						if (p.interface_type == null)
-							_properties.Add(p, new TheProperty(p, this));
+							_properties.Add(p, new TheProperty(p, this, pCreator));
 						continue;
 					}
 
 					CsDelegate d = memberDeclaration as CsDelegate;
 					if (d != null) {
-						_delegates.Add(d, new TheDelegate(d, this));
+						_delegates.Add(d, new TheDelegate(d, this, pCreator));
 						continue;
 					}
 
 					CsEvent e = memberDeclaration as CsEvent;
 					if (e != null) {
-						TheEvent theEvent = new TheEvent(e, this);
+						TheEvent theEvent = new TheEvent(e, this, pCreator);
 						_events.Add(theEvent.Name, theEvent);
 						continue;
 					}
@@ -177,7 +183,7 @@
 		public bool IsPrivate {
 			get; private set; }
 
-		public TheClass(CsInterface pCsInterface) {
+		public TheClass(CsInterface pCsInterface, FactoryExpressionCreator pCreator) {
 			IsInterface = true;
 			List<string> name = new List<string>();
 			CsNamespace parent = pCsInterface.parent as CsNamespace;
@@ -192,14 +198,17 @@
 
 			if (pCsInterface.type_base != null && pCsInterface.type_base.base_list.Count != 0) {
 				foreach (CsTypeRef typeRef in pCsInterface.type_base.base_list) {
-					if (typeRef.entity_typeref.u is CsEntityClass) {
+					object u = typeRef.entity_typeref.u;
+					if (u == null) continue;
+
+					if (u is CsEntityClass) {
 						Extends.Add(Helpers.GetType(typeRef.type_name));
 						_baseTyperef = typeRef;
 
-					} else if (typeRef.entity_typeref.u is CsEntityInterface) {
+					} else if (u is CsEntityInterface) {
 						Implements.Add(Helpers.GetType(typeRef.type_name));
 
-					} else if (typeRef.entity_typeref.u is CsEntityInstanceSpecifier) {
+					} else if (u is CsEntityInstanceSpecifier) {
 						Implements.Add(Helpers.GetType(typeRef.type_name));
 
 					} else {
@@ -218,7 +227,7 @@
 						if (m.interface_type != null)
 							continue;
 
-						TheMethod tm = new TheMethod(m, this);
+						TheMethod tm = new TheMethod(m, this, pCreator);
 						if (methodNames.ContainsKey(tm.Name)) {
 							methodNames[tm.Name]++;
 							int index = tm._index = methodNames[tm.Name];
@@ -243,20 +252,20 @@
 
 					CsIndexer i = memberDeclaration as CsIndexer;
 					if (i != null) {
-						_indexers.Add(i, new TheIndexer(i, this));
+						_indexers.Add(i, new TheIndexer(i, this, pCreator));
 						continue;
 					}
 
 					CsVariableDeclaration v = memberDeclaration as CsVariableDeclaration;
 					if (v != null) {
-						_variables.Add(v, new TheVariable(v, this));
+						_variables.Add(v, new TheVariable(v, this, pCreator));
 						continue;
 					}
 
 					CsProperty p = memberDeclaration as CsProperty;
 					if (p != null) {
 						if (p.interface_type == null)
-							_properties.Add(p, new TheProperty(p, this));
+							_properties.Add(p, new TheProperty(p, this, pCreator));
 						continue;
 					}
 
@@ -267,7 +276,7 @@
 			Modifiers.AddRange(Helpers.GetModifiers(pCsInterface.modifiers));
 		}
 
-		public TheClass(CsEntity pCsEntity) {
+		public TheClass(CsEntity pCsEntity, FactoryExpressionCreator pCreator) {
 			IsEntity = true;
 			List<string> name = new List<string>();
 			CsEntity parent = pCsEntity.parent;
@@ -310,7 +319,7 @@
 
 				foreach (CsEntityMethodImplementation methodImplementation in klass.method_implementations) {
 					CsEntityMethod m = methodImplementation.implementation_method;
-					TheMethod tm = new TheMethod(m, this);
+					TheMethod tm = new TheMethod(m, this, pCreator);
 					if (methodNames.ContainsKey(tm.Name)) {
 						methodNames[tm.Name]++;
 						int index = tm._index = methodNames[tm.Name];
@@ -358,7 +367,7 @@
 
 				foreach (CsEntityMethodImplementation methodImplementation in entityInterface.method_implementations) {
 					CsEntityMethod m = methodImplementation.implementation_method;
-					TheMethod tm = new TheMethod(m, this);
+					TheMethod tm = new TheMethod(m, this, pCreator);
 					if (methodNames.ContainsKey(tm.Name)) {
 						methodNames[tm.Name]++;
 						int index = tm._index = methodNames[tm.Name];
@@ -404,7 +413,7 @@
 
 				foreach (CsEntityMethodImplementation methodImplementation in entityStruct.method_implementations) {
 					CsEntityMethod m = methodImplementation.implementation_method;
-					TheMethod tm = new TheMethod(m, this);
+					TheMethod tm = new TheMethod(m, this, pCreator);
 					if (methodNames.ContainsKey(tm.Name)) {
 						methodNames[tm.Name]++;
 						int index = tm._index = methodNames[tm.Name];
@@ -435,15 +444,13 @@
 		private readonly CsTypeRef _baseTyperef;
 		private readonly CsEntityTypeRef _baseEntityTyperef;
 
-		
-
 		public TheClass Base {
 			get {
 				if (_baseEntityTyperef == null) {
-					return _baseTyperef == null ? null : TheClassFactory.Get(_baseTyperef);	
+					return _baseTyperef == null ? null : TheClassFactory.Get(_baseTyperef, _creator);	
 				}
 
-				return TheClassFactory.Get(_baseEntityTyperef);
+				return TheClassFactory.Get(_baseEntityTyperef, _creator);
 			}
 		}
 
@@ -473,7 +480,7 @@
 			return _entityMethods.TryGetValue(pMethod.entity, out c) ? c : null;
 		}
 
-		public TheMethod GetMethod(CsEntityMethod pMethod) {
+		public TheMethod GetMethod(CsEntityMethod pMethod, FactoryExpressionCreator pCreator) {
 			if (pMethod.decl != null)
 				return GetMethod((CsMethod)pMethod.decl);
 
@@ -481,7 +488,7 @@
 			if (_entityMethods.TryGetValue(pMethod, out c))
 				return c;
 
-			c = new TheMethod(pMethod, this);
+			c = new TheMethod(pMethod, this, pCreator);
 			Dictionary<string, bool> methodNames = new Dictionary<string, bool>();
 
 			foreach (KeyValuePair<CsEntityMethod, TheMethod> entityMethod in
