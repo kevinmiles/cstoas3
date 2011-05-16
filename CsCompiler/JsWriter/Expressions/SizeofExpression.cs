@@ -3,7 +3,7 @@
 	using Metaspec;
 	using Tools;
 
-	public class SizeofExpression : IExpressionParser {
+	public sealed class SizeofExpression : IExpressionParser {
 		public Expression Parse(CsExpression pStatement, FactoryExpressionCreator pCreator) {
 			//"sizeof" "(" type ")"
 			throw new NotImplementedException();

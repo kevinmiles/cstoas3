@@ -2,7 +2,7 @@
 	using Metaspec;
 	using Tools;
 
-	public class DefaultValueExpression : IExpressionParser {
+	public sealed class DefaultValueExpression : IExpressionParser {
 		public Expression Parse(CsExpression pStatement, FactoryExpressionCreator pCreator) {
 			// "default" ( type )
 			return new Expression(

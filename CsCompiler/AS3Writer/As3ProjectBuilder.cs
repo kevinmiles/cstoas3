@@ -8,7 +8,7 @@ namespace CsCompiler.AS3Writer {
 	using System.Runtime.Remoting.Channels.Ipc;
 	using Tools;
 
-	internal class As3ProjectBuilder {
+	internal sealed class As3ProjectBuilder {
 		readonly FlexCompilerShell _fcsh;
 		const string VMARGS = @"-Xmx384m -Xmx1024m -Dsun.io.useCanonCaches=false -Duser.language=en";
 		readonly string _sdkPath;

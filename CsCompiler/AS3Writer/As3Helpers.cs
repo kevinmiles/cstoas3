@@ -16,13 +16,10 @@
 		};
 
 		public static string ConvertTokens(string pIn) {
-			if (pIn.Equals("??"))
-				return "||";
-
-			return pIn;
+			return pIn.Equals("??") ? "||" : pIn;
 		}
 
-		public static string ConvertModifiers(List<string> pModifiers, Dictionary<string , string> pReplaceable = null) {
+		public static string ConvertModifiers(IEnumerable<string> pModifiers, Dictionary<string , string> pReplaceable = null) {
 			List<string> mods = new List<string>();
 			foreach (string modifier in pModifiers) {
 				string o;
@@ -44,7 +41,7 @@
 			return string.IsNullOrEmpty(ret) ? string.Empty : ret + " ";
 		}
 
-		public static string GetCallingArguments(List<Expression> pArguments) {
+		public static string GetCallingArguments(IEnumerable<Expression> pArguments) {
 			List<string> values = new List<string>();
 			foreach (Expression expression in pArguments) {
 				values.Add(expression.Value);
@@ -104,13 +101,10 @@
 			if (pType.Equals("object", StringComparison.OrdinalIgnoreCase))
 				return "Object";
 
-			if (pType.Equals(@"bool", StringComparison.OrdinalIgnoreCase))
-				return "Boolean";
-
-			return pType;
+			return pType.Equals(@"bool", StringComparison.OrdinalIgnoreCase) ? "Boolean" : pType;
 		}
 
-		public static object GetParameters(List<TheMethodArgument> pArguments) {
+		public static object GetParameters(IEnumerable<TheMethodArgument> pArguments) {
 			List<string> args = new List<string>();
 			foreach (TheMethodArgument methodArgument in pArguments) {
 				args.Add(string.Format("{0}:{1}{2}",

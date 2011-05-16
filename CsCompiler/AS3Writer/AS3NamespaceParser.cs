@@ -10,7 +10,7 @@
 	using Metaspec;
 	using Tools;
 
-	public class As3NamespaceParser : INamespaceParser {
+	public sealed class As3NamespaceParser : INamespaceParser {
 		private string _outputFolder;
 		private readonly FactoryExpressionCreator _creator = new FactoryExpressionCreator();
 

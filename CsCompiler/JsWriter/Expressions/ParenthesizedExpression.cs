@@ -2,7 +2,7 @@
 	using Metaspec;
 	using Tools;
 
-	public class ParenthesizedExpression : IExpressionParser {
+	public sealed class ParenthesizedExpression : IExpressionParser {
 		public Expression Parse(CsExpression pStatement, FactoryExpressionCreator pCreator) {
 			//"(" expression ")"
 			CsParenthesizedExpression ex = (CsParenthesizedExpression)pStatement;

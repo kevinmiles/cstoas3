@@ -3,7 +3,7 @@
 	using Metaspec;
 	using Tools;
 
-	public class PrimaryExpressionMemberAccess : IExpressionParser {
+	public sealed class PrimaryExpressionMemberAccess : IExpressionParser {
 		public Expression Parse(CsExpression pStatement, FactoryExpressionCreator pCreator) {
 			//expression "." identifier (type-argument-list?)
 			CsPrimaryExpressionMemberAccess ex = (CsPrimaryExpressionMemberAccess)pStatement;

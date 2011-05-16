@@ -4,7 +4,7 @@
 	using Metaspec;
 	using Tools;
 
-	public class AssignmentExpression : IExpressionParser {
+	public sealed class AssignmentExpression : IExpressionParser {
 		public Expression Parse(CsExpression pStatement, FactoryExpressionCreator pCreator) {
 			CsAssignmentExpression ex = (CsAssignmentExpression)pStatement;
 

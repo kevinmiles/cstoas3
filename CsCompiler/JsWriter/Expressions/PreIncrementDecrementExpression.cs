@@ -3,7 +3,7 @@
 	using Metaspec;
 	using Tools;
 
-	public class PreIncrementDecrementExpression : IExpressionParser {
+	public sealed class PreIncrementDecrementExpression : IExpressionParser {
 		public Expression Parse(CsExpression pStatement, FactoryExpressionCreator pCreator) {
 			CsPreIncrementDecrementExpression ex = (CsPreIncrementDecrementExpression)pStatement;
 

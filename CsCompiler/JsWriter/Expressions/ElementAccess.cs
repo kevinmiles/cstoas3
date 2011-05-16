@@ -4,7 +4,7 @@
 	using Metaspec;
 	using Tools;
 
-	public class BaseIndexerAccess : IExpressionParser {
+	public sealed class BaseIndexerAccess : IExpressionParser {
 		public Expression Parse(CsExpression pStatement, FactoryExpressionCreator pCreator) {
 			// "base" "[" expression-list "]"
 			CsBaseIndexerAccess indexerAccess = (CsBaseIndexerAccess) pStatement;
@@ -13,7 +13,7 @@
 		}
 	}
 
-	public class ElementAccess : IExpressionParser {
+	public sealed class ElementAccess : IExpressionParser {
 		public Expression Parse(CsExpression pStatement, FactoryExpressionCreator pCreator) {
 			return ElementAccessHelper.parseElementAccess(pStatement, false, false, pCreator);
 		}

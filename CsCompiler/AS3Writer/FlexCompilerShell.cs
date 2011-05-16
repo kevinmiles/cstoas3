@@ -74,7 +74,7 @@
 
 			// shut down fcsh if our working path has changed
 			if (pProjectPath != _workingDir) {
-				Cleanup();
+				cleanup();
 			}
 
 			// start up fcsh if necessary
@@ -145,8 +145,7 @@
 		}
 
 		// Run in a separate thread to read errors as they accumulate
-
-		static Regex _errorMessage = new Regex(@".*?\((\d+)\)\:\W+col\:\W+(\d+)\W+(\w+):\W+(.*)", RegexOptions.Compiled | RegexOptions.CultureInvariant);
+		static readonly Regex _errorMessage = new Regex(@"(.*?)\((\d+)\)\:\W+col\:\W+(\d+)\W+(\w+):\W+(.*)", RegexOptions.Compiled | RegexOptions.CultureInvariant);
 
 		private static void readErrors() {
 			while (_process != null && !_process.StandardError.EndOfStream) {
@@ -156,22 +155,59 @@
 						continue;
 					}
 
+					Error e = new Error();
+
 					Match m = _errorMessage.Match(line);
-					if (m.Success) {
-						//parse error message
+					if (m.Success) {//parse error message
+						//capture 1: row
+						//capture 2: col
+						//capture 3: type (Warning/Error)
+						//capture 4: Message
+
+						e.File = m.Groups[1].Value;
+
+						int i;
+						int.TryParse(m.Groups[2].Value, out i);
+						e.Line = i;
+
+						int.TryParse(m.Groups[3].Value, out i);
+						e.Column = i;
+
+						switch (m.Groups[4].Value.ToLowerInvariant()) {
+							case "warning":
+								e.ErrorType = ErrorType.Warning;
+								break;
+
+							case "error":
+								e.ErrorType = ErrorType.Error;
+								break;
+
+							default:
+								e.ErrorType = ErrorType.Message;
+								break;
+						}
+
+						e.Message = m.Groups[5].Value;
+						_errorList.Add(e);
+
+					} else {
+						if (line.Trim().Equals("^", StringComparison.Ordinal)) {
+							_errorList[_errorList.Count - 2].AdditionalInfo = _errorList[_errorList.Count - 1].Message;
+							_errorList.RemoveAt(_errorList.Count - 1);
+							continue;
+						}
+
+						e.ErrorType = ErrorType.Message;
+						e.Message = line.Trim();
+						_errorList.Add(e);
 					}
-
-
-
-					//if (line.Trim().Equals("^", StringComparison.Ordinal)) continue;
-
-					_errorList.Add(line);
+					
 					_foundErrors = true;
 				}
 			}
 		}
 
-		public static void Cleanup() {
+		private static void cleanup() {
 			_lastCompileID = 0;
 			_lastArguments = null;
 			// this will free up our error-reading thread as well.

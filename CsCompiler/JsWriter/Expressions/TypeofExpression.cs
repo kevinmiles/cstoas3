@@ -3,7 +3,7 @@
 	using Metaspec;
 	using Tools;
 
-	public class TypeofExpression : IExpressionParser {
+	public sealed class TypeofExpression : IExpressionParser {
 		public Expression Parse(CsExpression pStatement, FactoryExpressionCreator pCreator) {
 			CsTypeofExpression ex = (CsTypeofExpression)pStatement;
 			//"typeof" "(" type ")"
