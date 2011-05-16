@@ -2,7 +2,7 @@
 	using Metaspec;
 	using Tools;
 
-	public class BaseMemberAccess : IExpressionParser {
+	public sealed class BaseMemberAccess : IExpressionParser {
 		public Expression Parse(CsExpression pStatement, FactoryExpressionCreator pCreator) {
 			CsBaseMemberAccess baseMemberAccess = (CsBaseMemberAccess)pStatement;
 			// "base" "." identifier (type-argument-list)?

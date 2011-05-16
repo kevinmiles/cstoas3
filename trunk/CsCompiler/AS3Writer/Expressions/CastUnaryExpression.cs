@@ -2,7 +2,7 @@
 	using Metaspec;
 	using Tools;
 
-	public class CastUnaryExpression : IExpressionParser {
+	public sealed class CastUnaryExpression : IExpressionParser {
 		public Expression Parse(CsExpression pStatement, FactoryExpressionCreator pCreator) {
 			CsCastUnaryExpression ex = (CsCastUnaryExpression)pStatement;
 			

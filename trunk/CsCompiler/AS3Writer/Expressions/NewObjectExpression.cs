@@ -6,7 +6,7 @@
 	using Metaspec;
 	using Tools;
 
-	public class NewObjectExpression : IExpressionParser {
+	public sealed class NewObjectExpression : IExpressionParser {
 		public Expression Parse(CsExpression pStatement, FactoryExpressionCreator pCreator) {
 			//object-creation-expression: 
 			//"new" type "(" ( argument_list )? ")" object-or-collection-initializer? 

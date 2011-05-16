@@ -3,7 +3,7 @@
 	using Metaspec;
 	using Tools;
 
-	public class OperatorUnaryExpression : IExpressionParser {
+	public sealed class OperatorUnaryExpression : IExpressionParser {
 		public Expression Parse(CsExpression pStatement, FactoryExpressionCreator pCreator) {
 			CsOperatorUnaryExpression ex = (CsOperatorUnaryExpression)pStatement;
 

@@ -1,11 +1,10 @@
 ﻿namespace CsCompiler.AS3Writer.Expressions {
 	using System.Collections.Generic;
 	using System.Text;
-	using CsParser;
 	using Metaspec;
 	using Tools;
 
-	public class NewArrayExpression : IExpressionParser {
+	public sealed class NewArrayExpression : IExpressionParser {
 		public Expression Parse(CsExpression pStatement, FactoryExpressionCreator pCreator) {
 			//"new" non-array-type "[" expression-list "]" ( rank-specifiers )? ( array-initializer )?
 			//"new" non-array-type? rank-specifiers array-initializer

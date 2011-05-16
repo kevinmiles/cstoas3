@@ -154,7 +154,6 @@
     <Compile Include="JsWriter\Expressions\ThisAccess.cs" />
     <Compile Include="JsWriter\Expressions\TypeofExpression.cs" />
     <Compile Include="JsWriter\Expressions\UncheckedExpression.cs" />
-    <Compile Include="JsWriter\FlexCompilerShell.cs" />
     <Compile Include="JsWriter\IndexerParser.cs" />
     <Compile Include="JsWriter\InterfaceParser.cs" />
     <Compile Include="JsWriter\JsHelpers.cs" />

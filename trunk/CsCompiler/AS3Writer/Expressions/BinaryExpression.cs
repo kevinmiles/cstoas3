@@ -3,7 +3,7 @@
 	using Metaspec;
 	using Tools;
 
-	public class BinaryExpression :IExpressionParser {
+	public sealed class BinaryExpression :IExpressionParser {
 		public Expression Parse(CsExpression pStatement, FactoryExpressionCreator pCreator) {
 			CsBinaryExpression li = (CsBinaryExpression)pStatement;
 

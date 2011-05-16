@@ -3,7 +3,7 @@
 	using Metaspec;
 	using Tools;
 
-	public class AsIsExpression : IExpressionParser {
+	public sealed class AsIsExpression : IExpressionParser {
 		public Expression Parse(CsExpression pStatement, FactoryExpressionCreator pCreator) {
 			CsAsIsExpression ex = (CsAsIsExpression)pStatement;
 			

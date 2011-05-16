@@ -1,10 +1,9 @@
 ﻿namespace CsCompiler.JsWriter.Expressions {
-	using System;
 	using CsParser;
 	using Metaspec;
 	using Tools;
 
-	public class PredefinedTypeMemberAccess : IExpressionParser {
+	public sealed class PredefinedTypeMemberAccess : IExpressionParser {
 		public Expression Parse(CsExpression pStatement, FactoryExpressionCreator pCreator) {
 			//embedded-type "." identifier
 			CsPredefinedTypeMemberAccess ex = pStatement as CsPredefinedTypeMemberAccess;

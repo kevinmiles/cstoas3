@@ -5,7 +5,7 @@
 	using Metaspec;
 	using Tools;
 
-	public class InvocationExpression : IExpressionParser {
+	public sealed class InvocationExpression : IExpressionParser {
 		public Expression Parse(CsExpression pStatement, FactoryExpressionCreator pCreator) {
 			CsInvocationExpression ex = (CsInvocationExpression)pStatement;
 

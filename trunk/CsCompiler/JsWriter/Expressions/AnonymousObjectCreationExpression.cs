@@ -3,7 +3,7 @@
 	using Metaspec;
 	using Tools;
 
-	public class AnonymousObjectCreationExpression : IExpressionParser {
+	public sealed class AnonymousObjectCreationExpression : IExpressionParser {
 		public Expression Parse(CsExpression pStatement, FactoryExpressionCreator pCreator) {
 			CsAnonymousObjectCreationExpression ex = (CsAnonymousObjectCreationExpression)pStatement;
 			StringBuilder builder = new StringBuilder("{");

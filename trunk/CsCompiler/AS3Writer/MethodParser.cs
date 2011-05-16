@@ -1,5 +1,4 @@
 ﻿namespace CsCompiler.AS3Writer {
-	using System;
 	using System.Collections.Generic;
 	using CsParser;
 	using Tools;

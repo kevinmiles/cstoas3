@@ -6,7 +6,7 @@
 	using Metaspec;
 	using Tools;
 
-	public sealed class BlockParser {
+	public static class BlockParser {
 		private static int _enumCount;
 		//private static readonly char[] _trimEnd = new[] {',', ' ',';'};
 
@@ -72,7 +72,7 @@
 			pSb.Append("try {");
 			pSb.AppendLine();
 
-			ParseBlockOrStatementOrExpression(statement.statement, pSb, pCreator);
+			ParseNode(statement.statement, pSb, pCreator);
 
 			pSb.Append("} finally {");
 			pSb.AppendLine();
@@ -97,7 +97,7 @@
 
 			pSb.AppendFormat("while ({0}){{", pCreator.Parse(whileStatement.condition));
 			pSb.AppendLine();
-			ParseBlockOrStatementOrExpression(whileStatement.statement, pSb, pCreator);
+			ParseNode(whileStatement.statement, pSb, pCreator);
 			pSb.Append("}");
 			pSb.AppendLine();
 			pSb.AppendLine();
@@ -149,26 +149,6 @@
 			}
 
 			throw new Exception();
-		}
-
-		public static void ParseBlockOrStatementOrExpression(CsNode pNode, CodeBuilder pSb, FactoryExpressionCreator pCreator) {
-			CsBlock block = pNode as CsBlock;
-			if (block != null) {
-				Parse(block, pSb, pCreator);
-				return;
-			}
-
-			CsStatement statement = pNode as CsStatement;
-			if (statement != null) {
-				pSb.Indent();
-				parseStatement(statement, pSb, pCreator);
-				pSb.Unindent();
-				return;
-			}
-
-			Expression ex = pCreator.Parse(pNode as CsExpression);
-			pSb.Append(ex.Value+";");
-			pSb.AppendLine();
 		}
 
 		private static string parseNode(CsNode pNode, FactoryExpressionCreator pCreator) {
@@ -230,14 +210,14 @@
 			pSb.AppendFormat("if ({0}){{", pCreator.Parse(ifStatement.condition));
 			pSb.AppendLine();
 
-			ParseBlockOrStatementOrExpression(ifStatement.if_statement, pSb, pCreator);
+			ParseNode(ifStatement.if_statement, pSb, pCreator);
 
 			if (ifStatement.else_statement != null) {
 				pSb.AppendLine();
 				pSb.Append("} else {");
 				pSb.AppendLine();
 				pSb.AppendLine();
-				ParseBlockOrStatementOrExpression(ifStatement.else_statement, pSb, pCreator);
+				ParseNode(ifStatement.else_statement, pSb, pCreator);
 			}
 
 			pSb.Append("}");
@@ -307,7 +287,7 @@
 
 			sb.Append("){");
 			pSb.AppendLine(sb.ToString());
-			ParseBlockOrStatementOrExpression(forStatement.statement, pSb, pCreator);
+			ParseNode(forStatement.statement, pSb, pCreator);
 			pSb.AppendLine("}");
 			pSb.AppendLine();
 
@@ -338,7 +318,7 @@
 			pSb.AppendLine();
 
 
-			ParseBlockOrStatementOrExpression(fes.statement, pSb, pCreator);
+			ParseNode(fes.statement, pSb, pCreator);
 			pSb.AppendLine("}");
 			pSb.AppendLine();
 		}

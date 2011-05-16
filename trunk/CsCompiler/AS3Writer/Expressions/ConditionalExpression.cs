@@ -2,7 +2,7 @@
 	using Metaspec;
 	using Tools;
 
-	public class ConditionalExpression : IExpressionParser {
+	public sealed class ConditionalExpression : IExpressionParser {
 		public Expression Parse(CsExpression pStatement, FactoryExpressionCreator pCreator) {
 			CsConditionalExpression ex = (CsConditionalExpression)pStatement;
 

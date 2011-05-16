@@ -1,4 +1,7 @@
 ﻿namespace CsCompiler.Tools {
+	using System;
+
+	[Serializable]
 	public sealed class Error {
 		public string AdditionalInfo { get; set; }
 		public string File { get; set; }

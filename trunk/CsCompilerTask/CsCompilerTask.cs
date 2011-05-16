@@ -65,17 +65,22 @@
 				);
 
 				foreach (Error error in errors) {
+					string errorMessage = error.Message;
+					if (!string.IsNullOrEmpty(error.AdditionalInfo)) {
+						errorMessage += " [{0}]";
+					}
+
 					switch (error.ErrorType) {
 						case ErrorType.Error:
-							Log.LogError(null, null, null, error.File, error.Line, error.Column, 0, 0, error.Message, error.AdditionalInfo);
+							Log.LogError(null, null, null, error.File, error.Line, error.Column, 0, 0, errorMessage, error.AdditionalInfo);
 							break;
 
 						case ErrorType.Warning:
-							Log.LogWarning(null, null, null, error.File, error.Line, error.Column, 0, 0, error.Message, error.AdditionalInfo);
+							Log.LogWarning(null, null, null, error.File, error.Line, error.Column, 0, 0, errorMessage, error.AdditionalInfo);
 							break;
 
 						default:
-							Log.LogMessage(error.Message, error.AdditionalInfo);
+							Log.LogMessage(errorMessage, error.AdditionalInfo);
 							break;
 					}
 				}

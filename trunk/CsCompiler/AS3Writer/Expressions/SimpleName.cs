@@ -3,13 +3,13 @@
 	using Metaspec;
 	using Tools;
 
-	public class SimpleName : IExpressionParser {
+	public sealed class SimpleName : IExpressionParser {
 		public Expression Parse(CsExpression pStatement, FactoryExpressionCreator pCreator) {
 			return SimpleNameHelper.ParseSimpleName(pStatement, false, false);
 		}
 	}
 
-	internal sealed class SimpleNameHelper {
+	internal static class SimpleNameHelper {
 		public static Expression ParseSimpleName(CsExpression pStatement, bool pForce, bool pGetSetter) {
 			CsSimpleName ex = (CsSimpleName)pStatement;
 
