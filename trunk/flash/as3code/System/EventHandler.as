@@ -6,61 +6,55 @@
 	 */
 	public final class EventHandler implements IDisposable {
 		private var _handlers:Vector.<Function>;
-		//~ private var _target:Object;
-		
 		/**
 		 * Creates a new instance of an Event Handler
-		 * @param pTarget the target object
 		 */
-		//~ public function EventHandler(pTarget:Object) {
 		public function EventHandler() {
 			_handlers = new Vector.<Function>();
-			//~ _target = pTarget;
 		}
-		
+
 		/**
 		 * Adds a suscriber to the event handler
 		 * @param pSuscriber The suscriber to be added-
-		 * @param pArgs An optional Array of arguments. 
+		 * @param pArgs An optional Array of arguments.
 		 */
 		public function add(pSuscriber:Function):void {
 			if (!_handlers) return;
 			remove(pSuscriber);// Just in case...
 			_handlers.push(pSuscriber);
 		}
-		
+
 		/**
 		 * Removes a suscriber from the event handler list
 		 * @param pSuscriber The suscriber to remove,
 		 */
 		public function remove(pSuscriber:Function):void {
 			if (!_handlers) return;
-			
+
 			var idx:int = _handlers.indexOf(pSuscriber);
 			if (idx != -1) _handlers.splice(idx, 1);
 		}
-		
+
 		/**
 		 * Fires an event to all suscribers
-		 * @param pArgs An optional Array of arguments. 
+		 * @param pArgs An optional Array of arguments.
 		 */
 		public function fire(...args):void{
 			if (!_handlers) return;
-		
-			//create a copy, so if an event handlers modifies the event list, that modification does not gets
+
+			//create a copy, so if an event handler modifies the event list, that modification does not gets
 			//propagated until next firing...
 			var s:Vector.<Function> = _handlers.concat();
 
 			var l:uint = s.length, i:uint = 0;
-			while (i < l){ 
+			while (i < l){
 				s[i].apply(null, args);
 				i++;
 			}
 		}
-		
+
 		public function Dispose():void {
 			_handlers = null;
-			//~ _target = null;
 		}
 	}
 }

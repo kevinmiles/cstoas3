@@ -1,6 +1,8 @@
 namespace CStoFlash {
 	using System;
 	using System.Collections.Generic;
+	using System.IO;
+	using System.Reflection;
 	using System.Text.RegularExpressions;
 	using CsCompiler.AS3Writer;
 	using CsCompiler.JsWriter;
@@ -79,7 +81,6 @@ D:\Work-Efx\Flash\FlashCoreCs\FlashCoreCs\as3code\extremefx\Main.as(38): col: 9 
 			}
 			*/
 
-
 			ConverterFactory.AddParser(new As3NamespaceParser(), "as3");
 			ConverterFactory.AddParser(new JsNamespaceParser(), "js");
 
@@ -118,7 +119,7 @@ D:\Work-Efx\Flash\FlashCoreCs\FlashCoreCs\as3code\extremefx\Main.as(38): col: 9 
 			commandLine.Remove("source");
 			commandLine.Remove(@"lang");
 
-			ICollection<Error> errors = Project.Parse(sourceFiles, lang, output, debug, commandLine, Project.Root);
+			ICollection<Error> errors = Project.Parse(sourceFiles, lang, output, Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), debug, commandLine, Project.Root);
 			foreach (Error error in errors) {
 				Console.WriteLine(error.Message);	
 			}

@@ -17,13 +17,21 @@
 			CsNewObjectExpression node = (CsNewObjectExpression)pStatement;
 
 			StringBuilder sb = new StringBuilder();
-			sb.Append("(new ");
 
 			string name = As3Helpers.Convert(Helpers.GetType(node.type));
 			bool isVector = name.StartsWith("Vector.<", StringComparison.Ordinal) && node.initializer != null;
-			if (isVector) {
-				int lb = name.IndexOf("<")+1;
-				sb.AppendFormat("<{0}>[", name.Substring(lb, name.IndexOf(">") - lb));
+			bool isArray = name.Equals("Array", StringComparison.Ordinal) && node.initializer != null;
+
+			if (!isArray)
+				sb.Append("(new ");
+
+			if (isVector || isArray) {
+				if (isVector) {
+					int lb = name.IndexOf("<") + 1;
+					sb.AppendFormat("<{0}>", name.Substring(lb, name.IndexOf(">") - lb));	
+				}
+
+				sb.Append("[");
 
 				CsCollectionInitializer initializer = (CsCollectionInitializer)node.initializer;
 				if (initializer.element_initializer_list != null) {
@@ -46,8 +54,10 @@
 				}
 			}
 
-			sb.Append(isVector ? "]" : ")");
-			sb.Append(")");
+			sb.Append(isVector || isArray ? "]" : ")");
+
+			if (!isArray)
+				sb.Append(")");
 
 			return new Expression(
 				sb.ToString(),

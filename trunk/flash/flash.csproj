@@ -103,6 +103,7 @@
     <Compile Include="CoreLib\System\Collections\Generic\EqualityComparer.cs" />
     <Compile Include="CoreLib\System\Collections\IComparer.cs" />
     <Compile Include="CoreLib\System\Collections\IEqualityComparer.cs" />
+    <Compile Include="CoreLib\System\Collections\KeyValuePair.cs" />
     <Compile Include="CoreLib\System\Decimal.cs" />
     <Compile Include="CoreLib\System\Attributes\Diagnostics\SuppressMessageAttribute.cs" />
     <Compile Include="CoreLib\System\Attributes\Diagnostics\DebuggableAttribute.cs" />
