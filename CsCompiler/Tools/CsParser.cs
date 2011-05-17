@@ -14,7 +14,7 @@
 			_output = pOutDir.TrimEnd(Path.DirectorySeparatorChar) + Path.DirectorySeparatorChar;
 		}
 
-		public ICollection<Error> Parse(IEnumerable<string> pFiles, bool pDebug, Dictionary<string, string> pArguments) {
+		public ICollection<Error> Parse(IEnumerable<string> pFiles, string pPathToCompiler, bool pDebug, Dictionary<string, string> pArguments) {
 			_errors = new List<Error>();
 
 			ICsProject project = ICsProjectFactory.create(project_namespace.pn_project_namespace);
@@ -22,7 +22,7 @@
 			project.setErrorMessageCallback(addError);
 			//project.addFiles();
 
-			_parser.PreBuildEvents(project, pDebug);
+			_parser.PreBuildEvents(project, pPathToCompiler, pDebug);
 
 			foreach (ICsFile file in from fileName in pFiles
 			                         let buffer = File.ReadAllText(fileName).ToCharArray()

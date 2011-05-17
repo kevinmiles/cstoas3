@@ -323,7 +323,8 @@
 
 			TheClass theClass = TheClassFactory.Get(ex.Type, pCreator);
 
-			if (ex.Type.type == cs_entity_type.et_array || ex.IsAs3Generic) {//foreach
+			if (ex.Type.type == cs_entity_type.et_array || ex.IsAs3Generic
+				|| (theClass != null && @"System.Array".Equals(theClass.FullName))) {//foreach
 				pSb.AppendFormat("for each(var {0}:{1} in {2}){{",
 					fes.identifier.identifier,
 					type,
@@ -354,8 +355,7 @@
 				//TheClass theClass = TheClassFactory.Get(fes.expression.entity_typeref);
 
 				string enumName = String.Format(@"__ie{0}", _enumCount);
-				pSb.AppendFormat("var {0}:IEnumerator = {1}.GetEnumerator();",
-				enumName, ex.Value);
+				pSb.AppendFormat("var {0}:IEnumerator = {1}.GetEnumerator();", enumName, ex.Value);
 				pSb.AppendLine();
 				pSb.AppendFormat("while ({0}.MoveNext()){{", enumName);
 				pSb.AppendLine();

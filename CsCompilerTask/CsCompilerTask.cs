@@ -1,6 +1,8 @@
 ﻿namespace CsCompilerTask {
 	using System;
 	using System.Collections.Generic;
+	using System.IO;
+	using System.Reflection;
 	using CsCompiler.AS3Writer;
 	using CsCompiler.JsWriter;
 	using CsCompiler.Tools;
@@ -59,6 +61,7 @@
 					sourceFiles,
 					Language,
 					OutputPath,
+					Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),
 					Configuration.Equals("debug", StringComparison.OrdinalIgnoreCase),
 					args,
 					RootPath

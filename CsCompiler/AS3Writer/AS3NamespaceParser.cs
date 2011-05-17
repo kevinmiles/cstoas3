@@ -57,10 +57,9 @@
 		public static string Using { get; private set; }
 
 		#region INamespaceParser Members
-		public void PreBuildEvents(ICsProject pProject, bool pDebug) {
-			string flashLibrary = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-			byte[] assemblyBuffer = File.ReadAllBytes(flashLibrary + @"\\flash\\flash.dll");
-			IExternalAssemblyModule module = IExternalAssemblyModuleFactory.create(assemblyBuffer, flashLibrary);
+		public void PreBuildEvents(ICsProject pProject, string pPathToCompiler, bool pDebug) {
+			byte[] assemblyBuffer = File.ReadAllBytes(pPathToCompiler + @"\\flash\\flash.dll");
+			IExternalAssemblyModule module = IExternalAssemblyModuleFactory.create(assemblyBuffer, pPathToCompiler);
 			pProject.addExternalAssemblyModules(new[] { module }, false, null);
 		}
 
